@@ -1,0 +1,2 @@
+describe( 'CrunchinatorCtrl', function() {
+});
