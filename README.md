@@ -13,6 +13,7 @@ $ cd angular.crunchinator.com
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
 $ bower install
+$ npm install grunt --save-dev
 $ grunt watch
 ```
 
