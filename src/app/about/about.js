@@ -1,6 +1,5 @@
 angular.module( 'ngBoilerplate.about', [
   'ui.state',
-  'placeholders',
   'ui.bootstrap'
 ])
 

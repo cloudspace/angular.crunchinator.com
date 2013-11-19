@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="crunchinator" ng-controller="CrunchinatorCtrl">
+<html ng-app="ngBoilerplate" ng-controller="AppCtrl">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
-    <title>Crunchinator</title>
+    <title ng-bind="pageTitle"></title>
 
     <!-- social media tags -->
     <meta name="twitter:card" content="summary">
@@ -36,10 +36,12 @@
   </head>
   <body>
     <header>
-      <div class="navbar">
-        <div class="container">
-          <div class="navbar-inner">
-            <a class="brand" href="#">Crunchinator</a>
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-inner">
+          <div class="row">
+            <div class="span8 offset2">
+              <a class="brand" href="#">Crunchinator</a>
+            </div>
           </div>
         </div>
       </div>
@@ -49,7 +51,5 @@
     </div>
     <footer>
     </footer>
-
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
   </body>
 </html>

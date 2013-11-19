@@ -1,7 +1,7 @@
 angular.module( 'ngBoilerplate.crunchinator', [
   'ui.state',
-  'placeholders',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'plusOne'
 ])
 
 .config(function config( $stateProvider ) {
