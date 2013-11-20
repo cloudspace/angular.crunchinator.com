@@ -4,3 +4,6 @@ build/
 bin/
 node_modules/
 vendor/
+
+vagrant/cookbooks/*
+vagrant/tmp/*
