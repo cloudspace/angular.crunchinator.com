@@ -11,6 +11,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-coffeelint');
@@ -536,6 +537,15 @@ module.exports = function ( grunt ) {
           livereload: false
         }
       }
+    },
+    connect: {
+      server: {
+        options: {
+          hostname: '*',
+          port: 8080,
+          base: './src'
+        }
+      }
     }
   };
 
@@ -555,6 +565,7 @@ module.exports = function ( grunt ) {
    * The default task is to build and compile.
    */
   grunt.registerTask( 'default', [ 'build', 'compile' ] );
+  
 
   /**
    * The `build` task gets your app ready to run for development and testing.
@@ -638,5 +649,6 @@ module.exports = function ( grunt ) {
       }
     });
   });
+  
 
 };
