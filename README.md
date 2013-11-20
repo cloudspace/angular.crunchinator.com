@@ -42,8 +42,9 @@ $ vnc4server
 $ vnc4server -kill :1
 $ Display=:1  CHROME_BIN=/usr/bin/chromium-browser grunt connect watch
 ```
+Set your hosts file to point dev.angular.crunchinator.com to 33.33.33.115
 
-
+Finally, open `dev.angular.crunchinator.com:8080` in your browser.
 
 
 ---
