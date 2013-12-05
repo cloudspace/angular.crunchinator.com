@@ -14,7 +14,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-recess": "~0.3.0",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",
@@ -29,6 +29,7 @@
     "grunt-contrib-coffee": "~0.7.0",
     "grunt-coffeelint": "0.0.6",
     "grunt-conventional-changelog": "~0.1.1",
-    "grunt-bump": "0.0.6"
+    "grunt-bump": "0.0.6",
+    "node-static": "0.7.2"
   }
 }
