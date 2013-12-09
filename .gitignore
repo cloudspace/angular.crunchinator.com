@@ -7,3 +7,4 @@ vendor/
 
 vagrant/cookbooks/*
 vagrant/tmp/*
+.vagrant
