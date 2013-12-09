@@ -543,7 +543,7 @@ module.exports = function ( grunt ) {
         options: {
           hostname: '*',
           port: 8080,
-          base: './src'
+          base: './build'
         }
       }
     }
