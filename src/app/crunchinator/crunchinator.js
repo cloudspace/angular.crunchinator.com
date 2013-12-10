@@ -1,7 +1,8 @@
 angular.module( 'ngBoilerplate.crunchinator', [
   'ui.state',
   'ui.bootstrap',
-  'plusOne'
+  'plusOne',
+  'configuration'
 ])
 
 .config(function config( $stateProvider ) {
@@ -18,7 +19,8 @@ angular.module( 'ngBoilerplate.crunchinator', [
 })
 
 // CrunchinatorCtrl = function($scope) {
-.controller( 'CrunchinatorCtrl', function CrunchinatorCtrl( $scope ) {
+.controller( 'CrunchinatorCtrl', [ '$scope', 'ENV', function CrunchinatorCtrl( $scope, ENV ) {
+  $scope.environment = ENV;
   $scope.companies = [
     {
       name: 'Google',
@@ -190,4 +192,4 @@ angular.module( 'ngBoilerplate.crunchinator', [
       total_money_invested: '$500M'
     }
   ];
-});
+}]);
