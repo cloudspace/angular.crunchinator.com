@@ -39,8 +39,7 @@ $ vim /srv/angular.crunchinator.com/vendor/angular-ui-utils/test/karma.conf.js
 $ sudo apt-get install vnc4server
 $ vnc4server
   Enter your own password twice
-$ vnc4server -kill :1
-$ Display=:1  CHROME_BIN=/usr/bin/chromium-browser grunt connect watch
+$ DISPLAY=:1  CHROME_BIN=/usr/bin/chromium-browser grunt connect watch
 ```
 Set your hosts file to point dev.angular.crunchinator.com to 33.33.33.115
 Run `node dev-server.js`
