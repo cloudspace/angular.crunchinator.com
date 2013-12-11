@@ -30,6 +30,7 @@ $ vagrant ssh
 
 #TODO: could add this to an application recipe later
 $ sudo npm -g install grunt-cli karma bower
+$ cd /srv/angular.crunchinator.com
 $ npm install
 $ bower install
 $ npm install grunt --save-dev
