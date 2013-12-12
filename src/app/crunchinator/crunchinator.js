@@ -21,12 +21,25 @@ angular.module( 'ngBoilerplate.crunchinator', [
 // CrunchinatorCtrl = function($scope) {
 .controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', function CrunchinatorCtrl( $scope, $http, ENV ) {
   $scope.environment = ENV;
+  var categories, investors, companies;
 
-  $scope.updateSelectedItem = function(item) {
+  $scope.updateSelectedCompany = function(item) {
+    var selectedItemInvestorList = [];
+
+    for (var i = 0; i < item.funding_rounds.length; i++) {
+      var fundingRoundInvestors = item.funding_rounds[i].investors;
+
+      for (var j = 0; j < fundingRoundInvestors.length; j++) {
+        selectedItemInvestorList.push(fundingRoundInvestors[j]);
+      }
+    }
+
     $scope.selectedItem = item;
+    $scope.categories = [item.category_code];
+    $scope.investors = selectedItemInvestorList;
   };
 
-  $http.get('/companies').success(function(response) { $scope.companies = response; });
-  $http.get('/categories').success(function(response) { $scope.categories = response; });
-  $http.get('/investors').success(function(response) { $scope.investors = response; });
+  $http.get('/companies').success(function(response) { companies = $scope.companies = response; });
+  $http.get('/categories').success(function(response) { categories = $scope.categories = response; });
+  $http.get('/investors').success(function(response) { investors = $scope.investors = response; });
 }]);

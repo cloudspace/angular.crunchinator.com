@@ -13,7 +13,7 @@
 			<div class="dataset">
 				<table class="table">
 					<tr ng-repeat="company in companies | filter:searchCompanies">
-						<td ng-click="updateSelectedItem(company)">{{company.name}}</td>
+						<td ng-click="updateSelectedCompany(company)">{{company.name}}</td>
 					</tr>
 				</table>
 			</div>
