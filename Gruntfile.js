@@ -555,7 +555,7 @@ module.exports = function ( grunt ) {
       // environments
       development: [{
         dest: 'src/app/configuration.js',
-        wrap: '"use strict";\n\n<%= __ngModule %>',
+        wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
         name: 'configuration',
         constants: {
           ENV: 'development'
@@ -563,7 +563,7 @@ module.exports = function ( grunt ) {
       }],
       production: [{
         dest: 'src/app/configuration.js',
-        wrap: '"use strict";\n\n<%= __ngModule %>',
+        wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
         name: 'configuration',
         constants: {
           ENV: 'production'
