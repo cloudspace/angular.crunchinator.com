@@ -31,7 +31,7 @@
 			<div class="dataset">
 				<table class="table">
 					<tr ng-repeat="category in categories | filter:searchCategories">
-						<td ng-click="updateSelectedItem(category)">{{category.name}}</td>
+						<td ng-click="updateSelectedCategory(category)">{{category.name}}</td>
 					</tr>
 				</table>
 			</div>
@@ -49,7 +49,7 @@
 			<div class="dataset">
 				<table class="table">
 					<tr ng-repeat="investor in investors | filter:searchInvestors">
-						<td ng-click="updateSelectedItem(investor)">{{investor.name}}</td>
+						<td ng-click="updateSelectedInvestor(investor)">{{investor.name}}</td>
 					</tr>
 				</table>
 			</div>
