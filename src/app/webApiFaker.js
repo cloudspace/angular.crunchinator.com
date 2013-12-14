@@ -6,7 +6,11 @@
     var investorList = [];
 
     for(var i = 0; i < investorCount; i++) {
-      investorList.push({id: i, name: "investor" + i});
+      investorList.push({
+        id: i, name: "investor" + i,
+        invested_company_ids: [],
+        invested_category_ids: []
+      });
     }
 
     return investorList;
@@ -16,7 +20,12 @@
     var categoryList = [];
 
     for(var i = 0; i < categoryCount; i++) {
-      categoryList.push({name: "category" + i});
+      categoryList.push({
+        id: i,
+        name: "category" + i,
+        company_ids: [],
+        investor_ids: []
+      });
     }
 
     return categoryList;
@@ -27,24 +36,36 @@
 
     for(var i = 0; i < companyCount; i++) {
       var company = {};
-      var associationLimit = Math.floor(Math.random()*10) + 1;
+      var associationLimit = Math.floor(Math.random()*10);
       company.id = i;
       company.name = "company" + i;
       company.zip_code = Math.floor(Math.random()*90000) + 10000;
       company.total_funding = "$1";
-      company.category_code = categories[Math.floor(Math.random()*categories.length) + 1];
+      category = categories[Math.floor(Math.random()*categories.length)];
+      company.category_code = category;
+
+      if(category.company_ids.indexOf(company.id) === -1) {
+        category.company_ids.push(company.id);
+      }
+
       company.funding_rounds = [];
 
       for(var j = 0; j < associationLimit; j++) {
         var fundingRound = {};
-
         fundingRound.id = j;
         fundingRound.raised_amount = "$1000";
         fundingRound.funded_on = "2013-01-01";
         fundingRound.investors = [];
 
         for(var k = 0; k < associationLimit; k++) {
-          fundingRound.investors.push(investors[Math.floor(Math.random()*investors.length) + 1]);
+          var investor = investors[Math.floor(Math.random()*investors.length)];
+          investor.invested_company_ids.push(company.id);
+          investor.invested_category_ids.push(category.id);
+
+          if(category.investor_ids.indexOf(investor.id) === -1) {
+            category.investor_ids.push(investor.id);
+          }
+          fundingRound.investors.push(investor);
         }
         company.funding_rounds.push(fundingRound);
       }
