@@ -18,7 +18,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
   });
 })
 
-.factory('Model', function() {
+.factory('Model', ['$http', function($http) {
     function getModels(obj) {
         if (!obj.prototype) { obj = obj.constructor; }
         return obj.prototype.models || (obj.prototype.models = {});
@@ -57,7 +57,10 @@ angular.module( 'ngBoilerplate.crunchinator', [
         return new Constructor(getModels(this)[id]);
     };
     Model.fetch = function() {
-        // do some ajax...
+        var _this = this;
+        var url = this.prototype.url;
+        if (!url) { throw new Error('You must specify a url on the prototype'); }
+        return $http.get(url).success(function(response) { setModels(_this, response); });
     };
     Model.where = function(comparator) {
         var ms;
@@ -114,6 +117,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
 // CompanyModel = function(Model)
 .factory('CompanyModel', function(Model) {
     m = Model.extend({
+        url: '/companies',
         _attributes: {
             id: -1,
             name: '',
