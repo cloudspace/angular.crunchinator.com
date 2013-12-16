@@ -1,5 +1,6 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
-	<div class="row">
+  <h4>Environment: {{environment}}</h4>
+  <div class="row">
 		<div id="companies" class="span4 textlist">
 			<div class="control-group">
 				<div class="controls">
@@ -11,9 +12,8 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="company in companies | filter:searchCompanies">
-						<td>{{company.name}}</td>
-						<td class="count">{{company.total_money_raised}}</td>
+					<tr ng-repeat="company in companies.models | filter:searchCompanies">
+						<td ng-click="updateSelectedItem(company)">{{company.name}}</td>
 					</tr>
 				</table>
 			</div>
@@ -30,9 +30,8 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="category in categories | filter:searchCategories">
-						<td>{{category.name}}</td>
-						<td class="count">{{category.count}}</td>
+					<tr ng-repeat="category in categories.models | filter:searchCategories">
+						<td ng-click="updateSelectedItem(category)">{{category.name}}</td>
 					</tr>
 				</table>
 			</div>
@@ -49,12 +48,43 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="investor in investors | filter:searchInvestors">
-						<td>{{investor.name}}</td>
-						<td class="count">{{investor.total_money_invested}}</td>
+					<tr ng-repeat="investor in investors.models | filter:searchInvestors">
+						<td ng-click="updateSelectedItem(investor)">{{investor.name}}</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-	</div>
+  </div>
+  <div ng-show="selectedItem != null" class="item-meta">
+    <h4>Info for: {{ selectedItem.name }}</h4>
+    <ul>
+      <li ng-show="selectedItem.id != null">id - {{ selectedItem.id }}</li>
+      <li ng-show="selectedItem.name != null">name - {{ selectedItem.name }}</li>
+      <li ng-show="selectedItem.total_funding != null">total_funding - {{ selectedItem.total_funding }}</li>
+      <li ng-show="selectedItem.category_code != null">category_code - {{ selectedItem.category_code }}</li>
+      <li ng-show="selectedItem.funding_rounds != null">funding_rounds -
+        <ul>
+          <li ng-repeat="funding_round in selectedItem.funding_rounds">
+            funding_round_{{ funding_round.id }}
+            <ul>
+              <li>id - {{ funding_round.id }}</li>
+              <li>raised_amount - {{ funding_round.raised_amount }}</li>
+              <li>funded_on - {{ funding_round.funded_on }}</li>
+              <li ng-show="funding_round.investors != null">investors -
+                <ul>
+                  <li ng-repeat="investor in funding_round.investors">
+                    investor{{ investor.id }}
+                    <ul>
+                      <li>id - {{ investor.id }}</li>
+                      <li>name - {{ investor.name }}</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>
