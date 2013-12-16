@@ -25,6 +25,12 @@ angular.module( 'ngBoilerplate.crunchinator', [
     }
     function setModels(obj, models) {
         if (!obj.prototype) { obj = obj.constructor; }
+        if (_.isArray(models)) {
+            models = _.reduce(models, function(memo, model) {
+                memo[model.id] = model;
+                return memo;
+            }, {});
+        }
         obj.models = models;
     }
 
