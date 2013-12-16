@@ -21,11 +21,11 @@ angular.module( 'ngBoilerplate.crunchinator', [
 .factory('Model', ['$http', function($http) {
     function getModels(obj) {
         if (!obj.prototype) { obj = obj.constructor; }
-        return obj.prototype.models || (obj.prototype.models = {});
+        return obj.models || (obj.models = []);
     }
     function setModels(obj, models) {
         if (!obj.prototype) { obj = obj.constructor; }
-        obj.prototype.models = models;
+        obj.models = models;
     }
 
     var Model = function(attrs) {
