@@ -23,6 +23,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
   $scope.environment = ENV;
   var categories, investors, companies;
 
+  $scope.data = "hello";
   $scope.updateSelectedCompany = function(item) {
     var selectedItemInvestorList = [];
 
