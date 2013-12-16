@@ -35,8 +35,10 @@ angular.module( 'ngBoilerplate.crunchinator', [
     }
 
     var Model = function(attrs) {
-        _.extend(this, attrs || {});
-        _.defaults(this, _.clone(this._attributes));
+        var attributes = _.clone(this._attributes) || {};
+        _.extend(attributes, attrs || {});
+        this._attributes = attributes;
+        _.extend(this, attributes);
     };
 
     Model.prototype.save = function() {
