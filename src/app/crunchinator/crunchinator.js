@@ -19,23 +19,26 @@ angular.module( 'ngBoilerplate.crunchinator', [
 })
 
 .factory('Model', function() {
-    function models(obj) {
-        if (!obj.prototype) {
-            obj = obj.constructor;
-        }
+    function getModels(obj) {
+        if (!obj.prototype) { obj = obj.constructor; }
         return obj.prototype.models || (obj.prototype.models = {});
     }
+    function setModels(obj, models) {
+        if (!obj.prototype) { obj = obj.constructor; }
+        obj.prototype.models = models;
+    }
+
     var Model = function(attrs) {
         _.extend(this, attrs || {});
         _.defaults(this, _.clone(this._attributes));
     };
 
     Model.prototype.save = function() {
-        models(this)[this.id] = this.toObject();
+        getModels(this)[this.id] = this.toObject();
         return this;
     };
     Model.prototype.destroy = function() {
-        delete models(this)[this.id];
+        delete getModels(this)[this.id];
         return this;
     };
     Model.prototype.toObject = function() {
@@ -51,7 +54,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
 
     Model.find = function(id) {
         var Constructor = this;
-        return new Constructor(models(this)[id]);
+        return new Constructor(getModels(this)[id]);
     };
     Model.fetch = function() {
         // do some ajax...
@@ -59,9 +62,9 @@ angular.module( 'ngBoilerplate.crunchinator', [
     Model.where = function(comparator) {
         var ms;
         if (_.isFunction(comparator)) {
-            ms = _.select(models(this), comparator);
+            ms = _.select(getModels(this), comparator);
         } else {
-            ms = _.where(models(this), comparator);
+            ms = _.where(getModels(this), comparator);
         }
         return _.map(ms, function(model) {
             return new Model(model);
@@ -70,7 +73,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
     Model.first = function(limit) {
         var l = limit || 1;
         var ms = [];
-        for (var i in models(this)) {
+        for (var i in getModels(this)) {
             ms.push(Model.find(i));
             if (--l <= 0) { break; }
         }
@@ -80,7 +83,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
         return Model.first(Model.size());
     };
     Model.size = function() {
-        return _.keys(models(this)).length;
+        return _.keys(getModels(this)).length;
     };
 
     Model.extend = function(protoProps, staticProps) {
@@ -106,7 +109,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
     };
 
     return Model;
-})
+}])
 
 // CompanyModel = function(Model)
 .factory('CompanyModel', function(Model) {
@@ -137,8 +140,6 @@ angular.module( 'ngBoilerplate.crunchinator', [
   $scope.updateSelectedItem = function(item) {
     $scope.selectedItem = item;
   };
-
-  debugger;
 
   $http.get('/companies').success(function(response) { $scope.companies = response; });
   $http.get('/categories').success(function(response) { $scope.categories = response; });
