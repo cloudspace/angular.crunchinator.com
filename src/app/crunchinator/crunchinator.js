@@ -43,7 +43,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
     };
     Model.prototype.toObject = function() {
         var data = {};
-        _.each(this._attributes, function(v, key) {
+        _.each(_.keys(this._attributes), function(key) {
             data[key] = this[key];
         }, this);
         return data;
