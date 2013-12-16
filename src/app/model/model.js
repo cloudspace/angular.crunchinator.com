@@ -85,17 +85,12 @@ angular.module( 'ngBoilerplate.model', [])
             return new (getConstructor(_this))(model);
         });
     };
-    Model.first = function(limit) {
-        var l = limit || 1;
-        var ms = [];
-        for (var i in getModels(this)) {
-            ms.push(Model.find(i));
-            if (--l <= 0) { break; }
-        }
-        return (limit) ? ms : ms[0];
-    };
     Model.all = function() {
-        return Model.first(Model.size());
+        var ms = [];
+        var _this = this;
+        return _.map(getModels(this), function(model) {
+            return new (getConstructor(_this))(model);
+        });
     };
     Model.size = function() {
         return _.keys(getModels(this)).length;
