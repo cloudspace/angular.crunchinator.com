@@ -2,11 +2,11 @@ angular.module( 'ngBoilerplate.model', [])
 
 .factory('Model', ['$rootScope', '$http', function($rootScope, $http) {
     function getModels(obj) {
-        if (!obj.prototype) { obj = obj.constructor; }
+        obj = getConstructor(obj);
         return obj.models || (obj.models = []);
     }
     function setModels(obj, models) {
-        if (!obj.prototype) { obj = obj.constructor; }
+        obj = getConstructor(obj);
         if (_.isArray(models)) {
             // In case there are no ids.
             var id = 0;
@@ -16,6 +16,10 @@ angular.module( 'ngBoilerplate.model', [])
             }, {});
         }
         obj.models = models;
+    }
+    function getConstructor(obj) {
+        if (!obj.prototype) { obj = obj.constructor; }
+        return obj;
     }
 
     var Model = function(attrs) {
@@ -61,8 +65,7 @@ angular.module( 'ngBoilerplate.model', [])
     };
 
     Model.find = function(id) {
-        var Constructor = this;
-        return new Constructor(getModels(this)[id]);
+        return new (getConstructor(this))(getModels(this)[id]);
     };
     Model.fetch = function() {
         var _this = this;
@@ -72,13 +75,14 @@ angular.module( 'ngBoilerplate.model', [])
     };
     Model.where = function(comparator) {
         var ms;
+        var _this = this;
         if (_.isFunction(comparator)) {
             ms = _.select(getModels(this), comparator);
         } else {
             ms = _.where(getModels(this), comparator);
         }
         return _.map(ms, function(model) {
-            return new Model(model);
+            return new (getConstructor(_this))(model);
         });
     };
     Model.first = function(limit) {
