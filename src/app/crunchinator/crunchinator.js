@@ -75,9 +75,9 @@ angular.module( 'ngBoilerplate.crunchinator', [
     $scope.selectedItem = item;
   };
 
-  window.CompanyModel = $scope.companies = CompanyModel;
-  window.CategoryModel = $scope.categories = CategoryModel;
-  window.InvestorModel = $scope.investors = InvestorModel;
+  $scope.companies = CompanyModel;
+  $scope.categories = CategoryModel;
+  $scope.investors = InvestorModel;
 
   CompanyModel.fetch();
   CategoryModel.fetch();
