@@ -162,18 +162,44 @@ angular.module( 'ngBoilerplate.crunchinator', [
     return m;
 })
 
+// CategoryModel = function(Model)
+.factory('CategoryModel', function(Model) {
+    m = Model.extend({
+        url: '/categories',
+        _attributes: {
+            name: ''
+        }
+    });
+
+    return m;
+})
+
+// CompanyModel = function(Model)
+.factory('InvestorModel', function(Model) {
+    m = Model.extend({
+        url: '/investors',
+        _attributes: {
+            id: -1,
+            name: ''
+        }
+    });
+
+    return m;
+})
+
 // CrunchinatorCtrl = function($scope) {
-.controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', 'CompanyModel', function CrunchinatorCtrl( $scope, $http, ENV, CompanyModel ) {
+.controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', 'CompanyModel', 'CategoryModel', 'InvestorModel', function CrunchinatorCtrl( $scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel ) {
   $scope.environment = ENV;
 
   $scope.updateSelectedItem = function(item) {
     $scope.selectedItem = item;
   };
 
-  $scope.companies = CompanyModel;
+  window.CompanyModel = $scope.companies = CompanyModel;
+  window.CategoryModel = $scope.categories = CategoryModel;
+  window.InvestorModel = $scope.investors = InvestorModel;
 
   CompanyModel.fetch();
-
-  $http.get('/categories').success(function(response) { $scope.categories = response; });
-  $http.get('/investors').success(function(response) { $scope.investors = response; });
+  CategoryModel.fetch();
+  InvestorModel.fetch();
 }]);
