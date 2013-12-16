@@ -21,12 +21,59 @@ angular.module( 'ngBoilerplate.crunchinator', [
 // CrunchinatorCtrl = function($scope) {
 .controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', function CrunchinatorCtrl( $scope, $http, ENV ) {
   $scope.environment = ENV;
+  var categories, investors, companies;
 
-  $scope.updateSelectedItem = function(item) {
+  $scope.updateSelectedCompany = function(item) {
+    var selectedItemInvestorList = [];
+
+    for (var i = 0; i < item.funding_rounds.length; i++) {
+      var fundingRoundInvestors = item.funding_rounds[i].investors;
+
+      for (var j = 0; j < fundingRoundInvestors.length; j++) {
+        selectedItemInvestorList.push(fundingRoundInvestors[j]);
+      }
+    }
+
     $scope.selectedItem = item;
+    $scope.categories = [item.category_code];
+    $scope.investors = selectedItemInvestorList;
   };
 
-  $http.get('/companies').success(function(response) { $scope.companies = response; });
-  $http.get('/categories').success(function(response) { $scope.categories = response; });
-  $http.get('/investors').success(function(response) { $scope.investors = response; });
+  $scope.updateSelectedCategory = function(item) {
+    var selectedCompanyList = [];
+    var selectedInvestorList = [];
+    console.log(item);
+    for (var i = 0; i < item.company_ids.length; i++) {
+      selectedCompanyList.push(companies[item.company_ids[i]]);
+    }
+
+    for (var j = 0; j < item.investor_ids.length; j++) {
+      selectedInvestorList.push(investors[item.investor_ids[j]]);
+    }
+
+    $scope.selectedItem = item;
+    $scope.companies = selectedCompanyList;
+    $scope.investors = selectedInvestorList;
+  };
+
+  $scope.updateSelectedInvestor = function(item) {
+    var selectedCategoryList = [];
+    var selectedCompanyList = [];
+
+    for (var i = 0; i < item.invested_company_ids.length; i++) {
+      selectedCompanyList.push(companies[item.invested_company_ids[i]]);
+    }
+
+    for (var j = 0; j < item.invested_category_ids.length; j++) {
+      selectedCategoryList.push(categories[item.invested_category_ids[j]]);
+    }
+
+    $scope.selectedItem = item;
+    $scope.categories = selectedCategoryList;
+    $scope.companies = selectedCompanyList;
+  };
+
+  $http.get('/companies').success(function(response) { companies = $scope.companies = response; });
+  $http.get('/categories').success(function(response) { categories = $scope.categories = response; });
+  $http.get('/investors').success(function(response) { investors = $scope.investors = response; });
 }]);
