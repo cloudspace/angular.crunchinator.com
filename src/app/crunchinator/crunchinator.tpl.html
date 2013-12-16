@@ -12,7 +12,7 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="company in companies | filter:searchCompanies">
+					<tr ng-repeat="company in companies.models | filter:searchCompanies">
 						<td ng-click="updateSelectedCompany(company)">{{company.name}}</td>
 					</tr>
 				</table>
@@ -30,7 +30,7 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="category in categories | filter:searchCategories">
+					<tr ng-repeat="category in categories.models | filter:searchCategories">
 						<td ng-click="updateSelectedCategory(category)">{{category.name}}</td>
 					</tr>
 				</table>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="dataset">
 				<table class="table">
-					<tr ng-repeat="investor in investors | filter:searchInvestors">
+					<tr ng-repeat="investor in investors.models | filter:searchInvestors">
 						<td ng-click="updateSelectedInvestor(investor)">{{investor.name}}</td>
 					</tr>
 				</table>
