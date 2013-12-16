@@ -167,7 +167,10 @@ angular.module( 'ngBoilerplate.crunchinator', [
     $scope.selectedItem = item;
   };
 
-  $http.get('/companies').success(function(response) { $scope.companies = response; });
+  $scope.companies = CompanyModel;
+
+  CompanyModel.fetch();
+
   $http.get('/categories').success(function(response) { $scope.categories = response; });
   $http.get('/investors').success(function(response) { $scope.investors = response; });
 }]);
