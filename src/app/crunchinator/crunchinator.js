@@ -23,7 +23,24 @@ angular.module( 'ngBoilerplate.crunchinator', [
   $scope.environment = ENV;
   var categories, investors, companies;
 
-  $scope.data = "hello";
+  $scope.totalRaisedGraphData = [];
+
+  $scope.$watch('companies', function() {
+    var total_raised_data = [];
+    for(var i = 1; i <= 10000000; i+= 1000000){
+      total_raised_data.push({
+        label: "$"+i+" - $"+(i+999999),
+        count: 0
+      });
+    }
+    if($scope.companies) {
+      $scope.companies.forEach(function(company) {
+        var label_index = Math.floor((company.total_funding + 1) / 1000000);
+        total_raised_data[label_index].count++;
+      });
+    }
+    $scope.totalRaisedGraphData = total_raised_data;
+  });
   $scope.updateSelectedCompany = function(item) {
     var selectedItemInvestorList = [];
 
@@ -43,7 +60,6 @@ angular.module( 'ngBoilerplate.crunchinator', [
   $scope.updateSelectedCategory = function(item) {
     var selectedCompanyList = [];
     var selectedInvestorList = [];
-    console.log(item);
     for (var i = 0; i < item.company_ids.length; i++) {
       selectedCompanyList.push(companies[item.company_ids[i]]);
     }
