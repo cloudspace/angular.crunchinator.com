@@ -18,7 +18,7 @@ angular.module( 'ngBoilerplate.crunchinator', [
   });
 })
 
-.factory('Model', ['$http', function($http) {
+.factory('Model', ['$rootScope', '$http', function($rootScope, $http) {
     function getModels(obj) {
         if (!obj.prototype) { obj = obj.constructor; }
         return obj.models || (obj.models = []);
@@ -42,11 +42,25 @@ angular.module( 'ngBoilerplate.crunchinator', [
     };
 
     Model.prototype.save = function() {
-        getModels(this)[this.id] = this.toObject();
+        var data = this.toObject();
+        var models = getModels(this);
+        var id = this.id;
+        if (!_.isEqual(this._attributes, data)) {
+            this._attributes = data;
+            $rootScope.$apply(function() {
+                models[id] = data;
+            });
+        }
         return this;
     };
     Model.prototype.destroy = function() {
-        delete getModels(this)[this.id];
+        var models = getModels(this);
+        var id = this.id;
+        if (models[id]) {
+            $rootScope.$apply(function() {
+                delete models[id];
+            });
+        }
         return this;
     };
     Model.prototype.toObject = function() {
