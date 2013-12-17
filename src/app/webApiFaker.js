@@ -76,9 +76,9 @@
   };
 
   setupStubbedBackend = function() {
-    var investors = generateInvestors(1000);
+    var investors = generateInvestors(100);
     var categories = generateCategories(40);
-    var companies = generateCompanies(categories, investors, 1000);
+    var companies = generateCompanies(categories, investors, 100);
 
     ng.module('ngBoilerplate.crunchinator').
       config(function($provide) {
