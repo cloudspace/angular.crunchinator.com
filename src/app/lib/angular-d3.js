@@ -66,7 +66,6 @@ angular.module('ngBoilerplate.crunchinator')
             })
             .attr('text-anchor', 'middle')
             .attr('x', function(d, i) {
-              console.log(i * (barHeight + barPadding));
               return i * (barHeight + barPadding) + 10;
             })
             .attr('y', function(d, i) {
