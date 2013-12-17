@@ -3,7 +3,7 @@ angular.module( 'ngBoilerplate.model', [])
 .factory('Model', ['$rootScope', '$http', function($rootScope, $http) {
     function getModels(obj) {
         obj = getConstructor(obj);
-        return obj.models || (obj.models = []);
+        return obj._models || (obj._models = []);
     }
     function setModels(obj, models) {
         obj = getConstructor(obj);
@@ -15,7 +15,7 @@ angular.module( 'ngBoilerplate.model', [])
                 return memo;
             }, {});
         }
-        obj.models = models;
+        obj._models = models;
     }
     function getConstructor(obj) {
         if (!obj.prototype) { obj = obj.constructor; }
@@ -29,6 +29,9 @@ angular.module( 'ngBoilerplate.model', [])
         this._attributeKeys = _.union(_.keys(defaults), _.keys(attrs));
         _.extend(this, defaults, attrs);
         return this;
+    };
+    Model.models = function() {
+        return _.toArray(getModels(this));
     };
 
     Model.prototype.save = function() {

@@ -21,106 +21,150 @@ angular.module( 'ngBoilerplate.crunchinator', [
 
 // CompanyModel = function(Model)
 .factory('CompanyModel', ['Model', function(Model) {
-    m = Model.extend({
-        url: '/companies',
-        _attributes: {
-            id: -1,
-            name: '',
-            category: '',
-            zipcode: 0,
-            funding_rounds: [],
-            // funding_rounds: {
-            // amount_raised: 0,
-            // start: new Date(),
-            // end: new Date()
-            // investors: [],
-            // },
-            total_funding: 0
-        }
-    });
+  m = Model.extend({
+    url: '/companies',
+    _attributes: {
+      id: -1,
+      name: '',
+      category: '',
+      zipcode: 0,
+      funding_rounds: [],
+      // funding_rounds: {
+      // amount_raised: 0,
+      // start: new Date(),
+      // end: new Date()
+      // investors: [],
+      // },
+      total_funding: 0
+    }
+  });
 
-    return m;
+  return m;
 }])
 
 // CategoryModel = function(Model)
 .factory('CategoryModel', ['Model', function(Model) {
-    m = Model.extend({
-        url: '/categories',
-        _attributes: {
-            name: ''
-        }
-    });
+  m = Model.extend({
+    url: '/categories',
+    _attributes: {
+      name: ''
+    }
+  });
 
-    return m;
+  return m;
 }])
 
 // CompanyModel = function(Model)
 .factory('InvestorModel', ['Model', function(Model) {
-    m = Model.extend({
-        url: '/investors',
-        _attributes: {
-            id: -1,
-            name: ''
-        }
-    });
+  m = Model.extend({
+    url: '/investors',
+    _attributes: {
+      id: -1,
+      name: ''
+    }
+  });
 
-    return m;
+  return m;
 }])
 
 // CrunchinatorCtrl = function($scope) {
 .controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', 'CompanyModel', 'CategoryModel', 'InvestorModel', function CrunchinatorCtrl( $scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel ) {
   $scope.environment = ENV;
-  var categories, investors, companies;
+  function resetSelection() {
+    $scope.selectedCompany = $scope.selectedCategory = $scope.selectedInvestor = '';
+  }
+  resetSelection();
 
-  $scope.updateSelectedCompany = function(item) {
-    var selectedItemInvestorList = [];
+  $scope.updateSelectedCompany = function(company) {
+    resetSelection();
+    $scope.selectedItem = company;
+    $scope.selectedCompany = company;
+  };
 
-    for (var i = 0; i < item.funding_rounds.length; i++) {
-      var fundingRoundInvestors = item.funding_rounds[i].investors;
+  $scope.updateSelectedCategory = function(category) {
+    resetSelection();
+    $scope.selectedItem = category;
+    $scope.selectedCategory = category;
+  };
 
-      for (var j = 0; j < fundingRoundInvestors.length; j++) {
-        selectedItemInvestorList.push(fundingRoundInvestors[j]);
+  $scope.updateSelectedInvestor = function(investor) {
+    resetSelection();
+    $scope.selectedItem = investor;
+    $scope.selectedInvestor = investor;
+  };
+
+  function filterWithFunctions(functions) {
+    return function(item) {
+      var shouldInclude = true;
+      for (var i = 0, l = functions.length; i < l; i++) {
+        if (!functions[i](item)) { shouldInclude = false; break; }
       }
+      return shouldInclude;
+    };
+  }
+
+  $scope.filterCompanies = filterWithFunctions([
+    function filterCompanyBySelectedCompany(company) {
+      if ($scope.selectedCompany && $scope.selectedCompany !== company) {
+        return false;
+      }
+      return true;
+    },
+    function filterCompanyBySelectedCategory(company) {
+      if ($scope.selectedCategory) {
+        return _.contains($scope.selectedCategory.company_ids, company.id);
+      }
+      return true;
+    },
+    function filterCompanyBySelectedInvestor(company) {
+      if ($scope.selectedInvestor) {
+        return _.contains($scope.selectedInvestor.invested_company_ids, company.id);
+      }
+      return true;
     }
+  ]);
 
-    $scope.selectedItem = item;
-    $scope.categories = [item.category_code];
-    $scope.investors = selectedItemInvestorList;
-  };
-
-  $scope.updateSelectedCategory = function(item) {
-    var selectedCompanyList = [];
-    var selectedInvestorList = [];
-    console.log(item);
-    for (var i = 0; i < item.company_ids.length; i++) {
-      selectedCompanyList.push(companies[item.company_ids[i]]);
+  $scope.filterCategories = filterWithFunctions([
+    function filterCategoryWithSelectedCategory(category) {
+      if ($scope.selectedCategory && $scope.selectedCategory !== category) {
+        return false;
+      }
+      return true;
+    },
+    function filterCategoryWithSelectedInvestor(category) {
+      if ($scope.selectedInvestor) {
+        return _.contains($scope.selectedInvestor.invested_category_ids, category.id);
+      }
+      return true;
+    },
+    function filterCategoryWithSelectedCompany(category) {
+      if ($scope.selectedCompany) {
+        return $scope.selectedCompany.category_code.id === category.id;
+      }
+      return true;
     }
+  ]);
 
-    for (var j = 0; j < item.investor_ids.length; j++) {
-      selectedInvestorList.push(investors[item.investor_ids[j]]);
+  $scope.filterInvestors = filterWithFunctions([
+    function filterInvestorWithSelectedInvestor(investor) {
+      if ($scope.selectedInvestor && $scope.selectedInvestor !== investor) {
+        return false;
+      }
+      return true;
+    },
+    function filterInvestorWithSelectedCompany(investor) {
+      if ($scope.selectedCompany) {
+        return _.contains(investor.invested_company_ids, $scope.selectedCompany.id);
+      }
+      return true;
+    },
+    function filterInvestorWithSelectedCategory(investor) {
+      if ($scope.selectedCategory) {
+        return _.contains(investor.invested_category_ids, $scope.selectedCategory.id);
+      }
+      return true;
     }
-
-    $scope.selectedItem = item;
-    $scope.companies = selectedCompanyList;
-    $scope.investors = selectedInvestorList;
-  };
-
-  $scope.updateSelectedInvestor = function(item) {
-    var selectedCategoryList = [];
-    var selectedCompanyList = [];
-
-    for (var i = 0; i < item.invested_company_ids.length; i++) {
-      selectedCompanyList.push(companies[item.invested_company_ids[i]]);
-    }
-
-    for (var j = 0; j < item.invested_category_ids.length; j++) {
-      selectedCategoryList.push(categories[item.invested_category_ids[j]]);
-    }
-
-    $scope.selectedItem = item;
-    $scope.categories = selectedCategoryList;
-    $scope.companies = selectedCompanyList;
-  };
+  ]);
 
   $scope.companies = CompanyModel;
   $scope.categories = CategoryModel;
