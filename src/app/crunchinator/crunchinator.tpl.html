@@ -12,7 +12,7 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="company in companies.models() | filter:filterCompanies">
+                    <tr ng-repeat="company in (filteredCompanies = (companies.models() | filter:filterCompanies))">
                         <td ng-click="updateSelectedCompany(company)">{{company.name}}</td>
                     </tr>
                 </table>
@@ -30,7 +30,7 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="category in categories.models() | filter:filterCategories">
+                    <tr ng-repeat="category in (filteredCategories = (categories.models() | filter:filterCategories))">
                         <td ng-click="updateSelectedCategory(category)">{{category.name}}</td>
                     </tr>
                 </table>
@@ -48,14 +48,14 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="investor in investors.models() | filter:filterInvestors">
+                    <tr ng-repeat="investor in (filteredInvestors = (investors.models() | filter:filterInvestors))">
                         <td ng-click="updateSelectedInvestor(investor)">{{investor.name}}</td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div d3-bars data="totalRaisedGraphData"></div>
+    <div d3-bars data="totalRaisedGraphData(filteredCompanies)"></div>
     <div ng-show="selectedItem != null" class="item-meta">
         <h4>Info for: {{ selectedItem.name }}</h4>
         <ul>
