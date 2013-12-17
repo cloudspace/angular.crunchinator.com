@@ -55,7 +55,10 @@
             </div>
         </div>
     </div>
+
+    <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
     <div d3-bars data="totalRaisedGraphData(filteredCompaniesList)"></div>
+    
     <div ng-show="selectedItem != null" class="item-meta">
         <h4>Info for: {{ selectedItem.name }}</h4>
         <ul>
