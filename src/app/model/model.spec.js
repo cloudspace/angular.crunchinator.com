@@ -32,29 +32,11 @@ describe( 'Models', function() {
 
     describe('instances', function() {
         describe('#save', function() {
-            it('saves instance to class variable .models', function() {
+            it('saves instance', function() {
                 m = new Model({id: 0});
                 m.save();
 
-                expect(Model.models).toEqual([{id: 0}]);
-            });
-
-            it('saves new copy if dirty', function() {
-                m = new Model({id: 0, test: 0});
-                m.save();
-                var original = Model.models[0];
-
-                m.test = 1;
-                m.save();
-                expect(Model.models[0]).not.toBe(original);
-            });
-
-            it("doesn't save if not dirty", function() {
-                m = new Model({id: 0, test: 0});
-                m.save();
-                var original = Model.models[0];
-                m.save();
-                expect(Model.models[0]).toBe(original);
+                expect(Model.find(0).toObject()).toEqual({id: 0});
             });
 
             it('uses $apply to notify Angular', inject(function($rootScope) {
@@ -68,14 +50,14 @@ describe( 'Models', function() {
 
         describe('#destroy', function() {
             beforeEach(function() {
-                Model.models = {0: {id: 0}};
                 m = new Model({id: 0});
+                m.save();
             });
 
             it('deletes model if it has been defined', function() {
                 m.destroy();
 
-                expect(Model.models[0]).toEqual(undefined);
+                expect(Model.find(0).toObject()).toEqual({});
             });
 
             it('uses $apply to notify Angular', inject(function($rootScope) {
@@ -155,12 +137,17 @@ describe( 'Models', function() {
     });
 
     describe('class', function() {
+        var models;
         beforeEach(function() {
-            Model.models = {
-                0: {id: 0, name: 'test'},
-                1: {id: 1, name: 'test'},
-                2: {id: 2, name: 'other'}
-            };
+            models = [
+                {id: 0, name: 'test'},
+                {id: 1, name: 'test'},
+                {id: 2, name: 'other'}
+            ];
+            _.each(models, function(model) {
+                m = new Model(model);
+                m.save();
+            });
         });
 
         describe('.find', function() {
@@ -170,7 +157,7 @@ describe( 'Models', function() {
                 });
 
                 it('has all properties defined', function() {
-                    expect(Model.find(0).toObject()).toEqual(Model.models[0]);
+                    expect(Model.find(0).toObject()).toEqual(models[0]);
                 });
             });
 
@@ -230,7 +217,7 @@ describe( 'Models', function() {
                 expect(ids).toEqual([0, 1, 2]);
                 for (var i in all) {
                     var model = all[i];
-                    expect(model.toObject()).toEqual(Model.models[model.id]);
+                    expect(model.toObject()).toEqual(models[model.id]);
                 }
             });
         });
