@@ -77,16 +77,19 @@ angular.module( 'ngBoilerplate.crunchinator', [
 
   $scope.updateSelectedCompany = function(company) {
     resetSelection();
+    $scope.selectedItem = company;
     $scope.selectedCompany = company;
   };
 
   $scope.updateSelectedCategory = function(category) {
     resetSelection();
+    $scope.selectedItem = category;
     $scope.selectedCategory = category;
   };
 
   $scope.updateSelectedInvestor = function(investor) {
     resetSelection();
+    $scope.selectedItem = investor;
     $scope.selectedInvestor = investor;
   };
 
