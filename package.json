@@ -31,6 +31,7 @@
     "grunt-coffeelint": "0.0.6",
     "grunt-conventional-changelog": "~0.1.1",
     "grunt-bump": "0.0.6",
-    "node-static": "0.7.2"
+    "node-static": "0.7.2",
+    "grunt-ssh": "~0.9.1"
   }
 }

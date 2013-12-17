@@ -20,6 +20,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-ng-constant');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-ssh');
 
   /**
    * Load in our build configuration file.
@@ -570,10 +571,57 @@ module.exports = function ( grunt ) {
           ENV: 'production'
         }
       }]
+    },
+    sshconfig: {
+      staging: {
+        host: "my.staging.server",
+        path: "/path/on/server"
+      },
+      production: {
+        host: "production.server",
+        path: "/path/on/server"
+      }
+    },
+    // define our ssh commands
+    sshexec: {
+      'make-release-dir': {
+        command: "mkdir -m 777 -p /path/on/server/releases/`date +%s` /logs"
+      },
+      'update-symlinks': {
+        command: "rm -rf /path/on/server/current && ln -s /path/on/server/releases/`ls | sort | tail -n 1` /path/on/server/current"
+      },
+      'remove-last-deploy': {
+        command: "cd /path/on/server && rm -rf current && cd releases && last=`ls | sort | tail -n 1` && rm -rf $last"
+      }
+    },
+    // our sftp file copy config
+    sftp: {
+      deploy: {
+        files: {
+          "./": "build/**"
+        },
+        options: {
+          srcBasePath: "build/",
+          createDirectories: true
+        }
+      }
     }
   };
 
   grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
+
+  // Run with grunt deploy --config [staging, production]
+  grunt.registerTask('deploy', [
+    'sshexec:remove-last-deploy',
+    'sshexec:update-symlinks'
+  ]);
+  grunt.registerTask('deploy', [
+    'sshexec:make-release-dir',
+    'sshexec:update-symlinks',
+    'sftp:deploy'
+  ]);
+
+  grunt.registerTask( 'deploy', [ 'build', 'karma:unit', 'delta', 'cleanUpConfig' ] );
 
   /**
    * In order to make it safe to just compile or copy *only* what was changed,
