@@ -40,7 +40,7 @@
       company.id = i;
       company.name = "company" + i;
       company.zip_code = Math.floor(Math.random()*90000) + 10000;
-      company.total_funding = "$1";
+      company.total_funding = Math.floor(Math.random()*9900000) + 100000;
       category = categories[Math.floor(Math.random()*categories.length)];
       company.category_code = category;
 

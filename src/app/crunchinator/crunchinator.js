@@ -70,6 +70,26 @@ angular.module( 'ngBoilerplate.crunchinator', [
 // CrunchinatorCtrl = function($scope) {
 .controller( 'CrunchinatorCtrl', [ '$scope', '$http', 'ENV', 'CompanyModel', 'CategoryModel', 'InvestorModel', function CrunchinatorCtrl( $scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel ) {
   $scope.environment = ENV;
+  
+  $scope.totalRaisedGraphData = [];
+
+  $scope.$watch('companies', function() {
+    var total_raised_data = [];
+    for(var i = 1; i <= 10000000; i+= 1000000){
+      total_raised_data.push({
+        label: "$"+i+" - $"+(i+999999),
+        count: 0
+      });
+    }
+    if($scope.companies) {
+      $scope.companies.forEach(function(company) {
+        var label_index = Math.floor((company.total_funding + 1) / 1000000);
+        total_raised_data[label_index].count++;
+      });
+    }
+    $scope.totalRaisedGraphData = total_raised_data;
+  });
+
   function resetSelection() {
     $scope.selectedCompany = $scope.selectedCategory = $scope.selectedInvestor = '';
   }
