@@ -18,6 +18,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-constant');
   grunt.loadNpmTasks('grunt-html2js');
 
   /**
@@ -293,7 +294,8 @@ module.exports = function ( grunt ) {
         noarg: true,
         sub: true,
         boss: true,
-        eqnull: true
+        eqnull: true,
+        debug: true
       },
       globals: {}
     },
@@ -354,7 +356,7 @@ module.exports = function ( grunt ) {
         configFile: '<%= build_dir %>/karma-unit.js'
       },
       unit: {
-        runnerPort: 9101,
+        port: 9101,
         background: true
       },
       continuous: {
@@ -546,6 +548,28 @@ module.exports = function ( grunt ) {
           base: './build'
         }
       }
+    },
+    ngconstant: {
+      options: {
+        space: '  '
+      },
+      // environments
+      development: [{
+        dest: 'src/app/configuration.js',
+        wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
+        name: 'configuration',
+        constants: {
+          ENV: 'development'
+        }
+      }],
+      production: [{
+        dest: 'src/app/configuration.js',
+        wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
+        name: 'configuration',
+        constants: {
+          ENV: 'production'
+        }
+      }]
     }
   };
 
@@ -559,7 +583,7 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
+  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta', 'cleanUpConfig' ] );
 
   /**
    * The default task is to build and compile.
@@ -572,9 +596,9 @@ module.exports = function ( grunt ) {
    */
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'recess:build',
-    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
-    'karma:continuous' 
+    'concat:build_css', 'ngconstant:development', 'copy:build_app_assets',
+    'copy:build_vendor_assets', 'copy:build_appjs', 'copy:build_vendorjs',
+    'index:build', 'karmaconfig', 'karma:continuous'
   ]);
 
   /**
@@ -582,8 +606,17 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'recess:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'ngconstant:production', 'recess:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
+
+  /**
+   * Deletes generated environment configuration file.
+   *
+   * TODO: look into why - grunt.file.delete() syntax does not work.
+   */
+  grunt.registerTask('cleanUpConfig', function () {
+    grunt.file['delete']('src/app/configuration.js');
+  });
 
   /**
    * A utility function to get all app JavaScript sources.

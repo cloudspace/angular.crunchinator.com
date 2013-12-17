@@ -10,7 +10,7 @@ Install Node.js and then:
 ```sh
 $ git clone git://github.com/cloudspace/angular.crunchinator.com
 $ cd angular.crunchinator.com
-$ sudo npm -g install grunt-cli karma bower
+$ sudo npm -g install grunt-cli karma bower protractor
 $ npm install
 $ bower install
 $ npm install grunt --save-dev
@@ -30,6 +30,7 @@ $ vagrant ssh
 
 #TODO: could add this to an application recipe later
 $ sudo npm -g install grunt-cli karma bower
+$ cd /srv/angular.crunchinator.com
 $ npm install
 $ bower install
 $ npm install grunt --save-dev
@@ -42,6 +43,7 @@ $ vnc4server
 $ DISPLAY=:1  CHROME_BIN=/usr/bin/chromium-browser grunt connect watch
 ```
 Set your hosts file to point dev.angular.crunchinator.com to 33.33.33.115
+Run `node dev-server.js`
 
 Finally, open `dev.angular.crunchinator.com:8080` in your browser.
 

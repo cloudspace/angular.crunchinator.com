@@ -62,15 +62,27 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      'vendor/underscore/underscore.js',
       'vendor/angular/angular.js',
+      'vendor/angular-mocks/angular-mocks.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-ui-utils/modules/route/route.js'
+      'vendor/angular-ui-utils/modules/route/route.js',
+      'vendor/d3/d3.min.js',
+      'vendor/leaflet-dist/leaflet.js',
+      'vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js'
     ],
     css: [
+      'vendor/leaflet-dist/leaflet.css',
+      'vendor/leaflet.markerclusterer/dist/MarkerCluster.css',
+      'vendor/leaflet.markerclusterer/dist/MarkerCluster.Default.css'
     ],
     assets: [
+      'vendor/leaflet-dist/leaflet.css',
+      'vendor/leaflet.markerclusterer/dist/MarkerCluster.css',
+      'vendor/leaflet.markerclusterer/dist/MarkerCluster.Default.css',
+      'vendor/leaflet-dist/images/marker-icon.png',
     ]
   },
 };
