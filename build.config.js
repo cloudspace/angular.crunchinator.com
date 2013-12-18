@@ -71,7 +71,8 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/d3/d3.min.js',
       'vendor/leaflet-dist/leaflet.js',
-      'vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js'
+      'vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js',
+      'vendor/crossfilter/crossfilter.min.js'
     ],
     css: [
       'vendor/leaflet-dist/leaflet.css',

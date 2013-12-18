@@ -12,7 +12,7 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="company in filteredCompanies()">
+                    <tr ng-class="{info: (company == selectedCompany)}" ng-repeat="company in filteredCompanies()">
                         <td ng-click="updateSelectedCompany(company)">{{company.name}}</td>
                     </tr>
                 </table>
@@ -30,7 +30,7 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="category in filteredCategories()">
+                    <tr ng-class="{info: (category == selectedCategory)}" ng-repeat="category in filteredCategories()">
                         <td ng-click="updateSelectedCategory(category)">{{category.name}}</td>
                     </tr>
                 </table>
@@ -48,7 +48,7 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="investor in filteredInvestors()">
+                    <tr ng-class="{info: (investor == selectedInvestor)}" ng-repeat="investor in filteredInvestors()">
                         <td ng-click="updateSelectedInvestor(investor)">{{investor.name}}</td>
                     </tr>
                 </table>

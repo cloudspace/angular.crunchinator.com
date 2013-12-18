@@ -11,7 +11,8 @@
     "angular-ui-utils": "~0.0.3",
     "underscore": "~1.5.2",
     "leaflet-dist": "~0.7.0",
-    "leaflet.markerclusterer": "*"
+    "leaflet.markerclusterer": "*",
+    "crossfilter": "~1.3.7"
   },
   "dependencies": {}
 }
