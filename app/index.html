@@ -13,6 +13,9 @@
         <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/boilerplate.css">
+        <link rel="stylesheet" href="vendor/leaflet-dist/leaflet.css">
+        <link rel="stylesheet" href="vendor/leaflet.markerclusterer/dist/MarkerCluster.css">
+        <link rel="stylesheet" href="vendor/leaflet.markerclusterer/dist/MarkerCluster.Default.css">
         <!-- endbuild -->
 
         <!--[if lt IE 9]>
@@ -46,10 +49,13 @@
         <script src="vendor/angular-ui-utils/modules/route/route.js"></script>
         <script src="vendor/angular-mocks/angular-mocks.js"></script>
         <script src="vendor/d3/d3.js"></script>
+        <script src="vendor/leaflet-dist/leaflet.js"></script>
+        <script src="vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/configuration.js"></script>
+        <script src="scripts/lib/webApiFaker.js"></script>
 
         <script src="scripts/services/model.js"></script>
         <script src="scripts/services/companyModel.js"></script>
@@ -58,8 +64,8 @@
 
         <script src="scripts/controllers/crunchinator.js"></script>
 
-        <script src="scripts/lib/webApiFaker.js"></script>
-        <script src="scripts/lib/angular-d3.js"></script>
+        <script src="scripts/directives/d3Bars.js"></script>
+        <script src="scripts/directives/leafCluster.js"></script>
         <!-- endbuild -->
     </body>
 </html>

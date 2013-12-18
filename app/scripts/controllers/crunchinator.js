@@ -18,6 +18,28 @@ angular.module('crunchinatorApp.controllers')
 
     $scope.filteredCompaniesList = [];
 
+    $scope.geoJsonData = _.memoize(function(filteredCompanies) {
+        var geojson = {
+            'type': 'FeatureCollection',
+            'features': []
+        };
+        if (!filteredCompanies || !filteredCompanies.length) { return geojson; }
+
+        _.each(filteredCompanies, function(company) {
+            geojson.features.push({
+                'type': 'Feature',
+                'geometry': {'type': 'Point', 'coordinates': [company.latitude, company.longitude]},
+                'properties': 0
+            });
+
+        });
+
+        return geojson;
+
+    }, function(filteredCompanies) {
+        return _.pluck(filteredCompanies, 'id').join('');
+    });
+
     $scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
         if (!filteredCompanies || !filteredCompanies.length) { return; }
         var total_raised_data = [];

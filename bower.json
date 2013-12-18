@@ -10,7 +10,9 @@
     "angular-bootstrap": "~0.3.0",
     "angular-ui-router": "~0.0.1",
     "angular-ui-utils": "~0.0.3",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "leaflet-dist": "~0.7.0",
+    "leaflet.markerclusterer": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

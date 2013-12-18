@@ -182,3 +182,15 @@ h2 {
 .count {
   text-align: right !important;
 }
+#graph-well {
+  margin: 20px 0;
+}
+
+.total-raised-bar {
+  float: left;
+}
+
+.hq-map {
+  width: 470px;
+  height: 353px;
+}
