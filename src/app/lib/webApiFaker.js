@@ -52,7 +52,7 @@
       if(category.company_ids.indexOf(company.id) === -1) {
         category.company_ids.push(company.id);
       }
-
+      company.investor_ids = [];
       company.funding_rounds = [];
 
       for(var j = 0; j < associationLimit; j++) {
@@ -60,7 +60,6 @@
         fundingRound.id = j;
         fundingRound.raised_amount = "$1000";
         fundingRound.funded_on = "2013-01-01";
-        fundingRound.investors = [];
 
         for(var k = 0; k < associationLimit; k++) {
           var investor = investors[Math.floor(Math.random()*investors.length)];
@@ -70,7 +69,9 @@
           if(category.investor_ids.indexOf(investor.id) === -1) {
             category.investor_ids.push(investor.id);
           }
-          fundingRound.investors.push(investor);
+          if(company.investor_ids.indexOf(investor.id) === -1) {
+            company.investor_ids.push(investor.id);
+          }
         }
         company.funding_rounds.push(fundingRound);
       }
@@ -81,9 +82,9 @@
   };
 
   setupStubbedBackend = function() {
-    var investors = generateInvestors(100);
-    var categories = generateCategories(40);
-    var companies = generateCompanies(categories, investors, 100);
+    var investors = generateInvestors(30);
+    var categories = generateCategories(20);
+    var companies = generateCompanies(categories, investors, 1000);
 
     ng.module('ngBoilerplate.crunchinator').
       config(function($provide) {
