@@ -76,9 +76,9 @@ angular.module( 'ngBoilerplate.crunchinator', [
   $scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
     if (!filteredCompanies || !filteredCompanies.length) { return; }
     var total_raised_data = [];
-    for(var i = 1; i <= 10000000; i+= 1000000){
+    for(var i = 1; i <= 10; i++){
       total_raised_data.push({
-        label: "$"+i+" - $"+(i+999999),
+        label: "$"+i+" - $"+(i+1) + "M",
         count: 0
       });
     }
