@@ -6,9 +6,9 @@ angular.module('ngBoilerplate.crunchinator')
         data: '='
       },
       link: function(scope, element, attrs) {
-        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        var width = 480 - margin.left - margin.right;
-        var height = 360 - margin.top - margin.bottom;
+        var margin = { top: 20, right: 20, bottom: 15, left: 40 };
+        var width = 470 - margin.left - margin.right;
+        var height = 353 - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
         var y = d3.scale.linear().range([height, 0]);
@@ -69,7 +69,7 @@ angular.module('ngBoilerplate.crunchinator')
                           .text(d.label)
                           .attr('text-anchor', 'middle')
                           .attr('x', x(d.label) + 17)
-                          .attr('y', height + Math.round(margin.bottom / 2))
+                          .attr('y', height + (margin.bottom * 0.85))
                           .style('font-size', '9px')
                           .attr('fill', 'teal');
             })
