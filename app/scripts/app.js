@@ -4,7 +4,8 @@ angular.module('crunchinatorApp.controllers', [
     'ui.state',
     'ui.bootstrap',
     'configuration',
-    'crunchinatorApp.models'
+    'crunchinatorApp.models',
+    'crunchinatorApp.directives'
 ]);
 
 angular.module('crunchinatorApp', [

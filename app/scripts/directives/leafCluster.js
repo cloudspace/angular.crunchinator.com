@@ -29,7 +29,6 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
             });
 
             scope.render = function(data) {
-                debugger;
                 if(markers) {
                     map.removeLayer(markers);
                 }
