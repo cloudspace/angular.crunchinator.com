@@ -1,0 +1,16 @@
+{
+  "camelcase": false,
+  "globals": {
+    "after": false,
+    "afterEach": false,
+    "before": false,
+    "beforeEach": false,
+    "browser": false,
+    "describe": false,
+    "expect": false,
+    "inject": false,
+    "it": false,
+    "spyOn": false
+  }
+}
+

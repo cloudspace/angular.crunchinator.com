@@ -1,0 +1,65 @@
+<!doctype html>
+<html ng-app="crunchinatorApp" ng-controller="AppCtrl" class="ng-scope">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title ng-bind="pageTitle"></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css({.tmp,app}) styles/main.css -->
+        <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/boilerplate.css">
+        <!-- endbuild -->
+
+        <!--[if lt IE 9]>
+        <script src="vendor/es5-shim/es5-shim.js"></script>
+        <script src="vendor/json3/lib/json3.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!-- Add your site or application content here -->
+        <header>
+            <div class="navbar navbar-default" role="navigation">
+                <div class="navbar-inner">
+                    <div class="row">
+                        <div class="span8 offset2">
+                            <a class="brand" href="#">Crunchinator</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="main" role="main" class="row">
+            <div class="container" ui-view="main"></div>
+        </div>
+        <footer>
+        </footer>
+
+        <script src="vendor/underscore/underscore.js"></script>
+        <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="vendor/angular-ui-utils/modules/route/route.js"></script>
+        <script src="vendor/angular-mocks/angular-mocks.js"></script>
+        <script src="vendor/d3/d3.js"></script>
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/configuration.js"></script>
+
+        <script src="scripts/services/model.js"></script>
+        <script src="scripts/services/companyModel.js"></script>
+        <script src="scripts/services/categoryModel.js"></script>
+        <script src="scripts/services/investorModel.js"></script>
+
+        <script src="scripts/controllers/crunchinator.js"></script>
+
+        <script src="scripts/lib/webApiFaker.js"></script>
+        <script src="scripts/lib/angular-d3.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

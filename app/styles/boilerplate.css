@@ -1,0 +1,184 @@
+code,
+pre,
+.pre {
+  padding: 5px;
+  margin: 10px 0;
+  background-color: #EFEFEF;
+  border: 1px solid #DADADA;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+code {
+  padding: 0 3px;
+}
+
+pre {
+  padding: 5px;
+  margin: 10px 0;
+}
+
+.page-header {
+  margin-top: 60px;
+}
+
+.page-header:first-child {
+  margin-top: 20px;
+}
+
+h2 {
+  margin: 20px 0;
+  color: #666;
+}
+
+/**
+ * Navigation
+ */
+
+.navbar .navbar-inner {
+  padding: 0;
+}
+
+.navbar .nav {
+  display: table;
+  width: 100%;
+  margin: 0;
+}
+
+.navbar .nav li {
+  display: table-cell;
+  float: none;
+  width: 1%;
+}
+
+.navbar .nav li a {
+  font-weight: bold;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar .nav li:first-child a {
+  border-left: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.navbar .nav li:last-child a {
+  border-right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/**
+* Tables
+*/
+
+#companies td,
+#categories td,
+#investors td {
+  cursor: pointer;
+}
+
+/**
+ * Footer
+ */
+
+.footer {
+  margin-top: 80px;
+}
+
+.footer .footer-inner {
+  padding: 40px 0;
+  border-top: 1px solid #DDD;
+}
+
+.footer .social {
+  float: right;
+  margin: 0;
+  list-style: none;
+}
+
+.footer .social li {
+  float: left;
+  margin-left: 20px;
+}
+
+.footer .social li a,
+.footer .social li a:visited {
+  font-size: 40px;
+  color: #999999;
+  text-decoration: none;
+  -webkit-transition: 250ms ease-in-out;
+     -moz-transition: 250ms ease-in-out;
+       -o-transition: 250ms ease-in-out;
+          transition: 250ms ease-in-out;
+}
+
+.footer .social li a:hover,
+.footer .social li a:visited:hover {
+  color: #555555;
+}
+
+/**
+ * Now that all app-wide styles have been applied, we can load the styles for
+ * all the submodules and components we are using.
+ *
+ * TODO: In a later version of this boilerplate, I'd like to automate this.
+ */
+
+.jumbotron {
+  margin: 40px 0 80px 0;
+  text-align: center;
+}
+
+.jumbotron h1 {
+  margin-bottom: 20px;
+  font-size: 55px;
+  line-height: 1;
+}
+
+.jumbotron .lead {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+.marketing .row {
+  margin-bottom: 10px;
+}
+
+.marketing .row:last-child {
+  margin-bottom: 0;
+}
+
+.marketing h4 [class*=" icon-"],
+.marketing h4 [class^="icon-"] {
+  margin-right: 5px;
+  font-size: 28px;
+  line-height: 1;
+  vertical-align: -10%;
+}
+
+.control-group {
+  margin: 10px 0 0 25px;
+}
+
+.textlist {
+  background-color: #C4DEEF;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.textlist .dataset {
+  height: 300px;
+  overflow: scroll;
+  background-color: #f9f9f9;
+}
+
+.count {
+  text-align: right !important;
+}
