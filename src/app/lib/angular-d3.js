@@ -6,19 +6,27 @@ angular.module('ngBoilerplate.crunchinator')
         data: '='
       },
       link: function(scope, element, attrs) {
-        var margin = 20;
-        var barHeight = 20;
-        var barPadding = 1;
+        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var width = 480 - margin.left - margin.right;
+        var height = 360 - margin.top - margin.bottom;
 
-        var svg = d3.select(element[0])
-          .append("svg")
-          .attr('width', '100%');
+        var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
+        var y = d3.scale.linear().range([height, 0]);
+
+        var xAxis = d3.svg.axis().scale(x).orient('bottom');
+        var yAxis = d3.svg.axis().scale(y).orient('left').ticks(10, '%');
+
+        var svg = d3.select(element[0]).append('svg')
+                    .style('width', width + margin.left + margin.right + 'px')
+                    .style('height', height + margin.top + margin.bottom + 'px')
+                    .append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         
         window.onresize = function() {
           scope.$apply();
         };
 
-        scope.$watch("data", function(newval, oldval) {
+        scope.$watch('data', function(newval, oldval) {
           return scope.render(newval);
         }, true);
 
@@ -30,51 +38,49 @@ angular.module('ngBoilerplate.crunchinator')
 
         scope.render = function(data) {
           svg.selectAll('*').remove();
-
           if(!data) { return; }
 
-          var width = d3.select(element[0])[0][0].offsetWidth - margin;
-          var height = scope.data.length * (barHeight + barPadding);
-          var max = d3.max(data, function(d) { return d.count; });
+          x.domain(data.map(function(d) { return d.label; }));
+          y.domain([0, d3.max(data, function(d) { return d.count; })]);
 
-          svg.attr('height', height);
-          
-          svg.selectAll('rect')
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('x', function(d, i) {
-              return i * (barHeight + barPadding);
-            })
-            .attr('y', function(d, i) {
-              var calculatedOutput = Math.round((d.count / max) * 100);
-              return !isNaN(calculatedOutput) ? height - calculatedOutput : 0;
-            })
-            .attr('width', barHeight)
-            .attr('height', function(d, i) {
-              var calculatedOutput = Math.round((d.count / max) * 100);
-              return !isNaN(calculatedOutput) ? calculatedOutput : 0;
-            })
-            .attr('fill', 'teal');
+          var hoverVal, hoverLabel;
 
-          svg.selectAll('text')
+          svg.selectAll('.bar')
             .data(data)
-            .enter()
-            .append('text')
-            .text(function(d) {
-              return d.count;
+            .enter().append('rect')
+            .attr('class', 'bar')
+            .attr('x', function(d) { return x(d.label); })
+            .attr('width', x.rangeBand())
+            .attr('y', function(d) { return y(d.count); })
+            .attr('height', function(d) { return height - y(d.count); })
+            .attr('fill', 'teal')
+            // instead of using mouseenter/mouseout we should change this to use mousemove
+            // and computationally figure out whether we're in a bar and show that value.
+            .on('mouseenter', function(d) {
+              if (hoverVal !== undefined) { hoverVal.remove(); hoverLabel.remove(); }
+              hoverVal = svg.append('text')
+                          .text(d.count)
+                          .attr('text-anchor', 'middle')
+                          .attr('x', x(d.label) + 17)
+                          .attr('y', y(d.count) + 20)
+                          .attr('fill', 'white');
+
+              hoverLabel = svg.append('text')
+                          .text(d.label)
+                          .attr('text-anchor', 'middle')
+                          .attr('x', x(d.label) + 17)
+                          .attr('y', height + Math.round(margin.bottom / 2))
+                          .style('font-size', '9px')
+                          .attr('fill', 'teal');
             })
-            .attr('text-anchor', 'middle')
-            .attr('x', function(d, i) {
-              return i * (barHeight + barPadding) + 10;
-            })
-            .attr('y', function(d, i) {
-              var calculatedOutput = Math.round((d.count / max) * 100);
-              return height - calculatedOutput + 13;
-            })
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "11px")
-            .attr('fill', 'white');
+            .on('mouseout', function() {
+              if (hoverVal !== undefined) {
+                hoverVal.remove();
+                hoverVal = undefined;
+                hoverLabel.remove();
+                hoverLabel = undefined;
+              }
+            });
         };
       }
     };
