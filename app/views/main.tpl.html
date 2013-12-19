@@ -1,5 +1,6 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
     <h4>Environment: {{environment}}</h4>
+    <button ng-click='resetSelection()'>reset all</button>
     <div class="row">
         <div id="companies" class="span4 textlist">
             <div class="control-group">
@@ -12,8 +13,8 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="company in filteredCompanies()">
-                        <td ng-click="updateSelectedCompany(company)">{{company.name}}</td>
+                  <tr ng-class="{info: selectedCompanies.indexOf(company) > -1}" ng-repeat="company in filteredCompanies()">
+                    <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
                     </tr>
                 </table>
             </div>
@@ -30,8 +31,8 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="category in filteredCategories()">
-                        <td ng-click="updateSelectedCategory(category)">{{category.name}}</td>
+                  <tr ng-class="{info: selectedCategories.indexOf(category) > -1}" ng-repeat="category in filteredCategories()">
+                    <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
                     </tr>
                 </table>
             </div>
@@ -48,8 +49,8 @@
             </div>
             <div class="dataset">
                 <table class="table">
-                    <tr ng-repeat="investor in filteredInvestors()">
-                        <td ng-click="updateSelectedInvestor(investor)">{{investor.name}}</td>
+                  <tr ng-class="{info: selectedInvestors.indexOf(investor) > -1}" ng-repeat="investor in filteredInvestors()">
+                    <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
                     </tr>
                 </table>
             </div>
