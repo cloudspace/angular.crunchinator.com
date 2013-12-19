@@ -17,6 +17,12 @@ angular.module('crunchinatorApp.controllers')
     $scope.environment = ENV;
 
     $scope.filteredCompaniesList = [];
+    $scope.filteredCategoriesList = [];
+    $scope.filteredInvestorsList = [];
+    $scope.mapboundary = 'Hello';
+    $scope.$watch('mapBoundary', function(){
+        console.log('we zoomed: '+$scope.mapBoundary);
+    });
 
     $scope.geoJsonData = _.memoize(function(filteredCompanies) {
         var geojson = {
@@ -76,6 +82,10 @@ angular.module('crunchinatorApp.controllers')
             //Add item if its not already selected
             selectedItems.push(item);
         }
+
+        $scope.selectedCompanies = _.intersection($scope.selectedCompanies, $scope.filteredCompaniesList);
+        $scope.selectedCategories = _.intersection($scope.selectedCategories, $scope.filteredCategoriesList);
+        $scope.selectedInvestors = _.intersection($scope.selectedInvestors, $scope.filteredInvestorsList);
     };
 
     var crossCompanies;
@@ -119,9 +129,9 @@ angular.module('crunchinatorApp.controllers')
             if(company_ids.length > 0) {
                 investorsByCompanies.filter(function(d){ return _.intersection(d, company_ids).length > 0;});
             }
-            return investorsById.bottom(Infinity);
+            $scope.filteredInvestorsList = investorsById.bottom(Infinity);
         }
-        return [];
+        return $scope.filteredInvestorsList;
     };
 
     var crossCategories;
@@ -142,28 +152,28 @@ angular.module('crunchinatorApp.controllers')
             if(inv_ids.length > 0) {
                 categoriesByInvestors.filter(function(invs) { return _.intersection(invs, inv_ids).length > 0;});
             }
-            return categoriesById.bottom(Infinity);
+            $scope.filteredCategoriesList = categoriesById.bottom(Infinity);
         }
-        return [];
+        return $scope.filteredCategoriesList;
     };
 
     $scope.companies = CompanyModel;
     $scope.categories = CategoryModel;
     $scope.investors = InvestorModel;
 
-    CompanyModel.fetch(function(){
+    CompanyModel.fetch().then(function(){
         crossCompanies = crossfilter(CompanyModel.all());
         companiesByCategory = crossCompanies.dimension(function(company) { return company.category_code.id; });
         companiesByInvestors = crossCompanies.dimension(function(company) { return company.investor_ids; });    
         companiesById = crossCompanies.dimension(function(company) {return company.id;});
     });
-        InvestorModel.fetch(function(){
+        InvestorModel.fetch().then(function(){
         crossInvestors = crossfilter(InvestorModel.all());
         investorsByCategories = crossInvestors.dimension(function(investor) { return investor.invested_category_ids; });
         investorsByCompanies = crossInvestors.dimension(function(investor) { return investor.invested_company_ids; });
         investorsById = crossInvestors.dimension(function(investor) {return investor.id;});
     });
-        CategoryModel.fetch(function(){
+        CategoryModel.fetch().then(function(){
         crossCategories = crossfilter(CategoryModel.all());
         categoriesByInvestors = crossCategories.dimension(function(category) { return category.investor_ids; });    
         categoriesByCompanies = crossCategories.dimension(function(category) { return category.company_ids; });
