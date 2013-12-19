@@ -16,7 +16,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{info: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompanies()">
+                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompanies()">
                         <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
                         </tr>
                     </tbody></table>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{info: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategories()">
+                      <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategories()">
                         <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
                         </tr>
                     </tbody></table>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{info: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestors()">
+                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestors()">
                         <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
                         </tr>
                     </tbody></table>
@@ -68,7 +68,7 @@
         <div d3-bars class="col-sm-6 total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
         <div leaf-cluster class="col-sm-6 hq-map" data="geoJsonData(filteredCompaniesList)"></div>
     </div>
-    <div ng-show="selectedItem != null" class="item-meta">
+    <div ng-show="selectedItem != null" class="item-meta clear-both">
         <h4>Info for: {{ selectedItem.name }}</h4>
         <ul>
             <li ng-repeat="(property, value) in selectedItem" ng-show="property != 'funding_rounds'">{{ property }} - {{ value }}</li>
