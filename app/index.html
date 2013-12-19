@@ -1,6 +1,5 @@
 <!doctype html>
-<html ng-app="crunchinatorApp" ng-controller="AppCtrl" class="ng-scope">
-    <head>
+<html ng-app="crunchinatorApp" ng-controller="AppCtrl" class="ng-scope"><head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title ng-bind="pageTitle"></title>
@@ -27,17 +26,15 @@
         <!-- Add your site or application content here -->
         <header>
             <div class="navbar navbar-default" role="navigation">
-                <div class="navbar-inner">
+                <div class="container">
                     <div class="row">
-                        <div class="span8 offset2">
-                            <a class="brand" href="#">Crunchinator</a>
-                        </div>
+                        <div class="navbar-header"><a class="navbar-brand" href="#">Crunchinator</a></div>
                     </div>
                 </div>
             </div>
         </header>
-        <div id="main" role="main" class="row">
-            <div class="container" ui-view="main"></div>
+        <div id="main" role="main" ui-view="main">
+            
         </div>
         <footer>
         </footer>
@@ -68,5 +65,5 @@
         <script src="scripts/directives/leafCluster.js"></script>
         <script src="vendor/crossfilter/crossfilter.min.js"</script>
         <!-- endbuild -->
-    </body>
-</html>
+    
+</body></html>

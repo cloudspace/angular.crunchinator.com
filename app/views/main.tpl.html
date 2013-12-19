@@ -1,64 +1,72 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
-    <h4>Environment: {{environment}}</h4>
-    <button ng-click='resetSelection()'>reset all</button>
-    <div class="row">
-        <div id="companies" class="span4 textlist">
-            <div class="control-group">
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-bullhorn"></i></span>
-                        <input ng-model="searchCompanies" placeholder="Find Companies" type="text">
+    <h4 class="pull-left">Environment: {{environment}}</h4>
+    <div class="btn-group spacing-med pull-right">
+        <button class='btn btn-default' ng-click="resetSelection()">reset all</button>
+    </div>
+    <div class="row clear-both">
+        <div class='col-sm-4 spacing-med'>
+            <div id="companies" class="textlist">
+                <div class="form-group">
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-bullhorn"></i></span>
+                            <input ng-model="searchCompanies" placeholder="Find Companies" type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="dataset">
-                <table class="table">
-                  <tr ng-class="{info: selectedCompanies.indexOf(company) > -1}" ng-repeat="company in filteredCompanies()">
-                    <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
-                    </tr>
-                </table>
+                <div class="dataset">
+                    <table class="table">
+                      <tbody><tr ng-class="{info: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompanies()">
+                        <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
+                        </tr>
+                    </tbody></table>
+                </div>
             </div>
         </div>
 
-        <div id="categories" class="span4 textlist">
-            <div class="control-group">
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-tags"></i></span>
-                        <input ng-model="searchCategories" placeholder="Find Categories" type="text">
+        <div class='col-sm-4 spacing-med'>
+            <div id="categories" class="textlist">
+                <div class="form-group">
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-tags"></i></span>
+                            <input ng-model="searchCategories" placeholder="Find Categories" type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="dataset">
-                <table class="table">
-                  <tr ng-class="{info: selectedCategories.indexOf(category) > -1}" ng-repeat="category in filteredCategories()">
-                    <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
-                    </tr>
-                </table>
+                <div class="dataset">
+                    <table class="table">
+                      <tbody><tr ng-class="{info: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategories()">
+                        <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
+                        </tr>
+                    </tbody></table>
+                </div>
             </div>
         </div>
 
-        <div id="investors" class="span4 textlist">
-            <div class="control-group">
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-leaf"></i></span>
-                        <input ng-model="searchInvestors" placeholder="Find Investors" type="text">
+        <div class='col-sm-4 spacing-med'>
+            <div id="investors" class="textlist">
+                <div class="form-group">
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-leaf"></i></span>
+                            <input ng-model="searchInvestors" placeholder="Find Investors" type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="dataset">
-                <table class="table">
-                  <tr ng-class="{info: selectedInvestors.indexOf(investor) > -1}" ng-repeat="investor in filteredInvestors()">
-                    <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
-                    </tr>
-                </table>
+                <div class="dataset">
+                    <table class="table">
+                      <tbody><tr ng-class="{info: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestors()">
+                        <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
+                        </tr>
+                    </tbody></table>
+                </div>
             </div>
         </div>
     </div>
-    <div id="graph-well">
-        <div d3-bars class="total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
-        <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
+    <div id="graph-well row">
+        <div d3-bars class="col-sm-6 total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
+        <div leaf-cluster class="col-sm-6 hq-map" data="geoJsonData(filteredCompaniesList)"></div>
     </div>
     <div ng-show="selectedItem != null" class="item-meta">
         <h4>Info for: {{ selectedItem.name }}</h4>
