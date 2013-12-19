@@ -35,8 +35,9 @@ body {
 }
 
 .hq-map {
-  width: 470px;
-  height: 353px;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
 }
 
 .textlist {
@@ -54,7 +55,8 @@ body {
 }
 
 .spacing-med {
-  margin: 5px 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .clear-both {

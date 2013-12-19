@@ -64,9 +64,16 @@
             </div>
         </div>
     </div>
-    <div id="graph-well row">
-        <div d3-bars class="col-sm-6 total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
-        <div leaf-cluster class="col-sm-6 hq-map" data="geoJsonData(filteredCompaniesList)"></div>
+    <div class='row spacing-med'>
+        
+        <div class='col-sm-6'>
+            <div d3-bars class="total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
+        </div>
+
+        <div class='col-sm-6'>
+            <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
+        </div>
+        
     </div>
     <div ng-show="selectedItem != null" class="item-meta clear-both">
         <h4>Info for: {{ selectedItem.name }}</h4>

@@ -5,7 +5,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
             data: '='
         },
         link: function(scope, element, attrs) {
-            var margin = { top: 20, right: 20, bottom: 15, left: 40 };
+            var margin = { top: 0, right: 0, bottom: 15, left: 00 };
             var width = 470 - margin.left - margin.right;
             var height = 353 - margin.top - margin.bottom;
 

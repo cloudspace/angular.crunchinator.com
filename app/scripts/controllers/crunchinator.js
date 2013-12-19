@@ -21,7 +21,6 @@ angular.module('crunchinatorApp.controllers')
     $scope.filteredInvestorsList = [];
     $scope.mapboundary = 'Hello';
     $scope.$watch('mapBoundary', function(){
-        console.log('we zoomed: '+$scope.mapBoundary);
     });
 
     $scope.geoJsonData = _.memoize(function(filteredCompanies) {
@@ -49,9 +48,9 @@ angular.module('crunchinatorApp.controllers')
     $scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
         if (!filteredCompanies || !filteredCompanies.length) { return; }
         var total_raised_data = [];
-        for(var i = 1; i <= 10000000; i+= 1000000){
+        for(var i = 1; i <= 10; i++){
             total_raised_data.push({
-                label: '$' + i + ' - $' + (i + 999999),
+                label: "$"+i+" - $"+((i == 1 ? 0 : i)+1) + "M",
                 count: 0
             });
         }

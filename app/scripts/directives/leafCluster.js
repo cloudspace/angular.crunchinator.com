@@ -5,7 +5,6 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
             data: '='
         },
         link: function(scope, element, attrs) {
-            console.log('Directive: '+scope.mapBoundary);
             var cloudmade = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 15,
                 zoom: 5,
@@ -23,7 +22,6 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
             }, true);
 
             map.on('zoomend', function(e){
-                console.log("Zoom-end")
                 scope.mapBoundary = map.getBounds();
             })
 
