@@ -8,4 +8,4 @@ vagrant/cookbooks/*
 vagrant/tmp/*
 .vagrant
 
-app/configuration.js
+app/scripts/configuration.js
