@@ -5,10 +5,9 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
             data: '='
         },
         link: function(scope, element, attrs) {
-            var cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/997/256/{z}/{x}/{y}.png', {
-                maxZoom: 18,
+            var cloudmade = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 15,
                 zoom: 5,
-                attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
                 key: 'BC9A493B41014CAABB98F0471D759707'
             });
             var map = L.map(element[0]).addLayer(cloudmade);

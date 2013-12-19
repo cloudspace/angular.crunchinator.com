@@ -67,11 +67,11 @@ angular.module('crunchinatorApp.models').factory('Model', function($rootScope, $
     Model.find = function(id) {
         return new (getConstructor(this))(getModels(this)[id]);
     };
-    Model.fetch = function() {
+    Model.fetch = function(next_step) {
         var _this = this;
         var url = this.prototype.url;
         if (!url) { throw new Error('You must specify a url on the prototype'); }
-        return $http.get(url).success(function(response) { setModels(_this, response); });
+        return $http.get(url).success(function(response) { setModels(_this, response); if(next_step){next_step();}});
     };
     Model.where = function(comparator) {
         var ms;

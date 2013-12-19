@@ -59,118 +59,114 @@ angular.module('crunchinatorApp.controllers')
         return _.pluck(filteredCompanies, 'id').join('');
     });
 
-    function resetSelection() {
-        $scope.selectedCompany = $scope.selectedCategory = $scope.selectedInvestor = '';
+    $scope.resetSelection = function() {
+        $scope.selectedCompanies = [];
+        $scope.selectedCategories = [];
+        $scope.selectedInvestors = [];
     }
-    resetSelection();
+    $scope.resetSelection();
 
-    $scope.updateSelectedCompany = function(company) {
-        resetSelection();
-        $scope.selectedItem = company;
-        $scope.selectedCompany = company;
+    $scope.toggleSelected = function(selectedItems, item) {
+        $scope.selectedItem = item;
+        var ind = selectedItems.indexOf(item);
+        if (ind > -1) {
+            //Remove item if its already selected
+            selectedItems.splice(ind, 1);
+        } else {
+            //Add item if its not already selected
+            selectedItems.push(item);
+        }
     };
 
-    $scope.updateSelectedCategory = function(category) {
-        resetSelection();
-        $scope.selectedItem = category;
-        $scope.selectedCategory = category;
-    };
-
-    $scope.updateSelectedInvestor = function(investor) {
-        resetSelection();
-        $scope.selectedItem = investor;
-        $scope.selectedInvestor = investor;
-    };
-
-    function filterWithFunctions(functions) {
-        return function(item) {
-            var shouldInclude = true;
-            for (var i = 0, l = functions.length; i < l; i++) {
-                if (!functions[i](item)) { shouldInclude = false; break; }
-            }
-            return shouldInclude;
-        };
-    }
-
-    var filterCompanies = filterWithFunctions([
-        function filterCompanyBySelectedCompany(company) {
-            if ($scope.selectedCompany && $scope.selectedCompany !== company) {
-                return false;
-            }
-            return true;
-        },
-        function filterCompanyBySelectedCategory(company) {
-            if ($scope.selectedCategory) {
-                return _.contains($scope.selectedCategory.company_ids, company.id);
-            }
-            return true;
-        },
-        function filterCompanyBySelectedInvestor(company) {
-            if ($scope.selectedInvestor) {
-                return _.contains($scope.selectedInvestor.invested_company_ids, company.id);
-            }
-            return true;
-        }
-    ]);
-
-    var filterCategories = filterWithFunctions([
-        function filterCategoryWithSelectedCategory(category) {
-            if ($scope.selectedCategory && $scope.selectedCategory !== category) {
-                return false;
-            }
-            return true;
-        },
-        function filterCategoryWithSelectedInvestor(category) {
-            if ($scope.selectedInvestor) {
-                return _.contains($scope.selectedInvestor.invested_category_ids, category.id);
-            }
-            return true;
-        },
-        function filterCategoryWithSelectedCompany(category) {
-            if ($scope.selectedCompany) {
-                return $scope.selectedCompany.category_code.id === category.id;
-            }
-            return true;
-        }
-    ]);
-
-    var filterInvestors = filterWithFunctions([
-        function filterInvestorWithSelectedInvestor(investor) {
-            if ($scope.selectedInvestor && $scope.selectedInvestor !== investor) {
-                return false;
-            }
-            return true;
-        },
-        function filterInvestorWithSelectedCompany(investor) {
-            if ($scope.selectedCompany) {
-                return _.contains(investor.invested_company_ids, $scope.selectedCompany.id);
-            }
-            return true;
-        },
-        function filterInvestorWithSelectedCategory(investor) {
-            if ($scope.selectedCategory) {
-                return _.contains(investor.invested_category_ids, $scope.selectedCategory.id);
-            }
-            return true;
-        }
-    ]);
-
+    var crossCompanies;
+    var companiesByCategory;
+    var companiesByInvestors;
+    var companiesById;
     $scope.filteredCompanies = function() {
-        $scope.filteredCompaniesList = _.select(CompanyModel._models, filterCompanies);
+        if(crossCompanies && companiesByCategory) {
+            var cat_ids = _.map($scope.selectedCategories, function(category){return category.id;});
+            var inv_ids = _.map($scope.selectedInvestors, function(investor){return investor.id;});
+            companiesByCategory.filterAll(); //clear filter
+            companiesByInvestors.filterAll(); //clear filter
+            if(cat_ids.length > 0) {
+                companiesByCategory.filter(function(c) { return cat_ids.indexOf(c) > -1; });
+            }
+            if(inv_ids.length > 0) {
+                companiesByInvestors.filter(function(invs) { return _.intersection(invs, inv_ids).length > 0;});
+            }
+
+            $scope.filteredCompaniesList = companiesById.bottom(Infinity);
+        }
+
         return $scope.filteredCompaniesList;
     };
+
+    var crossInvestors;
+    var investorsByCategories;
+    var investorsByCompanies;
+    var investorsById;
     $scope.filteredInvestors = function() {
-        return _.select(InvestorModel._models, filterInvestors);
+        if(crossInvestors) {
+            var cat_ids = _.map($scope.selectedCategories, function(category){return category.id;});
+            var company_ids = _.map($scope.selectedCompanies, function(company){return company.id;});
+
+            investorsByCategories.filterAll();
+            investorsByCompanies.filterAll();
+
+            if(cat_ids.length > 0) {
+                investorsByCategories.filter(function(d){ return _.intersection(d, cat_ids).length > 0;});
+            }
+            if(company_ids.length > 0) {
+                investorsByCompanies.filter(function(d){ return _.intersection(d, company_ids).length > 0;});
+            }
+            return investorsById.bottom(Infinity);
+        }
+        return [];
     };
+
+    var crossCategories;
+    var categoriesByInvestors;
+    var categoriesByCompanies;
+    var categoriesById;
     $scope.filteredCategories = function() {
-        return _.select(CategoryModel._models, filterCategories);
+        if(crossCategories) {
+            var company_ids = _.map($scope.selectedCompanies, function(company){return company.id;});
+            var inv_ids = _.map($scope.selectedInvestors, function(investor){return investor.id;});
+
+            categoriesByInvestors.filterAll();
+            categoriesByCompanies.filterAll();
+
+            if(company_ids.length > 0) {
+                categoriesByCompanies.filter(function(d){ return _.intersection(d, company_ids).length > 0;});
+            }
+            if(inv_ids.length > 0) {
+                categoriesByInvestors.filter(function(invs) { return _.intersection(invs, inv_ids).length > 0;});
+            }
+            return categoriesById.bottom(Infinity);
+        }
+        return [];
     };
 
     $scope.companies = CompanyModel;
     $scope.categories = CategoryModel;
     $scope.investors = InvestorModel;
 
-    CompanyModel.fetch();
-    CategoryModel.fetch();
-    InvestorModel.fetch();
+    CompanyModel.fetch(function(){
+        crossCompanies = crossfilter(CompanyModel.all());
+        companiesByCategory = crossCompanies.dimension(function(company) { return company.category_code.id; });
+        companiesByInvestors = crossCompanies.dimension(function(company) { return company.investor_ids; });    
+        companiesById = crossCompanies.dimension(function(company) {return company.id;});
+    });
+        InvestorModel.fetch(function(){
+        crossInvestors = crossfilter(InvestorModel.all());
+        investorsByCategories = crossInvestors.dimension(function(investor) { return investor.invested_category_ids; });
+        investorsByCompanies = crossInvestors.dimension(function(investor) { return investor.invested_company_ids; });
+        investorsById = crossInvestors.dimension(function(investor) {return investor.id;});
+    });
+        CategoryModel.fetch(function(){
+        crossCategories = crossfilter(CategoryModel.all());
+        categoriesByInvestors = crossCategories.dimension(function(category) { return category.investor_ids; });    
+        categoriesByCompanies = crossCategories.dimension(function(category) { return category.company_ids; });
+        categoriesById = crossCategories.dimension(function(category) {return category.id;});
+    });
 });
