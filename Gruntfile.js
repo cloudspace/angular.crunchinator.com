@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
+    var aws = grunt.file.readJSON('aws.json') || {};
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -22,9 +23,9 @@ module.exports = function (grunt) {
         yeoman: {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
-            dist: 'build',
-            deploy: '/path/to/server'
+            dist: 'build'
         },
+        aws: aws,
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
@@ -342,38 +343,19 @@ module.exports = function (grunt) {
             }
         },
 
-        sshconfig: {
-            staging: {
-                host: 'my.staging.server',
-                path: '<%= yeoman.deploy %>/current'
+        s3: {
+            options: {
+                key: '<%= aws.key %>',
+                secret: '<%= aws.secret %>',
+                bucket: '<%= aws.bucket %>',
+                access: 'public-read'
             },
-            production: {
-                host: 'production.server',
-                path: '<%= yeoman.deploy %>/current'
-            }
-        },
-        // define our ssh commands
-        sshexec: {
-            'make-release-dir': {
-                command: 'mkdir -m 777 -p <%= yeoman.deploy %>/releases/`date +%s`/logs'
-            },
-            'update-symlinks': {
-                command: 'cd <%= yeoman.deploy %> && rm -rf current && ln -s releases/`ls releases | sort | tail -n 1` current'
-            },
-            'remove-last-deploy': {
-                command: 'cd <%= yeoman.deploy %>/releases && rm -rf `ls | sort | tail -n 1` '
-            }
-        },
-        // our sftp file copy config
-        sftp: {
             deploy: {
-                files: {
-                    './': 'build/**'
-                },
-                options: {
-                    srcBasePath: 'build/',
-                    createDirectories: true
-                }
+                upload: [{
+                    src: 'build/**/*.*',
+                    dest: '/',
+                    rel: 'build'
+                }]
             }
         }
     });
@@ -424,16 +406,21 @@ module.exports = function (grunt) {
         'usemin'
     ]);
 
-    // Run with grunt deploy --config [staging, production]
-    grunt.registerTask('rollback', [
-        'sshexec:remove-last-deploy',
-        'sshexec:update-symlinks'
-    ]);
-    grunt.registerTask('deploy', [
-        'sshexec:make-release-dir',
-        'sshexec:update-symlinks',
-        'sftp:deploy'
-    ]);
+    grunt.registerTask('deploy', function() {
+        aws.key = aws.key || process.env.AWS_ACCESS_KEY_ID;
+        aws.secret = aws.secret || process.env.AWS_SECRET_ACCESS_KEY;
+        aws.bucket = grunt.option('bucket') || aws.bucket;
+        if (!aws.key) {
+            throw new Error('You must specify a `AWS_ACCESS_KEY_ID` ENV variable.');
+        }
+        if (!aws.secret) {
+            throw new Error('You must specify a `AWS_SECRET_ACCESS_KEY` ENV variable.');
+        }
+        if (!aws.bucket) {
+            throw new Error('You must specify a `bucket` in aws.json');
+        }
+        grunt.task.run(['default', 's3:deploy']);
+    });
 
     grunt.registerTask('default', [
         'newer:jshint',
