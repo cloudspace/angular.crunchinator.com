@@ -4,16 +4,16 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
         scope: {
             data: '='
         },
-        link: function(scope, element, attrs) {
-            var margin = { top: 0, right: 0, bottom: 15, left: 00 };
+        link: function(scope, element) {
+            var margin = { top: 0, right: 0, bottom: 15, left: 0 };
             var width = 470 - margin.left - margin.right;
             var height = 353 - margin.top - margin.bottom;
 
             var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
             var y = d3.scale.linear().range([height, 0]);
 
-            var xAxis = d3.svg.axis().scale(x).orient('bottom');
-            var yAxis = d3.svg.axis().scale(y).orient('left').ticks(10, '%');
+            // var xAxis = d3.svg.axis().scale(x).orient('bottom');
+            // var yAxis = d3.svg.axis().scale(y).orient('left').ticks(10, '%');
 
             var svg = d3.select(element[0]).append('svg')
             .style('width', width + margin.left + margin.right + 'px')
@@ -25,7 +25,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
                 scope.$apply();
             };
 
-            scope.$watch('data', function(newval, oldval) {
+            scope.$watch('data', function(newval) {
                 return scope.render(newval);
             }, true);
 

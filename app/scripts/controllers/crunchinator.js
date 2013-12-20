@@ -50,7 +50,7 @@ angular.module('crunchinatorApp.controllers')
         var total_raised_data = [];
         for(var i = 1; i <= 10; i++){
             total_raised_data.push({
-                label: "$"+i+" - $"+((i == 1 ? 0 : i)+1) + "M",
+                label: '$'+i+' - $'+((i === 1 ? 0 : i)+1) + 'M',
                 count: 0
             });
         }
@@ -68,7 +68,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.selectedCompanies = [];
         $scope.selectedCategories = [];
         $scope.selectedInvestors = [];
-    }
+    };
     $scope.resetSelection();
 
     $scope.toggleSelected = function(selectedItems, item) {
@@ -163,18 +163,18 @@ angular.module('crunchinatorApp.controllers')
     CompanyModel.fetch().then(function(){
         crossCompanies = crossfilter(CompanyModel.all());
         companiesByCategory = crossCompanies.dimension(function(company) { return company.category_code.id; });
-        companiesByInvestors = crossCompanies.dimension(function(company) { return company.investor_ids; });    
+        companiesByInvestors = crossCompanies.dimension(function(company) { return company.investor_ids; });
         companiesById = crossCompanies.dimension(function(company) {return company.id;});
     });
-        InvestorModel.fetch().then(function(){
+    InvestorModel.fetch().then(function(){
         crossInvestors = crossfilter(InvestorModel.all());
         investorsByCategories = crossInvestors.dimension(function(investor) { return investor.invested_category_ids; });
         investorsByCompanies = crossInvestors.dimension(function(investor) { return investor.invested_company_ids; });
         investorsById = crossInvestors.dimension(function(investor) {return investor.id;});
     });
-        CategoryModel.fetch().then(function(){
+    CategoryModel.fetch().then(function(){
         crossCategories = crossfilter(CategoryModel.all());
-        categoriesByInvestors = crossCategories.dimension(function(category) { return category.investor_ids; });    
+        categoriesByInvestors = crossCategories.dimension(function(category) { return category.investor_ids; });
         categoriesByCompanies = crossCategories.dimension(function(category) { return category.company_ids; });
         categoriesById = crossCategories.dimension(function(category) {return category.id;});
     });

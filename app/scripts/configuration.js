@@ -1,7 +1,7 @@
-(function(ng){"use strict";
+(function(ng){
+	'use strict';
 
-angular.module("configuration", [])
+	ng.module('configuration', [])
 
-.constant("ENV", "development")
-
-;})(angular);
+	.constant('ENV', 'development');
+})(angular);

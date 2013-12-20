@@ -4,11 +4,10 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
         scope: {
             data: '='
         },
-        link: function(scope, element, attrs) {
+        link: function(scope, element) {
             var cloudmade = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 15,
-                zoom: 5,
-                key: 'BC9A493B41014CAABB98F0471D759707'
+                zoom: 5
             });
             var map = L.map(element[0]).addLayer(cloudmade);
             var markers = null;
@@ -17,13 +16,13 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
                 scope.$apply();
             };
 
-            scope.$watch("data", function(newval, oldval) {
+            scope.$watch('data', function(newval) {
                 return scope.render(newval);
             }, true);
 
-            map.on('zoomend', function(e){
+            map.on('zoomend', function(){
                 scope.mapBoundary = map.getBounds();
-            })
+            });
 
 
             scope.$watch(function() {

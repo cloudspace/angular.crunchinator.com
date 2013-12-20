@@ -86,9 +86,9 @@
     };
 
     var setupStubbedBackend = function() {
-        var investors = generateInvestors(100);
-        var categories = generateCategories(40);
-        var companies = generateCompanies(categories, investors, 100);
+        var investors = generateInvestors(20);
+        var categories = generateCategories(10);
+        var companies = generateCompanies(categories, investors, 500);
 
         ng.module('crunchinatorApp')
         .config(function($provide) {

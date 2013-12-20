@@ -67,7 +67,7 @@ angular.module('crunchinatorApp.models').factory('Model', function($rootScope, $
     Model.find = function(id) {
         return new (getConstructor(this))(getModels(this)[id]);
     };
-    Model.fetch = function(next_step) {
+    Model.fetch = function() {
         var _this = this;
         var url = this.prototype.url;
         if (!url) { throw new Error('You must specify a url on the prototype'); }
