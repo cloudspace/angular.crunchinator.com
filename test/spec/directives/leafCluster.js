@@ -1,17 +1,17 @@
+'use strict';
+
 describe('Directive: leafCluster', function () {
-  'use strict';
 
-  // load the directive's module
-  beforeEach(module('crunchinatorApp.directives'));
+    // load the directive's module
+    beforeEach(module('crunchinatorApp.directives'));
 
-  var element,
-  scope;
+    var scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
-  }));
+    beforeEach(inject(function ($rootScope) {
+        scope = $rootScope.$new();
+    }));
 
-  it('should be tested', inject(function ($compile) {
-    expect(true).toBeTruthy();
-  }));
+    it('should be tested', inject(function () {
+        expect(true).toBeTruthy();
+    }));
 });

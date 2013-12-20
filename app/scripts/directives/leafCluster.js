@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('crunchinatorApp.directives').directive('leafCluster', function() {
     return {
         restrict: 'EA',

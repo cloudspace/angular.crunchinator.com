@@ -1,3 +1,5 @@
+'use strict';
+
 describe( 'Service: Model', function() {
     beforeEach(module('crunchinatorApp.models'));
     var Model, m;
@@ -185,7 +187,7 @@ describe( 'Service: Model', function() {
                 $httpBackend.flush();
             });
 
-            it("sets class' models on success", function($http) {
+            it("sets class' models on success", function() {
                 Model.fetch();
                 $httpBackend.flush();
                 expect(Model.find(model.id).toObject()).toEqual(model);

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('crunchinatorApp.controllers')
 
 .config(function config($stateProvider) {

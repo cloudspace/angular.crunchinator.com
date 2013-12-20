@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('crunchinatorApp.models').factory('Model', function($rootScope, $http) {
     function getModels(obj) {
         obj = getConstructor(obj);

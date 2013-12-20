@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
     return {
         restrict: 'EA',

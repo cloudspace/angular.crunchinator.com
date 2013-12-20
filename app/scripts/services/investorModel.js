@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('crunchinatorApp.models').factory('InvestorModel', function(Model) {
     return Model.extend({
         url: '/investors',

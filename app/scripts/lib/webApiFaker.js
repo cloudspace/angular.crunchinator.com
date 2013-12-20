@@ -1,4 +1,5 @@
 'use strict';
+
 (function (ng) {
     var injector = ng.injector(['configuration', 'ng']);
     var environment = injector.get('ENV');
