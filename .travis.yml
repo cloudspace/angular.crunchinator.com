@@ -8,6 +8,7 @@ after_success:
 - grunt build
 deploy:
   provider: s3
+  skip_cleanup: true
   access_key_id:
     secure: DCPV5cxvsDOkpsZr57oj+Y6SjZD7GOC+zXVDX2QwQFY3EYiWR+KEr7ZSb98NrQQH22z7Sxg0dja292PYMhF9JABTLrDRfuOVuIgtwS8yC/YBFHRC8ysYl9v0QKKrmA4zYvA2m+MXBxS+UdlTxobqJacgK4Ji8L9EaZCrC3gRMq4=
   secret_access_key:
