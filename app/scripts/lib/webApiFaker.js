@@ -91,14 +91,14 @@
         var companies = generateCompanies(categories, investors, 500);
 
         ng.module('crunchinatorApp')
-        .config(function($provide) {
+        .config(['$provide', function($provide) {
             $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
-        }).run(function($httpBackend) {
+        }]).run(['$httpBackend', function($httpBackend) {
             $httpBackend.when('GET', '/companies').respond(companies);
             $httpBackend.when('GET', '/categories').respond(categories);
             $httpBackend.when('GET', '/investors').respond(investors);
             $httpBackend.when('GET', /.*/).passThrough();
-        });
+        }]);
     };
 
     switch (environment) {
