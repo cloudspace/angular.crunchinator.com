@@ -5,8 +5,8 @@ describe('Service: CategoryModel', function () {
 
   // instantiate service
   var CategoryModel;
-  beforeEach(inject(function (_categoryModel_) {
-    CategoryModel = _categoryModel_;
+  beforeEach(inject(function (_CategoryModel_) {
+    CategoryModel = _CategoryModel_;
   }));
 
   it('should do something', function () {

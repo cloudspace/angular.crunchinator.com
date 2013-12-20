@@ -5,8 +5,8 @@ describe('Service: InvestorModel', function () {
 
   // instantiate service
   var InvestorModel;
-  beforeEach(inject(function (_investorModel_) {
-    InvestorModel = _investorModel_;
+  beforeEach(inject(function (_InvestorModel_) {
+    InvestorModel = _InvestorModel_;
   }));
 
   it('should do something', function () {

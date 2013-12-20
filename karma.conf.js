@@ -13,7 +13,17 @@ module.exports = function(config) {
     files: [
       'app/vendor/angular/angular.js',
       'app/vendor/angular-mocks/angular-mocks.js',
-      'app/scripts/*.js',
+
+      'app/vendor/angular-ui-router/release/angular-ui-router.js',
+      'app/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+      'app/vendor/angular-ui-utils/modules/route/route.js',
+
+      'app/vendor/underscore/underscore.js',
+      'app/vendor/d3/d3.js',
+      'app/vendor/leaflet-dist/leaflet.js',
+      'app/vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js',
+
+      'app/scripts/app.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

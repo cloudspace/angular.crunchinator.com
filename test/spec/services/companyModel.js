@@ -5,8 +5,8 @@ describe('Service: CompanyModel', function () {
 
   // instantiate service
   var CompanyModel;
-  beforeEach(inject(function (_companyModel_) {
-    CompanyModel = _companyModel_;
+  beforeEach(inject(function (_CompanyModel_) {
+    CompanyModel = _CompanyModel_;
   }));
 
   it('should do something', function () {
