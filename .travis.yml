@@ -13,3 +13,6 @@ deploy:
     secure: uuQHQsJJWeRUy9Z3hFNsH+sh9WAiBqLp8YlDuapm6fhNFRE+gdKV5S3J1BHkqzFHOtROHz9omUrHNxjKGVV6RpP/p6n1oXbvxWLyTNCzr7xNl0TrlFpw7nEkPy9J85Sg7L4mMTrEU1qJInnlN4v99xwBpHyij8WOw5gbhApnD5Y=
   bucket: staging.crunchinator.com
   local-dir: build
+  on:
+    all_branches: true
+    repo: cloudspace/angular.crunchinator.com
