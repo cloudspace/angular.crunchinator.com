@@ -1,5 +1,6 @@
 <!doctype html>
-<html ng-app="crunchinatorApp" ng-controller="AppCtrl" class="ng-scope"><head>
+<html ng-app="crunchinatorApp" ng-controller="AppCtrl" class="ng-scope">
+    <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title ng-bind="pageTitle"></title>
@@ -34,11 +35,12 @@
             </div>
         </header>
         <div id="main" role="main" ui-view="main">
-            
+
         </div>
         <footer>
         </footer>
 
+        <!-- build:js({.tmp,app}) scripts/libraries.js -->
         <script src="vendor/underscore/underscore.js"></script>
         <script src="vendor/angular/angular.js"></script>
         <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
@@ -48,6 +50,7 @@
         <script src="vendor/d3/d3.js"></script>
         <script src="vendor/leaflet-dist/leaflet.js"></script>
         <script src="vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
+        <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
@@ -63,7 +66,8 @@
 
         <script src="scripts/directives/d3Bars.js"></script>
         <script src="scripts/directives/leafCluster.js"></script>
-        <script src="vendor/crossfilter/crossfilter.min.js"</script>
+        <script src="vendor/crossfilter/crossfilter.min.js"></script>
         <!-- endbuild -->
-    
-</body></html>
+
+    </body>
+</html>
