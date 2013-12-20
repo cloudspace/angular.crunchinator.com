@@ -15,6 +15,7 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
     var aws = grunt.file.readJSON('aws.json') || {};
+    var ENV = {};
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -26,6 +27,7 @@ module.exports = function (grunt) {
             dist: 'build'
         },
         aws: aws,
+        ENV: ENV,
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
@@ -320,27 +322,13 @@ module.exports = function (grunt) {
                 wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
             },
             // environments
-            development: {
+            configuration: {
                 dest: '<%= yeoman.app %>/scripts/configuration.js',
                 name: 'configuration',
                 constants: {
-                    ENV: 'development'
+                    ENV: '<%= ENV.env %>' || 'production'
                 }
             },
-            test: {
-                dest: '<%= yeoman.app %>/scripts/configuration.js',
-                name: 'configuration',
-                constants: {
-                    ENV: 'development'
-                }
-            },
-            production: {
-                dest: '<%= yeoman.app %>/scripts/configuration.js',
-                name: 'configuration',
-                constants: {
-                    ENV: 'production'
-                }
-            }
         },
 
         s3: {
@@ -368,7 +356,8 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
-            'ngconstant:development',
+            'ENV:development',
+            'ngconstant:configuration',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -383,7 +372,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
-        'ngconstant:test',
+        'ENV:test',
+        'ngconstant:configuration',
         'concurrent:test',
         'autoprefixer',
         'connect:test',
@@ -392,7 +382,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'ngconstant:production',
+        'ngconstant:configuration',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
@@ -410,6 +400,10 @@ module.exports = function (grunt) {
         aws.key = aws.key || process.env.AWS_ACCESS_KEY_ID;
         aws.secret = aws.secret || process.env.AWS_SECRET_ACCESS_KEY;
         aws.bucket = grunt.option('bucket') || aws.bucket;
+    grunt.registerTask('ENV', function(env) {
+        ENV.env = env;
+    });
+
         if (!aws.key) {
             throw new Error('You must specify a `AWS_ACCESS_KEY_ID` ENV variable.');
         }
