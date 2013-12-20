@@ -327,7 +327,7 @@ module.exports = function (grunt) {
                 dest: '<%= yeoman.app %>/scripts/configuration.js',
                 name: 'configuration',
                 constants: {
-                    ENV: '<%= ENV.env %>' || 'production'
+                    ENV: '<%= ENV.env || "production" %>'
                 }
             },
         },
