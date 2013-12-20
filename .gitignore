@@ -4,6 +4,7 @@ dist
 *.swp
 .sass-cache
 app/vendor
+build
 
 vagrant/cookbooks/*
 vagrant/tmp/*
