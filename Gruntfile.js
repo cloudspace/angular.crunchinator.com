@@ -331,7 +331,8 @@ module.exports = function (grunt) {
             options: {
                 key: '<%= aws.key %>',
                 secret: '<%= aws.secret %>',
-                access: 'public-read'
+                access: 'public-read',
+                maxOperations: 20
             },
             deploy_staging: {
                 options: {
