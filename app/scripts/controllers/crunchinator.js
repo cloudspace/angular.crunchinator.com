@@ -33,11 +33,13 @@ angular.module('crunchinatorApp.controllers')
         if (!filteredCompanies || !filteredCompanies.length) { return geojson; }
 
         _.each(filteredCompanies, function(company) {
-            geojson.features.push({
-                'type': 'Feature',
-                'geometry': {'type': 'Point', 'coordinates': [company.latitude, company.longitude]},
-                'properties': 0
-            });
+            if(company.latitude && company.longitude) {
+                geojson.features.push({
+                    'type': 'Feature',
+                    'geometry': {'type': 'Point', 'coordinates': [company.latitude, company.longitude]},
+                    'properties': 0
+                });
+            }
 
         });
 
