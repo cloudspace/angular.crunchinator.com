@@ -14,7 +14,8 @@ module.exports = function (grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
-    var aws = grunt.file.readJSON('aws.json') || {};
+
+    var aws = {};
     var ENV = {};
 
     // Define the configuration for all the tasks
@@ -335,11 +336,23 @@ module.exports = function (grunt) {
             options: {
                 key: '<%= aws.key %>',
                 secret: '<%= aws.secret %>',
-                bucket: '<%= aws.bucket %>',
                 access: 'public-read'
             },
-            deploy: {
-                upload: [{
+            deploy_staging: {
+                options: {
+                    bucket: 'staging.crunchinator.com'
+                },
+                sync: [{
+                    src: 'build/**/*.*',
+                    dest: '/',
+                    rel: 'build'
+                }]
+            },
+            deploy_production: {
+                options: {
+                    bucket: 'angular.crunchinator.com'
+                },
+                sync: [{
                     src: 'build/**/*.*',
                     dest: '/',
                     rel: 'build'
@@ -396,13 +409,14 @@ module.exports = function (grunt) {
         'usemin'
     ]);
 
-    grunt.registerTask('deploy', function() {
-        aws.key = aws.key || process.env.AWS_ACCESS_KEY_ID;
-        aws.secret = aws.secret || process.env.AWS_SECRET_ACCESS_KEY;
-        aws.bucket = grunt.option('bucket') || aws.bucket;
     grunt.registerTask('ENV', function(env) {
         ENV.env = env;
     });
+
+    grunt.registerTask('deploy', function(env) {
+        aws.key = grunt.option('key') || process.env.AWS_ACCESS_KEY_ID;
+        aws.secret = grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY;
+        env = env || 'staging';
 
         if (!aws.key) {
             throw new Error('You must specify a `AWS_ACCESS_KEY_ID` ENV variable.');
@@ -410,10 +424,9 @@ module.exports = function (grunt) {
         if (!aws.secret) {
             throw new Error('You must specify a `AWS_SECRET_ACCESS_KEY` ENV variable.');
         }
-        if (!aws.bucket) {
-            throw new Error('You must specify a `bucket` in aws.json');
-        }
-        grunt.task.run(['default', 's3:deploy']);
+
+
+        grunt.task.run(['ENV:' + env, 'build', 's3:deploy_' + env]);
     });
 
     grunt.registerTask('default', [
