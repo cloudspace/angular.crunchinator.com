@@ -101,7 +101,7 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js'
+                '<%= yeoman.app %>/scripts/{!(configuration),*/}*.js'
             ],
             test: {
                 options: {
@@ -318,11 +318,6 @@ module.exports = function (grunt) {
         },
 
         ngconstant: {
-            options: {
-                space: '    ',
-                wrap: '(function(ng){"use strict";\n\n<%= __ngModule %>})(angular);',
-            },
-            // environments
             configuration: {
                 dest: '<%= yeoman.app %>/scripts/configuration.js',
                 name: 'configuration',
