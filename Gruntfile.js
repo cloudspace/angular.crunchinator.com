@@ -15,7 +15,10 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
-    var aws = {};
+    var aws = {
+        key: grunt.option('key') || process.env.AWS_ACCESS_KEY_ID,
+        secret: grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY
+    };
     var ENV = {};
 
     // Define the configuration for all the tasks
@@ -338,7 +341,7 @@ module.exports = function (grunt) {
                 options: {
                     bucket: 'staging.crunchinator.com'
                 },
-                sync: [{
+                upload: [{
                     src: 'build/**/*.*',
                     dest: '/',
                     rel: 'build'
@@ -348,7 +351,7 @@ module.exports = function (grunt) {
                 options: {
                     bucket: 'angular.crunchinator.com'
                 },
-                sync: [{
+                upload: [{
                     src: 'build/**/*.*',
                     dest: '/',
                     rel: 'build'
@@ -411,8 +414,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('deploy', function(env) {
-        aws.key = grunt.option('key') || process.env.AWS_ACCESS_KEY_ID;
-        aws.secret = grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY;
         env = env || 'staging';
 
         if (!aws.key) {
