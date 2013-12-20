@@ -7,6 +7,7 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
             data: '='
         },
         link: function(scope, element) {
+            L.Icon.Default.imagePath = '/vendor/leaflet-dist/images';
             var cloudmade = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 15,
                 zoom: 5
