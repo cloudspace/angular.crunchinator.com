@@ -164,7 +164,7 @@ angular.module('crunchinatorApp.controllers')
 
     CompanyModel.fetch().then(function(){
         crossCompanies = crossfilter(CompanyModel.all());
-        companiesByCategory = crossCompanies.dimension(function(company) { return company.category_code.id; });
+        companiesByCategory = crossCompanies.dimension(function(company) { return company.category_id; });
         companiesByInvestors = crossCompanies.dimension(function(company) { return company.investor_ids; });
         companiesById = crossCompanies.dimension(function(company) {return company.id;});
     });

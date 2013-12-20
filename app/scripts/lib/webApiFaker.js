@@ -95,21 +95,25 @@
         .config(['$provide', function($provide) {
             $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
         }]).run(['$httpBackend', function($httpBackend) {
-            $httpBackend.when('GET', '/companies').respond(companies);
-            $httpBackend.when('GET', '/categories').respond(categories);
-            $httpBackend.when('GET', '/investors').respond(investors);
+            $httpBackend.when('GET', '/companies.json').respond(companies);
+            $httpBackend.when('GET', '/categories.json').respond(categories);
+            $httpBackend.when('GET', '/investors.json').respond(investors);
             $httpBackend.when('GET', /.*/).passThrough();
         }]);
     };
 
+    var base_url = '';
     switch (environment) {
     case 'development':
         setupStubbedBackend();
         break;
     case 'staging':
+        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/fakedata';
         break;
     case 'production':
+        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/realdata';
         break;
     }
 
+    ng.module('crunchinatorApp.models').constant('API_BASE_URL', base_url);
 })(angular);
