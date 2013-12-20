@@ -179,7 +179,7 @@ describe( 'Service: Model', function() {
             beforeEach(inject(function($injector) {
                 Model.prototype.url = '/test';
                 $httpBackend = $injector.get('$httpBackend');
-                $httpBackend.expect('GET', '/test').respond([model]);
+                $httpBackend.expect('GET', '/test').respond([[model]]);
             }));
 
             it('queries with $http', function() {
