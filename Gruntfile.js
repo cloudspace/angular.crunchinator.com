@@ -359,13 +359,14 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('serve', function (target) {
+        target = target || 'development';
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
 
         grunt.task.run([
             'clean:server',
-            'ENV:development',
+            'ENV:' + target,
             'ngconstant:configuration',
             'concurrent:server',
             'autoprefixer',
