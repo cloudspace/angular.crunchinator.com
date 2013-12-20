@@ -415,12 +415,16 @@ module.exports = function (grunt) {
 
     grunt.registerTask('deploy', function(env) {
         env = env || 'staging';
+        var repo = process.env.TRAVIS_REPO_SLUG;
 
         if (!aws.key) {
             throw new Error('You must specify a `AWS_ACCESS_KEY_ID` ENV variable.');
         }
         if (!aws.secret) {
             throw new Error('You must specify a `AWS_SECRET_ACCESS_KEY` ENV variable.');
+        }
+        if (repo && repo !== 'cloudspace/angular.crunchinator.com') {
+            return;
         }
 
 
