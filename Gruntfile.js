@@ -337,21 +337,21 @@ module.exports = function (grunt) {
                 access: 'public-read',
                 maxOperations: 20
             },
-            deploy_staging: {
+            staging: {
                 options: {
                     bucket: 'staging.crunchinator.com'
                 },
-                upload: [{
+                sync: [{
                     src: 'build/**/*.*',
                     dest: '/',
                     rel: 'build'
                 }]
             },
-            deploy_production: {
+            production: {
                 options: {
                     bucket: 'angular.crunchinator.com'
                 },
-                upload: [{
+                sync: [{
                     src: 'build/**/*.*',
                     dest: '/',
                     rel: 'build'
@@ -424,7 +424,7 @@ module.exports = function (grunt) {
         }
 
 
-        grunt.task.run(['ENV:' + env, 'build', 's3:deploy_' + env]);
+        grunt.task.run(['ENV:' + env, 'build', 's3:' + env]);
     });
 
     grunt.registerTask('default', [
