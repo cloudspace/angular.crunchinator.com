@@ -3,7 +3,7 @@ node_js:
   - '0.8'
   - '0.10'
 before_script:
-  - 'npm install -g bower grunt-cli'
+  - 'npm install -g bower@1.2.7 grunt-cli'
   - 'bower install'
 after_success:
   - 'grunt deploy:staging'
