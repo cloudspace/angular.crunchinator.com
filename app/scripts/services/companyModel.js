@@ -2,7 +2,7 @@
 
 angular.module('crunchinatorApp.models').factory('CompanyModel', function(Model, API_BASE_URL) {
     return Model.extend({
-        url: API_BASE_URL + 'companies.json',
+        url: API_BASE_URL + '/companies.json',
         _attributes: {
             id: -1,
             name: '',
