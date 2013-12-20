@@ -97,8 +97,8 @@ angular.module('crunchinatorApp.controllers')
     var companiesById;
     $scope.filteredCompanies = function() {
         if(crossCompanies && companiesByCategory) {
-            var cat_ids = _.map($scope.selectedCategories, function(category){return category.id;});
-            var inv_ids = _.map($scope.selectedInvestors, function(investor){return investor.id;});
+            var cat_ids = _.pluck($scope.selectedCategories, 'id');
+            var inv_ids = _.pluck($scope.selectedInvestors, 'id');
             companiesByCategory.filterAll(); //clear filter
             companiesByInvestors.filterAll(); //clear filter
             if(cat_ids.length > 0) {
@@ -120,8 +120,8 @@ angular.module('crunchinatorApp.controllers')
     var investorsById;
     $scope.filteredInvestors = function() {
         if(crossInvestors) {
-            var cat_ids = _.map($scope.selectedCategories, function(category){return category.id;});
-            var company_ids = _.map($scope.selectedCompanies, function(company){return company.id;});
+            var cat_ids = _.pluck($scope.selectedCategories, 'id');
+            var company_ids = _.pluck($scope.selectedCompanies, 'id');
 
             investorsByCategories.filterAll();
             investorsByCompanies.filterAll();
@@ -143,8 +143,8 @@ angular.module('crunchinatorApp.controllers')
     var categoriesById;
     $scope.filteredCategories = function() {
         if(crossCategories) {
-            var company_ids = _.map($scope.selectedCompanies, function(company){return company.id;});
-            var inv_ids = _.map($scope.selectedInvestors, function(investor){return investor.id;});
+            var company_ids = _.pluck($scope.selectedCompanies, 'id');
+            var inv_ids = _.pluck($scope.selectedInvestors, 'id');
 
             categoriesByInvestors.filterAll();
             categoriesByCompanies.filterAll();
