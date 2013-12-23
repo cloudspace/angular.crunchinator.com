@@ -71,9 +71,9 @@ angular.module('crunchinatorApp.models').factory('Model', function($rootScope, $
     };
     Model.fetch = function() {
         var _this = this;
-        var url = this.prototype.url;
-        if (!url) { throw new Error('You must specify a url on the prototype'); }
         return $http.get(url).success(function(response) { setModels(_this, response[Object.keys(response)[0]]); });
+        var url = this.url;
+        if (!url) { throw new Error('You must specify a url on the class'); }
     };
     Model.where = function(comparator) {
         var ms;
