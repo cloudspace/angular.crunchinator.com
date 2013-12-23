@@ -177,9 +177,9 @@ describe( 'Service: Model', function() {
         describe('.fetch', function() {
             var model = {id: 0, name: 'test'}, $httpBackend;
             beforeEach(inject(function($injector) {
-                Model.prototype.url = '/test';
+                Model.url = '/test';
                 $httpBackend = $injector.get('$httpBackend');
-                $httpBackend.expect('GET', '/test').respond([[model]]);
+                $httpBackend.expect('GET', '/test').respond([model]);
             }));
 
             it('queries with $http', function() {
@@ -187,10 +187,27 @@ describe( 'Service: Model', function() {
                 $httpBackend.flush();
             });
 
+            it('parses the response', function() {
+                var data = [{id: 1}];
+                spyOn(Model, 'parse').andReturn(data);
+
+                Model.fetch();
+                $httpBackend.flush();
+
+                expect(Model.find(1).toObject()).toEqual(data[0]);
+            });
+
             it("sets class' models on success", function() {
                 Model.fetch();
                 $httpBackend.flush();
                 expect(Model.find(model.id).toObject()).toEqual(model);
+            });
+        });
+
+        describe('.parse', function() {
+            it('just returns the response', function() {
+                var data = {};
+                expect(Model.parse(data)).toBe(data);
             });
         });
 

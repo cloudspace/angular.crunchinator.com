@@ -7,6 +7,8 @@ angular.module('crunchinatorApp.models').factory('CategoryModel', function(Model
         }
     }, {
         url: API_BASE_URL + '/categories.json',
+        parse: function(response) {
+            return response.categories;
         }
     });
 });

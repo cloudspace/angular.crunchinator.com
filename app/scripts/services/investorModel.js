@@ -8,6 +8,8 @@ angular.module('crunchinatorApp.models').factory('InvestorModel', function(Model
         }
     }, {
         url: API_BASE_URL + '/investors.json',
+        parse: function(response) {
+            return response.investors;
         }
     });
 });

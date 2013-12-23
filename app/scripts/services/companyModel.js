@@ -18,6 +18,8 @@ angular.module('crunchinatorApp.models').factory('CompanyModel', function(Model,
         }
     }, {
         url: API_BASE_URL + '/companies.json',
+        parse: function(response) {
+            return response.companies;
         }
     });
 });
