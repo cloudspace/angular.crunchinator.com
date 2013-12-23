@@ -95,9 +95,9 @@
         .config(['$provide', function($provide) {
             $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
         }]).run(['$httpBackend', function($httpBackend) {
-            $httpBackend.when('GET', '/companies.json').respond(companies);
-            $httpBackend.when('GET', '/categories.json').respond(categories);
-            $httpBackend.when('GET', '/investors.json').respond(investors);
+            $httpBackend.when('GET', '/companies.json').respond({ companies: companies });
+            $httpBackend.when('GET', '/categories.json').respond({ categories: categories });
+            $httpBackend.when('GET', '/investors.json').respond({investors: investors });
             $httpBackend.when('GET', /.*/).passThrough();
         }]);
     };
