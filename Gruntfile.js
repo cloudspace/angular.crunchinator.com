@@ -20,6 +20,12 @@ module.exports = function (grunt) {
         secret: grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY
     };
     var ENV = {};
+    function isGitTag(err, stdout, stderr, cb) {
+        if (!err) {
+            aws.env = 'production';
+        }
+        cb();
+    }
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -357,6 +363,14 @@ module.exports = function (grunt) {
                     rel: 'build'
                 }]
             }
+        },
+        shell: {
+            isGitTag: {
+                command: 'git describe --exact-match --tags HEAD',
+                options: {
+                    callback: isGitTag
+                }
+            }
         }
     });
 
@@ -414,7 +428,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('deploy', function(env) {
-        env = env || 'staging';
+        grunt.task.run('shell:isGitTag');
+        env = env || aws.env || 'staging';
         var repo = process.env.TRAVIS_REPO_SLUG;
 
         if (!aws.key) {
@@ -426,7 +441,6 @@ module.exports = function (grunt) {
         if (repo && repo !== 'cloudspace/angular.crunchinator.com') {
             return;
         }
-
 
         grunt.task.run(['ENV:' + env, 'build', 's3:' + env]);
     });
