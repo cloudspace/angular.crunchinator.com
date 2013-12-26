@@ -99,6 +99,9 @@
             $httpBackend.when('GET', '/categories.json').respond({ categories: categories });
             $httpBackend.when('GET', '/investors.json').respond({investors: investors });
             $httpBackend.when('GET', /.*/).passThrough();
+            $httpBackend.when('POST', /.*/).passThrough();
+            $httpBackend.when('DELETE', /.*/).passThrough();
+            $httpBackend.when('PUT', /.*/).passThrough();
         }]);
     };
 
