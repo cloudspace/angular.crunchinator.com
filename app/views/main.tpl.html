@@ -5,7 +5,9 @@
     </div>
     <div class="row clear-both">
         <div class='col-sm-4 spacing-med'>
-            <div id="companies" class="textlist">
+            <h3 class="pull-left">Companies</h3>
+            <p class="pull-right count">Count: {{f = filteredCompanies(); f.length}}</p>
+            <div id="companies" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
                         <div class="input-group">
@@ -25,7 +27,9 @@
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div id="categories" class="textlist">
+            <h3 class="pull-left">Categories</h3>
+            <p class="pull-right count">Count: {{f = filteredCategories(); f.length}}</p>
+            <div id="categories" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
                         <div class="input-group">
@@ -45,7 +49,9 @@
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div id="investors" class="textlist">
+            <h3 class="pull-left">Investors</h3>
+            <p class="pull-right count">Count: {{f = filteredInvestors(); f.length}}</p>
+            <div id="investors" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
                         <div class="input-group">
