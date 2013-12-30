@@ -36,7 +36,7 @@ angular.module('crunchinatorApp.controllers')
             if(company.latitude && company.longitude) {
                 geojson.features.push({
                     'type': 'Feature',
-                    'geometry': {'type': 'Point', 'coordinates': [company.latitude, company.longitude]},
+                    'geometry': {'type': 'Point', 'coordinates': [company.longitude, company.latitude]},
                     'properties': 0
                 });
             }
