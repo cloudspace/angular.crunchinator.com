@@ -428,9 +428,14 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('deploy', function(env) {
-        grunt.task.run('shell:isGitTag');
-        env = env || aws.env || 'staging';
         var repo = process.env.TRAVIS_REPO_SLUG;
+        var branch = process.env.TRAVIS_BRANCH;
+        if (repo && repo !== 'cloudspace/angular.crunchinator.com') {
+            return;
+        }
+        if (branch && branch !== 'master') {
+            return;
+        }
 
         if (!aws.key) {
             throw new Error('You must specify a `AWS_ACCESS_KEY_ID` ENV variable.');
@@ -438,9 +443,11 @@ module.exports = function (grunt) {
         if (!aws.secret) {
             throw new Error('You must specify a `AWS_SECRET_ACCESS_KEY` ENV variable.');
         }
-        if (repo && repo !== 'cloudspace/angular.crunchinator.com') {
-            return;
-        }
+
+        // will set aws.env to production if
+        // this is a git tag.
+        grunt.task.run('shell:isGitTag');
+        env = env || aws.env || 'staging';
 
         grunt.task.run(['ENV:' + env, 'build', 's3:' + env]);
     });

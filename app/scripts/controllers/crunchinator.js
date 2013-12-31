@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.controllers')
     });
 })
 
-.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel, Auth) {
+.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel) {
     $scope.environment = ENV;
 
     $scope.filteredCompaniesList = [];
