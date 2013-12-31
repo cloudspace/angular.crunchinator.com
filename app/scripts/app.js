@@ -7,8 +7,7 @@ angular.module('crunchinatorApp.controllers', [
     'ui.bootstrap',
     'configuration',
     'crunchinatorApp.models',
-    'crunchinatorApp.directives',
-    'devise'
+    'crunchinatorApp.directives'
 ]);
 
 angular.module('crunchinatorApp', [
