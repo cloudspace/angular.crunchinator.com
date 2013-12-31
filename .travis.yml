@@ -1,12 +1,10 @@
 language: node_js
 node_js:
-  - "0.10"
-
+  - '0.10'
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - npm install --quiet -g grunt-cli karma bower
-  - bower install
-
-script: grunt
-
+  - 'npm install -g bower@1.2.7 grunt-cli'
+  - 'bower install'
+after_success:
+  - 'grunt deploy:staging'
+env:
+  - secure: "meEj+F76Sn2bGd9a20OFM/YckUDWO5T6ro80kAX2TnQAHRE65x/KrpauNewCgTp7q/izCf6dPBpDHmhdvKry9PfhHtX1L3e09pJD5jkvyd6oXWtljs53p26JVMEa8AUW97sstn0KZJ6d8/5L9sV2bb2Us2kgq8qe0yH9friBZlA="

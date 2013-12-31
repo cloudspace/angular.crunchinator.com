@@ -1,10 +1,13 @@
-*.sw*
-*~
-build/
-bin/
-node_modules/
-vendor/
+node_modules
+dist
+.tmp
+*.swp
+.sass-cache
+app/vendor
+build
 
 vagrant/cookbooks/*
 vagrant/tmp/*
 .vagrant
+
+app/scripts/configuration.js
