@@ -345,7 +345,8 @@ module.exports = function (grunt) {
             },
             staging: {
                 options: {
-                    bucket: 'staging.crunchinator.com'
+                    bucket: 'staging.crunchinator.com',
+                    verify: true
                 },
                 sync: [{
                     src: 'build/**/*.*',
@@ -355,7 +356,8 @@ module.exports = function (grunt) {
             },
             production: {
                 options: {
-                    bucket: 'angular.crunchinator.com'
+                    bucket: 'angular.crunchinator.com',
+                    verify: true
                 },
                 sync: [{
                     src: 'build/**/*.*',
