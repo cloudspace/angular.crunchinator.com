@@ -6,7 +6,7 @@
     <div class="row clear-both">
         <div class='col-sm-4 spacing-med'>
             <h3 class="pull-left">Companies</h3>
-            <p class="pull-right count">Count: {{f = filteredCompanies(); f.length}}</p>
+            <p class="pull-right count">Count: {{filteredCompaniesList.length}}</p>
             <div id="companies" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompanies()">
+                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompaniesList">
                         <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
                         </tr>
                     </tbody></table>
@@ -28,7 +28,7 @@
 
         <div class='col-sm-4 spacing-med'>
             <h3 class="pull-left">Categories</h3>
-            <p class="pull-right count">Count: {{f = filteredCategories(); f.length}}</p>
+            <p class="pull-right count">Count: {{filteredCategoriesList.length}}</p>
             <div id="categories" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategories()">
+                      <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategoriesList">
                         <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
                         </tr>
                     </tbody></table>
@@ -50,7 +50,7 @@
 
         <div class='col-sm-4 spacing-med'>
             <h3 class="pull-left">Investors</h3>
-            <p class="pull-right count">Count: {{f = filteredInvestors(); f.length}}</p>
+            <p class="pull-right count">Count: {{filteredInvestorsList.length}}</p>
             <div id="investors" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestors()">
+                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestorsList">
                         <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
                         </tr>
                     </tbody></table>
