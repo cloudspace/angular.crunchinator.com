@@ -23,10 +23,6 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
                 return scope.render(newval);
             }, true);
 
-            map.on('zoomend', function(){
-                scope.mapBoundary = map.getBounds();
-            });
-
 
             scope.$watch(function() {
                 return angular.element(window)[0].innerWidth;
