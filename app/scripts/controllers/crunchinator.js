@@ -16,6 +16,9 @@ angular.module('crunchinatorApp.controllers')
 })
 
 .controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel) {
+    $scope.select2Options = {
+        minimumInputLength: 2
+    };
     $scope.environment = ENV;
 
     $scope.filteredCompaniesList = [];
@@ -143,7 +146,8 @@ angular.module('crunchinatorApp.controllers')
     $scope.investors = InvestorModel;
 
     CompanyModel.fetch().then(function(){
-        crossCompanies = crossfilter(CompanyModel.all());
+        $scope.all_companies = CompanyModel.all();
+        crossCompanies = crossfilter($scope.all_companies);
         companiesDimension = crossCompanies.dimension(function(company) { return company; });
         companiesById = crossCompanies.dimension(function(company) {return company.id;});
         $scope.filteredCompanies();

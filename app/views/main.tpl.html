@@ -4,29 +4,19 @@
         <button class='btn btn-default' ng-click="resetSelection()">reset all</button>
     </div>
     <div class="row clear-both">
-        <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Companies</h3>
-            <p class="pull-right count">Count: {{filteredCompaniesList.length}}</p>
-            <div id="companies" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
-                            <input ng-model="searchCompanies" placeholder="Find Companies" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompaniesList">
-                        <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
-        </div>
+        <form class='form-inline'>
+        <p>
+            I want to look for
+            <select ng-model="lookingFor" class="form-control">
+                <option value='companies' selected>Companies</option>
+                <option value='investors'>Investors</option>
+            </select>
+        </p>
+        </form>
+    </div>
+    <div class="row">
 
-        <div class='col-sm-4 spacing-med'>
+        <div class='col-sm-6 spacing-med'>
             <h3 class="pull-left">Categories</h3>
             <p class="pull-right count">Count: {{filteredCategoriesList.length}}</p>
             <div id="categories" class="textlist clear-both">
@@ -48,26 +38,15 @@
             </div>
         </div>
 
-        <div class='col-sm-4 spacing-med'>
+        <div ng-show='lookingFor == "companies"' class='col-sm-6 spacing-med'>
             <h3 class="pull-left">Investors</h3>
-            <p class="pull-right count">Count: {{filteredInvestorsList.length}}</p>
-            <div id="investors" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
-                            <input ng-model="searchInvestors" placeholder="Find Investors" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestorsList">
-                        <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+        </div>
+
+        <div ng-show='lookingFor == "investors"' class='col-sm-6 spacing-med'>
+            <h3 class="pull-left">Companies</h3>
+            <select multiple ui-select2 ng-model="selectedCompanies">
+                <option ng-repeat="company in all_companies" value="{{company.id}}">{{company.name}}</option>
+            </select>
         </div>
     </div>
     <div class='row spacing-med'>
