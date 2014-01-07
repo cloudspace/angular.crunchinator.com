@@ -57,33 +57,12 @@
         </div>
         
     </div>
-    <div ng-show="selectedItem != null" class="item-meta clear-both">
-        <h4>Info for: {{ selectedItem.name }}</h4>
-        <ul>
-            <li ng-repeat="(property, value) in selectedItem" ng-show="property != 'funding_rounds'">{{ property }} - {{ value }}</li>
-            <li ng-show="selectedItem.funding_rounds">funding_rounds -
-                <ul>
-                    <li ng-repeat="funding_round in selectedItem.funding_rounds">
-                        funding_round_{{ funding_round.id }}
-                        <ul>
-                            <li>id - {{ funding_round.id }}</li>
-                            <li>raised_amount - {{ funding_round.raised_amount }}</li>
-                            <li>funded_on - {{ funding_round.funded_on }}</li>
-                            <li ng-show="funding_round.investors != null">investors -
-                                <ul>
-                                    <li ng-repeat="investor in funding_round.investors">
-                                        investor{{ investor.id }}
-                                        <ul>
-                                            <li>id - {{ investor.id }}</li>
-                                            <li>name - {{ investor.name }}</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
+    <div class='row spacing-med'>
+        <h3>{{lookingFor}}</h3>
+        <p ng-show='lookingFor == "companies"'>{{filteredCompaniesList.length}} of {{all_companies.length}} total.</p>
+        <p ng-show='lookingFor == "investors"'>{{filteredInvestorsList.length}} of {{all_investors.length}} total.</p>
+        <ul infinite-scroll="updateLookingFor()" infinite-scroll-distance="3">
+            <li ng-repeat="item in lookingForList">{{item.name}}</li>
         </ul>
     </div>
 </div>

@@ -8,6 +8,7 @@ angular.module('crunchinatorApp.controllers', [
     'configuration',
     'crunchinatorApp.models',
     'crunchinatorApp.directives',
+    'infinite-scroll'
 ]);
 
 angular.module('crunchinatorApp', [
