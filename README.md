@@ -27,6 +27,7 @@ $ grunt serve
             {
                 "id": 1,
                 "name": "company1",
+                "permalink": "company-1",
                 "category_id": 15,
                 "total_funding": 1000.0,
                 "latitude": 1.0,
@@ -56,6 +57,7 @@ $ grunt serve
                 "id": "person-5",
                 "name": "Test Name",
                 "investor_type": "person",
+                "permalink": "test-name",
                 "invested_company_ids":
                 [
                     1,
