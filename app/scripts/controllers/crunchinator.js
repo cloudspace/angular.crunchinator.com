@@ -102,6 +102,8 @@ angular.module('crunchinatorApp.controllers')
         $scope.filteredInvestors();
         $scope.clearLookingFor();
 
+        $scope.updateLookingFor();
+
         $scope.selectedCompanies = _.intersection($scope.selectedCompanies, $scope.filteredCompaniesList);
         $scope.selectedCategories = _.intersection($scope.selectedCategories, $scope.filteredCategoriesList);
         $scope.selectedInvestors = _.intersection($scope.selectedInvestors, $scope.filteredInvestorsList);
@@ -145,6 +147,7 @@ angular.module('crunchinatorApp.controllers')
 
     $scope.clearLookingFor = function() {
         $scope.lookingForList = [];
+        $scope.updateLookingFor();
     };
 
     $scope.$watch('lookingFor', function(){
