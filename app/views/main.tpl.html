@@ -57,34 +57,39 @@
         </div>
         
     </div>
-    <div class='panel panel-default row spacing-med'>
-        <div class='panel-heading'>
-            <h3 class='panel-title pull-left'>{{lookingFor}}</h3>
-            <div class='pull-right'>
-                <span ng-show='lookingFor == "companies"'>
-                    {{filteredCompaniesList.length}} of {{all_companies.length}}
-                </span>
-                <span ng-show='lookingFor == "investors"'>
-                    {{filteredInvestorsList.length}} of {{all_investors.length}}
-                </span>
+    <div ng-show='!!lookingFor' class='row'>
+        <div class='col-sm-12 spacing-med'>
+            <div class='panel panel-info'>
+                <div class='panel-heading'>
+                    <h3 ng-if='lookingFor == "companies"' class='panel-title pull-left'>Companies</h3>
+                    <h3 ng-if='lookingFor == "investors"' class='panel-title pull-left'>Investors</h3>
+                    <div class='pull-right'>
+                        <span ng-show='lookingFor == "companies"'>
+                            {{filteredCompaniesList.length}} of {{all_companies.length}}
+                        </span>
+                        <span ng-show='lookingFor == "investors"'>
+                            {{filteredInvestorsList.length}} of {{all_investors.length}}
+                        </span>
+                    </div>
+                    <div class='clear-both'></div>
+                </div>
+                
+                <table class='table table-striped' infinite-scroll="updateLookingFor()" infinite-scroll-distance="3">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th ng-if='lookingFor == "companies"'>Total Funding</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in lookingForList">
+                            <td>{{item.name}}</td>
+                            <td ng-if='lookingFor == "companies"'>${{item.total_funding}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class='clear-both'></div>
         </div>
-        
-        
-        <table class='table table-striped' infinite-scroll="updateLookingFor()" infinite-scroll-distance="3">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th ng-if='lookingFor == "companies"'>Total Funding</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in lookingForList">
-                    <td>{{item.name}}</td>
-                    <td ng-if='lookingFor == "companies"'>${{item.total_funding}}</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
+
 </div>
