@@ -44,9 +44,6 @@
 
         <div ng-show='lookingFor == "investors"' class='col-sm-6 spacing-med'>
             <h3 class="pull-left">Companies</h3>
-            <select multiple ui-select2 ng-model="selectedCompanies">
-                <option ng-repeat="company in all_companies" value="{{company.id}}">{{company.name}}</option>
-            </select>
         </div>
     </div>
     <div class='row spacing-med'>
