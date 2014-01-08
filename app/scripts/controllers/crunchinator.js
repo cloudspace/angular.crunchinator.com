@@ -15,13 +15,16 @@ angular.module('crunchinatorApp.controllers')
     });
 })
 
-.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel) {
+.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel, ComponentData) {
     $scope.environment = ENV;
 
     $scope.filteredCompaniesList = [];
     $scope.filteredCategoriesList = [];
     $scope.filteredInvestorsList = [];
     $scope.lookingForList = [];
+
+    $scope.geoJsonData = ComponentData.companyGeoJson;
+    $scope.totalFunding = ComponentData.totalFunding;
 
     $scope.select_investor = function() {
         if($scope.selectedInvestors.indexOf($scope.selected_investor) === -1) {
@@ -58,49 +61,6 @@ angular.module('crunchinatorApp.controllers')
         $scope.filteredInvestors();
         $scope.clearLookingFor();
     };
-
-    $scope.geoJsonData = _.memoize(function(filteredCompanies) {
-        var geojson = {
-            'type': 'FeatureCollection',
-            'features': []
-        };
-        if (!filteredCompanies || !filteredCompanies.length) { return geojson; }
-
-        _.each(filteredCompanies, function(company) {
-            if(company.latitude && company.longitude) {
-                geojson.features.push({
-                    'type': 'Feature',
-                    'geometry': {'type': 'Point', 'coordinates': [company.longitude, company.latitude]},
-                    'properties': 0
-                });
-            }
-
-        });
-
-        return geojson;
-
-    }, function(filteredCompanies) {
-        return _.pluck(filteredCompanies, 'id').join('');
-    });
-
-    /*$scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
-        if (!filteredCompanies || !filteredCompanies.length) { return; }
-        var total_raised_data = [];
-        for(var i = 1; i <= 10; i++){
-            total_raised_data.push({
-                label: '$'+i+' - $'+((i === 1 ? 0 : i)+1) + 'M',
-                count: 0
-            });
-        }
-
-        _.each(filteredCompanies, function(company) {
-            var label_index = Math.floor((company.total_funding + 1) / 1000000);
-            total_raised_data[label_index].count++;
-        });
-        return total_raised_data;
-    }, function(filteredCompanies) {
-        return _.pluck(filteredCompanies, 'id').join('');
-    });*/
 
     $scope.resetSelection = function() {
         $scope.selectedCompanies = [];
