@@ -67,4 +67,6 @@ body {
   clear: both;
 }
 
-
+#investors .dataset, #companies .dataset {
+  height: 251px;
+}
