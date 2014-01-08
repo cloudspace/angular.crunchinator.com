@@ -45,6 +45,20 @@ angular.module('crunchinatorApp.controllers')
         }
     };
 
+    $scope.removeInvestor = function(investor) {
+        $scope.selectedInvestors.splice($scope.selectedInvestors.indexOf(investor), 1);
+        inv_ids = _.pluck($scope.selectedInvestors, 'id');
+        $scope.filteredCompanies();
+        $scope.clearLookingFor();
+    };
+
+    $scope.removeCompany = function(company) {
+        $scope.selectedCompanies.splice($scope.selectedCompanies.indexOf(company), 1);
+        company_ids = _.pluck($scope.selectedCompanies, 'id');
+        $scope.filteredInvestors();
+        $scope.clearLookingFor();
+    };
+
     $scope.geoJsonData = _.memoize(function(filteredCompanies) {
         var geojson = {
             'type': 'FeatureCollection',

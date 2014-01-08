@@ -70,3 +70,7 @@ body {
 #investors .dataset, #companies .dataset {
   height: 251px;
 }
+
+.remove-selected {
+  text-align: right;
+}

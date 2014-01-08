@@ -79,6 +79,9 @@
                         <tbody>
                             <tr ng-repeat="investor in selectedInvestors">
                                 <td>{{investor.name}}</td>
+                                <td class="remove-selected">
+                                    <span class="glyphicon glyphicon-remove-circle" ng-click="removeInvestor(investor)"></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,6 +105,9 @@
                         <tbody>
                             <tr ng-repeat="company in selectedCompanies">
                                 <td>{{company.name}}</td>
+                                <td class="remove-selected">
+                                    <span class="glyphicon glyphicon-remove-circle remove-selected" ng-click="removeCompany(company)"></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
