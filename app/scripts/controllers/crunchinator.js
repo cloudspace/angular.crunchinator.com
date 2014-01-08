@@ -21,6 +21,43 @@ angular.module('crunchinatorApp.controllers')
     $scope.filteredCompaniesList = [];
     $scope.filteredCategoriesList = [];
     $scope.filteredInvestorsList = [];
+    $scope.lookingForList = [];
+
+    $scope.select_investor = function() {
+        if($scope.selectedInvestors.indexOf($scope.selected_investor) === -1) {
+            $scope.selectedInvestors.push($scope.selected_investor);
+            inv_ids = _.pluck($scope.selectedInvestors, 'id');
+            $scope.filteredCompanies();
+
+            $scope.selected_investor = '';
+            $scope.clearLookingFor();
+        }
+    };
+
+    $scope.select_company = function() {
+        if($scope.selectedCompanies.indexOf($scope.selected_company) === -1) {
+            $scope.selectedCompanies.push($scope.selected_company);
+            company_ids = _.pluck($scope.selectedCompanies, 'id');
+            $scope.filteredInvestors();
+
+            $scope.selected_company = '';
+            $scope.clearLookingFor();
+        }
+    };
+
+    $scope.removeInvestor = function(investor) {
+        $scope.selectedInvestors.splice($scope.selectedInvestors.indexOf(investor), 1);
+        inv_ids = _.pluck($scope.selectedInvestors, 'id');
+        $scope.filteredCompanies();
+        $scope.clearLookingFor();
+    };
+
+    $scope.removeCompany = function(company) {
+        $scope.selectedCompanies.splice($scope.selectedCompanies.indexOf(company), 1);
+        company_ids = _.pluck($scope.selectedCompanies, 'id');
+        $scope.filteredInvestors();
+        $scope.clearLookingFor();
+    };
 
     $scope.geoJsonData = _.memoize(function(filteredCompanies) {
         var geojson = {
@@ -46,7 +83,7 @@ angular.module('crunchinatorApp.controllers')
         return _.pluck(filteredCompanies, 'id').join('');
     });
 
-    $scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
+    /*$scope.totalRaisedGraphData = _.memoize(function(filteredCompanies) {
         if (!filteredCompanies || !filteredCompanies.length) { return; }
         var total_raised_data = [];
         for(var i = 1; i <= 10; i++){
@@ -63,7 +100,7 @@ angular.module('crunchinatorApp.controllers')
         return total_raised_data;
     }, function(filteredCompanies) {
         return _.pluck(filteredCompanies, 'id').join('');
-    });
+    });*/
 
     $scope.resetSelection = function() {
         $scope.selectedCompanies = [];
@@ -96,6 +133,9 @@ angular.module('crunchinatorApp.controllers')
         $scope.filteredCompanies();
         $scope.filteredCategories();
         $scope.filteredInvestors();
+        $scope.clearLookingFor();
+
+        $scope.updateLookingFor();
 
         $scope.selectedCompanies = _.intersection($scope.selectedCompanies, $scope.filteredCompaniesList);
         $scope.selectedCategories = _.intersection($scope.selectedCategories, $scope.filteredCategoriesList);
@@ -104,38 +144,60 @@ angular.module('crunchinatorApp.controllers')
 
     var crossCompanies;
     var companiesDimension;
-    var companiesById;
+    var companiesByName;
     $scope.filteredCompanies = function() {
         if(crossCompanies) {
             companiesDimension.filterAll(); //clear filter
-            companiesDimension.filter(function(c){ return ( cat_ids.length === 0 || cat_ids.indexOf(c.category_id) > -1) && (inv_ids.length === 0 || _.intersection(c.investor_ids, inv_ids).length > 0); });
+            companiesDimension.filter(function(c){ return ( cat_ids.length === 0 || cat_ids.indexOf(c.category_id) > -1) && (inv_ids.length === 0 || _.intersection(c.investor_ids[0], inv_ids).length > 0); });
 
-            $scope.filteredCompaniesList = companiesById.bottom(100);
+            $scope.filteredCompaniesList = companiesByName.bottom(Infinity);
         }
     };
 
     var crossInvestors;
     var investorsDimension;
-    var investorsById;
+    var investorsByName;
     $scope.filteredInvestors = function() {
         if(crossInvestors) {
             investorsDimension.filterAll();
             investorsDimension.filter(function(i){ return (cat_ids.length === 0 || _.intersection(i.invested_category_ids, cat_ids).length > 0) && (company_ids.length === 0 || _.intersection(i.invested_company_ids, company_ids).length > 0); });
 
-            $scope.filteredInvestorsList = investorsById.bottom(100);
+            $scope.filteredInvestorsList = investorsByName.bottom(Infinity);
         }
     };
 
     var crossCategories;
     var categoriesDimension;
-    var categoriesById;
+    var categoriesByName;
     $scope.filteredCategories = function() {
         if(crossCategories) {
             categoriesDimension.filterAll();
             categoriesDimension.filter(function(c){ return (company_ids.length === 0 || _.intersection(company_ids, c.company_ids).length > 0) && (inv_ids.length === 0 || _.intersection(inv_ids, c.investor_ids).length > 0); });
 
-            $scope.filteredCategoriesList = categoriesById.bottom(100);
+            $scope.filteredCategoriesList = categoriesByName.bottom(Infinity);
         }
+    };
+
+    $scope.clearLookingFor = function() {
+        $scope.lookingForList = [];
+        $scope.updateLookingFor();
+    };
+
+    $scope.$watch('lookingFor', function(){
+        $scope.clearLookingFor();
+    });
+
+    $scope.updateLookingFor = function() {
+        var next_items = [];
+        var current_count = $scope.lookingForList.length;
+        var page_size = 100;
+        if($scope.lookingFor === 'companies') {
+            next_items = $scope.filteredCompaniesList.slice(current_count, current_count+page_size);
+        }
+        else if($scope.lookingFor === 'investors') {
+            next_items = $scope.filteredInvestorsList.slice(current_count, current_count+page_size);
+        }
+        $scope.lookingForList = $scope.lookingForList.concat(next_items);
     };
 
     $scope.companies = CompanyModel;
@@ -143,21 +205,23 @@ angular.module('crunchinatorApp.controllers')
     $scope.investors = InvestorModel;
 
     CompanyModel.fetch().then(function(){
-        crossCompanies = crossfilter(CompanyModel.all());
+        $scope.all_companies = CompanyModel.all();
+        crossCompanies = crossfilter($scope.all_companies);
         companiesDimension = crossCompanies.dimension(function(company) { return company; });
-        companiesById = crossCompanies.dimension(function(company) {return company.id;});
+        companiesByName = crossCompanies.dimension(function(company) {return company.name;});
         $scope.filteredCompanies();
     });
     InvestorModel.fetch().then(function(){
-        crossInvestors = crossfilter(InvestorModel.all());
+        $scope.all_investors = InvestorModel.all();
+        crossInvestors = crossfilter($scope.all_investors);
         investorsDimension = crossInvestors.dimension(function(investor) { return investor; });
-        investorsById = crossInvestors.dimension(function(investor) {return investor.id;});
+        investorsByName = crossInvestors.dimension(function(investor) {return investor.name;});
         $scope.filteredInvestors();
     });
     CategoryModel.fetch().then(function(){
         crossCategories = crossfilter(CategoryModel.all());
         categoriesDimension = crossCategories.dimension(function(category) { return category; });
-        categoriesById = crossCategories.dimension(function(category) {return category.id;});
+        categoriesByName = crossCategories.dimension(function(category) {return category.name;});
         $scope.filteredCategories();
     });
 

@@ -333,7 +333,7 @@ module.exports = function (grunt) {
                 constants: {
                     ENV: '<%= ENV.env || "production" %>'
                 }
-            },
+            }
         },
 
         s3: {

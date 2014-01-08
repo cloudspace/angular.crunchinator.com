@@ -4,40 +4,22 @@
         <button class='btn btn-default' ng-click="resetSelection()">reset all</button>
     </div>
     <div class="row clear-both">
-        <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Companies</h3>
-            <p class="pull-right count">Count: {{filteredCompaniesList.length}}</p>
-            <div id="companies" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
-                            <input ng-model="searchCompanies" placeholder="Find Companies" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompaniesList">
-                        <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
-        </div>
+        <form class='form-inline'>
+        <p>
+            I want to look for
+            <select ng-model="lookingFor" class="form-control">
+                <option value='companies' selected>Companies</option>
+                <option value='investors'>Investors</option>
+            </select>
+        </p>
+        </form>
+    </div>
+    <div class="row">
 
         <div class='col-sm-4 spacing-med'>
             <h3 class="pull-left">Categories</h3>
             <p class="pull-right count">Count: {{filteredCategoriesList.length}}</p>
             <div id="categories" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-                            <input ng-model="searchCategories" placeholder="Find Categories" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
                 <div class="dataset">
                     <table class="table">
                       <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategoriesList">
@@ -49,23 +31,86 @@
         </div>
 
         <div class='col-sm-4 spacing-med'>
+            <div ng-show='!!lookingFor'>
+                <h3 class='pull-left'>
+                    <span ng-if='lookingFor == "companies"'>Companies</span>
+                    <span ng-if='lookingFor == "investors"'>Investors</span>
+                </h3>
+                <p class="pull-right count">
+                    <span ng-show='lookingFor == "companies"'>
+                        {{filteredCompaniesList.length}} of {{all_companies.length}}
+                    </span>
+                    <span ng-show='lookingFor == "investors"'>
+                        {{filteredInvestorsList.length}} of {{all_investors.length}}
+                    </span>
+                </p>
+                <div class='textlist clear-both'>
+                    <div class='dataset'>
+                        <table
+                            class='table table-striped table-hover'
+                            infinite-scroll="updateLookingFor()"
+                            infinite-scroll-distance="2"
+                        >
+                            <tbody>
+                                <tr ng-repeat="item in lookingForList">
+                                    <td><a href='#'>{{item.name}}</a></td>
+                                    <td ng-if='lookingFor == "companies"'>{{item.total_funding | currency}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show='lookingFor == "companies"' class='col-sm-4 spacing-med'>
             <h3 class="pull-left">Investors</h3>
-            <p class="pull-right count">Count: {{filteredInvestorsList.length}}</p>
             <div id="investors" class="textlist clear-both">
                 <div class="form-group">
                     <div class="controls">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
-                            <input ng-model="searchInvestors" placeholder="Find Investors" type="text" class="form-control">
+                            <input class="form-control" type="text" ng-model="selected_investor" typeahead-on-select="select_investor()" typeahead="investor as investor.name for investor in all_investors | filter:{name: $viewValue} | limitTo: 3" />
                         </div>
                     </div>
                 </div>
                 <div class="dataset">
                     <table class="table">
-                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestorsList">
-                        <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
-                        </tr>
-                    </tbody></table>
+                        <tbody>
+                            <tr ng-repeat="investor in selectedInvestors">
+                                <td>{{investor.name}}</td>
+                                <td class="remove-selected">
+                                    <span class="glyphicon glyphicon-remove-circle" ng-click="removeInvestor(investor)"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show='lookingFor == "investors"' class='col-sm-4 spacing-med'>
+            <h3 class="pull-left">Companies</h3>
+            <div id="companies" class="textlist clear-both">
+                <div class="form-group">
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
+                            <input class="form-control" type="text" ng-model="selected_company" typeahead-on-select="select_company()" typeahead="company as company.name for company in all_companies | filter:{name: $viewValue} | limitTo: 3" />
+                        </div>
+                    </div>
+                </div>
+                <div class="dataset">
+                    <table class="table">
+                        <tbody>
+                            <tr ng-repeat="company in selectedCompanies">
+                                <td>{{company.name}}</td>
+                                <td class="remove-selected">
+                                    <span class="glyphicon glyphicon-remove-circle remove-selected" ng-click="removeCompany(company)"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -81,33 +126,5 @@
         </div>
         
     </div>
-    <div ng-show="selectedItem != null" class="item-meta clear-both">
-        <h4>Info for: {{ selectedItem.name }}</h4>
-        <ul>
-            <li ng-repeat="(property, value) in selectedItem" ng-show="property != 'funding_rounds'">{{ property }} - {{ value }}</li>
-            <li ng-show="selectedItem.funding_rounds">funding_rounds -
-                <ul>
-                    <li ng-repeat="funding_round in selectedItem.funding_rounds">
-                        funding_round_{{ funding_round.id }}
-                        <ul>
-                            <li>id - {{ funding_round.id }}</li>
-                            <li>raised_amount - {{ funding_round.raised_amount }}</li>
-                            <li>funded_on - {{ funding_round.funded_on }}</li>
-                            <li ng-show="funding_round.investors != null">investors -
-                                <ul>
-                                    <li ng-repeat="investor in funding_round.investors">
-                                        investor{{ investor.id }}
-                                        <ul>
-                                            <li>id - {{ investor.id }}</li>
-                                            <li>name - {{ investor.name }}</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+
 </div>
