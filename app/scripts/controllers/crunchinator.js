@@ -176,11 +176,12 @@ angular.module('crunchinatorApp.controllers')
     $scope.updateLookingFor = function() {
         var next_items = [];
         var current_count = $scope.lookingForList.length;
+        var page_size = 100;
         if($scope.lookingFor === 'companies') {
-            next_items = $scope.filteredCompaniesList.slice(current_count, current_count+50);
+            next_items = $scope.filteredCompaniesList.slice(current_count, current_count+page_size);
         }
         else if($scope.lookingFor === 'investors') {
-            next_items = $scope.filteredInvestorsList.slice(current_count, current_count+50);
+            next_items = $scope.filteredInvestorsList.slice(current_count, current_count+page_size);
         }
         $scope.lookingForList = $scope.lookingForList.concat(next_items);
     };

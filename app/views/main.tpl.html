@@ -46,7 +46,11 @@
                 </p>
                 <div class='textlist clear-both'>
                     <div class='dataset'>
-                        <table class='table table-striped table-hover' infinite-scroll="updateLookingFor()">
+                        <table
+                            class='table table-striped table-hover'
+                            infinite-scroll="updateLookingFor()"
+                            infinite-scroll-distance="2"
+                        >
                             <tbody>
                                 <tr ng-repeat="item in lookingForList">
                                     <td><a href='#'>{{item.name}}</a></td>
