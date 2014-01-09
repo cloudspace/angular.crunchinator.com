@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.controllers')
     });
 })
 
-.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, CompanyModel, CategoryModel, InvestorModel, ComponentData) {
+.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, Company, Category, Investor, ComponentData) {
     $scope.environment = ENV;
 
     $scope.filteredCompaniesList = [];
@@ -127,26 +127,26 @@ angular.module('crunchinatorApp.controllers')
 
 
 
-    $scope.companies = CompanyModel;
-    $scope.categories = CategoryModel;
-    $scope.investors = InvestorModel;
+    $scope.companies = Company;
+    $scope.categories = Category;
+    $scope.investors = Investor;
 
-    CompanyModel.fetch().then(function(){
-        $scope.all_companies = CompanyModel.all();
+    Company.fetch().then(function(){
+        $scope.all_companies = Company.all();
         crossCompanies = crossfilter($scope.all_companies);
         companiesDimension = crossCompanies.dimension(function(company) { return company; });
         companiesByName = crossCompanies.dimension(function(company) {return company.name;});
         $scope.filterCompanies();
     });
-    InvestorModel.fetch().then(function(){
-        $scope.all_investors = InvestorModel.all();
+    Investor.fetch().then(function(){
+        $scope.all_investors = Investor.all();
         crossInvestors = crossfilter($scope.all_investors);
         investorsDimension = crossInvestors.dimension(function(investor) { return investor; });
         investorsByName = crossInvestors.dimension(function(investor) {return investor.name;});
         $scope.filterInvestors();
     });
-    CategoryModel.fetch().then(function(){
-        $scope.all_categories = CategoryModel.all();
+    Category.fetch().then(function(){
+        $scope.all_categories = Category.all();
         crossCategories = crossfilter($scope.all_categories);
         categoriesDimension = crossCategories.dimension(function(category) { return category; });
         categoriesByName = crossCategories.dimension(function(category) {return category.name;});
