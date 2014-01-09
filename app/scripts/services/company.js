@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.models').factory('CompanyModel', function(Model, API_BASE_URL) {
+angular.module('crunchinatorApp.models').factory('Company', function(Model, API_BASE_URL) {
     return Model.extend({
         _attributes: {
             id: -1,
