@@ -1,0 +1,29 @@
+<h3 class="pull-left">{{title}}</h3>
+<div class="textlist clear-both">
+    <div class="form-group">
+        <div class="controls">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
+                <input type="text" class="form-control"
+                    ng-model="selectedItem"
+                    typeahead-min-length="2"
+                    typeahead-wait-ms="200"
+                    typeahead-on-select="selectItem()"
+                    typeahead="item as item.name for item in items | filter:{name: $viewValue} | limitTo: 3"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="dataset">
+        <table class="table">
+            <tbody>
+                <tr ng-repeat="item in selectedItems">
+                    <td>{{item.name}}</td>
+                    <td class="remove-selected">
+                        <span class="glyphicon glyphicon-remove-circle remove-selected" ng-click="removeItem(item)"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

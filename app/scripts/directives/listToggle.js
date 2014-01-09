@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('listToggle', function() {
+angular.module('crunchinatorApp.directives').directive('listToggle', ['$rootScope', function($rootScope) {
     return {
         restrict: 'EA',
         scope: {
@@ -23,7 +23,8 @@ angular.module('crunchinatorApp.directives').directive('listToggle', function() 
                 }
 
                 scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                $rootScope.$broadcast('filterAction');
             };
         }
     };
-});
+}]);

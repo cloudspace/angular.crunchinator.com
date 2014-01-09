@@ -23,56 +23,17 @@ angular.module('crunchinatorApp.controllers')
     $scope.filteredInvestorsList = [];
     $scope.selectedCategories = [];
 
-
     $scope.geoJsonData = ComponentData.companyGeoJson;
     $scope.totalFunding = ComponentData.totalFunding;
-
-    //Moves into a directive that handles how we decide to do companies/investors
-    $scope.select_investor = function() {
-        if($scope.selectedInvestors.indexOf($scope.selected_investor) === -1) {
-            $scope.selectedInvestors.push($scope.selected_investor);
-            inv_ids = _.pluck($scope.selectedInvestors, 'id');
-            $scope.filterCompanies();
-
-            $scope.selected_investor = '';
-        }
-    };
-
-    //Moves into a directive that handles how we decide to do companies/investors
-    $scope.select_company = function() {
-        if($scope.selectedCompanies.indexOf($scope.selected_company) === -1) {
-            $scope.selectedCompanies.push($scope.selected_company);
-            company_ids = _.pluck($scope.selectedCompanies, 'id');
-            $scope.filterInvestors();
-
-            $scope.selected_company = '';
-        }
-    };
-
-    //Moves into a directive that handles how we decide to do companies/investors
-    $scope.removeInvestor = function(investor) {
-        $scope.selectedInvestors.splice($scope.selectedInvestors.indexOf(investor), 1);
-        inv_ids = _.pluck($scope.selectedInvestors, 'id');
-        $scope.filterCompanies();
-    };
-
-    //Moves into a directive that handles how we decide to do companies/investors
-    $scope.removeCompany = function(company) {
-        $scope.selectedCompanies.splice($scope.selectedCompanies.indexOf(company), 1);
-        company_ids = _.pluck($scope.selectedCompanies, 'id');
-        $scope.filterInvestors();
-    };
 
     var cat_ids = [];
     var company_ids = [];
     var inv_ids = [];
     //Moves into a directive that handles how we do categories
-    $scope.$watch('selectedCategories', function() {
-
+    $scope.$on('filterAction', function() {
         cat_ids = _.pluck($scope.selectedCategories, 'id');
         company_ids = _.pluck($scope.selectedCompanies, 'id');
         inv_ids = _.pluck($scope.selectedInvestors, 'id');
-        console.log($scope);
         $scope.filterCompanies();
         $scope.filterCategories();
         $scope.filterInvestors();
@@ -122,10 +83,6 @@ angular.module('crunchinatorApp.controllers')
             $scope.filteredCategoriesList = categoriesByName.bottom(Infinity);
         }
     };
-
-
-
-
 
     $scope.companies = Company;
     $scope.categories = Category;
