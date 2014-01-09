@@ -47,10 +47,11 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
                     }
                 });
                 markers.addLayer(geoJsonLayer);
-
-
                 map.addLayer(markers);
-                map.fitBounds(markers.getBounds());
+
+                if(data.features.length > 0) {
+                    map.fitBounds(markers.getBounds());
+                }
             };
         }
     };
