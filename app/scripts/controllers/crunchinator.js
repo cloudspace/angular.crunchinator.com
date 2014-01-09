@@ -26,6 +26,7 @@ angular.module('crunchinatorApp.controllers')
     $scope.geoJsonData = ComponentData.companyGeoJson;
     $scope.totalFunding = ComponentData.totalFunding;
 
+    //Moves into a directive that handles how we decide to do companies/investors
     $scope.select_investor = function() {
         if($scope.selectedInvestors.indexOf($scope.selected_investor) === -1) {
             $scope.selectedInvestors.push($scope.selected_investor);
@@ -37,6 +38,7 @@ angular.module('crunchinatorApp.controllers')
         }
     };
 
+    //Moves into a directive that handles how we decide to do companies/investors
     $scope.select_company = function() {
         if($scope.selectedCompanies.indexOf($scope.selected_company) === -1) {
             $scope.selectedCompanies.push($scope.selected_company);
@@ -48,6 +50,7 @@ angular.module('crunchinatorApp.controllers')
         }
     };
 
+    //Moves into a directive that handles how we decide to do companies/investors
     $scope.removeInvestor = function(investor) {
         $scope.selectedInvestors.splice($scope.selectedInvestors.indexOf(investor), 1);
         inv_ids = _.pluck($scope.selectedInvestors, 'id');
@@ -55,6 +58,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.clearLookingFor();
     };
 
+    //Moves into a directive that handles how we decide to do companies/investors
     $scope.removeCompany = function(company) {
         $scope.selectedCompanies.splice($scope.selectedCompanies.indexOf(company), 1);
         company_ids = _.pluck($scope.selectedCompanies, 'id');
@@ -62,19 +66,10 @@ angular.module('crunchinatorApp.controllers')
         $scope.clearLookingFor();
     };
 
-    $scope.resetSelection = function() {
-        $scope.selectedCompanies = [];
-        $scope.selectedCategories = [];
-        $scope.selectedInvestors = [];
-
-        $scope.filterCompanies();
-        $scope.filterCategories();
-        $scope.filterInvestors();
-    };
-
     var cat_ids = [];
     var company_ids = [];
     var inv_ids = [];
+    //Moves into a directive that handles how we do categories
     $scope.toggleSelected = function(selectedItems, item) {
         $scope.selectedItem = item;
         var ind = selectedItems.indexOf(item);
