@@ -21,7 +21,8 @@ angular.module('crunchinatorApp.controllers')
     $scope.filteredCompaniesList = [];
     $scope.filteredCategoriesList = [];
     $scope.filteredInvestorsList = [];
-    $scope.lookingForList = [];
+    $scope.selectedCategories = [];
+
 
     $scope.geoJsonData = ComponentData.companyGeoJson;
     $scope.totalFunding = ComponentData.totalFunding;
@@ -34,7 +35,6 @@ angular.module('crunchinatorApp.controllers')
             $scope.filterCompanies();
 
             $scope.selected_investor = '';
-            $scope.clearLookingFor();
         }
     };
 
@@ -46,7 +46,6 @@ angular.module('crunchinatorApp.controllers')
             $scope.filterInvestors();
 
             $scope.selected_company = '';
-            $scope.clearLookingFor();
         }
     };
 
@@ -55,7 +54,6 @@ angular.module('crunchinatorApp.controllers')
         $scope.selectedInvestors.splice($scope.selectedInvestors.indexOf(investor), 1);
         inv_ids = _.pluck($scope.selectedInvestors, 'id');
         $scope.filterCompanies();
-        $scope.clearLookingFor();
     };
 
     //Moves into a directive that handles how we decide to do companies/investors
@@ -63,37 +61,22 @@ angular.module('crunchinatorApp.controllers')
         $scope.selectedCompanies.splice($scope.selectedCompanies.indexOf(company), 1);
         company_ids = _.pluck($scope.selectedCompanies, 'id');
         $scope.filterInvestors();
-        $scope.clearLookingFor();
     };
 
     var cat_ids = [];
     var company_ids = [];
     var inv_ids = [];
     //Moves into a directive that handles how we do categories
-    $scope.toggleSelected = function(selectedItems, item) {
-        $scope.selectedItem = item;
-        var ind = selectedItems.indexOf(item);
-        if (ind > -1) {
-            //Remove item if its already selected
-            selectedItems.splice(ind, 1);
-        } else {
-            //Add item if its not already selected
-            selectedItems.push(item);
-        }
+    $scope.$watch('selectedCategories', function() {
 
         cat_ids = _.pluck($scope.selectedCategories, 'id');
         company_ids = _.pluck($scope.selectedCompanies, 'id');
         inv_ids = _.pluck($scope.selectedInvestors, 'id');
-
+        console.log($scope);
         $scope.filterCompanies();
         $scope.filterCategories();
         $scope.filterInvestors();
-        $scope.clearLookingFor();
-
-        $scope.selectedCompanies = _.intersection($scope.selectedCompanies, $scope.filteredCompaniesList);
-        $scope.selectedCategories = _.intersection($scope.selectedCategories, $scope.filteredCategoriesList);
-        $scope.selectedInvestors = _.intersection($scope.selectedInvestors, $scope.filteredInvestorsList);
-    };
+    });
 
     var crossCompanies;
     var companiesDimension;
@@ -140,27 +123,9 @@ angular.module('crunchinatorApp.controllers')
         }
     };
 
-    $scope.clearLookingFor = function() {
-        $scope.lookingForList = [];
-        $scope.updateLookingFor();
-    };
 
-    $scope.$watch('lookingFor', function(){
-        $scope.clearLookingFor();
-    });
 
-    $scope.updateLookingFor = function() {
-        var next_items = [];
-        var current_count = $scope.lookingForList.length;
-        var page_size = 100;
-        if($scope.lookingFor === 'companies') {
-            next_items = $scope.filteredCompaniesList.slice(current_count, current_count+page_size);
-        }
-        else if($scope.lookingFor === 'investors') {
-            next_items = $scope.filteredInvestorsList.slice(current_count, current_count+page_size);
-        }
-        $scope.lookingForList = $scope.lookingForList.concat(next_items);
-    };
+
 
     $scope.companies = CompanyModel;
     $scope.categories = CategoryModel;
@@ -181,12 +146,11 @@ angular.module('crunchinatorApp.controllers')
         $scope.filterInvestors();
     });
     CategoryModel.fetch().then(function(){
-        crossCategories = crossfilter(CategoryModel.all());
+        $scope.all_categories = CategoryModel.all();
+        crossCategories = crossfilter($scope.all_categories);
         categoriesDimension = crossCategories.dimension(function(category) { return category; });
         categoriesByName = crossCategories.dimension(function(category) {return category.name;});
         $scope.filterCategories();
     });
-
-    $scope.resetSelection();
 
 });
