@@ -4,28 +4,28 @@
         <div class='col-sm-4 spacing-med'>
             <div list-toggle
                 title="Categories"
-                total="all_categories.length"
-                items="all_categories"
+                total="categories.all.length"
+                items="categories.all"
                 selected='selectedCategories'
             ></div>
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div list-select title="Investors" items="all_investors" selected="selectedInvestors"></div>
+            <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div list-select title="Companies" items="all_companies" selected="selectedCompanies"></div>
+            <div list-select title="Companies" items="companies.all" selected="selectedCompanies"></div>
         </div>
     </div>
 
     <div class='row'>
         <div class='col-sm-6 spacing-med'>
-            <div list-display title="Companies" total="all_companies.length" data="filteredCompaniesList"></div>
+            <div list-display title="Companies" total="companies.all.length" data="companies.dataForCompaniesList"></div>
         </div>
 
         <div class='col-sm-6 spacing-med'>
-            <div list-display title="Investors" total="all_investors.length" data="filteredInvestorsList"></div>
+            <div list-display title="Investors" total="investors.all.length" data="investors.dataForInvestorsList"></div>
         </div>
 
     </div>

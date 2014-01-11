@@ -10,6 +10,7 @@ angular.module('crunchinatorApp.directives').directive('listDisplay', function()
         },
         templateUrl: 'views/list-display.tpl.html',
         link: function(scope) {
+            scope.data = scope.data || [];
             scope.scrollItems = [];
             scope.$watch('data', function(){
                 scope.filteredItems = scope.data;
