@@ -11,11 +11,21 @@
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
+            <div list-select title="Companies" items="investors.all" selected="selectedCompanies"></div>
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div list-select title="Companies" items="companies.all" selected="selectedCompanies"></div>
+            <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
+        </div>
+    </div>
+
+    <div class='row spacing-med'>
+        <div class='col-sm-6'>
+            <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div> -->
+        </div>
+        
+        <div class='col-sm-6'>
+            <!--<div d3-bars class="total-raised-bar" data="totalFunding(filteredCompaniesList)"></div>-->
         </div>
     </div>
 
@@ -28,17 +38,6 @@
             <div list-display title="Investors" total="investors.all.length" data="investors.dataForInvestorsList"></div>
         </div>
 
-    </div>
-
-    <div class='row spacing-med'>
-        <div class='col-sm-6'>
-            <!--<div d3-bars class="total-raised-bar" data="totalFunding(filteredCompaniesList)"></div>-->
-        </div>
-
-        <div class='col-sm-6'>
-            <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
-        </div>
-        
     </div>
 
 </div>
