@@ -2,7 +2,7 @@
 
 describe( 'Service: Model', function() {
     beforeEach(module('crunchinatorApp.models'));
-    var Model, m;
+    var Model;
     beforeEach(inject(function(_Model_) {
         Model = _Model_;
     }));
