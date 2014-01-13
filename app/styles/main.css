@@ -58,6 +58,10 @@ body {
   background-color: #f9f9f9;
 }
 
+.textlist.select-list .dataset {
+  height: 251px;
+}
+
 .spacing-med {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -67,9 +71,7 @@ body {
   clear: both;
 }
 
-#investors .dataset, #companies .dataset {
-  height: 251px;
-}
+
 
 .remove-selected {
   text-align: right;

@@ -1,130 +1,43 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
-    <h4 class="pull-left">Environment: {{environment}}</h4>
-    <div class="btn-group spacing-med pull-right">
-        <button class='btn btn-default' ng-click="resetSelection()">reset all</button>
-    </div>
-    <div class="row clear-both">
-        <form class='form-inline'>
-        <p>
-            I want to look for
-            <select ng-model="lookingFor" class="form-control">
-                <option value='companies' selected>Companies</option>
-                <option value='investors'>Investors</option>
-            </select>
-        </p>
-        </form>
-    </div>
+    <h4>Environment: {{environment}}</h4>
     <div class="row">
-
         <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Categories</h3>
-            <p class="pull-right count">Count: {{filteredCategoriesList.length}}</p>
-            <div id="categories" class="textlist clear-both">
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategoriesList">
-                        <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+            <div list-toggle
+                title="Categories"
+                total="categories.all.length"
+                items="categories.all"
+                selected='selectedCategories'
+            ></div>
         </div>
 
         <div class='col-sm-4 spacing-med'>
-            <div ng-show='!!lookingFor'>
-                <h3 class='pull-left'>
-                    <span ng-if='lookingFor == "companies"'>Companies</span>
-                    <span ng-if='lookingFor == "investors"'>Investors</span>
-                </h3>
-                <p class="pull-right count">
-                    <span ng-show='lookingFor == "companies"'>
-                        {{filteredCompaniesList.length}} of {{all_companies.length}}
-                    </span>
-                    <span ng-show='lookingFor == "investors"'>
-                        {{filteredInvestorsList.length}} of {{all_investors.length}}
-                    </span>
-                </p>
-                <div class='textlist clear-both'>
-                    <div class='dataset'>
-                        <table
-                            class='table table-striped table-hover'
-                            infinite-scroll="updateLookingFor()"
-                            infinite-scroll-distance="2"
-                        >
-                            <tbody>
-                                <tr ng-repeat="item in lookingForList">
-                                    <td><a href='#'>{{item.name}}</a></td>
-                                    <td ng-if='lookingFor == "companies"'>{{item.total_funding | currency}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <div list-select title="Companies" items="investors.all" selected="selectedCompanies"></div>
         </div>
 
-        <div ng-show='lookingFor == "companies"' class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Investors</h3>
-            <div id="investors" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
-                            <input class="form-control" type="text" ng-model="selected_investor" typeahead-on-select="select_investor()" typeahead="investor as investor.name for investor in all_investors | filter:{name: $viewValue} | limitTo: 3" />
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                        <tbody>
-                            <tr ng-repeat="investor in selectedInvestors">
-                                <td>{{investor.name}}</td>
-                                <td class="remove-selected">
-                                    <span class="glyphicon glyphicon-remove-circle" ng-click="removeInvestor(investor)"></span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div ng-show='lookingFor == "investors"' class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Companies</h3>
-            <div id="companies" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
-                            <input class="form-control" type="text" ng-model="selected_company" typeahead-on-select="select_company()" typeahead="company as company.name for company in all_companies | filter:{name: $viewValue} | limitTo: 3" />
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                        <tbody>
-                            <tr ng-repeat="company in selectedCompanies">
-                                <td>{{company.name}}</td>
-                                <td class="remove-selected">
-                                    <span class="glyphicon glyphicon-remove-circle remove-selected" ng-click="removeCompany(company)"></span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class='col-sm-4 spacing-med'>
+            <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
         </div>
     </div>
+
     <div class='row spacing-med'>
+        <div class='col-sm-6'>
+            <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div> -->
+        </div>
         
         <div class='col-sm-6'>
-            <div d3-bars class="total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
+            <!--<div d3-bars class="total-raised-bar" data="totalFunding(filteredCompaniesList)"></div>-->
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-sm-6 spacing-med'>
+            <div list-display title="Companies" total="companies.all.length" data="companies.dataForCompaniesList"></div>
         </div>
 
-        <div class='col-sm-6'>
-            <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
+        <div class='col-sm-6 spacing-med'>
+            <div list-display title="Investors" total="investors.all.length" data="investors.dataForInvestorsList"></div>
         </div>
-        
+
     </div>
 
 </div>
