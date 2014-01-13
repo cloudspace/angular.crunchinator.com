@@ -14,13 +14,13 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
     Category.prototype.setupDimensions = function() {
         var crossCategories = crossfilter(this.all);
 
-        this.dimensions = { 
+        this.dimensions = {
             'byId': crossCategories.dimension(function(category) { return category.id; }),
-            'byCompanies': crossCategories.dimension(function(category) { return category.company_ids }),
-            'byInvestors': crossCategories.dimension(function(category) { return category.investor_ids })
+            'byCompanies': crossCategories.dimension(function(category) { return category.company_ids; }),
+            'byInvestors': crossCategories.dimension(function(category) { return category.investor_ids; })
         };
 
-        this.categoriesByName = crossCategories.dimension(function(category) { return category.name });
+        this.categoriesByName = crossCategories.dimension(function(category) { return category.name; });
     };
 
     Category.prototype.filterGroups = {
@@ -53,7 +53,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
                 return (ids.length === 0 || ids.indexOf(id) > -1);
             });
         }
-    }; 
+    };
 
     return new Category();
 });
