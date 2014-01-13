@@ -15,6 +15,10 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return $http.get(url).success(function(response) { self.all = self.parse(response); });
     };
 
+    Model.prototype.parse = function(response) {
+        return response;
+    };
+
     Model.prototype.resetAllDimensions = function() {
         _.each(this.dimensions, function (dimension) {
             dimension.filterAll();
