@@ -76,13 +76,13 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                     });
                 };
 
-                var colorfill = d3.scale.category20();
+                var colorfill = d3.scale.category20b();
                 function fill(d){
                     if(scope.selectedItems.length === 0 || _.contains(_.pluck(scope.selectedItems, 'id'), d.obj.id)) {
                         return colorfill(d.text.toLowerCase());
                     }
                     else {
-                        return '#333';
+                        return '#666';
                     }
                 }
 
