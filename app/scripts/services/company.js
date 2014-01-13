@@ -31,7 +31,6 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             this.applyFilters(exclusions);
 
             this.dataForCompaniesList = this.companiesByName.bottom(Infinity);
-            console.log(this.dataForCompaniesList);
         },
         'dataForTotalFunding': function() {
             this.resetAllDimensions();

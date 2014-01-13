@@ -43,7 +43,7 @@ angular.module('crunchinatorApp.directives').directive('leafCluster', function()
                 });
                 var geoJsonLayer = L.geoJson(data, {
                     onEachFeature: function (feature, layer) {
-                        layer.bindPopup(feature.properties.address);
+                        layer.bindPopup(feature.properties.name);
                     }
                 });
                 markers.addLayer(geoJsonLayer);

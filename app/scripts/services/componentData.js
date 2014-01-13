@@ -10,9 +10,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             _.each(companies, function(company) {
                 if(company.latitude && company.longitude) {
                     geojson.features.push({
-                        'type': 'Feature',
-                        'geometry': {'type': 'Point', 'coordinates': [company.longitude, company.latitude]},
-                        'properties': 0
+                        type: 'Feature',
+                        geometry: {type: 'Point', coordinates: [company.longitude, company.latitude]},
+                        properties: {
+                            name: company.name
+                        }
                     });
                 }
 
