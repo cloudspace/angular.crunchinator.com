@@ -26,7 +26,7 @@ angular.module('crunchinatorApp.controllers')
     $scope.investors = Investor;
     $scope.categories = Category;
 
-    Company.fetch().then(function() { 
+    Company.fetch().then(function() {
         Company.setupDimensions();
         Company.runFilters(filterData);
     });

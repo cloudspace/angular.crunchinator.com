@@ -16,13 +16,13 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
     Investor.prototype.setupDimensions = function() {
         var crossInvestors = crossfilter(this.all);
 
-        this.dimensions = { 
+        this.dimensions = {
             'byId': crossInvestors.dimension(function(investor) { return investor.id; }),
-            'byCompanies': crossInvestors.dimension(function(investor) { return investor.invested_company_ids }),
-            'byCategories': crossInvestors.dimension(function(investor) { return investor.invested_category_ids })
+            'byCompanies': crossInvestors.dimension(function(investor) { return investor.invested_company_ids; }),
+            'byCategories': crossInvestors.dimension(function(investor) { return investor.invested_category_ids; })
         };
 
-        this.investorsByName = crossInvestors.dimension(function(investor) { return investor.name });
+        this.investorsByName = crossInvestors.dimension(function(investor) { return investor.name; });
     };
 
     Investor.prototype.filterGroups = {
@@ -55,7 +55,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 return (ids.length === 0 || ids.indexOf(id) > -1);
             });
         }
-    }; 
+    };
 
     return new Investor();
 });
