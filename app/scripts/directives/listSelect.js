@@ -13,8 +13,6 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             scope.selectedItems = [];
 
             scope.selectItem = function() {
-                console.log(scope.selectedItem);
-
                 if(!_.contains(scope.selectedItems, scope.selectedItem)) {
                     scope.selectedItems.push(scope.selectedItem);
                     scope.selectedItem = '';
@@ -22,14 +20,10 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
 
                 scope.$parent[scope.selected] = scope.selectedItems;
                 $rootScope.$broadcast('filterAction');
-
-                console.log(scope.selectedItems);
             };
 
             scope.removeItem = function(item) {
-                console.log('remove');
                 scope.selectedItems = _.without(scope.selectedItems, item);
-                console.log(scope.selectedItems);
                 scope.$parent[scope.selected] = scope.selectedItems.slice(0);
                 $rootScope.$broadcast('filterAction');
             };
