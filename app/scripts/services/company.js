@@ -54,7 +54,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         'byInvestors': function() {
             var ids = this.filterData.investorIds;
             this.dimensions.byInvestors.filter(function(investorIds) {
-                return (ids.length === 0 || _.intersection(investorIds[0], ids).length > 0);
+                return (ids.length === 0 || _.intersection(investorIds, ids).length > 0);
             });
         },
         'byId': function() {
