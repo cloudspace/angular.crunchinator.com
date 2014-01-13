@@ -1,6 +1,15 @@
 'use strict';
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
+    this.categoryWordCloudData = function(categories, companies) {
+        _.each(categories, function(category){
+            category.count = _.select(companies, function(company){
+                return company.category_id === category.id;
+            }).length;
+        });
+        return categories;
+    };
+
     this.companyGeoJson = _.memoize(function(companies) {
         var geojson = {
             'type': 'FeatureCollection',

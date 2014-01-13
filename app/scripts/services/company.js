@@ -26,7 +26,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
     Company.prototype.filterGroups = {
         'dataForCompanyList': function() {
             this.resetAllDimensions();
- 
+
             var exclusions = ['byId'];
             this.applyFilters(exclusions);
 
@@ -41,6 +41,12 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             this.resetAllDimensions();
             this.applyFilters();
             this.dataForLocationMap = this.companiesByName.bottom(Infinity);
+        },
+        dataForCategoriesList: function() {
+            this.resetAllDimensions();
+            var exclusions = ['byCategory'];
+            this.applyFilters(exclusions);
+            this.dataForCategoriesList = this.companiesByName.bottom(Infinity);
         }
     };
 

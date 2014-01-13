@@ -13,7 +13,9 @@
         >
             <tbody>
                 <tr ng-repeat="item in scrollItems">
-                    <td><a href='#'>{{item.name}}</a></td>
+                    <td>
+                        <a href='http://crunchbase.com/company/{{item.permalink}}'>{{item.name}}</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
