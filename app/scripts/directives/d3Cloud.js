@@ -46,7 +46,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                             .words(categoryWordCloud.map(function(c) {
                                 return {
                                     size: 14 + (50 * (c.count - lowest) / (highest - lowest)),
-                                    text: c.name,
+                                    text: c.display,
                                     obj: c
                                 };
                             }))
@@ -98,20 +98,25 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                         })
                         .style('font-size', function(d) { return d.size + 'px'; });
 
+                    text.on('mouseover', function () {
+                        d3.select(this).style('opacity', 0.75);
+                    });
+
+                    text.on('mouseout', function () {
+                        d3.select(this).style('opacity', 1);
+                    });
+
                     text.enter().append('text')
                         .attr('text-anchor', 'middle')
                         .attr('transform', function(d) {
                             return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
                         })
                         .style('font-size', function(d) { return d.size + 'px'; })
-                        .on('click', scope.toggleSelected)
-                        .style('opacity', 1e-6)
-                        .transition()
-                        .duration(1000)
-                        .style('opacity', 1);
+                        .on('click', scope.toggleSelected);
 
                     text.style('font-family', function(d) { return d.font; })
                         .style('fill', fill)
+                        .style('cursor', 'pointer')
                         .text(function(d) { return d.text; });
 
                     var exitGroup = background.append('g')

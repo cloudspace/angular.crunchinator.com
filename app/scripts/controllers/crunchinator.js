@@ -11,43 +11,40 @@ angular.module('crunchinatorApp.controllers')
                 templateUrl: 'views/main.tpl.html'
             }
         },
-        data:{ pageTitle: 'Crunchinator Angularjs + D3js Demo by Cloudspace' }
+        data:{ pageTitle: 'Crunchinator - A Cloudspace Project' }
     });
 })
 
 .controller('CrunchinatorCtrl', [
     '$scope', 'Company', 'Category', 'Investor', 'ComponentData',
     function CrunchinatorCtrl($scope, Company, Category, Investor, ComponentData) {
+        //Initial empty filter data for every filter
         var filterData = {
             categoryIds: [],
             investorIds: [],
             companyIds: []
         };
 
+        //Bind models to the scope
         $scope.companies = Company;
         $scope.investors = Investor;
         $scope.categories = Category;
 
-        Company.fetch().then(function() {
-            Company.setupDimensions();
-            Company.runFilters(filterData);
+        //Fetch the data for each model, then set up its dimensions and run its filters.
+        _.each([Company, Category, Investor], function(Model){
+            Model.fetch().then(function() {
+                Model.setupDimensions();
+                Model.runFilters(filterData);
+            });
         });
 
-        Category.fetch().then(function() {
-            Category.setupDimensions();
-            Category.runFilters(filterData);
-        });
-
-        Investor.fetch().then(function() {
-            Investor.setupDimensions();
-            Investor.runFilters(filterData);
-        });
-
+        //Bind component data services to the scope
         $scope.geoJsonData = ComponentData.companyGeoJson;
         $scope.totalFunding = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
 
-        //Moves into a directive that handles how we do categories
+        //All of our filters broadcast 'filterAction' when they've been operated on
+        //Here we setup filter data and run each of our model's runFilters function.
         $scope.$on('filterAction', function() {
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');

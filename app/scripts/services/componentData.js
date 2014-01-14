@@ -6,6 +6,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             category.count = _.select(companies, function(company){
                 return company.category_id === category.id;
             }).length;
+            category.display = category.name.replace('_', '/');
         });
         return categories;
     };

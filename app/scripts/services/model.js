@@ -42,5 +42,9 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         });
     };
 
+    Model.prototype.count = function() {
+        return this.all.length;
+    };
+
     return new Model();
 });
