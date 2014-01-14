@@ -14,7 +14,8 @@
     "leaflet-dist": "~0.7.0",
     "leaflet.markerclusterer": "*",
     "crossfilter": "~1.3.7",
-    "ngInfiniteScroll": "*"
+    "ngInfiniteScroll": "*",
+    "d3-cloud": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

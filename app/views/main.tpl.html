@@ -1,27 +1,28 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
     <h4>Environment: {{environment}}</h4>
     <div class="row">
-        <div class='col-sm-4 spacing-med'>
-            <div list-toggle
-                title="Categories"
-                total="categories.all.length"
-                items="categories.all"
+
+        <div class='col-sm-6 spacing-med'>
+            <h3>Categories</h3>
+            <div d3-cloud
+                data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
                 selected='selectedCategories'
             ></div>
         </div>
 
-        <div class='col-sm-4 spacing-med'>
-            <div list-select title="Companies" items="investors.all" selected="selectedCompanies"></div>
+        <div class='col-sm-3 spacing-med'>
+            <div list-select title="Companies" items="companies.all" selected="selectedCompanies"></div>
         </div>
 
-        <div class='col-sm-4 spacing-med'>
+        <div class='col-sm-3 spacing-med'>
             <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
         </div>
     </div>
 
     <div class='row spacing-med'>
+        
         <div class='col-sm-6'>
-            <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div> -->
+             <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
         </div>
         
         <div class='col-sm-6'>
