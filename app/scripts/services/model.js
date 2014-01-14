@@ -6,6 +6,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         this.dimensions = [];
     };
 
+    //Fetches all items from url specified on the class
     Model.prototype.fetch = function() {
         var self = this;
         var url = self.url;
@@ -14,16 +15,20 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return $http.get(url).success(function(response) { self.all = self.parse(response); });
     };
 
+    //Parses the response returned from fetch to find the necessary data
     Model.prototype.parse = function(response) {
         return response;
     };
 
+    //Loop through all of the model's crossfilter dimensions and reset their filters
     Model.prototype.resetAllDimensions = function() {
         _.each(this.dimensions, function (dimension) {
             dimension.filterAll();
         });
     };
 
+    //Loop through all of the model's filter groups and run the function.
+    //Each function should set a filtered list of models on the class
     Model.prototype.runFilters = function(filterData) {
         var self = this;
         this.filterData = filterData;
@@ -32,6 +37,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         });
     };
 
+    //Loops through all of the model's filters and apply them to the dimension specified in the function
     Model.prototype.applyFilters = function(exclusions) {
         var self = this;
         exclusions = exclusions || [];
@@ -42,6 +48,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         });
     };
 
+    //Returns a count of all the objects
     Model.prototype.count = function() {
         return this.all.length;
     };
