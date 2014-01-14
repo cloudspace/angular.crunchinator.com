@@ -15,44 +15,47 @@ angular.module('crunchinatorApp.controllers')
     });
 })
 
-.controller('CrunchinatorCtrl', function CrunchinatorCtrl($scope, $http, ENV, Company, Category, Investor, ComponentData) {
-    var filterData = {
-        categoryIds: [],
-        investorIds: [],
-        companyIds: []
-    };
+.controller('CrunchinatorCtrl', [
+    '$scope', 'Company', 'Category', 'Investor', 'ComponentData',
+    function CrunchinatorCtrl($scope, Company, Category, Investor, ComponentData) {
+        var filterData = {
+            categoryIds: [],
+            investorIds: [],
+            companyIds: []
+        };
 
-    $scope.companies = Company;
-    $scope.investors = Investor;
-    $scope.categories = Category;
+        $scope.companies = Company;
+        $scope.investors = Investor;
+        $scope.categories = Category;
 
-    Company.fetch().then(function() {
-        Company.setupDimensions();
-        Company.runFilters(filterData);
-    });
+        Company.fetch().then(function() {
+            Company.setupDimensions();
+            Company.runFilters(filterData);
+        });
 
-    Category.fetch().then(function() {
-        Category.setupDimensions();
-        Category.runFilters(filterData);
-    });
+        Category.fetch().then(function() {
+            Category.setupDimensions();
+            Category.runFilters(filterData);
+        });
 
-    Investor.fetch().then(function() {
-        Investor.setupDimensions();
-        Investor.runFilters(filterData);
-    });
+        Investor.fetch().then(function() {
+            Investor.setupDimensions();
+            Investor.runFilters(filterData);
+        });
 
-    $scope.geoJsonData = ComponentData.companyGeoJson;
-    $scope.totalFunding = ComponentData.totalFunding;
-    $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
+        $scope.geoJsonData = ComponentData.companyGeoJson;
+        $scope.totalFunding = ComponentData.totalFunding;
+        $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
 
-    //Moves into a directive that handles how we do categories
-    $scope.$on('filterAction', function() {
-        filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
-        filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
-        filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
+        //Moves into a directive that handles how we do categories
+        $scope.$on('filterAction', function() {
+            filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
+            filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
+            filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
 
-        Company.runFilters(filterData);
-        Category.runFilters(filterData);
-        Investor.runFilters(filterData);
-    });
-});
+            Company.runFilters(filterData);
+            Category.runFilters(filterData);
+            Investor.runFilters(filterData);
+        });
+    }
+]);
