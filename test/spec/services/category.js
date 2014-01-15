@@ -16,6 +16,14 @@ describe('Service: Category', function() {
         ];
     });
 
+    it('has a list of filterGroups', function() {
+        expect(Category.dataSets).toBeTruthy();
+    });
+
+    it('has a list of filters', function() {
+        expect(Category.filters).toBeTruthy();
+    });
+
     describe('.fetch', function() {
         var $httpBackend;
         beforeEach(inject(function($injector) {
@@ -31,14 +39,6 @@ describe('Service: Category', function() {
         //     Category.setupDimensions();
         //     expect(Category.dimensions).toBeTruthy();
         // });
-
-        it('has a list of filterGroups', function() {
-            expect(Category.filterGroups).toBeTruthy();
-        });
-
-        it('has a list of filters', function() {
-            expect(Category.filters).toBeTruthy();
-        });
     });
 });
 

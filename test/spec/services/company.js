@@ -16,6 +16,14 @@ describe('Service: Company', function() {
         ];
     });
 
+    it('has a list of dataSets', function() {
+        expect(Company.dataSets).toBeTruthy();
+    });
+
+    it('has a list of filters', function() {
+        expect(Company.filters).toBeTruthy();
+    });
+
     describe('.fetch', function() {
         var $httpBackend;
         beforeEach(inject(function($injector) {
@@ -32,13 +40,9 @@ describe('Service: Company', function() {
         //     expect(Company.dimensions).toBeTruthy();
         // });
 
-        it('has a list of filterGroups', function() {
-            expect(Company.filterGroups).toBeTruthy();
-        });
 
-        it('has a list of filters', function() {
-            expect(Company.filters).toBeTruthy();
-        });
     });
+
+
 });
 

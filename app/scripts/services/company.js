@@ -1,20 +1,34 @@
 'use strict';
 
 angular.module('crunchinatorApp.models').service('Company', function(Model, API_BASE_URL) {
+    /**
+     * Creates an instance of Company.
+     *
+     * @constructor
+     * @this {Company}
+     */
     var Company = function() {
         this.url = API_BASE_URL + '/companies.json';
     };
 
     Company.prototype = Object.create(Model);
 
-    //A function called on the response object that returns the raw model data
-    //This is overridden for each subclass of model for different paths to the data
+    /**
+     * A function called on the response object that returns the raw model data
+     * This is overridden for each subclass of model for different paths to the data
+     *
+     * @override
+     * @param {object} response The response returned from the API
+     * @return {array} A list of companies extracted from the response
+     */
     Company.prototype.parse = function(response) {
         return response.companies;
     };
 
-    //Sets up a crossfilter object on all of the model's data
-    //Sets up a list of named dimensions used in the filter list to filter datasets
+    /**
+     * Sets up a crossfilter object on all of the model's data
+     * Sets up a list of named dimensions used in the filter list to filter datasets
+     */
     Company.prototype.setupDimensions = function() {
         var crossCompanies = crossfilter(this.all);
 
@@ -27,8 +41,10 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
     };
 
-    //A mapping of dataset names to the exclusions used when building the dataset
-    //A dataset with a value of ['byId'] will have every filter applied except the one named 'byId'
+    /**
+     * A mapping of dataset names to the exclusions used when building the dataset
+     * A dataset with a value of ['byId'] will have every filter applied except the one named 'byId'
+     */
     Company.prototype.dataSets = {
         dataForCompaniesList: ['byId'],
         dataForTotalFunding: [],
@@ -36,9 +52,11 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForCategoriesList: ['byCategory']
     };
 
-    //A list of functions that filter on a single dimension
-    //When building datasets every filter is applied to that dataset except what's in the exclusion list
-    //Adding a new filter here will apply the filter to every dataset unless its excluded
+    /**
+    * A list of functions that filter on a single dimension
+    * When building datasets every filter is applied to that dataset except what's in the exclusion list
+    * Adding a new filter here will apply the filter to every dataset unless its excluded
+    */
     Company.prototype.filters = {
         byCategory: function() {
             var ids = this.filterData.categoryIds;

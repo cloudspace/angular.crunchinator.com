@@ -16,6 +16,14 @@ describe('Service: Investor', function() {
         ];
     });
 
+    it('has a list of filterGroups', function() {
+        expect(Investor.dataSets).toBeTruthy();
+    });
+
+    it('has a list of filters', function() {
+        expect(Investor.filters).toBeTruthy();
+    });
+
     describe('.fetch', function() {
         var $httpBackend;
         beforeEach(inject(function($injector) {
@@ -31,14 +39,6 @@ describe('Service: Investor', function() {
         //     Investor.setupDimensions();
         //     expect(Investor.dimensions).toBeTruthy();
         // });
-
-        it('has a list of filterGroups', function() {
-            expect(Investor.filterGroups).toBeTruthy();
-        });
-
-        it('has a list of filters', function() {
-            expect(Investor.filters).toBeTruthy();
-        });
     });
 });
 

@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
-    this.categoryWordCloudData = function(categories, companies) {
+
+    /**
+     * Constructs data necessary for the word cloud of categories
+     *
+     * @param {array} categories A filtered list of categories to display in the category word cloud
+     * @param {array} companies A list of companies that have categories
+     *                that are displayed in the category word cloud
+     * @return {array} A list of categories including a display name and
+                       a count of how many companies are in that category
+     */
+    this.categoryWordCloudData = _.memoize(function(categories, companies) {
         _.each(categories, function(category){
             category.count = _.select(companies, function(company){
                 return company.category_id === category.id;
@@ -9,8 +19,16 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             category.display = category.name.replace('_', '/');
         });
         return categories;
-    };
+    }, function(categories, companies) {
+        return _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
+    });
 
+    /**
+     * Constructs geoJson data necessary for the company location map
+     *
+     * @param {array} companies A filtered list of companies to display on the map
+     * @return {object} A GeoJson hash that maps the latitude and longitude of each company in companies
+     */
     this.companyGeoJson = _.memoize(function(companies) {
         var geojson = {
             'type': 'FeatureCollection',
@@ -35,7 +53,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return _.pluck(companies, 'id').join('');
     });
 
-    //TODO: Rewrite this to take into account data that is outside of our expected bounds
+    /**
+     * TODO: Rewrite this to take into account data that is outside of our expected bounds
+     * Constructs data necessary for the totalFunding bar graph
+     *
+     * @param {array} companies A filtered list of companies to include in the totalFunding graph
+     */
     this.totalFunding = _.memoize(function(companies) {
         var total_raised_data = [];
         if (companies && companies.length > 0) {
