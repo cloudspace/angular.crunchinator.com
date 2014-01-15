@@ -41,7 +41,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
                 svg.selectAll('*').remove();
                 if(!data) { return; }
 
-                x.domain(data.map(function(d) { return d.label; }));
+                x.domain(data.map(function(d) { return d.start; }));
                 y.domain([0, d3.max(data, function(d) { return d.count; })]);
 
                 var hoverVal, hoverLabel;
@@ -50,7 +50,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
                 .data(data)
                 .enter().append('rect')
                 .attr('class', 'bar')
-                .attr('x', function(d) { return x(d.label); })
+                .attr('x', function(d) { return x(d.start); })
                 .attr('width', x.rangeBand())
                 .attr('y', function(d) { return y(d.count); })
                 .attr('height', function(d) { return height - y(d.count); })
@@ -62,14 +62,14 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
                     hoverVal = svg.append('text')
                     .text(d.count)
                     .attr('text-anchor', 'middle')
-                    .attr('x', x(d.label) + 17)
+                    .attr('x', x(d.start) + 17)
                     .attr('y', y(d.count) + 20)
                     .attr('fill', 'white');
 
                     hoverLabel = svg.append('text')
-                    .text(d.label)
+                    .text(d.start)
                     .attr('text-anchor', 'middle')
-                    .attr('x', x(d.label) + 17)
+                    .attr('x', x(d.start) + 17)
                     .attr('y', height + (margin.bottom * 0.85))
                     .style('font-size', '9px')
                     .attr('fill', 'teal');

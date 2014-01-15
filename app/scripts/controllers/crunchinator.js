@@ -44,7 +44,7 @@ angular.module('crunchinatorApp.controllers')
         });
 
         $scope.geoJsonData = ComponentData.companyGeoJson;
-        $scope.totalFunding = ComponentData.totalFunding;
+        $scope.totalFundingData = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
 
         //Moves into a directive that handles how we do categories
