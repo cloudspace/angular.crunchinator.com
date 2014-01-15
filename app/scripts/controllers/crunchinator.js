@@ -18,14 +18,14 @@ angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
     '$scope', 'Company', 'Category', 'Investor', 'ComponentData',
     function CrunchinatorCtrl($scope, Company, Category, Investor, ComponentData) {
-        //Initial empty filter data for every filter
+        //Create the initial empty filter data for every filter
         var filterData = {
             categoryIds: [],
             investorIds: [],
             companyIds: []
         };
 
-        //Bind models to the scope
+        //Bind models to the scope, so we can use the calls in the views
         $scope.companies = Company;
         $scope.investors = Investor;
         $scope.categories = Category;
@@ -38,13 +38,14 @@ angular.module('crunchinatorApp.controllers')
             });
         });
 
-        //Bind component data services to the scope
+        //Bind component data services to the scope, so we can use them in the views
         $scope.geoJsonData = ComponentData.companyGeoJson;
         $scope.totalFunding = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
-        //Here we setup filter data and run each of our model's runFilters function.
+        //When a filter receives input we set up filterData and run each model's filters
+        //This should automatically update all the graph displays
         $scope.$on('filterAction', function() {
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
