@@ -53,6 +53,9 @@ body {
   min-height: 360px;
 }
 
+.cloud{
+  clear:both;
+}
 
 /* BEGIN DATA SET CONTAINER */
 
