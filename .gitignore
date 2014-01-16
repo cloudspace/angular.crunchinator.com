@@ -3,6 +3,7 @@ dist
 .tmp
 *.swp
 .sass-cache
+vendor
 app/vendor
 build
 

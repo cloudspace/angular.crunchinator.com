@@ -1,113 +1,45 @@
 <div class="container" ng-controller="CrunchinatorCtrl">
-    <h4 class="pull-left">Environment: {{environment}}</h4>
-    <div class="btn-group spacing-med pull-right">
-        <button class='btn btn-default' ng-click="resetSelection()">reset all</button>
-    </div>
-    <div class="row clear-both">
-        <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Companies</h3>
-            <p class="pull-right count">Count: {{filteredCompaniesList.length}}</p>
-            <div id="companies" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
-                            <input ng-model="searchCompanies" placeholder="Find Companies" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedCompanies.indexOf(company) &gt; -1}" ng-repeat="company in filteredCompaniesList">
-                        <td ng-click="toggleSelected(selectedCompanies, company)">{{company.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+    <h4>Environment: {{environment}}</h4>
+    <div class="row">
+
+        <div class='col-sm-6 spacing-med'>
+            <div d3-cloud
+                data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+                title="Categories"
+                total="categories.count()"
+                selected='selectedCategories'
+            ></div>
         </div>
 
-        <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Categories</h3>
-            <p class="pull-right count">Count: {{filteredCategoriesList.length}}</p>
-            <div id="categories" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-                            <input ng-model="searchCategories" placeholder="Find Categories" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedCategories.indexOf(category) &gt; -1}" ng-repeat="category in filteredCategoriesList">
-                        <td ng-click="toggleSelected(selectedCategories, category)">{{category.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+        <div class='col-sm-3 spacing-med'>
+            <div list-select title="Companies" items="companies.all" selected="selectedCompanies"></div>
         </div>
 
-        <div class='col-sm-4 spacing-med'>
-            <h3 class="pull-left">Investors</h3>
-            <p class="pull-right count">Count: {{filteredInvestorsList.length}}</p>
-            <div id="investors" class="textlist clear-both">
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
-                            <input ng-model="searchInvestors" placeholder="Find Investors" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="dataset">
-                    <table class="table">
-                      <tbody><tr ng-class="{success: selectedInvestors.indexOf(investor) &gt; -1}" ng-repeat="investor in filteredInvestorsList">
-                        <td ng-click="toggleSelected(selectedInvestors, investor)">{{investor.name}}</td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+        <div class='col-sm-3 spacing-med'>
+            <div list-select title="Investors" items="investors.all" selected="selectedInvestors"></div>
         </div>
     </div>
+
     <div class='row spacing-med'>
         
         <div class='col-sm-6'>
-            <div d3-bars class="total-raised-bar" data="totalRaisedGraphData(filteredCompaniesList)"></div>
-        </div>
-
-        <div class='col-sm-6'>
-            <div leaf-cluster class="hq-map" data="geoJsonData(filteredCompaniesList)"></div>
+             <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
         </div>
         
+        <div class='col-sm-6'>
+            <!--<div d3-bars class="total-raised-bar" data="totalFunding(filteredCompaniesList)"></div>-->
+        </div>
     </div>
-    <div ng-show="selectedItem != null" class="item-meta clear-both">
-        <h4>Info for: {{ selectedItem.name }}</h4>
-        <ul>
-            <li ng-repeat="(property, value) in selectedItem" ng-show="property != 'funding_rounds'">{{ property }} - {{ value }}</li>
-            <li ng-show="selectedItem.funding_rounds">funding_rounds -
-                <ul>
-                    <li ng-repeat="funding_round in selectedItem.funding_rounds">
-                        funding_round_{{ funding_round.id }}
-                        <ul>
-                            <li>id - {{ funding_round.id }}</li>
-                            <li>raised_amount - {{ funding_round.raised_amount }}</li>
-                            <li>funded_on - {{ funding_round.funded_on }}</li>
-                            <li ng-show="funding_round.investors != null">investors -
-                                <ul>
-                                    <li ng-repeat="investor in funding_round.investors">
-                                        investor{{ investor.id }}
-                                        <ul>
-                                            <li>id - {{ investor.id }}</li>
-                                            <li>name - {{ investor.name }}</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+
+    <div class='row'>
+        <div class='col-sm-6 spacing-med'>
+            <div list-display title="Companies" total="companies.count()" data="companies.dataForCompaniesList"></div>
+        </div>
+
+        <div class='col-sm-6 spacing-med'>
+            <div list-display title="Investors" total="investors.count()" data="investors.dataForInvestorsList"></div>
+        </div>
+
     </div>
+
 </div>

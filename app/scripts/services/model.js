@@ -1,126 +1,89 @@
 'use strict';
 
-angular.module('crunchinatorApp.models').factory('Model', function($rootScope, $http) {
-    function getModels(obj) {
-        obj = getConstructor(obj);
-        return obj._models || (obj._models = []);
-    }
-    function setModels(obj, models) {
-        obj = getConstructor(obj);
-        if (_.isArray(models)) {
-            // In case there are no ids.
-            var id = 0;
-            models = _.reduce(models, function(memo, model) {
-                memo[model.id || id++] = model;
-                return memo;
-            }, {});
-        }
-        obj._models = models;
-    }
-    function getConstructor(obj) {
-        if (!obj.prototype) { obj = obj.constructor; }
-        return obj;
-    }
-
-    var Model = function(attrs) {
-        if (!attrs) { attrs = {}; }
-        var defaults = this._attributes = _.clone(this._attributes) || {};
-        this._attributeKeys = _.union(_.keys(defaults), _.keys(attrs));
-        _.extend(this, defaults, attrs);
-        return this;
-    };
-    Model.models = function() {
-        return _.toArray(getModels(this));
+angular.module('crunchinatorApp.models').service('Model', function($rootScope, $http) {
+    /**
+     * Creates an instance of Model.
+     *
+     * @constructor
+     * @this {Model}
+     */
+    var Model = function() {
+        this.all = [];
+        this.dimensions = [];
     };
 
-    Model.prototype.save = function() {
-        var data = this.toObject();
-        var models = getModels(this);
-        var id = this.id;
-        if (!_.isEqual(this._attributes, data)) {
-            this._attributes = data;
-            $rootScope.$apply(function() {
-                models[id] = data;
-            });
-        }
-        return this;
-    };
-    Model.prototype.destroy = function() {
-        var models = getModels(this);
-        var id = this.id;
-        if (models[id]) {
-            $rootScope.$apply(function() {
-                delete models[id];
-            });
-        }
-        return this;
-    };
-    Model.prototype.toObject = function() {
-        var data = {};
-        _.each(this._attributeKeys, function(key) {
-            data[key] = this[key];
-        }, this);
-        return data;
-    };
-    Model.prototype.toJSON = function() {
-        return this.toObject();
+    /**
+     * Fetch uses the url set on the class to $http.get a response from the API
+     * We call the parse function on the response which returns a list of unfiltered data
+     *
+     * @return {object} A promise object?
+     */
+    Model.prototype.fetch = function() {
+        var self = this;
+        if (!this.url) { throw new Error('You must specify a url on the class'); }
+        return $http.get(self.url).success(function(response) { self.all = self.parse(response); });
     };
 
-    Model.find = function(id) {
-        return new (getConstructor(this))(getModels(this)[id]);
-    };
-    Model.fetch = function() {
-        var _this = this;
-        var url = this.url;
-        if (!url) { throw new Error('You must specify a url on the class'); }
-        return $http.get(url).success(function(response) { setModels(_this, _this.parse(response)); });
-    };
-    Model.parse = function(response) {
+    /**
+     * A function called on the response object that returns the raw model data
+     * This is overridden for each subclass of model for different paths to the data
+     *
+     * @param {object} response The response returned from the API
+     * @return {array} A list of models extracted from the response
+     */
+    Model.prototype.parse = function(response) {
         return response;
     };
-    Model.where = function(comparator) {
-        var ms;
-        var _this = this;
-        if (_.isFunction(comparator)) {
-            ms = _.select(getModels(this), comparator);
-        } else {
-            ms = _.where(getModels(this), comparator);
-        }
-        return _.map(ms, function(model) {
-            return new (getConstructor(_this))(model);
+
+    /**
+     * Loop through all of the model's crossfilter dimensions and reset their filters
+     */
+    Model.prototype.resetAllDimensions = function() {
+        _.each(this.dimensions, function (dimension) {
+            dimension.filterAll();
         });
     };
-    Model.all = function() {
-        var _this = this;
-        return _.map(getModels(this), function(model) {
-            return new (getConstructor(_this))(model);
+
+    /**
+     * Loop through the Model's dataSet hash
+     * Each key/value pair corresponds to a data set name/exclusion list
+     * Create and set a data list for each key/value pair in the hash
+     *
+     * @param {object} filterData A hash data required by the filters
+     */
+    Model.prototype.runFilters = function(filterData) {
+        var self = this;
+        this.filterData = filterData;
+        _.each(this.dataSets, function(exclusions, setName) {
+            self.resetAllDimensions();
+            self.applyFilters(exclusions);
+            self[setName] = self.byName.bottom(Infinity);
         });
     };
-    Model.size = function() {
-        return _.keys(getModels(this)).length;
+
+    /**
+     * Apply all the filters attached to the Model except those specified in exlusions 
+     *
+     * @param {array} exclusions An array of filters we do not want to be applied to a data set
+     */
+    Model.prototype.applyFilters = function(exclusions) {
+        var self = this;
+        exclusions = exclusions || [];
+        _.each(this.filters, function(filterFunction, filterName) {
+            if(!_.contains(exclusions, filterName)) {
+                filterFunction.bind(self)();
+            }
+        });
     };
 
-    Model.extend = function(protoProps, staticProps) {
-        // Courtesy of Backbone.js
-        var parent = this;
-        var child;
-
-        if (protoProps && _.has(protoProps, 'constructor')) {
-            child = protoProps.constructor;
-        } else {
-            child = function() { return parent.apply(this, arguments); };
-        }
-
-        _.extend(child, parent, staticProps);
-
-        var Surrogate = function() { this.constructor = child; };
-        Surrogate.prototype = parent.prototype;
-        child.prototype = new Surrogate();
-
-        if (protoProps) { _.extend(child.prototype, protoProps); }
-
-        return child;
+    /**
+     * Returns a count of objects in the model
+     *
+     * @return {number} A count of all, unfiltered, objects
+     */
+    Model.prototype.count = function() {
+        return this.all.length;
     };
 
-    return Model;
+    return new Model();
 });

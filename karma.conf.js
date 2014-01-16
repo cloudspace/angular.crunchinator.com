@@ -22,6 +22,7 @@ module.exports = function(config) {
       'app/vendor/d3/d3.js',
       'app/vendor/leaflet-dist/leaflet.js',
       'app/vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js',
+      'app/vendor/ngInfiniteScroll/ng-infinite-scroll.js',
 
       'app/scripts/app.js',
       'app/scripts/**/*.js',

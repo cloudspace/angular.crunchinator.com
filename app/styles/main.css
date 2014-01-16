@@ -113,6 +113,11 @@ body {
 
 /* END DATA SET CONTAINER */
 
+
+.textlist.select-list .dataset {
+  height: 251px;
+}
+
 .spacing-med {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -123,3 +128,7 @@ body {
 }
 
 
+
+.remove-selected {
+  text-align: right;
+}

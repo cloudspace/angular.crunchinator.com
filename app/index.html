@@ -41,6 +41,7 @@
         </footer>
 
         <!-- build:js({.tmp,app}) scripts/libraries.js -->
+        <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/underscore/underscore.js"></script>
         <script src="vendor/angular/angular.js"></script>
         <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
@@ -48,8 +49,11 @@
         <script src="vendor/angular-ui-utils/modules/route/route.js"></script>
         <script src="vendor/angular-mocks/angular-mocks.js"></script>
         <script src="vendor/d3/d3.js"></script>
+        <script src="vendor/d3-cloud/d3.layout.cloud.js"></script>
         <script src="vendor/leaflet-dist/leaflet.js"></script>
         <script src="vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
+        <script src="vendor/ngInfiniteScroll/ng-infinite-scroll.js"></script>
+        <script src="vendor/crossfilter/crossfilter.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -57,17 +61,20 @@
         <script src="scripts/configuration.js"></script>
         <script src="scripts/lib/webApiFaker.js"></script>
 
-        <script src="scripts/services/authentication.js"></script>
         <script src="scripts/services/model.js"></script>
-        <script src="scripts/services/companyModel.js"></script>
-        <script src="scripts/services/categoryModel.js"></script>
-        <script src="scripts/services/investorModel.js"></script>
+        <script src="scripts/services/company.js"></script>
+        <script src="scripts/services/category.js"></script>
+        <script src="scripts/services/investor.js"></script>
+        <script src="scripts/services/componentData.js"></script>
 
         <script src="scripts/controllers/crunchinator.js"></script>
 
         <script src="scripts/directives/d3Bars.js"></script>
+        <script src="scripts/directives/d3Cloud.js"></script>
         <script src="scripts/directives/leafCluster.js"></script>
-        <script src="vendor/crossfilter/crossfilter.js"></script>
+        <script src="scripts/directives/listDisplay.js"></script>
+        <script src="scripts/directives/listToggle.js"></script>
+        <script src="scripts/directives/listSelect.js"></script>
         <!-- endbuild -->
 
     </body>
