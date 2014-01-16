@@ -105,6 +105,7 @@ body {
   border-bottom: 1px solid #60beff;
   width: 100%;
   background-color: rgba(70, 84, 93, 0.5);
+  color: #ffffff;
 }
 
 .data-set-container ::-webkit-scrollbar {
