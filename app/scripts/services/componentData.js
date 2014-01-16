@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
-
     /**
      * Constructs data necessary for the word cloud of categories
      *
@@ -12,15 +11,21 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
                        a count of how many companies are in that category
      */
     this.categoryWordCloudData = _.memoize(function(categories, companies) {
-        _.each(categories, function(category){
-            category.count = _.select(companies, function(company){
-                return company.category_id === category.id;
-            }).length;
-            category.display = category.name.replace('_', '/');
-        });
-        return categories;
+        var cats = [];
+        if(categories){
+            _.each(categories, function(category){
+                var cat = {};
+                category.count = _.select(companies, function(company){
+                    return company.category_id === category.id;
+                }).length;
+                category.display = category.name.replace('_', '/');
+                cats.push(jQuery.extend(cat, category));
+            });
+        }
+        return cats;
     }, function(categories, companies) {
-        return _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
+        var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -49,8 +54,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
         }
         return geojson;
-    }, function(companies) {
-        return _.pluck(companies, 'id').join('');
     });
 
     /**
@@ -75,7 +78,5 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
         }
         return total_raised_data;
-    }, function(companies) {
-        return _.pluck(companies, 'id').join('');
     });
 });

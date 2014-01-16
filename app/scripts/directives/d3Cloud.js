@@ -7,8 +7,10 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
             scope: {
                 data: '=',
                 title: '@',
-                selected: '@'
+                selected: '@',
+                total: '='
             },
+            templateUrl: 'views/d3-cloud.tpl.html',
             link: function(scope, element) {
                 var w = element[0].clientWidth;
                 var h = 320;
