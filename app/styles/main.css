@@ -91,7 +91,7 @@ body {
   color: #ceecff;
 }
 
-.data-set-container td{
+.data-set-container tbody tr td{
   border-top: 1px solid #60beff;
 }
 
