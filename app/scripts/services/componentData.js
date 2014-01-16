@@ -15,11 +15,13 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         if(categories){
             _.each(categories, function(category){
                 var cat = {};
-                category.count = _.select(companies, function(company){
+                cat.name = category.name;
+                cat.id = category.id;
+                cat.count = _.select(companies, function(company){
                     return company.category_id === category.id;
                 }).length;
-                category.display = category.name.replace('_', '/');
-                cats.push(jQuery.extend(cat, category));
+                cat.display = category.name.replace('_', '/');
+                cats.push(cat);
             });
         }
         return cats;
