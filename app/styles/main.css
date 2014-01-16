@@ -30,8 +30,8 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-.total-raised-bar {
-  float: left;
+.total-raised-bar svg {
+  margin: 0 auto;
 }
 
 .count {
@@ -71,8 +71,29 @@ body {
   clear: both;
 }
 
-
-
 .remove-selected {
   text-align: right;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
 }
