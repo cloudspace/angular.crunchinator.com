@@ -1,6 +1,15 @@
+@font-face {
+    font-family: 'Guilder';
+    src: url('../fonts/guilder_free-webfont.otf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 /* Space out content a bit */
 body {
   padding-bottom: 20px;
+  background-color: #3d3d3d;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -44,19 +53,65 @@ body {
   min-height: 360px;
 }
 
-.textlist {
-  padding: 10px;
-  background-color: #C4DEEF;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+
+/* BEGIN DATA SET CONTAINER */
+
+.data-set-container{
+  border-top: 1px solid #60beff;
+  background-color: rgba(70, 84, 93, 0.5);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.textlist .dataset {
+.data-set-container h3{
+  font-family: 'Guilder';
+  font-size: 53px;
+  color: #ffffff;
+  vertical-align: bottom;
+}
+
+.data-set-container p{
+  margin-top: 50px;
+  color: #ffffff;
+}
+
+.data-set-container .textlist{
+  border: 1px solid #60beff;
+}
+
+.data-set-container .form-group{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.data-set-container .dataset {
   height: 300px;
   overflow: scroll;
-  background-color: #f9f9f9;
+  background-color: rgba(70, 84, 93, 0.5);
+  color: #ceecff;
 }
+
+.data-set-container td{
+  border-top: 1px solid #60beff;
+}
+
+.data-set-container .input-group{
+  display: block;
+}
+
+.data-set-container input{
+  border-radius: 0px;
+  border: none;
+  border-bottom: 1px solid #60beff;
+  width: 100%;
+  background-color: rgba(70, 84, 93, 0.5);
+}
+
+.data-set-container ::-webkit-scrollbar {
+  display: none;
+}
+
+/* END DATA SET CONTAINER */
 
 .spacing-med {
   margin-top: 10px;
