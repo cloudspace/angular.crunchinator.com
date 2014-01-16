@@ -1,3 +1,10 @@
+@white: #ffffff;
+@bright-blue: #60beff;
+@pale-blue: #cdebff;
+@grey-blue: #4c6d84;
+@dark-grey: #3d3d3d;
+@transparent-blue: rgba(70, 84, 93, 0.5);
+
 @font-face {
     font-family: 'Guilder';
     src: url('../fonts/guilder_free-webfont.otf');
@@ -9,7 +16,7 @@
 /* Space out content a bit */
 body {
   padding-bottom: 20px;
-  background-color: #3d3d3d;
+  background-color: @dark-grey;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -57,69 +64,64 @@ body {
   clear:both;
 }
 
-/* BEGIN DATA SET CONTAINER */
-
 .data-set-container{
-  border-top: 1px solid #60beff;
-  background-color: rgba(70, 84, 93, 0.5);
+  border-top: 1px solid @bright-blue;
+  background-color: @transparent-blue;
   padding: 20px;
   box-sizing: border-box;
-}
 
-.data-set-container h3{
-  font-family: 'Guilder';
-  font-size: 53px;
-  color: #ffffff;
-  vertical-align: bottom;
-}
+  h3{
+    font-family: 'Guilder';
+    font-size: 53px;
+    color: #ffffff;
+    vertical-align: bottom;
+  }
+  
+  p{
+    margin-top: 50px;
+    color: @white;
+  }
+  
+  .textlist{
+    border: 1px solid @bright-blue;
+  }
+  
+  .form-group{
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
 
-.data-set-container p{
-  margin-top: 50px;
-  color: #ffffff;
-}
+  .textlist.select-list .dataset {
+    height: 251px;
+  }
 
-.data-set-container .textlist{
-  border: 1px solid #60beff;
-}
+  .dataset {
+    height: 300px;
+    overflow: scroll;
+    background-color: @transparent-blue;
+    color: #ceecff;
+  }
 
-.data-set-container .form-group{
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
+  tbody tr td{
+    border-top: 1px solid @bright-blue;
+  }
 
-.data-set-container .dataset {
-  height: 300px;
-  overflow: scroll;
-  background-color: rgba(70, 84, 93, 0.5);
-  color: #ceecff;
-}
+  .input-group{
+    display: block;
+  }
 
-.data-set-container tbody tr td{
-  border-top: 1px solid #60beff;
-}
+  input{
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid @bright-blue;
+    width: 100%;
+    background-color: @transparent-blue;
+    color: @white;
+  }
 
-.data-set-container .input-group{
-  display: block;
-}
-
-.data-set-container input{
-  border-radius: 0px;
-  border: none;
-  border-bottom: 1px solid #60beff;
-  width: 100%;
-  background-color: rgba(70, 84, 93, 0.5);
-  color: #ffffff;
-}
-
-.data-set-container ::-webkit-scrollbar {
-  display: none;
-}
-
-/* END DATA SET CONTAINER */
-
-
-.textlist.select-list .dataset {
-  height: 251px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .spacing-med {
@@ -130,8 +132,6 @@ body {
 .clear-both {
   clear: both;
 }
-
-
 
 .remove-selected {
   text-align: right;
