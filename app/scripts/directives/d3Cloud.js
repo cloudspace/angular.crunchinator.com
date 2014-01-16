@@ -106,7 +106,11 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                             return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
                         })
                         .style('font-size', function(d) { return d.size + 'px'; })
-                        .on('click', scope.toggleSelected);
+                        .style('opacity', 1e-6)
+                        .on('click', scope.toggleSelected)
+                        .transition()
+                        .duration(1000)
+                        .style('opacity', 1);
 
                     text.style('font-family', function(d) { return d.font; })
                         .style('fill', fill)
