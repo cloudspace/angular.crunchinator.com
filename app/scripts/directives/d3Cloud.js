@@ -7,8 +7,10 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
             scope: {
                 data: '=',
                 title: '@',
-                selected: '@'
+                selected: '@',
+                total: '='
             },
+            templateUrl: 'views/d3-cloud.tpl.html',
             link: function(scope, element) {
                 var w = element[0].clientWidth;
                 var h = 320;
@@ -94,17 +96,9 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                     text.transition()
                         .duration(1000)
                         .attr('transform', function(d) {
-                            return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
+                            return 'translate(' + [d.x, d.y] + ')';
                         })
                         .style('font-size', function(d) { return d.size + 'px'; });
-
-                    text.on('mouseover', function () {
-                        d3.select(this).style('opacity', 0.75);
-                    });
-
-                    text.on('mouseout', function () {
-                        d3.select(this).style('opacity', 1);
-                    });
 
                     text.enter().append('text')
                         .attr('text-anchor', 'middle')
