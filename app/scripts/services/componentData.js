@@ -53,7 +53,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
                 newValue = shortValue+suffixes[suffixNum];
             }
-            console.log('label name: ' + newValue);
             return newValue;
         }
 
@@ -71,11 +70,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             maxGraph *= base;
         }
 
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, objs: []}];
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: []}];
 
         for(var i = minGraph; i < maxNum; i *= base) {
             ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, objs: []}
+                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: []}
             );
         }
 
@@ -88,7 +87,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
                 if (range.start < total_funding && total_funding < range.end) {
                     range.count++;
-                    range.objs.push(company);
+                    console.log('before union');
+                    range.investor_ids = _.union(company.investor_ids, range.investor_ids);
+                    console.log('after union');
                     break;
                 }
             }

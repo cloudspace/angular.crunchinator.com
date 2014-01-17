@@ -1,79 +1,104 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
-    return {
-        restrict: 'EA',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element) {
-            var margin = { top: 0, right: 10, bottom: 20, left: 0 };
-            var width = 470 - margin.left - margin.right;
-            var height = 353 - margin.top - margin.bottom;
+angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope', 
+    function($rootScope) {
+        return {
+            restrict: 'EA',
+            scope: {
+                data: '=',
+                selected: '@'
+            },
+            link: function(scope, element) {
+                scope.selectedItems = [];
+                scope.$parent[scope.selected] = [];
 
-            var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
-            var y = d3.scale.linear().range([height, 0]);
+                var margin = { top: 0, right: 10, bottom: 20, left: 0 };
+                var width = 470 - margin.left - margin.right;
+                var height = 353 - margin.top - margin.bottom;
 
-            var xAxis = d3.svg.axis().scale(x).orient('bottom');
+                var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
+                var y = d3.scale.linear().range([height, 0]);
 
-            var svg = d3.select(element[0]).append('svg')
-            .style('width', width + margin.left + margin.right + 'px')
-            .style('height', height + margin.top + margin.bottom + 'px')
-            .style('margin', '0 auto')
-            .style('display', 'block')
-            .append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+                var xAxis = d3.svg.axis().scale(x).orient('bottom');
 
-            window.onresize = function() {
-                scope.$apply();
-            };
+                var svg = d3.select(element[0]).append('svg')
+                    .style('width', width + margin.left + margin.right + 'px')
+                    .style('height', height + margin.top + margin.bottom + 'px')
+                    .style('margin', '0 auto')
+                    .style('display', 'block')
+                    .append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-            scope.$watch('data', function(newval) {
-                return scope.render(newval);
-            }, true);
+                window.onresize = function() {
+                    scope.$apply();
+                };
 
-            scope.$watch(function() {
-                return angular.element(window)[0].innerWidth;
-            }, function() {
-                scope.render(scope.data);
-            });
+                scope.$watch('data', function(newval) {
+                    return scope.render(newval);
+                }, true);
 
-            scope.render = function(data) {
-                svg.selectAll('*').remove();
-                if(!data) { return; }
-
-                var labels = _.pluck(data, 'label');
-                var labelsToDisplay = [];
-                for(var i = 0; i < labels.length; i++) {
-                    var label = labels[i];
-
-                    if(i % 2 === 0){
-                        labelsToDisplay.push(label);
-                    }
-                }
-
-                var xAxis = d3.svg.axis().scale(x).tickValues(labelsToDisplay).orient('bottom');
-
-                x.domain(data.map(function(d) { return d.label; }));
-                y.domain([0, d3.max(data, function(d) { return d.count; })]);
-
-                svg.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
-                .call(xAxis);
-
-                svg.selectAll('.bar')
-                .data(data)
-                .enter().append('rect')
-                .attr('class', 'bar')
-                .attr('x', function(d) { return x(d.label); })
-                .attr('width', x.rangeBand())
-                .attr('y', function(d) { return y(d.count); })
-                .attr('height', function(d) { return height - y(d.count); })
-                .on('click', function(d) {
-                    console.log(d);
+                scope.$watch(function() {
+                    return angular.element(window)[0].innerWidth;
+                }, function() {
+                    scope.render(scope.data);
                 });
-            };
-        }
-    };
-});
+
+                scope.render = function(data) {
+                    svg.selectAll('*').remove();
+                    if(!data) { return; }
+
+                    var labels = _.pluck(data, 'label');
+                    var labelsToDisplay = [];
+                    for(var i = 0; i < labels.length; i++) {
+                        var label = labels[i];
+
+                        if(i % 2 === 0){
+                            labelsToDisplay.push(label);
+                        }
+                    }
+
+                    var xAxis = d3.svg.axis().scale(x).tickValues(labelsToDisplay).orient('bottom');
+
+                    x.domain(data.map(function(d) { return d.label; }));
+                    y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+                    svg.append('g')
+                        .attr('class', 'x axis')
+                        .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
+                        .call(xAxis);
+
+                    var fill = function (d) {
+                        if(_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
+                            return "brown";
+                        } else {
+                            return "steelblue";
+                        }
+                    }
+
+                    svg.selectAll('.bar')
+                        .data(data)
+                        .enter().append('rect')
+                        .attr('class', 'bar')
+                        .attr('x', function(d) { return x(d.label); })
+                        .attr('width', x.rangeBand())
+                        .attr('y', function(d) { return y(d.count); })
+                        .attr('height', function(d) { return height - y(d.count); })
+                        .style('fill', fill)
+                        .on('click', function(d) {
+                            scope.$parent.$apply(function() {
+                                if(!_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
+                                    scope.selectedItems.push(d);
+                                } else {
+                                    var index = scope.selectedItems.indexOf(d);
+                                    scope.selectedItems.splice(index, 1);
+                                }
+                                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                                $rootScope.$broadcast('filterAction');
+                                svg.selectAll('.bar').style('fill', fill);
+                            });
+                        });
+                };
+            }
+        };
+    }
+]);

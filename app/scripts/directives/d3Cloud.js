@@ -72,6 +72,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                         }
 
                         scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                        console.log('broadcast');
                         $rootScope.$broadcast('filterAction');
 
                         vis.selectAll('text').style('fill', fill);
