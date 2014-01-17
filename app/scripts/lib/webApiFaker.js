@@ -113,9 +113,7 @@ var distributed_random = function(min, max) {
      */
     var linkGeneratedLists = function(companies, investors, categories) {
         _.each(companies, function(company){
-            var cat_id = exponential_distribution(0, categories.length);
-            console.log(cat_id);
-            var category = categories[cat_id];
+            var category = categories[exponential_distribution(0, categories.length)];
             company.category_id = category.id;
             category.company_ids.push(company.id);
 
