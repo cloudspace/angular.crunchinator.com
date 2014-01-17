@@ -1,18 +1,29 @@
 'use strict';
 
-var rnd_bmt = function() {
-    var x = 0, y = 0, rds, c;
-    do {
-        x = Math.random()*2-1;
-        y = Math.random()*2-1;
-        rds = x*x + y*y;
-    }
-    while (rds === 0 || rds > 1);
-    c = Math.sqrt(-2*Math.log(rds)/rds);
-    return [x*c, y*c];
+var normal_distribution = function() {
+    return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
 };
-
-var distributed_random = function(min, max) { return Math.floor(rnd_bmt()[0] * (max - min) + min); };
+var exponential_distribution = function(min, max) {
+    var increment = (max - min) / 6;
+    var num;
+    do {
+        var u = Math.random();
+        var t = (-1 * Math.log(u))/1;
+        num = min + (t * increment);
+    }
+    while(num <= min || num >= max);
+    return Math.floor(num);
+};
+var distributed_random = function(min, max) {
+    var mean = (min + max)/2;
+    var deviation = mean/3;
+    var num;
+    do {
+        num = Math.floor((normal_distribution() * deviation) + mean);
+    }
+    while(num <= min || num >= max);
+    return num;
+};
 
 
 (function (ng, fk) {
@@ -71,7 +82,7 @@ var distributed_random = function(min, max) { return Math.floor(rnd_bmt()[0] * (
         id = id || 0;
         return {
             id: id,
-            name: fk.random.bs_buzz(),
+            name: fk.random.bs_noun(),
             permalink: name.toLowerCase(),
             company_ids: [],
             investor_ids: []
@@ -102,12 +113,14 @@ var distributed_random = function(min, max) { return Math.floor(rnd_bmt()[0] * (
      */
     var linkGeneratedLists = function(companies, investors, categories) {
         _.each(companies, function(company){
-            var category = categories[Math.floor(Math.random()*categories.length)];
+            var cat_id = exponential_distribution(0, categories.length);
+            console.log(cat_id);
+            var category = categories[cat_id];
             company.category_id = category.id;
             category.company_ids.push(company.id);
 
-            _(Math.floor(Math.random() * (1) + 24)).times(function(){
-                var investor = investors[Math.floor(Math.random()*investors.length)];
+            _(exponential_distribution(1, 10)).times(function(){
+                var investor = investors[exponential_distribution(0, investors.length)];
                 company.investor_ids.push(investor.id);
                 category.investor_ids.push(investor.id);
                 investor.invested_company_ids.push(company.id);
@@ -116,10 +129,13 @@ var distributed_random = function(min, max) { return Math.floor(rnd_bmt()[0] * (
         });
     };
 
+    /**
+     * Initiate and respond with "fake" backend data instead of querying an actual API
+     */
     var setupStubbedBackend = function() {
-        var categories = generateDataList(10, randomCategory);
-        var investors = generateDataList(10000, randomInvestor);
-        var companies = generateDataList(15000, randomCompany);
+        var categories = generateDataList(42, randomCategory);
+        var investors = generateDataList(9987, randomInvestor);
+        var companies = generateDataList(16635, randomCompany);
         linkGeneratedLists(companies, investors, categories);
 
         ng.module('crunchinatorApp')
