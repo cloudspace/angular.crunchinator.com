@@ -10,7 +10,17 @@
     src: url('../fonts/guilder.otf');
     font-weight: normal;
     font-style: normal;
+}
 
+@font-face {
+    font-family: 'BebasNeue';
+    src: url('../fonts/BebasNeue.eot');
+    src: url('../fonts/BebasNeue.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/BebasNeue.woff') format('woff'),
+         url('../fonts/BebasNeue.ttf') format('truetype'),
+         url('../fonts/BebasNeue.svg#BebasNeue') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* Space out content a bit */
@@ -19,14 +29,48 @@ body {
   background-color: @dark-grey;
 }
 
-h1{
-    display: block;
-    padding-top: 91px;
-    padding-left: 130px;
-    background-image:url('../img/logo.png');
-    background-repeat:no-repeat;
-    background-position:left bottom;
+header{
+
+  background-image: url('../img/cloud.png');
+  padding-bottom: 15px;
+
+  .row{
+    margin-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid @bright-blue;
+  }
+
+  img{
+    display: inline;
+    float: left;
+  }
+
+  .header-text{
+    margin-left: 30px;
+    float: left;
+    h1{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-family: 'BebasNeue';
+        font-size: 68px;
+
+        a{
+          color: @pale-blue;
+
+          span{
+            color: @white;
+          }
+        }
+    }
+
+    h2{
+      margin-top: 0px;
+      font-size: 13px;
+      color: @white;
+    }
+  }
 }
+
 
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
