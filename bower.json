@@ -15,7 +15,8 @@
     "leaflet.markerclusterer": "*",
     "crossfilter": "~1.3.7",
     "ngInfiniteScroll": "*",
-    "d3-cloud": "*"
+    "d3-cloud": "*",
+    "Faker": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
