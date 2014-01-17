@@ -26,10 +26,10 @@ If you need to a make a change to the API, complete the following steps:
  1. Update webApiFaker to produce the type of output that you expect.
  1. In the same commit, update the JSON in the README to match what webApiFaker now returns
  1. Add a ticket to pivotal tracker assigned to the backend team and labeled with 'api' 
- 1. Include a link to the README (perhaps the diff as well) with the version of the API you need
- 1. When the API team finishes the change and marks the ticket as 'delivered' determine if the output matches your expectations (check this by running grunt serve:staging)
+ 1. Include a link to the README (and a diff showing the changes) with the version of the API you need
+ 1. When the API team finishes the change and marks the ticket as 'delivered' determine if the output matches your expectations (check this manually and/or by running grunt serve:staging)
  1. If the output is as expected, accept the ticket
- 1. The the output is incorrect, reject the ticket (possibly ping the person on the backend team as well)
+ 1. If the output is incorrect, reject the ticket 
 
 Once the API has been successfully updated, any code that relies on the new data can be merged to master.
 
