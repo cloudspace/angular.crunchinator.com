@@ -128,7 +128,7 @@ var distributed_random = function(min, max) {
     };
 
     /**
-     * Initiate and respond with "fake" backend data instead of querying an actual API
+     * Initiate and respond with fake backend data instead of querying an actual API
      */
     var setupStubbedBackend = function() {
         var categories = generateDataList(42, randomCategory);
