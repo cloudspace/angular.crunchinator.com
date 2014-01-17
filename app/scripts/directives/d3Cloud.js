@@ -7,8 +7,10 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
             scope: {
                 data: '=',
                 title: '@',
-                selected: '@'
+                selected: '@',
+                total: '='
             },
+            templateUrl: 'views/d3-cloud.tpl.html',
             link: function(scope, element) {
                 var w = element[0].clientWidth;
                 var h = 320;
@@ -46,7 +48,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                             .words(categoryWordCloud.map(function(c) {
                                 return {
                                     size: 14 + (50 * (c.count - lowest) / (highest - lowest)),
-                                    text: c.name,
+                                    text: c.display,
                                     obj: c
                                 };
                             }))
@@ -94,7 +96,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                     text.transition()
                         .duration(1000)
                         .attr('transform', function(d) {
-                            return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
+                            return 'translate(' + [d.x, d.y] + ')';
                         })
                         .style('font-size', function(d) { return d.size + 'px'; });
 
@@ -104,14 +106,15 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                             return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
                         })
                         .style('font-size', function(d) { return d.size + 'px'; })
-                        .on('click', scope.toggleSelected)
                         .style('opacity', 1e-6)
+                        .on('click', scope.toggleSelected)
                         .transition()
                         .duration(1000)
                         .style('opacity', 1);
 
                     text.style('font-family', function(d) { return d.font; })
                         .style('fill', fill)
+                        .style('cursor', 'pointer')
                         .text(function(d) { return d.text; });
 
                     var exitGroup = background.append('g')
