@@ -44,7 +44,7 @@ var distributed_random = function(min, max) {
             name: name,
             permalink: name.toLowerCase(),
             category_id: 0,
-            total_funding: distributed_random(1, 6e9), //Random between 1 and 6 billion
+            total_funding: exponential_distribution(1, 6e9), //Random between 1 and 6 billion
             latitude: 1.0,
             longitude: 1.0,
             investor_ids: [],

@@ -44,8 +44,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 });
 
                 scope.render = function(data) {
-                    svg.selectAll('*').remove();
+                    //svg.selectAll('*').remove();
                     if(!data) { return; }
+                    var bars = svg.selectAll('.bar').data(data);
+                    bars.enter().append('rect');
 
                     var labels = _.pluck(data, 'label');
                     var labelsToDisplay = [];
@@ -62,6 +64,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     x.domain(data.map(function(d) { return d.label; }));
                     y.domain([0, d3.max(data, function(d) { return d.count; })]);
 
+                    svg.selectAll('g').remove();
                     svg.append('g')
                         .attr('class', 'x axis')
                         .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
@@ -75,16 +78,18 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         }
                     }
 
-                    svg.selectAll('.bar')
-                        .data(data)
-                        .enter().append('rect')
-                        .attr('class', 'bar')
+
+                    bars.attr('class', 'bar')
                         .attr('x', function(d) { return x(d.label); })
                         .attr('width', x.rangeBand())
-                        .attr('y', function(d) { return y(d.count); })
-                        .attr('height', function(d) { return height - y(d.count); })
                         .style('fill', fill)
-                        .on('click', function(d) {
+                        .transition()
+                        .duration(300)
+                        .attr('height', function(d) { return height - y(d.count); })
+                        .attr('y', function(d) { return y(d.count); });
+                        
+
+                    bars.on('click', function(d) {
                             scope.$parent.$apply(function() {
                                 if(!_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
                                     scope.selectedItems.push(d);
@@ -96,7 +101,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                                 $rootScope.$broadcast('filterAction');
                                 svg.selectAll('.bar').style('fill', fill);
                             });
-                        });
+                        })
                 };
             }
         };
