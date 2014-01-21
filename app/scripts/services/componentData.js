@@ -42,11 +42,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         function abbreviateNumber(value) {
             var newValue = value;
             if (value >= 1000) {
-                var suffixes = ["", "K", "M", "B","T"];
-                var suffixNum = Math.floor( ((""+value).length -1)/3 );
+                var suffixes = ['', 'K', 'M', 'B','T'];
+                var suffixNum = Math.floor( ((''+value).length -1)/3 );
                 var shortValue = '';
                 for (var precision = 2; precision >= 1; precision--) {
-                    shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+                    shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
                     var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
                     if (dotLessShortValue.length <= 3) { break; }
                 }
@@ -87,9 +87,8 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
                 if (range.start < total_funding && total_funding < range.end) {
                     range.count++;
-                    console.log('before union');
-                    range.investor_ids = _.union(company.investor_ids, range.investor_ids);
-                    console.log('after union');
+                    range.investor_ids.push(company.investor_ids);
+
                     break;
                 }
             }

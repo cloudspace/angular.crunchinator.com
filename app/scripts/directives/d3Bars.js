@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope', 
+angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
     function($rootScope) {
         return {
             restrict: 'EA',
@@ -18,8 +18,6 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
-
-                var xAxis = d3.svg.axis().scale(x).orient('bottom');
 
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
@@ -72,11 +70,11 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     var fill = function (d) {
                         if(_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
-                            return "brown";
+                            return 'brown';
                         } else {
-                            return "steelblue";
+                            return 'steelblue';
                         }
-                    }
+                    };
 
 
                     bars.attr('class', 'bar')
@@ -90,18 +88,18 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         
 
                     bars.on('click', function(d) {
-                            scope.$parent.$apply(function() {
-                                if(!_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
-                                    scope.selectedItems.push(d);
-                                } else {
-                                    var index = scope.selectedItems.indexOf(d);
-                                    scope.selectedItems.splice(index, 1);
-                                }
-                                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
-                                $rootScope.$broadcast('filterAction');
-                                svg.selectAll('.bar').style('fill', fill);
-                            });
-                        })
+                        scope.$parent.$apply(function() {
+                            if(!_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
+                                scope.selectedItems.push(d);
+                            } else {
+                                var index = scope.selectedItems.indexOf(d);
+                                scope.selectedItems.splice(index, 1);
+                            }
+                            svg.selectAll('.bar').style('fill', fill);
+                            scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                            $rootScope.$broadcast('filterAction');
+                        });
+                    });
                 };
             }
         };

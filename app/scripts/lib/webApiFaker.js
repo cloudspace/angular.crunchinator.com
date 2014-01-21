@@ -1,8 +1,5 @@
 'use strict';
 
-var normal_distribution = function() {
-    return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
-};
 var exponential_distribution = function(min, max) {
     var increment = (max - min) / 6;
     var num;
@@ -14,17 +11,6 @@ var exponential_distribution = function(min, max) {
     while(num <= min || num >= max);
     return Math.floor(num);
 };
-var distributed_random = function(min, max) {
-    var mean = (min + max)/2;
-    var deviation = mean/3;
-    var num;
-    do {
-        num = Math.floor((normal_distribution() * deviation) + mean);
-    }
-    while(num <= min || num >= max);
-    return num;
-};
-
 
 (function (ng, fk) {
     var injector = ng.injector(['configuration', 'ng']);

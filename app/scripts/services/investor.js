@@ -75,8 +75,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         },
         byTotalFunding: function() {
             var ranges = this.filterData.ranges;
-            var ids = _.flatten(_.pluck(this.filterData.ranges, 'investor_ids'));
-            console.log(ids);
+            var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'investor_ids')));
 
             this.dimensions.byId.filter(function(id) {
                 return ranges.length === 0 || _.contains(ids, id);

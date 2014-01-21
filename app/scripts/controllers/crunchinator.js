@@ -54,10 +54,15 @@ angular.module('crunchinatorApp.controllers')
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
             filterData.ranges = $scope.selectedRanges;
+            console.log(filterData);
 
-            Company.runFilters(filterData);
-            Category.runFilters(filterData);
-            Investor.runFilters(filterData);
+            _.defer(function() {
+                $scope.$apply(function(){
+                    Company.runFilters(filterData);
+                    Category.runFilters(filterData);
+                    Investor.runFilters(filterData);
+                });
+            });
         });
     }
 ]);
