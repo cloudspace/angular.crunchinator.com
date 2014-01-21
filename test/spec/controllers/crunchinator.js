@@ -36,7 +36,7 @@ describe('Controller: CrunchinatorCtrl', function () {
 
     it('attaches the component data to the scope', function () {
         expect(scope.geoJsonData).toBeTruthy();
-        expect(scope.totalFunding).toBeTruthy();
+        expect(scope.totalFundingData).toBeTruthy();
         expect(scope.categoryWordCloudData).toBeTruthy();
     });
 
