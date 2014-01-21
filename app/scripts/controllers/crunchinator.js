@@ -54,7 +54,6 @@ angular.module('crunchinatorApp.controllers')
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
             filterData.ranges = $scope.selectedRanges;
-            console.log(filterData);
 
             _.defer(function() {
                 $scope.$apply(function(){
