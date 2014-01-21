@@ -292,6 +292,36 @@ module.exports = function (grunt) {
             ]
         },
 
+        less: {
+          development: {
+            options: {
+              paths: ['app/styles'],
+              yuicompress: false
+            },
+            files: {
+              '.tmp/styles/main.css':'app/styles/main.less'
+            }
+          },
+          staging: {
+            options: {
+              paths: ['styles/less'],
+              yuicompress: false
+            },
+            files: {
+              '.tmp/styles/main.css':'app/styles/main.less'
+            }
+          },
+          production: {
+            options: {
+              paths: ['styles/less'],
+              yuicompress: false
+            },
+            files: {
+              '.tmp/styles/main.css':'app/styles/main.less'
+            }
+          }
+        },
+
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
@@ -415,6 +445,7 @@ module.exports = function (grunt) {
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
+        'less',
         'concat',
         'ngmin',
         'copy:dist',
