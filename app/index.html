@@ -11,7 +11,7 @@
         <!-- build:css({.tmp,app}) styles/main.css -->
         <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
         <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet/less" type="text/css" href="styles/main.less">
         <link rel="stylesheet" href="styles/boilerplate.css">
         <link rel="stylesheet" href="vendor/leaflet-dist/leaflet.css">
         <link rel="stylesheet" href="vendor/leaflet.markerclusterer/dist/MarkerCluster.css">
@@ -26,10 +26,14 @@
     <body>
         <!-- Add your site or application content here -->
         <header>
-            <div class="navbar navbar-default" role="navigation">
+            <div class="navbar" role="navigation">
                 <div class="container">
                     <div class="row">
-                        <div class="navbar-header"><a class="navbar-brand" href="#">Crunchinator</a></div>
+                        <img src="img/logo.png"/>
+                        <div class="header-text">
+                            <h1><a href="#">Crunch<span>inator</span></a></h1>
+                            <h2>Crunchbase search and visualization built using Angular.js and D3.</h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,6 +58,7 @@
         <script src="vendor/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
         <script src="vendor/ngInfiniteScroll/ng-infinite-scroll.js"></script>
         <script src="vendor/crossfilter/crossfilter.js"></script>
+        <script src="vendor/less.js/dist/less-1.6.1.js"></script>
         <script src='vendor/Faker/Faker.js'></script>
         <!-- endbuild -->
 

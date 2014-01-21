@@ -292,6 +292,7 @@ module.exports = function (grunt) {
             ]
         },
 
+
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
