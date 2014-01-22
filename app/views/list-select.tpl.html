@@ -17,11 +17,21 @@
         <div class="dataset">
             <table class="table" infinite-scroll="updateScrollItems()" infinite-scroll-distance="2">
                 <tbody>
-                    <tr ng-repeat="item in selectedItems" ng-click="removeItem(item)" class="selected">
-                        <td>{{item.name}}</td>
+                    <tr ng-click="removeItem(item)" ng-repeat="item in selectedItems"  class="selected">
+                        <td>
+                            <span >{{item.name}}</span>
+                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                            </a>
+                        </td>
                     </tr>
-                    <tr ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" ng-click="selectItem(item)">
-                        <td>{{item.name}}</td>
+                    <tr ng-click="selectItem(item)" ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
+                        <td>
+                            <span >{{item.name}}</span>
+                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
