@@ -162,8 +162,25 @@ header{
     border-top: 1px solid @bright-blue;
   }
 
+  tbody tr a {
+    display: none;
+    color: #bbb;
+  }
+
+  tbody tr a:hover {
+    color: #eee;
+  }
+
+  tbody tr:hover {
+    background: rgba(80, 90, 100, 1)
+  }
+
   tbody tr.selected {
     background: #08c;
+  }
+
+  tbody tr:hover a {
+    display: inline;
   }
 
   .input-group{
