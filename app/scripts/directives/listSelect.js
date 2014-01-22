@@ -18,6 +18,8 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
 
             scope.$watch('items', function(){
                 scope.scrollItems = [];
+                scope.selectedItems = _.intersection(scope.selectedItems, scope.items);
+                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
                 scope.updateScrollItems();
             });
 

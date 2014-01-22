@@ -24,7 +24,7 @@
                 title="Investors"
                 items="investors.dataForInvestorsList"
                 selected="selectedInvestors"
-                total="companies.count()"
+                total="investors.count()"
             ></div>
         </div>
     </div>
@@ -38,18 +38,4 @@
             <div d3-bars class="total-raised-bar" title="Total Funding" id="chart" data="totalFundingData(companies.dataForTotalFunding, companies.all)" selected="selectedRanges"></div>
         </div>
     </div>
-
-<!--     <div class='row'>
-        <div class='col-sm-6 spacing-med'>
-            <div class='data-set-container'>
-                <div list-display title="Companies" total="companies.count()" data="companies.dataForCompaniesList"></div>
-            </div>
-        </div>
-
-        <div class='col-sm-6 spacing-med'>
-            <div class='data-set-container'>
-                <div list-display title="Investors" total="investors.count()" data="investors.dataForInvestorsList"></div>
-            </div>
-        </div>
-    </div> -->
 </div>
