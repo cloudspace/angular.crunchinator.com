@@ -83,15 +83,16 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
             for(var k = 0; k < ranges.length; k++) {
                 var range = ranges[k];
+
+                if(!_.contains(range.category_ids, company.category_id)) {
+                    //range.category_ids.push(company.category_id);
+                }
+                //range.investor_ids.push(company.investor_ids);
+
                 var total_funding = parseInt(company.total_funding);
 
                 if (range.start < total_funding && total_funding < range.end) {
                     range.count++;
-                    range.investor_ids.push(company.investor_ids);
-
-                    if(!_.contains(range.category_ids, company.category_id)) {
-                        range.category_ids.push(company.category_id);
-                    }
                     break;
                 }
             }
@@ -126,4 +127,22 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }
         return geojson;
     });
+
+    /**
+     * Constructs a hash from an array of objects and a key
+     *
+     * @param {array} items An array of objects to be hashed
+     * @param {string} key A lookup key, commonly an id that is contained with each object
+                           in items to be used as a hash key.
+
+     * @return {object} A hash of items constructed using an array of items and a key
+     */
+    this.itemsByKey = function(items, key) {
+        key = key || 'id';
+        var itesmById = {};
+        _.each(items, function(item){
+            itesmById[item[key]] = item;
+        });
+        return itesmById;
+    };
 });
