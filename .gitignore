@@ -6,6 +6,7 @@ dist
 vendor
 app/vendor
 build
+.DS_Store
 
 vagrant/cookbooks/*
 vagrant/tmp/*
