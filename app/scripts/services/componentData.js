@@ -84,11 +84,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             for(var k = 0; k < ranges.length; k++) {
                 var range = ranges[k];
 
-                if(!_.contains(range.category_ids, company.category_id)) {
-                    //range.category_ids.push(company.category_id);
-                }
-                //range.investor_ids.push(company.investor_ids);
-
                 var total_funding = parseInt(company.total_funding);
 
                 if (range.start < total_funding && total_funding < range.end) {
