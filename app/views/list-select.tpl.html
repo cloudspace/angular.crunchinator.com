@@ -1,5 +1,8 @@
 <div class="data-set-container">
     <h3 class="pull-left">{{title}}</h3>
+    <p class="pull-right count">
+        {{items.length}} of {{total}}
+    </p>
     <div class="select-list textlist clear-both">
         <div class="form-group">
             <div class="controls">
@@ -9,18 +12,28 @@
                         typeahead-min-length="2"
                         typeahead-wait-ms="200"
                         typeahead-on-select="selectItem()"
-                        typeahead="item as item.name for item in items | filter:{name: $viewValue} | limitTo: 3"
+                        typeahead="item as item.name for item in items | filter:{name: $viewValue} | limitTo: 5"
                     />
                 </div>
             </div>
         </div>
         <div class="dataset">
-            <table class="table">
+            <table class="table" infinite-scroll="updateScrollItems()" infinite-scroll-distance="2">
                 <tbody>
-                    <tr ng-repeat="item in selectedItems">
-                        <td>{{item.name}}</td>
-                        <td class="remove-selected">
-                            <span class="glyphicon glyphicon-remove-circle remove-selected" ng-click="removeItem(item)"></span>
+                    <tr ng-click="removeItem(item)" ng-repeat="item in selectedItems"  class="selected">
+                        <td>
+                            <span >{{item.name}}</span>
+                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-click="selectItem(item)" ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
+                        <td>
+                            <span >{{item.name}}</span>
+                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                            </a>
                         </td>
                     </tr>
                 </tbody>

@@ -84,7 +84,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         .attr('width', x.rangeBand())
                         .style('fill', fill)
                         .transition()
-                        .duration(300)
+                        .duration(1000)
                         .attr('height', function(d) { return height - y(d.count); })
                         .attr('y', function(d) { return y(d.count); });
                         
