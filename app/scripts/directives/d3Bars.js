@@ -21,6 +21,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
 
+                element = angular.element(element[0]).find('.bars');
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
                     .style('height', height + margin.top + margin.bottom + 'px')
@@ -69,6 +70,9 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         .attr('class', 'x axis')
                         .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
                         .call(xAxis);
+
+                    svg.selectAll('text').style('fill', '#fff');
+
 
                     var fill = function (d) {
                         if(_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
