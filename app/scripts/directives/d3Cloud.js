@@ -12,6 +12,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
             },
             templateUrl: 'views/d3-cloud.tpl.html',
             link: function(scope, element) {
+                element = angular.element(element[0]).find('.cloud');
                 var w = element[0].clientWidth;
                 var h = 320;
                 scope.selectedItems = [];
