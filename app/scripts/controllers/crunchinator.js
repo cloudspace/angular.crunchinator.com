@@ -22,8 +22,11 @@ angular.module('crunchinatorApp.controllers')
         var filterData = {
             categoryIds: [],
             investorIds: [],
-            companyIds: []
+            companyIds: [],
+            ranges: []
         };
+
+        $scope.selectedRanges = [];
 
         //Bind models to the scope, so we can use the calls in the views
         $scope.companies = Company;
@@ -40,7 +43,7 @@ angular.module('crunchinatorApp.controllers')
 
         //Bind component data services to the scope, so we can use them in the views
         $scope.geoJsonData = ComponentData.companyGeoJson;
-        $scope.totalFunding = ComponentData.totalFunding;
+        $scope.totalFundingData = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
@@ -50,6 +53,7 @@ angular.module('crunchinatorApp.controllers')
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
+            filterData.ranges = $scope.selectedRanges;
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);

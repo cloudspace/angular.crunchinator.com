@@ -35,7 +35,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.dimensions = {
             byId: crossCompanies.dimension(function(company) { return company.id; }),
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
-            byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; })
+            byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
+            byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -47,7 +48,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     Company.prototype.dataSets = {
         dataForCompaniesList: ['byId'],
-        dataForTotalFunding: [],
+        dataForTotalFunding: ['byTotalFunding'],
         dataForLocationMap: [],
         dataForCategoriesList: ['byCategory']
     };
@@ -74,6 +75,22 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             var ids = this.filterData.companyIds;
             this.dimensions.byId.filter(function(id) {
                 return (ids.length === 0 || ids.indexOf(id) > -1);
+            });
+        },
+        byTotalFunding: function() {
+            var ranges = this.filterData.ranges;
+            this.dimensions.byTotalFunding.filter(function(funding) {
+                if (ranges.length) {
+                    for(var i = 0; i < ranges.length; i++) {
+                        var range = ranges[i];
+                        if(funding > range.start && funding < range.end) {
+                            return true;
+                        }
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
             });
         }
     };

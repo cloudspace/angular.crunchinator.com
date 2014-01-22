@@ -72,6 +72,14 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             this.dimensions.byId.filter(function(id) {
                 return (ids.length === 0 || ids.indexOf(id) > -1);
             });
+        },
+        byTotalFunding: function() {
+            var ranges = this.filterData.ranges;
+            var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'investor_ids')));
+
+            this.dimensions.byId.filter(function(id) {
+                return ranges.length === 0 || _.contains(ids, id);
+            });
         }
     };
 

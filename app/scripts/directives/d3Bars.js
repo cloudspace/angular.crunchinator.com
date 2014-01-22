@@ -1,88 +1,109 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('d3Bars', function() {
-    return {
-        restrict: 'EA',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element) {
-            var margin = { top: 0, right: 0, bottom: 15, left: 0 };
-            var width = 470 - margin.left - margin.right;
-            var height = 353 - margin.top - margin.bottom;
+angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
+    function($rootScope) {
+        return {
+            restrict: 'EA',
+            scope: {
+                data: '=',
+                title: '@',
+                selected: '@'
+            },
+            templateUrl: 'views/d3-bars.tpl.html',
+            link: function(scope, element) {
+                scope.selectedItems = [];
+                scope.$parent[scope.selected] = [];
 
-            var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
-            var y = d3.scale.linear().range([height, 0]);
+                var margin = { top: 0, right: 10, bottom: 20, left: 0 };
+                var width = 470 - margin.left - margin.right;
+                var height = 353 - margin.top - margin.bottom;
 
-            // var xAxis = d3.svg.axis().scale(x).orient('bottom');
-            // var yAxis = d3.svg.axis().scale(y).orient('left').ticks(10, '%');
+                var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
+                var y = d3.scale.linear().range([height, 0]);
 
-            var svg = d3.select(element[0]).append('svg')
-            .style('width', width + margin.left + margin.right + 'px')
-            .style('height', height + margin.top + margin.bottom + 'px')
-            .append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+                var svg = d3.select(element[0]).append('svg')
+                    .style('width', width + margin.left + margin.right + 'px')
+                    .style('height', height + margin.top + margin.bottom + 'px')
+                    .style('margin', '0 auto')
+                    .style('display', 'block')
+                    .append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-            window.onresize = function() {
-                scope.$apply();
-            };
+                window.onresize = function() {
+                    scope.$apply();
+                };
 
-            scope.$watch('data', function(newval) {
-                return scope.render(newval);
-            }, true);
+                scope.$watch('data', function(newval) {
+                    return scope.render(newval);
+                }, true);
 
-            scope.$watch(function() {
-                return angular.element(window)[0].innerWidth;
-            }, function() {
-                scope.render(scope.data);
-            });
-
-            scope.render = function(data) {
-                svg.selectAll('*').remove();
-                if(!data) { return; }
-
-                x.domain(data.map(function(d) { return d.label; }));
-                y.domain([0, d3.max(data, function(d) { return d.count; })]);
-
-                var hoverVal, hoverLabel;
-
-                svg.selectAll('.bar')
-                .data(data)
-                .enter().append('rect')
-                .attr('class', 'bar')
-                .attr('x', function(d) { return x(d.label); })
-                .attr('width', x.rangeBand())
-                .attr('y', function(d) { return y(d.count); })
-                .attr('height', function(d) { return height - y(d.count); })
-                .attr('fill', 'teal')
-                // instead of using mouseenter/mouseout we should change this to use mousemove
-                // and computationally figure out whether we're in a bar and show that value.
-                .on('mouseenter', function(d) {
-                    if (hoverVal !== undefined) { hoverVal.remove(); hoverLabel.remove(); }
-                    hoverVal = svg.append('text')
-                    .text(d.count)
-                    .attr('text-anchor', 'middle')
-                    .attr('x', x(d.label) + 17)
-                    .attr('y', y(d.count) + 20)
-                    .attr('fill', 'white');
-
-                    hoverLabel = svg.append('text')
-                    .text(d.label)
-                    .attr('text-anchor', 'middle')
-                    .attr('x', x(d.label) + 17)
-                    .attr('y', height + (margin.bottom * 0.85))
-                    .style('font-size', '9px')
-                    .attr('fill', 'teal');
-                })
-                .on('mouseout', function() {
-                    if (hoverVal !== undefined) {
-                        hoverVal.remove();
-                        hoverVal = undefined;
-                        hoverLabel.remove();
-                        hoverLabel = undefined;
-                    }
+                scope.$watch(function() {
+                    return angular.element(window)[0].innerWidth;
+                }, function() {
+                    scope.render(scope.data);
                 });
-            };
-        }
-    };
-});
+
+                scope.render = function(data) {
+                    //svg.selectAll('*').remove();
+                    if(!data) { return; }
+                    var bars = svg.selectAll('.bar').data(data);
+                    bars.enter().append('rect');
+
+                    var labels = _.pluck(data, 'label');
+                    var labelsToDisplay = [];
+                    for(var i = 0; i < labels.length; i++) {
+                        var label = labels[i];
+
+                        if(i % 2 === 0){
+                            labelsToDisplay.push(label);
+                        }
+                    }
+
+                    var xAxis = d3.svg.axis().scale(x).tickValues(labelsToDisplay).orient('bottom');
+
+                    x.domain(data.map(function(d) { return d.label; }));
+                    y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+                    svg.selectAll('g').remove();
+                    svg.append('g')
+                        .attr('class', 'x axis')
+                        .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
+                        .call(xAxis);
+
+                    var fill = function (d) {
+                        if(_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
+                            return 'brown';
+                        } else {
+                            return 'steelblue';
+                        }
+                    };
+
+
+                    bars.attr('class', 'bar')
+                        .attr('x', function(d) { return x(d.label); })
+                        .attr('width', x.rangeBand())
+                        .style('fill', fill)
+                        .transition()
+                        .duration(300)
+                        .attr('height', function(d) { return height - y(d.count); })
+                        .attr('y', function(d) { return y(d.count); });
+                        
+
+                    bars.on('click', function(d) {
+                        scope.$parent.$apply(function() {
+                            if(!_.contains(_.pluck(scope.selectedItems, 'label'), d.label)) {
+                                scope.selectedItems.push(d);
+                            } else {
+                                var index = scope.selectedItems.indexOf(d);
+                                scope.selectedItems.splice(index, 1);
+                            }
+                            svg.selectAll('.bar').style('fill', fill);
+                            scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                            $rootScope.$broadcast('filterAction');
+                        });
+                    });
+                };
+            }
+        };
+    }
+]);

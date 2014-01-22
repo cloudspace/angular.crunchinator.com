@@ -1,4 +1,4 @@
-<div class="container" ng-controller="CrunchinatorCtrl">
+<div class="container">
     <div class="row">
 
         <div class='col-sm-6 spacing-med'>
@@ -26,7 +26,7 @@
         </div>
         
         <div class='col-sm-6'>
-            <!--<div d3-bars class="total-raised-bar" data="totalFunding(filteredCompaniesList)"></div>-->
+            <div d3-bars class="total-raised-bar" title="Total Funding" id="chart" data="totalFundingData(companies.dataForTotalFunding, companies.all)" selected="selectedRanges"></div>
         </div>
     </div>
 
