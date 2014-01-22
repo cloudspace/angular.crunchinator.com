@@ -6,8 +6,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             restrict: 'EA',
             scope: {
                 data: '=',
+                title: '@',
                 selected: '@'
             },
+            templateUrl: 'views/d3-bars.tpl.html',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.$parent[scope.selected] = [];
