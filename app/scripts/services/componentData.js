@@ -70,11 +70,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             maxGraph *= base;
         }
 
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: []}];
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
 
         for(var i = minGraph; i < maxNum; i *= base) {
             ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: []}
+                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
             );
         }
 
@@ -89,6 +89,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
                     range.count++;
                     range.investor_ids.push(company.investor_ids);
 
+                    if(!_.contains(range.category_ids, company.category_id)) {
+                        range.category_ids.push(company.category_id);
+                    }
                     break;
                 }
             }
