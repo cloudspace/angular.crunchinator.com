@@ -34,10 +34,21 @@ angular.module('crunchinatorApp.controllers')
         $scope.categories = Category;
 
         //Fetch the data for each model, then set up its dimensions and run its filters.
-        _.each([Company, Category, Investor], function(Model){
+        var modelCount = 0;
+        _.each([Company, Category], function(Model){
             Model.fetch().then(function() {
+                modelCount++;
                 Model.setupDimensions();
                 Model.runFilters(filterData);
+                if(modelCount === 2) {
+                    var companiesById = _.indexBy(Company.all, 'id');
+                    var categoriesById = _.indexBy(Category.all, 'id');
+                    Investor.fetch().then(function(){
+                        Investor.linkModels(companiesById, categoriesById);
+                        Investor.setupDimensions();
+                        Investor.runFilters(filterData);
+                    });
+                }
             });
         });
 

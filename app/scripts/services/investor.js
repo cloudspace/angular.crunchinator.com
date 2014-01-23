@@ -26,6 +26,29 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
     };
 
     /**
+     * This links companies and categories to the investors object so that when filtering
+     * by investors we have access to the companies and categories it contains
+     *
+     * @param {object} companiesById An object/hash of all companies keyed by their IDs
+     * @param {object} categoriesById An object/hash of all categories keyed by their IDs
+     */
+    Investor.prototype.linkModels = function(companiesById, categoriesById) {
+        window._investors = this.all;
+        _.each(this.all, function(investor){
+            investor.invested_companies = [];
+            investor.invested_categories = [];
+            _.each(investor.invested_company_ids, function(companyId){
+                investor.invested_companies.push(companiesById[companyId]);
+            });
+            _.each(investor.invested_category_ids, function(categoryId){
+                investor.invested_categories.push(categoriesById[categoryId]);
+            });
+            investor.invested_companies = _.compact(investor.invested_companies);
+            investor.invested_categories = _.compact(investor.invested_categories);
+        });
+    };
+
+    /**
      * Sets up a crossfilter object on all of the model's data
      * Sets up a list of named dimensions used in the filter list to filter datasets
      */
@@ -35,7 +58,10 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         this.dimensions = {
             byId: crossInvestors.dimension(function(investor) { return investor.id; }),
             byCompanies: crossInvestors.dimension(function(investor) { return investor.invested_company_ids; }),
-            byCategories: crossInvestors.dimension(function(investor) { return investor.invested_category_ids; })
+            byCategories: crossInvestors.dimension(function(investor) { return investor.invested_category_ids; }),
+            byTotalFunding: crossInvestors.dimension(function(investor) {
+                return _.pluck(investor.invested_companies, 'total_funding');
+            })
         };
 
         this.byName = crossInvestors.dimension(function(investor) { return investor.name; });
@@ -75,10 +101,25 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         },
         byTotalFunding: function() {
             var ranges = this.filterData.ranges;
-            var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'investor_ids')));
+            //var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'investor_ids')));
+            // var lookup = {};
+            // _.each(ids, function(key){
+            //     lookup[key] = true;
+            // });
 
-            this.dimensions.byId.filter(function(id) {
-                return ranges.length === 0 || _.contains(ids, id);
+            this.dimensions.byTotalFunding.filter(function(company_funding) {
+                if(ranges.length === 0) { return true; }
+                if(company_funding.length === 0) { return false; }
+                for(var i = 0; i < ranges.length; i++) {
+                    var range = ranges[i];
+                    for(var j = 0; j < company_funding.length; j++) {
+                        var funding = company_funding[j];
+                        if(funding >= range.start && funding <= range.end) {
+                            return true;
+                        }
+                    }
+                }
+                return false;//ranges.length === 0 || _.indexOf(ids, id, true) >= 0;//lookup[id];
             });
         }
     };
