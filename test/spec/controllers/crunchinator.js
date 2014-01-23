@@ -43,7 +43,6 @@ describe('Controller: CrunchinatorCtrl', function () {
     it('calls each models fetch function', function(){
         expect(_company.fetch).toHaveBeenCalled();
         expect(_category.fetch).toHaveBeenCalled();
-        expect(_investor.fetch).toHaveBeenCalled();
     });
 
     it('calls each models runFilters function after a filterAction event happens', function(){

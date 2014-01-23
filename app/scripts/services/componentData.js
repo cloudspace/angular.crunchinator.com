@@ -122,22 +122,4 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }
         return geojson;
     });
-
-    /**
-     * Constructs a hash from an array of objects and a key
-     *
-     * @param {array} items An array of objects to be hashed
-     * @param {string} key A lookup key, commonly an id that is contained with each object
-                           in items to be used as a hash key.
-
-     * @return {object} A hash of items constructed using an array of items and a key
-     */
-    this.itemsByKey = function(items, key) {
-        key = key || 'id';
-        var itesmById = {};
-        _.each(items, function(item){
-            itesmById[item[key]] = item;
-        });
-        return itesmById;
-    };
 });

@@ -41,8 +41,8 @@ angular.module('crunchinatorApp.controllers')
                 Model.setupDimensions();
                 Model.runFilters(filterData);
                 if(modelCount === 2) {
-                    var companiesById = ComponentData.itemsByKey(Company.all, 'id');
-                    var categoriesById = ComponentData.itemsByKey(Category.all, 'id');
+                    var companiesById = _.indexBy(Company.all, 'id');
+                    var categoriesById = _.indexBy(Category.all, 'id');
                     Investor.fetch().then(function(){
                         Investor.linkModels(companiesById, categoriesById);
                         Investor.setupDimensions();
