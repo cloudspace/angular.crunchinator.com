@@ -11,13 +11,12 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
             },
             templateUrl: 'views/d3-bars.tpl.html',
             link: function(scope, element) {
-            	element = angular.element(element[0]).find('.pie');
+                element = angular.element(element[0]).find('.pie');
 
             	var width = element[0].clientWidth;
             	var height = 320;
             	var radius = Math.min(width, height) / 2;
-
-            	scope.selectedItems = [];
+                var color = d3.scale.category20b();
 
             	var arc = d3.svg.arc()
             		.outerRadius(radius - 10)
@@ -43,7 +42,22 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 }, true);
 
                 scope.render = function(data) {
+                    if(!data) { return; }
 
+                    var arcs = svg.selectAll('.arc')
+                        .data(pie(data))
+                        .append('g')
+                        .attr('class', 'arc');
+
+                    arcs.append('path')
+                        .attr('d', arc)
+                        .style('fill', function(d) { return color(d.data.label); });
+
+                    arcs.append("text")
+                        .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+                        .attr("dy", ".35em")
+                        .style("text-anchor", "middle")
+                        .text(function(d) { return d.data.label; });
                 };
             }
         };
