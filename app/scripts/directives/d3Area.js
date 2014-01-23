@@ -7,6 +7,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
             scope: {
                 data: '=',
                 title: '@',
+                extent: '@',
                 selected: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
@@ -25,7 +26,6 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom');
-
                 // var yAxis = d3.svg.axis()
                 //     .scale(y)
                 //     .orient('left');
@@ -53,8 +53,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     });
                     data = _.sortBy(data, function(d){ return d.parsed_date; });
 
-                    x.domain(d3.extent(data, function(d) { return d.parsed_date; }));
+                    
                     y.domain([0, d3.max(data, function(d) { return d.count; })]);
+                    x.domain([parseDate(scope.extent), new Date()]);
 
                     svg.selectAll('g').remove();
                     

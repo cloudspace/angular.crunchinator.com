@@ -123,18 +123,15 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return geojson;
     });
 
-    this.fundingRoundCount = _.memoize(function(companies) {
+    this.fundingRoundCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
-        var threeYA = new Date();
-        threeYA.setYear(new Date().getFullYear() - 3);
-        threeYA.setDate(1);
         _.each(companies, function(company){
             _.each(company.funding_rounds, function(funding_round){
                 if(funding_round.funded_on) {
                     var roundDate = parseDate(funding_round.funded_on);
-                    if(roundDate >= threeYA) {
+                    if(roundDate >= format.parse(extent)) {
                         var monthYear = format(roundDate);
                         if(byMonth[monthYear]) {
                             byMonth[monthYear]++;
