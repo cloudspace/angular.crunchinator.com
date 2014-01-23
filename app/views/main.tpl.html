@@ -32,6 +32,11 @@
     <div class='row spacing-med'>
         <div class='col-sm-6'>
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
+             <div d3-area
+                title="Funding Rounds"
+                data="fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                extent="1/2000"
+            ></div>
         </div>
         
         <div class='col-sm-6'>

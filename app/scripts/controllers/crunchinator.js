@@ -56,6 +56,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.geoJsonData = ComponentData.companyGeoJson;
         $scope.totalFundingData = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
+        $scope.fundingRoundCount = ComponentData.fundingRoundCount;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
