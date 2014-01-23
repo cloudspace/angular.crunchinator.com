@@ -9,19 +9,19 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 title: '@',
                 selected: '@'
             },
-            templateUrl: 'views/d3-bars.tpl.html',
+            templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.$parent[scope.selected] = [];
-
+                element = angular.element(element[0]).find('.chart');
                 var margin = { top: 0, right: 10, bottom: 20, left: 0 };
-                var width = 470 - margin.left - margin.right;
+                var width = element.width() - margin.left - margin.right;
                 var height = 353 - margin.top - margin.bottom;
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
 
-                element = angular.element(element[0]).find('.bars');
+                
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
                     .style('height', height + margin.top + margin.bottom + 'px')
