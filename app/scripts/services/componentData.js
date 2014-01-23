@@ -63,7 +63,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var fundingValues = _.pluck(allCompanies, 'total_funding');
         var maxNum = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         var base = 2;
-        var minGraph = 100000;
+        var minGraph = 10000;
         var maxGraph = minGraph;
 
         while(maxGraph < maxNum) {
@@ -121,5 +121,38 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
         }
         return geojson;
+    });
+
+    this.fundingRoundCount = _.memoize(function(companies) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        var threeYA = new Date();
+        threeYA.setYear(new Date().getFullYear() - 3);
+        threeYA.setDate(1);
+        _.each(companies, function(company){
+            _.each(company.funding_rounds, function(funding_round){
+                if(funding_round.funded_on) {
+                    var roundDate = parseDate(funding_round.funded_on);
+                    if(roundDate >= threeYA) {
+                        var monthYear = format(roundDate);
+                        if(byMonth[monthYear]) {
+                            byMonth[monthYear]++;
+                        }
+                        else {
+                            byMonth[monthYear] = 1;
+                        }
+                    }
+                }
+            });
+        });
+
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
     });
 });
