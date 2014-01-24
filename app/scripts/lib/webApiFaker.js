@@ -32,6 +32,8 @@ var randomDate = function(yearsBack) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
+        var statuses = ['deadpooled', 'acquired', 'alive'];
+
         return {
             id: id,
             name: name,
@@ -41,7 +43,8 @@ var randomDate = function(yearsBack) {
             latitude: 1.0,
             longitude: 1.0,
             investor_ids: [],
-            funding_rounds: []
+            funding_rounds: [],
+            status: statuses[exponential_distribution(0, 2)]
         };
     };
 
@@ -120,7 +123,7 @@ var randomDate = function(yearsBack) {
                 company.funding_rounds.push({
                     id: 1,
                     raised_amount: Math.floor(Math.random() * 1e8),
-                    funded_on: d3.time.format('%x')(randomDate(3)),
+                    funded_on: d3.time.format('%x')(randomDate(14)),
                     investor_ids: [investor.id]
                 });
             });
