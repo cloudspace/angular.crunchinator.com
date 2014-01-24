@@ -12,10 +12,12 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
+                var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
+
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
-                height = 353 - margin.top - margin.bottom;
+                height = parent.height() - margin.top - margin.bottom - 130;
 
                 var parseDate = d3.time.format('%m/%Y').parse;
 

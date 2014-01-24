@@ -13,10 +13,12 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.$parent[scope.selected] = [];
+                var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
-                var margin = { top: 0, right: 10, bottom: 20, left: 0 };
+
+                var margin = {top: 0, right: 10, bottom: 20, left: 0};
                 var width = element.width() - margin.left - margin.right;
-                var height = 353 - margin.top - margin.bottom;
+                var height = parent.height() - margin.top - margin.bottom - 124;
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
