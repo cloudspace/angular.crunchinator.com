@@ -17,7 +17,8 @@
     "ngInfiniteScroll": "*",
     "d3-cloud": "*",
     "less.js": "~1.6.1",
-    "Faker": "*"
+    "Faker": "*",
+    "gridster": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
