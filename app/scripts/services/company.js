@@ -54,7 +54,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForTotalFunding: ['byTotalFunding'],
         dataForLocationMap: [],
         dataForCategoriesList: ['byCategory'],
-        dataForFundingRoundAreaChart: []
+        dataForFundingRoundAreaChart: [],
+        dataForCompanyStatus: []
     };
 
     /**
