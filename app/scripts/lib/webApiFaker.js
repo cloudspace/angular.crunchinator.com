@@ -32,7 +32,7 @@ var randomDate = function(yearsBack) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
-        var statuses = ['deadpooled', 'acquired', 'alive'];
+        var statuses = ['alive', 'deadpooled', 'aquired'];
 
         return {
             id: id,
@@ -44,7 +44,7 @@ var randomDate = function(yearsBack) {
             longitude: 1.0,
             investor_ids: [],
             funding_rounds: [],
-            status: statuses[exponential_distribution(0, 2)]
+            status: statuses[exponential_distribution(0, 3)]
         };
     };
 
