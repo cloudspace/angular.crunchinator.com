@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
 
                 var width = element[0].clientWidth;
                 var height = 353;
-                var radius = Math.min(width, height) / 2;
+                var radius = (Math.min(width, height) / 2) - 20;
                 var color = d3.scale.category20b();
 
                 var arc = d3.svg.arc()
@@ -33,6 +33,13 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     .append('g')
                     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
+                function arcTween(a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function(t) {
+                        return arc(i(t));
+                    };
+                }
                 window.onresize = function() {
                     scope.$apply();
                 };
@@ -44,21 +51,45 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 scope.render = function(data) {
                     if(!data) { return; }
 
+                    console.log(data);
                     var arcs = svg.selectAll('.arc')
-                        .data(pie(data))
-                        .enter()
-                        .append('g')
-                        .attr('class', 'arc');
+                        .data(pie(data));
+
+                    arcs.enter().append('g').attr('class', 'arc');
 
                     arcs.append('path')
                         .attr('d', arc)
-                        .style('fill', function(d) { console.log('hi'); return color(d.data.label); });
+                        .style('fill', function(d) { return color(d.data.label); });
 
-                    arcs.append('text')
-                        .attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
-                        .attr('dy', '.35em')
-                        .style('text-anchor', 'middle')
-                        .text(function(d) { return d.data.label; });
+                    
+                    var ticks = svg.selectAll('line').data(pie(data)).enter().append('line');
+
+                    ticks.attr('x1', 0)
+                        .attr('x2', 0)
+                        .attr('y1', -radius+4)
+                        .attr('y2', -radius-2)
+                        .attr('stroke', 'gray')
+                        .attr('transform', function(d) {
+                            return 'rotate(' + (d.startAngle+d.endAngle)/2 * (180/Math.PI) + ')';
+                    });
+
+                    var labels = svg.selectAll('text').data(pie(data)).enter().append('text');
+
+                    labels.attr('class', 'value')
+                        .attr('transform', function(d) {
+                            var dist=radius+15;
+                            var winkel=(d.startAngle+d.endAngle)/2;
+                            var x=dist*Math.sin(winkel);
+                            var y=-dist*Math.cos(winkel);
+                        return 'translate(' + x + ',' + y + ')';
+                    })
+                    .attr('dy', '0.35em')
+                    .attr('text-anchor', 'middle')
+                    .text(function(d){
+                        return d.data.label;
+                    })
+                    .style('fill', '#fff');
+
                 };
             }
         };

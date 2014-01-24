@@ -29,6 +29,13 @@
         </li>
 
         <li data-row="3" data-col="1" data-sizex="2" data-sizey="2">
+            <div d3-pie
+                title="Company Statuses"
+                data="companyStatuses(companies.dataForCompanyStatus)"
+            ></div>
+        </li>
+
+        <li data-row="3" data-col="3" data-sizex="2" data-sizey="2">
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
              <div d3-area
                 title="Funding Rounds"
@@ -36,8 +43,8 @@
                 extent="1/2000"
             ></div>
         </li>
-        
-        <li data-row="3" data-col="4" data-sizex="2" data-sizey="2">
+
+        <li data-row="5" data-col="1" data-sizex="2" data-sizey="2">
              <div d3-bars 
                 class="total-raised-bar"
                 title="Total Funding"
