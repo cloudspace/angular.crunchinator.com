@@ -18,6 +18,7 @@ angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
     '$scope', 'Company', 'Category', 'Investor', 'ComponentData',
     function CrunchinatorCtrl($scope, Company, Category, Investor, ComponentData) {
+        
         //Create the initial empty filter data for every filter
         var filterData = {
             categoryIds: [],
