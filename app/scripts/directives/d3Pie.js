@@ -11,10 +11,11 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
             },
             templateUrl: 'views/d3-pie.tpl.html',
             link: function(scope, element) {
+                var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.pie');
 
                 var width = element[0].clientWidth;
-                var height = 353;
+                var height = parent.height() - 124;
                 var radius = (Math.min(width, height) / 2) - 20;
                 var color = d3.scale.category20b();
 
@@ -51,7 +52,6 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 scope.render = function(data) {
                     if(!data) { return; }
 
-                    console.log(data);
                     var arcs = svg.selectAll('.arc')
                         .data(pie(data));
 
