@@ -44,6 +44,7 @@ Once the API has been successfully updated, any code that relies on the new data
                 "name": "company1",
                 "permalink": "company-1",
                 "category_id": 15,
+                "status": "deadpooled",
                 "total_funding": 1000,
                 "latitude": 1.0,
                 "longitude": 1.0,
