@@ -1,41 +1,49 @@
 <div class="container">
-    <div class="row">
-        <div class='col-sm-6 spacing-med'>
-            <div d3-cloud
+    <ul gridster class='gridster'>
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="2">
+             <div d3-cloud
                 data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
                 title="Categories"
                 total="categories.count()"
                 selected='selectedCategories'
             ></div>
-        </div>
+        </li>
 
-        <div class='col-sm-3 spacing-med'>
-            <div list-select
+        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
+             <div list-select
                 title="Companies"
                 items="companies.dataForCompaniesList"
                 selected="selectedCompanies"
                 total="companies.count()"
                 link="true"
             ></div>
-        </div>
+        </li>
 
-        <div class='col-sm-3 spacing-med'>
+        <li data-row="1" data-col="4" data-sizex="1" data-sizey="2">
             <div list-select
                 title="Investors"
                 items="investors.dataForInvestorsList"
                 selected="selectedInvestors"
                 total="investors.count()"
             ></div>
-        </div>
-    </div>
+        </li>
 
-    <div class='row spacing-med'>
-        <div class='col-sm-6'>
+        <li data-row="3" data-col="1" data-sizex="2" data-sizey="2">
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
-        </div>
+             <div d3-area
+                title="Funding Rounds"
+                data="fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                extent="1/2000"
+            ></div>
+        </li>
         
-        <div class='col-sm-6'>
-            <div d3-bars class="total-raised-bar" title="Total Funding" id="chart" data="totalFundingData(companies.dataForTotalFunding, companies.all)" selected="selectedRanges"></div>
-        </div>
-    </div>
+        <li data-row="3" data-col="4" data-sizex="2" data-sizey="2">
+             <div d3-bars 
+                class="total-raised-bar"
+                title="Total Funding"
+                data="totalFundingData(companies.dataForTotalFunding, companies.all)"
+                selected="selectedRanges"
+            ></div>
+        </li>
+    </ul>
 </div>

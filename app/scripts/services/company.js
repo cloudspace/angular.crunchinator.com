@@ -36,7 +36,10 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             byId: crossCompanies.dimension(function(company) { return company.id; }),
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
             byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
-            byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; })
+            byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; }),
+            byFundingRoundMonth: crossCompanies.dimension(function(company){
+                return _.pluck(company.funding_rounds, 'funded_on');
+            })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -50,7 +53,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForCompaniesList: ['byId'],
         dataForTotalFunding: ['byTotalFunding'],
         dataForLocationMap: [],
-        dataForCategoriesList: ['byCategory']
+        dataForCategoriesList: ['byCategory'],
+        dataForFundingRoundAreaChart: []
     };
 
     /**

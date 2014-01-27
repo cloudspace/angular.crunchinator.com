@@ -29,6 +29,10 @@ body {
   background-color: @dark-grey;
 }
 
+.gridster li {
+  list-style-type: none;
+}
+
 header{
 
   background-image: url('../img/cloud.png');
@@ -118,10 +122,9 @@ header{
 .data-set-container{
   border-top: 1px solid @bright-blue;
   background-color: @transparent-blue;
-  padding: 20px;
+  padding: 20px 20px 15px 20px;
   box-sizing: border-box;
   overflow: auto;
-  margin-bottom: 20px;
 
   h3{
     font-family: 'Guilder';
@@ -144,12 +147,7 @@ header{
     margin-top: 0px;
   }
 
-  .textlist.select-list .dataset {
-    height: 289px;
-  }
-
   .dataset {
-    height: 300px;
     overflow: scroll;
     background-color: @transparent-blue;
     color: #ceecff;

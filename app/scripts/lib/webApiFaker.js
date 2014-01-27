@@ -12,6 +12,13 @@ var exponential_distribution = function(min, max) {
     return Math.floor(num);
 };
 
+var randomDate = function(yearsBack) {
+    yearsBack = yearsBack || 3;
+    var start = new Date();
+    start.setYear(start.getFullYear() - yearsBack);
+    return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
+};
+
 (function (ng, fk) {
     var injector = ng.injector(['configuration', 'ng']);
     var environment = injector.get('ENV');
@@ -109,6 +116,13 @@ var exponential_distribution = function(min, max) {
                 category.investor_ids.push(investor.id);
                 investor.invested_company_ids.push(company.id);
                 investor.invested_category_ids.push(company.category_id);
+
+                company.funding_rounds.push({
+                    id: 1,
+                    raised_amount: Math.floor(Math.random() * 1e8),
+                    funded_on: d3.time.format('%x')(randomDate(3)),
+                    investor_ids: [investor.id]
+                });
             });
         });
     };
