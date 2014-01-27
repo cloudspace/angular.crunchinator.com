@@ -7,9 +7,9 @@ angular.module('crunchinatorApp.directives').directive('gridster', [function() {
             var jQuery = window.jQuery || {};
             jQuery(element[0]).gridster({
                 widget_margins: [10, 10],
-                widget_base_dimensions: [265, 210],
-                resize: {
-                    enabled: false
+                widget_base_dimensions: [265, 95],
+                draggable: {
+                    handle: '.drag-handle'
                 }
             });
         }
