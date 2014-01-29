@@ -1,15 +1,17 @@
 <div class="container">
-    <ul gridster class='gridster'>
-        <li data-row="1" data-col="1" data-sizex="2" data-sizey="2">
+    <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
+    <input type="text" ng-model="savedUrl" /> -->
+    <ul gridster class="gridster">
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="4">
              <div d3-cloud
                 data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
                 title="Categories"
                 total="categories.count()"
-                selected='selectedCategories'
+                selected="selectedCategories"
             ></div>
         </li>
 
-        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
+        <li data-row="1" data-col="3" data-sizex="1" data-sizey="4">
              <div list-select
                 title="Companies"
                 items="companies.dataForCompaniesList"
@@ -19,7 +21,7 @@
             ></div>
         </li>
 
-        <li data-row="1" data-col="4" data-sizex="1" data-sizey="2">
+        <li data-row="1" data-col="4" data-sizex="1" data-sizey="4">
             <div list-select
                 title="Investors"
                 items="investors.dataForInvestorsList"
@@ -28,7 +30,7 @@
             ></div>
         </li>
 
-        <li data-row="3" data-col="1" data-sizex="2" data-sizey="2">
+        <li data-row="3" data-col="1" data-sizex="2" data-sizey="3">
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
              <div d3-area
                 title="Funding Rounds"
@@ -37,7 +39,7 @@
             ></div>
         </li>
         
-        <li data-row="3" data-col="4" data-sizex="2" data-sizey="2">
+        <li data-row="3" data-col="4" data-sizex="2" data-sizey="3">
              <div d3-bars 
                 class="total-raised-bar"
                 title="Total Funding"

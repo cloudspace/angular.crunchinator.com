@@ -46,7 +46,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                         var highest = highest_item.count ? highest_item.count : 1;
                         if(highest === lowest) {lowest=0;}
 
-                        d3.layout.cloud().size([element[0].clientWidth, 320])
+                        d3.layout.cloud().size([w, h])
                             .words(categoryWordCloud.map(function(c) {
                                 return {
                                     size: 14 + (50 * (c.count - lowest) / (highest - lowest)),
