@@ -50,8 +50,8 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{less,css}'],
+                tasks: ['less:server', 'newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -170,7 +170,16 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: '<%= yeoman.app %>/index.html',
             options: {
-                dest: '<%= yeoman.dist %>'
+                dest: '<%= yeoman.dist %>',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {}
+                    }
+                }
             }
         },
 
@@ -184,6 +193,11 @@ module.exports = function (grunt) {
         },
 
         // The following *-min tasks produce minified files in the dist folder
+        cssmin: {
+            options: {
+                root: '<%= yeoman.app %>'
+            }
+        },
         imagemin: {
             dist: {
                 files: [{
@@ -279,12 +293,15 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
+                'less:server',
                 'copy:styles'
             ],
             test: [
+                'less:dist',
                 'copy:styles'
             ],
             dist: [
+                'less:dist',
                 'copy:styles',
                 'imagemin',
                 'svgmin',
@@ -319,7 +336,7 @@ module.exports = function (grunt) {
         //   dist: {}
         // },
 
-            // Test settings
+        // Test settings
         karma: {
             unit: {
                 configFile: 'karma.conf.js',
@@ -372,6 +389,26 @@ module.exports = function (grunt) {
                 command: 'git describe --exact-match --tags HEAD',
                 options: {
                     callback: isGitTag
+                }
+            }
+        },
+
+        less: {
+            options: {
+                paths: '<%= yeoman.app %>/styles',
+                strictUnits: true
+            },
+            dist: {
+                options: {
+                    compress: true
+                },
+                files: {
+                    '.tmp/styles/main.css':'app/styles/main.less'
+                }
+            },
+            server: {
+                files: {
+                    '.tmp/styles/main.css':'app/styles/main.less'
                 }
             }
         }
