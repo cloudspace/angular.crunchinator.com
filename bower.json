@@ -18,7 +18,7 @@
     "ngInfiniteScroll": "*",
     "d3-cloud": "*",
     "Faker": "*",
-    "jquery.shapeshift": "git@github.com:McPants/jquery.shapeshift.git#e64fca743bf90e35a1abf724ed25f078cd828e1b"
+    "jquery.shapeshift": "2.0.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
