@@ -16,7 +16,6 @@
         <link rel="stylesheet" href="vendor/leaflet-dist/leaflet.css">
         <link rel="stylesheet" href="vendor/leaflet.markerclusterer/dist/MarkerCluster.css">
         <link rel="stylesheet" href="vendor/leaflet.markerclusterer/dist/MarkerCluster.Default.css">
-        <link rel="stylesheet" href="vendor/gridster/dist/jquery.gridster.min.css">
         <!-- endbuild -->
 
         <!--[if lt IE 9]>
@@ -47,7 +46,9 @@
 
         <!-- build:js({.tmp,app}) scripts/libraries.js -->
         <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/gridster/dist/jquery.gridster.min.js"></script>
+        <script src="vendor/jquery-ui/ui/jquery-ui.js"></script>
+        <script src="vendor/jquery.shapeshift/core/vendor/jquery.ui.touch-punch.min.js"></script>
+        <script src="vendor/jquery.shapeshift/core/jquery.shapeshift.min.js"></script>
         <script src="vendor/underscore/underscore.js"></script>
         <script src="vendor/angular/angular.js"></script>
         <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
@@ -61,6 +62,7 @@
         <script src="vendor/ngInfiniteScroll/ng-infinite-scroll.js"></script>
         <script src="vendor/crossfilter/crossfilter.js"></script>
         <script src='vendor/Faker/Faker.js'></script>
+
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -83,7 +85,7 @@
         <script src="scripts/directives/listDisplay.js"></script>
         <script src="scripts/directives/listToggle.js"></script>
         <script src="scripts/directives/listSelect.js"></script>
-        <script src="scripts/directives/gridster.js"></script>
+        <script src="scripts/directives/dragArrange.js"></script>
         <!-- endbuild -->
 
     </body>

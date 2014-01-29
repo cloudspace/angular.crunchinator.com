@@ -29,8 +29,28 @@ body {
   background-color: @dark-grey;
 }
 
-.gridster li {
-  list-style-type: none;
+.drag-contain {
+  position: relative;
+}
+
+.drag-contain > div {
+  height: 440px;
+  width: 265px;
+  background: #3d3d3d;
+  position: absolute;
+}
+
+.drag-contain div[data-ss-colspan='2'] {
+  width: 545px;
+}
+
+.drag-contain .ss-dragged-child {
+    box-shadow:  0px 0px 35px rgba(0, 0, 0, .7);
+}
+
+.drag-contain .ss-placeholder-child {
+    background: transparent;
+    border: 1px dashed gray;
 }
 
 header{
@@ -121,7 +141,7 @@ header{
 
 .data-set-container{
   background-color: @transparent-blue;
-  padding: 0 20px 15px 20px;
+  padding: 20px 20px 15px 20px;
   box-sizing: border-box;
   overflow: auto;
 

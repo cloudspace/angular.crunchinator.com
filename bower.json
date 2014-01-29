@@ -5,6 +5,7 @@
     "angular": "~1.2.0",
     "json3": "~3.2.4",
     "es5-shim": "~2.1.0",
+    "jquery-ui": "*",
     "bootstrap": "~3.0.3",
     "d3": "~3.3.13",
     "angular-bootstrap": "~0.9.0",
@@ -17,7 +18,7 @@
     "ngInfiniteScroll": "*",
     "d3-cloud": "*",
     "Faker": "*",
-    "gridster": "*"
+    "jquery.shapeshift": "git@github.com:McPants/jquery.shapeshift.git#e64fca743bf90e35a1abf724ed25f078cd828e1b"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
