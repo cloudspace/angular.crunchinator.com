@@ -19,10 +19,11 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             scope.items = scope.items || [];
             scope.selectedItems = [];
             scope.scrollItems = [];
+            scope.selectedShownItems = [];
 
             scope.$watch('items', function(){
                 scope.scrollItems = [];
-                scope.selectedItems = _.intersection(scope.selectedItems, scope.items);
+                scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
                 scope.$parent[scope.selected] = scope.selectedItems.slice(0);
                 scope.updateScrollItems();
             });
@@ -34,12 +35,14 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
                     scope.selectedItem = '';
                 }
 
+                scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
                 scope.$parent[scope.selected] = scope.selectedItems;
                 $rootScope.$broadcast('filterAction');
             };
 
             scope.removeItem = function(item) {
                 scope.selectedItems = _.without(scope.selectedItems, item);
+                scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
                 scope.$parent[scope.selected] = scope.selectedItems.slice(0);
                 $rootScope.$broadcast('filterAction');
             };

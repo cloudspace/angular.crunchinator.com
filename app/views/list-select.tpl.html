@@ -20,7 +20,7 @@
         <div class="dataset">
             <table class="table" infinite-scroll="updateScrollItems()" infinite-scroll-distance="2">
                 <tbody>
-                    <tr ng-click="removeItem(item)" ng-repeat="item in selectedItems"  class="selected">
+                    <tr ng-click="removeItem(item)" ng-repeat="item in selectedShownItems"  class="selected">
                         <td>
                             <span >{{item.name}}</span>
                             <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
