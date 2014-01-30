@@ -153,16 +153,28 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
 
-    this.acquiredOnCount = _.memoize(function(byAcquiredOn) {
-        console.log(byAcquiredOn);
-        var out = _.reduce(byAcquiredOn, function(o, item){
+    this.acquiredOnCount = _.memoize(function(companies) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        _.each(companies, function(company){
+            if(company.acquired_on) {
+                var acquiredDate = parseDate(company.acquired_on);
+                var monthYear = format(acquiredDate);
+                if(byMonth[monthYear]) {
+                    byMonth[monthYear]++;
+                }
+                else {
+                    byMonth[monthYear] = 1;
+                }
+            }
+        });
+        return _.reduce(byMonth, function(o, v, k){
             o.push({
-                date: item.key,
-                count: item.value
+                date: k,
+                count: v
             });
             return o;
         }, []);
-        console.log(out);
-        return out;
     });
 });
