@@ -1,17 +1,17 @@
 <div class="container">
     <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
     <input type="text" ng-model="savedUrl" /> -->
-    <ul gridster class="gridster">
-        <li data-row="1" data-col="1" data-sizex="2" data-sizey="4">
+    <div class='drag-contain' drag-arrange>
+        <div data-ss-colspan='2'>
              <div d3-cloud
                 data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
                 title="Categories"
                 total="categories.count()"
                 selected="selectedCategories"
             ></div>
-        </li>
+        </div>
 
-        <li data-row="1" data-col="3" data-sizex="1" data-sizey="4">
+        <div>
              <div list-select
                 title="Companies"
                 items="companies.dataForCompaniesList"
@@ -19,33 +19,33 @@
                 total="companies.count()"
                 link="true"
             ></div>
-        </li>
+        </div>
 
-        <li data-row="1" data-col="4" data-sizex="1" data-sizey="4">
+        <div>
             <div list-select
                 title="Investors"
                 items="investors.dataForInvestorsList"
                 selected="selectedInvestors"
                 total="investors.count()"
             ></div>
-        </li>
+        </div>
 
-        <li data-row="3" data-col="1" data-sizex="2" data-sizey="3">
+        <div data-ss-colspan='2'>
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
              <div d3-area
                 title="Funding Rounds"
                 data="fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 extent="1/2000"
             ></div>
-        </li>
+        </div>
         
-        <li data-row="3" data-col="4" data-sizex="2" data-sizey="3">
+        <div data-ss-colspan='2'>
              <div d3-bars 
                 class="total-raised-bar"
                 title="Total Funding"
                 data="totalFundingData(companies.dataForTotalFunding, companies.all)"
                 selected="selectedRanges"
             ></div>
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>
