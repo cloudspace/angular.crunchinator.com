@@ -152,4 +152,17 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             return o;
         }, []);
     });
+
+    this.acquiredOnCount = _.memoize(function(byAcquiredOn) {
+        console.log(byAcquiredOn);
+        var out = _.reduce(byAcquiredOn, function(o, item){
+            o.push({
+                date: item.key,
+                count: item.value
+            });
+            return o;
+        }, []);
+        console.log(out);
+        return out;
+    });
 });

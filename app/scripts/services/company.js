@@ -9,6 +9,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     var Company = function() {
         this.url = API_BASE_URL + '/companies.json';
+        window._Company = this;
     };
 
     Company.prototype = Object.create(Model);
@@ -31,14 +32,24 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     Company.prototype.setupDimensions = function() {
         var crossCompanies = crossfilter(this.all);
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
 
         this.dimensions = {
             byId: crossCompanies.dimension(function(company) { return company.id; }),
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
             byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
             byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; }),
+            byAcquiredOn: crossCompanies.dimension(function(company){ return company.acquired_on; }),
             byFundingRoundMonth: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'funded_on');
+            }),
+            
+        };
+
+        this.groups = {
+            acquiredOnCount: this.dimensions.byAcquiredOn.group(function(acquired_on){
+                return format(parseDate(acquired_on));
             })
         };
 
