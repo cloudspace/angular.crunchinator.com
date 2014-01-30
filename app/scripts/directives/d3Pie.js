@@ -109,9 +109,9 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     labels.transition().duration(1000)
                         .attr('transform', function(d) {
                             var dist = radius + 15;
-                            var winkel = (d.startAngle + d.endAngle) / 2;
-                            var x = dist * Math.sin(winkel);
-                            var y = -dist * Math.cos(winkel);
+                            var val = (d.startAngle + d.endAngle) / 2;
+                            var x = dist * Math.sin(val);
+                            var y = -dist * Math.cos(val);
                             return 'translate(' + x + ',' + y + ')';
                         });
                 };
