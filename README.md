@@ -50,6 +50,8 @@ Once the API has been successfully updated, any code that relies on the new data
                 "longitude": 1.0,
                 "acquired_on": "1/28/2014",
                 "acquired_by_id": 1,
+                "ipo_on": "1/28/2014",
+                "founded_on": "1/28/2014",
                 "investor_ids":
                 [
                     "person-1",
