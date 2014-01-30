@@ -18,6 +18,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 var height = parent.height() - 124;
                 var radius = (Math.min(width, height) / 2) - 20;
                 var color = d3.scale.category20b();
+                var path, ticks, labels;
 
                 var arc = d3.svg.arc()
                     .outerRadius(radius - 10)
@@ -34,62 +35,85 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     .append('g')
                     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-                function arcTween(a) {
-                    var i = d3.interpolate(this._current, a);
-                    this._current = i(0);
-                    return function(t) {
-                        return arc(i(t));
-                    };
-                }
                 window.onresize = function() {
                     scope.$apply();
+                    $rootScope.$broadcast('filterAction');
                 };
 
-                scope.$watch('data', function(newval) {
-                    return scope.render(newval);
+                scope.$watch('data', function(data) {
+                    if(!path) {
+                        path = svg.selectAll('path')
+                            .data(pie(data))
+                            .enter().append('path')
+                            .attr('fill', function(d) { return color(d.data.label); })
+                            .attr('d', arc)
+                            .each(function(d) { this._current = d; });
+
+
+                        ticks = svg.selectAll('line').data(pie(data)).enter().append('line');
+
+                        ticks.attr('x1', 0)
+                            .attr('x2', 0)
+                            .attr('y1', -radius + 4)
+                            .attr('y2', -radius - 2)
+                            .attr('stroke', 'gray')
+                            .attr('transform', function(d) {
+                                return 'rotate(' + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ')';
+                            });
+
+                        labels = svg.selectAll('text').data(pie(data)).enter().append('text');
+
+                        labels.attr('class', 'value')
+                            .attr('transform', function(d) {
+                                var dist = radius + 15;
+                                var winkel = (d.startAngle + d.endAngle) / 2;
+                                var x = dist * Math.sin(winkel);
+                                var y = -dist * Math.cos(winkel);
+                                return 'translate(' + x + ',' + y + ')';
+                            })
+                            .attr('dy', '0.35em')
+                            .attr('text-anchor', 'middle')
+                            .text(function(d){
+                                return d.data.label;
+                            })
+                            .style('fill', '#fff');
+                    } else {
+                        return scope.render(data);
+                    }
                 }, true);
 
                 scope.render = function(data) {
                     if(!data) { return; }
 
-                    var arcs = svg.selectAll('.arc')
-                        .data(pie(data));
+                    path = path.data(pie(data));
 
-                    arcs.enter().append('g').attr('class', 'arc');
+                    path.transition().duration(1000).attrTween('d', function(a) {
+                        var i = d3.interpolate(this._current, a);
+                        var k = d3.interpolate(arc.outerRadius()(), radius - 10);
 
-                    arcs.append('path')
-                        .attr('d', arc)
-                        .style('fill', function(d) { return color(d.data.label); });
-
-                    
-                    var ticks = svg.selectAll('line').data(pie(data)).enter().append('line');
-
-                    ticks.attr('x1', 0)
-                        .attr('x2', 0)
-                        .attr('y1', -radius+4)
-                        .attr('y2', -radius-2)
-                        .attr('stroke', 'gray')
-                        .attr('transform', function(d) {
-                            return 'rotate(' + (d.startAngle+d.endAngle)/2 * (180/Math.PI) + ')';
+                        this._current = i(0);
+                        return function(t) {
+                            return arc.outerRadius(k(t))(i(t));
+                        };
                     });
 
-                    var labels = svg.selectAll('text').data(pie(data)).enter().append('text');
+                    ticks = ticks.data(pie(data));
 
-                    labels.attr('class', 'value')
+                    ticks.transition().duration(1000)
                         .attr('transform', function(d) {
-                            var dist=radius+15;
-                            var winkel=(d.startAngle+d.endAngle)/2;
-                            var x=dist*Math.sin(winkel);
-                            var y=-dist*Math.cos(winkel);
-                        return 'translate(' + x + ',' + y + ')';
-                    })
-                    .attr('dy', '0.35em')
-                    .attr('text-anchor', 'middle')
-                    .text(function(d){
-                        return d.data.label;
-                    })
-                    .style('fill', '#fff');
+                            return 'rotate(' + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ')';
+                        });
 
+                    labels = labels.data(pie(data));
+
+                    labels.transition().duration(1000)
+                        .attr('transform', function(d) {
+                            var dist = radius + 15;
+                            var winkel = (d.startAngle + d.endAngle) / 2;
+                            var x = dist * Math.sin(winkel);
+                            var y = -dist * Math.cos(winkel);
+                            return 'translate(' + x + ',' + y + ')';
+                        });
                 };
             }
         };
