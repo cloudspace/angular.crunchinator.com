@@ -50,8 +50,8 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{less,css}'],
+                tasks: ['less:server', 'newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -170,7 +170,16 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: '<%= yeoman.app %>/index.html',
             options: {
-                dest: '<%= yeoman.dist %>'
+                dest: '<%= yeoman.dist %>',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {}
+                    }
+                }
             }
         },
 
@@ -184,6 +193,11 @@ module.exports = function (grunt) {
         },
 
         // The following *-min tasks produce minified files in the dist folder
+        cssmin: {
+            options: {
+                root: '<%= yeoman.app %>'
+            }
+        },
         imagemin: {
             dist: {
                 files: [{
@@ -191,6 +205,11 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/images',
                     src: '{,*/}*.{png,jpg,jpeg,gif}',
                     dest: '<%= yeoman.dist %>/images'
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/vendor',
+                    src: ['**/*.{png,jpg,jpeg,gif}', '!**/node_modules/**'],
+                    dest: '<%= yeoman.dist %>/vendor'
                 }]
             }
         },
@@ -201,6 +220,11 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/images',
                     src: '{,*/}*.svg',
                     dest: '<%= yeoman.dist %>/images'
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/vendor',
+                    src: ['**/*.svg', '!**/node_modules/**'],
+                    dest: '<%= yeoman.dist %>/vendor'
                 }]
             }
         },
@@ -255,7 +279,6 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        'vendor/**/*',
                         'images/{,*/}*.{webp}',
                         'fonts/*'
                     ]
@@ -279,12 +302,15 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [
+                'less:server',
                 'copy:styles'
             ],
             test: [
+                'less:dist',
                 'copy:styles'
             ],
             dist: [
+                'less:dist',
                 'copy:styles',
                 'imagemin',
                 'svgmin',
@@ -319,7 +345,7 @@ module.exports = function (grunt) {
         //   dist: {}
         // },
 
-            // Test settings
+        // Test settings
         karma: {
             unit: {
                 configFile: 'karma.conf.js',
@@ -342,28 +368,39 @@ module.exports = function (grunt) {
                 key: '<%= aws.key %>',
                 secret: '<%= aws.secret %>',
                 access: 'public-read',
-                maxOperations: 20
+                maxOperations: 20,
+                verify: true,
+                gzip: true,
+                gzipExclude: [
+                    '.png',
+                    '.jpg',
+                    '.jpeg',
+                    '.gif',
+                    '.webp',
+                    '.svg',
+                    '.eot',
+                    '.woff',
+                    '.ttf'
+                ]
             },
             staging: {
                 options: {
-                    bucket: 'staging.crunchinator.com',
-                    verify: true
+                    bucket: 'staging.crunchinator.com'
                 },
                 sync: [{
-                    src: 'build/**/*.*',
+                    src: '<%= yeoman.dist %>/**/*.*',
                     dest: '/',
-                    rel: 'build'
+                    rel: '<%= yeoman.dist %>'
                 }]
             },
             production: {
                 options: {
-                    bucket: 'angular.crunchinator.com',
-                    verify: true
+                    bucket: 'angular.crunchinator.com'
                 },
                 sync: [{
-                    src: 'build/**/*.*',
+                    src: '<%= yeoman.dist %>/**/*.*',
                     dest: '/',
-                    rel: 'build'
+                    rel: '<%= yeoman.dist %>'
                 }]
             }
         },
@@ -372,6 +409,26 @@ module.exports = function (grunt) {
                 command: 'git describe --exact-match --tags HEAD',
                 options: {
                     callback: isGitTag
+                }
+            }
+        },
+
+        less: {
+            options: {
+                paths: '<%= yeoman.app %>/styles',
+                strictUnits: true
+            },
+            dist: {
+                options: {
+                    compress: true
+                },
+                files: {
+                    '.tmp/styles/main.css':'app/styles/main.less'
+                }
+            },
+            server: {
+                files: {
+                    '.tmp/styles/main.css':'app/styles/main.less'
                 }
             }
         }
