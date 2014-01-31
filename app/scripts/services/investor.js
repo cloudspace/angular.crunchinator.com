@@ -61,6 +61,9 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             byCategories: crossInvestors.dimension(function(investor) { return investor.invested_category_ids; }),
             byTotalFunding: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'total_funding');
+            }),
+            byFundingPerRound: crossInvestors.dimension(function(investor){
+                return _.pluck(_.flatten(_.pluck(investor.invested_companies, 'funding_rounds')), 'raised_amount');
             })
         };
 
@@ -114,6 +117,23 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     var range = ranges[i];
                     for(var j = 0; j < company_funding.length; j++) {
                         var funding = company_funding[j];
+                        if(funding >= range.start && funding <= range.end) {
+                            return true;
+                        }
+                    }
+                }
+                return false;//ranges.length === 0 || _.indexOf(ids, id, true) >= 0;//lookup[id];
+            });
+        },
+        byFundingPerRound: function() {
+            var ranges = this.filterData.roundRanges;
+            this.dimensions.byFundingPerRound.filter(function(roundFunding){
+                if(ranges.length === 0) { return true; }
+                if(roundFunding.length === 0) { return false; }
+                for(var i = 0; i < ranges.length; i++) {
+                    var range = ranges[i];
+                    for(var j = 0; j < roundFunding.length; j++) {
+                        var funding = roundFunding[j];
                         if(funding >= range.start && funding <= range.end) {
                             return true;
                         }
