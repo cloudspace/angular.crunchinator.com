@@ -24,7 +24,8 @@ angular.module('crunchinatorApp.controllers')
             investorIds: [],
             companyIds: [],
             ranges: [],
-            roundRanges: []
+            roundRanges: [],
+            mostRecentRoundRanges: []
         };
 
         $scope.selectedRanges = [];
@@ -59,6 +60,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
         $scope.fundingRoundCount = ComponentData.fundingRoundCount;
         $scope.fundingPerRound = ComponentData.fundingPerRound;
+        $scope.mostRecentFundingRound = ComponentData.mostRecentFundingRound;
 
 
         //All of our filters broadcast 'filterAction' when they've been operated on
@@ -70,6 +72,7 @@ angular.module('crunchinatorApp.controllers')
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
             filterData.ranges = $scope.selectedRanges;
             filterData.roundRanges = $scope.selectedRoundRanges;
+            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges;
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);

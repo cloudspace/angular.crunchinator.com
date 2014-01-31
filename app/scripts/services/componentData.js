@@ -146,6 +146,40 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return ranges;
     });
 
+    this.mostRecentFundingRound = _.memoize(function(companies, allCompanies) {
+        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var recentRounds = _.map(allCompanies, function(company){
+            return _.max(company.funding_rounds, function(round){
+                return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+            }).raised_amount;
+        });
+        var maxNum = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
+            );
+        }
+
+        var roundByFundedOn = function(round){
+            return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+        };
+        for(var j = 0; j < companies.length; j++) {
+            var company = companies[j];
+            var roundFunding = _.max(company.funding_rounds, roundByFundedOn).raised_amount;
+            if(!isNaN(roundFunding)){
+                var k = rangeIndex(roundFunding, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    });
+
     function abbreviateNumber(value) {
         var newValue = value;
         if (value >= 1000) {

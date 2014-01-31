@@ -119,11 +119,10 @@ var randomDate = function(yearsBack) {
 
                 company.funding_rounds.push({
                     id: 1,
-                    raised_amount: Math.floor(Math.random() * 16e7),
+                    raised_amount: Math.floor(Math.random() * 1e8),
                     funded_on: d3.time.format('%x')(randomDate(3)),
                     investor_ids: [investor.id]
                 });
-                
             });
         });
     };
