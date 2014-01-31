@@ -46,7 +46,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 svg.append('path');
 
                 scope.$watch('data', function(newval) {
-                    return scope.render(newval);
+                    if(newval) {
+                        return scope.render(newval);
+                    }
                 }, true);
 
                 scope.render = function(data) {
