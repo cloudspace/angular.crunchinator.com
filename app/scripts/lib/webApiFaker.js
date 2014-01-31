@@ -40,6 +40,7 @@ var randomDate = function(yearsBack) {
             total_funding: exponential_distribution(1, 6e9), //Random between 1 and 6 billion
             latitude: 1.0,
             longitude: 1.0,
+            founded_on: d3.time.format('%x')(randomDate(14)),
             investor_ids: [],
             funding_rounds: []
         };
@@ -120,7 +121,7 @@ var randomDate = function(yearsBack) {
                 company.funding_rounds.push({
                     id: 1,
                     raised_amount: Math.floor(Math.random() * 1e8),
-                    funded_on: d3.time.format('%x')(randomDate(3)),
+                    funded_on: d3.time.format('%x')(randomDate(14)),
                     investor_ids: [investor.id]
                 });
             });
