@@ -119,6 +119,31 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
 
+    this.foundedOnCount = _.memoize(function(companies) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        _.each(companies, function(company){
+            if(company.founded_on) {
+                var foundedDate = parseDate(company.founded_on);
+                var monthYear = format(foundedDate);
+                if(byMonth[monthYear]) {
+                    byMonth[monthYear]++;
+                }
+                else {
+                    byMonth[monthYear] = 1;
+                }
+            }
+        });
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    });
+
     this.fundingPerRound = _.memoize(function(companies, allCompanies) {
         if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
 
