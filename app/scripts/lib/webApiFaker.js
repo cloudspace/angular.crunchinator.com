@@ -32,7 +32,7 @@ var randomDate = function(yearsBack) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
-        var statuses = ['alive', 'deadpooled', 'aquired'];
+        var statuses = ['alive', 'deadpooled', 'acquired'];
 
         return {
             id: id,
