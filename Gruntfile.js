@@ -205,6 +205,11 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/images',
                     src: '{,*/}*.{png,jpg,jpeg,gif}',
                     dest: '<%= yeoman.dist %>/images'
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/vendor',
+                    src: ['**/*.{png,jpg,jpeg,gif}', '!**/node_modules/**'],
+                    dest: '<%= yeoman.dist %>/vendor'
                 }]
             }
         },
@@ -215,6 +220,11 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/images',
                     src: '{,*/}*.svg',
                     dest: '<%= yeoman.dist %>/images'
+                }, {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/vendor',
+                    src: ['**/*.svg', '!**/node_modules/**'],
+                    dest: '<%= yeoman.dist %>/vendor'
                 }]
             }
         },
@@ -269,7 +279,6 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        'vendor/**/*',
                         'images/{,*/}*.{webp}',
                         'fonts/*'
                     ]
@@ -359,28 +368,39 @@ module.exports = function (grunt) {
                 key: '<%= aws.key %>',
                 secret: '<%= aws.secret %>',
                 access: 'public-read',
-                maxOperations: 20
+                maxOperations: 20,
+                verify: true,
+                gzip: true,
+                gzipExclude: [
+                    '.png',
+                    '.jpg',
+                    '.jpeg',
+                    '.gif',
+                    '.webp',
+                    '.svg',
+                    '.eot',
+                    '.woff',
+                    '.ttf'
+                ]
             },
             staging: {
                 options: {
-                    bucket: 'staging.crunchinator.com',
-                    verify: true
+                    bucket: 'staging.crunchinator.com'
                 },
                 sync: [{
-                    src: 'build/**/*.*',
+                    src: '<%= yeoman.dist %>/**/*.*',
                     dest: '/',
-                    rel: 'build'
+                    rel: '<%= yeoman.dist %>'
                 }]
             },
             production: {
                 options: {
-                    bucket: 'angular.crunchinator.com',
-                    verify: true
+                    bucket: 'angular.crunchinator.com'
                 },
                 sync: [{
-                    src: 'build/**/*.*',
+                    src: '<%= yeoman.dist %>/**/*.*',
                     dest: '/',
-                    rel: 'build'
+                    rel: '<%= yeoman.dist %>'
                 }]
             }
         },

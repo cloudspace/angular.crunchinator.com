@@ -33,7 +33,7 @@
         <div data-ss-colspan='2'>
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
              <div d3-area
-                title="Funding Rounds"
+                title="Funding Activity"
                 data="fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 extent="1/2000"
             ></div>
@@ -44,9 +44,15 @@
                 title="Acquired Date"
                 data="acquiredOnCount(companies.dataForAcquiredOnAreaChart)"
                 extent="1/2000"
+                ></div>
+        </div>
+        <div data-ss-colspan='2'>
+             <div d3-area
+                title="Founded Date"
+                data="foundedOnCount(companies.dataForFoundedOnAreaChart)"
+                extent="1/2000"
             ></div>
         </div>
-        
         <div data-ss-colspan='2'>
              <div d3-bars 
                 class="total-raised-bar"
@@ -55,5 +61,20 @@
                 selected="selectedRanges"
             ></div>
         </div>
+        <div data-ss-colspan='2'>
+             <div d3-bars 
+                title="Funding per Round"
+                data="fundingPerRound(companies.dataForFundingPerRound, companies.all)"
+                selected="selectedRoundRanges"
+            ></div>
+        </div>
+        <div data-ss-colspan='2'>
+             <div d3-bars 
+                title="Most Recent Funding Round"
+                data="mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
+                selected="selectedRecentRoundRanges"
+            ></div>
+        </div>
     </div>
+
 </div>

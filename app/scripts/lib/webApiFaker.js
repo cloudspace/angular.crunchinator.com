@@ -38,6 +38,7 @@ var randomDate = function(start, end) {
             latitude: 1.0,
             longitude: 1.0,
             acquired_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())), //Random date between two dates
+            founded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
             investor_ids: [],
             funding_rounds: []
         };
