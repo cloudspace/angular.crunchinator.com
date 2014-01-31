@@ -11,6 +11,8 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
             },
             templateUrl: 'views/d3-pie.tpl.html',
             link: function(scope, element) {
+                scope.selectedItems = [];
+                scope.$parent[scope.selected] = [];
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.pie');
 
@@ -35,6 +37,15 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     .append('g')
                     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
+                var fill = function (d) {
+                    // look at word cloud for selection coloration ideas
+                    if(_.contains(scope.selectedItems, d.data.label)) {
+                        return 'brown';
+                    } else {
+                        return color(d.data.label);
+                    }
+                };
+
                 window.onresize = function() {
                     scope.$apply();
                     $rootScope.$broadcast('filterAction');
@@ -45,10 +56,24 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                         path = svg.selectAll('path')
                             .data(pie(data))
                             .enter().append('path')
-                            .attr('fill', function(d) { return color(d.data.label); })
+                            .attr('fill', function(d) { return fill(d); })
                             .attr('d', arc)
                             .each(function(d) { this._current = d; });
 
+                        path.on('click', function(d) {
+                            d = d.data;
+                            scope.$parent.$apply(function() {
+                                if(!_.contains(scope.selectedItems, d.label)) {
+                                    scope.selectedItems.push(d.label);
+                                } else {
+                                    var index = scope.selectedItems.indexOf(d.label);
+                                    scope.selectedItems.splice(index, 1);
+                                }
+                                svg.selectAll('path').style('fill', fill);
+                                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                                $rootScope.$broadcast('filterAction');
+                            });
+                        });
 
                         ticks = svg.selectAll('line').data(pie(data)).enter().append('line');
 
