@@ -53,7 +53,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < companies.length; j++) {
             var total_funding = parseInt(companies[j].total_funding);
-            var k = Math.ceil(logN(total_funding/minGraph, base));
+            var k = rangeIndex(total_funding, minGraph, base);
             ranges[k].count++;
         }
         return ranges;
@@ -136,7 +136,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < filteredFundingValues.length; j++) {
             var funding = parseInt(filteredFundingValues[j]);
-            var k = Math.ceil(logN(funding/minGraph, base));
+            var k = rangeIndex(funding, minGraph, base);
             ranges[k].count++;
         }
         return ranges;
@@ -165,5 +165,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
     function logN(n, b) {
         return (Math.log(n)) / (Math.log(b));
+    }
+
+    function rangeIndex(num, min, base) {
+        return num < min ? 0 : Math.ceil(logN(num/min, base));
     }
 });
