@@ -61,6 +61,10 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             byCategories: crossInvestors.dimension(function(investor) { return investor.invested_category_ids; }),
             byTotalFunding: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'total_funding');
+            }),
+            byStatuses: crossInvestors.dimension(function(investor) {
+                console.log(investor.invested_companies);
+                return _.pluck(investor.invested_companies, 'status');
             })
         };
 
@@ -120,6 +124,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     }
                 }
                 return false;//ranges.length === 0 || _.indexOf(ids, id, true) >= 0;//lookup[id];
+            });
+        },
+        byStatus: function() {
+            var statuses = this.filterData.statuses;
+            this.dimensions.byStatuses.filter(function(company_statuses) {
+                if(statuses.length === 0) { return true; }
+
+                for(var i = 0; i < company_statuses.length; i++) {
+                    var company_status = company_statuses[i];
+                    return _.contains(statuses, company_status);
+                }
             });
         }
     };

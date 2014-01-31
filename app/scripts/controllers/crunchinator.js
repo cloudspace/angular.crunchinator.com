@@ -23,7 +23,8 @@ angular.module('crunchinatorApp.controllers')
             categoryIds: [],
             investorIds: [],
             companyIds: [],
-            ranges: []
+            ranges: [],
+            statuses: []
         };
 
         $scope.selectedRanges = [];
@@ -57,6 +58,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.totalFundingData = ComponentData.totalFunding;
         $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
         $scope.fundingRoundCount = ComponentData.fundingRoundCount;
+        $scope.companyStatuses = ComponentData.companyStatusData;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
@@ -66,6 +68,7 @@ angular.module('crunchinatorApp.controllers')
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
             filterData.ranges = $scope.selectedRanges;
+            filterData.statuses = $scope.selectedStatuses;
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);

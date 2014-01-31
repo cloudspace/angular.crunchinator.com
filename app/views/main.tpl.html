@@ -31,6 +31,14 @@
         </div>
 
         <div data-ss-colspan='2'>
+            <div d3-pie
+                title="Company Statuses"
+                data="companyStatuses(companies.dataForCompanyStatus)"
+                selected="selectedStatuses"
+            ></div>
+        </div>
+
+        <div data-ss-colspan='2'>
              <!-- <div leaf-cluster class="hq-map" data="geoJsonData(companies.dataForLocationMap)"></div>  -->
              <div d3-area
                 title="Funding Rounds"
