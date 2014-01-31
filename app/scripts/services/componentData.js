@@ -53,8 +53,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < companies.length; j++) {
             var total_funding = parseInt(companies[j].total_funding);
-            var k = rangeIndex(total_funding, minGraph, base);
-            ranges[k].count++;
+            if(!isNaN(total_funding)){
+                var k = rangeIndex(total_funding, minGraph, base);
+                ranges[k].count++;
+            }
         }
         return ranges;
     });
@@ -136,8 +138,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < filteredFundingValues.length; j++) {
             var funding = parseInt(filteredFundingValues[j]);
-            var k = rangeIndex(funding, minGraph, base);
-            ranges[k].count++;
+            if(!isNaN(funding)){
+                var k = rangeIndex(funding, minGraph, base);
+                ranges[k].count++;
+            }
         }
         return ranges;
     });
