@@ -153,7 +153,6 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         },
         byStatus: function() {
             var statuses = this.filterData.statuses;
-            console.log(statuses);
             this.dimensions.byStatuses.filter(function(status) {
                 return (statuses.length === 0 || _.contains(statuses, status));
             });

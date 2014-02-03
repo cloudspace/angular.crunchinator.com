@@ -73,7 +73,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 });
             }),
             byStatuses: crossInvestors.dimension(function(investor) {
-                console.log(investor.invested_companies);
                 return _.pluck(investor.invested_companies, 'status');
             })
         };
