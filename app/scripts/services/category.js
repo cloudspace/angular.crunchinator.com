@@ -26,6 +26,31 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
     };
 
     /**
+     * This links companies and investors to the category object so that when filtering
+     * by categories we have access to the companies and investors it contains
+     *
+     * @param {object} companiesById An object/hash of all companies keyed by their IDs
+     * @param {object} investorsById An object/hash of all categories keyed by their IDs
+     */
+    Category.prototype.linkModels = function(companiesById, investorsById) {
+        _.each(this.all, function(category){
+            category.companies = [];
+            category.investors = [];
+
+            _.each(category.company_ids, function(companyId){
+                category.companies.push(companiesById[companyId]);
+            });
+
+            _.each(category.investor_ids, function(investorId){
+                category.investors.push(investorsById[investorId]);
+            });
+
+            category.companies = _.compact(category.companies);
+            category.investors = _.compact(category.investors);
+        });
+    };
+
+    /**
      * Sets up a crossfilter object on all of the model's data
      * Sets up a list of named dimensions used in the filter list to filter datasets
      */

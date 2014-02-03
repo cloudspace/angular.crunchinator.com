@@ -36,18 +36,21 @@ angular.module('crunchinatorApp.controllers')
 
         //Fetch the data for each model, then set up its dimensions and run its filters.
         var modelCount = 0;
-        _.each([Company, Category], function(Model){
+        var models = [Company, Category, Investor];
+        _.each(models, function(Model) {
             Model.fetch().then(function() {
                 modelCount++;
-                Model.setupDimensions();
-                Model.runFilters(filterData);
-                if(modelCount === 2) {
+                if(modelCount === 3) {
                     var companiesById = _.indexBy(Company.all, 'id');
                     var categoriesById = _.indexBy(Category.all, 'id');
-                    Investor.fetch().then(function(){
-                        Investor.linkModels(companiesById, categoriesById);
-                        Investor.setupDimensions();
-                        Investor.runFilters(filterData);
+                    var investorsById = _.indexBy(Investor.all, 'id');
+
+                    Investor.linkModels(companiesById, categoriesById);
+                    Category.linkModels(companiesById, investorsById);
+
+                    _.each(models, function(Model) {
+                        Model.setupDimensions();
+                        Model.runFilters(filterData);
                     });
                 }
             });
