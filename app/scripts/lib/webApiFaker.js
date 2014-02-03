@@ -29,6 +29,8 @@ var randomDate = function(start, end) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
+        var statuses = ['alive', 'deadpooled', 'acquired'];
+
         return {
             id: id,
             name: name,
@@ -40,7 +42,8 @@ var randomDate = function(start, end) {
             acquired_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())), //Random date between two dates
             founded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
             investor_ids: [],
-            funding_rounds: []
+            funding_rounds: [],
+            status: statuses[exponential_distribution(0, 3)]
         };
     };
 

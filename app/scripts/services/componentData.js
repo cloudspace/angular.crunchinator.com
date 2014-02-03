@@ -230,6 +230,14 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return ranges;
     });
 
+    this.companyStatusData = _.memoize(function(companies) {
+        var status_grouping = _.groupBy(companies, function(company) { return company.status; });
+
+        return _.map(status_grouping, function(v, k) {
+            return {label: k, count: v.length};
+        });
+    });
+
     function abbreviateNumber(value) {
         var newValue = value;
         if (value >= 1000) {

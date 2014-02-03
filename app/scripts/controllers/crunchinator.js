@@ -25,7 +25,8 @@ angular.module('crunchinatorApp.controllers')
             companyIds: [],
             ranges: [],
             roundRanges: [],
-            mostRecentRoundRanges: []
+            mostRecentRoundRanges: [],
+            statuses: []
         };
 
         $scope.selectedRanges = [];
@@ -63,6 +64,7 @@ angular.module('crunchinatorApp.controllers')
         $scope.foundedOnCount = ComponentData.foundedOnCount;
         $scope.fundingPerRound = ComponentData.fundingPerRound;
         $scope.mostRecentFundingRound = ComponentData.mostRecentFundingRound;
+        $scope.companyStatuses = ComponentData.companyStatusData;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
@@ -74,6 +76,7 @@ angular.module('crunchinatorApp.controllers')
             filterData.ranges = $scope.selectedRanges;
             filterData.roundRanges = $scope.selectedRoundRanges;
             filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges;
+            filterData.statuses = $scope.selectedStatuses;
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);

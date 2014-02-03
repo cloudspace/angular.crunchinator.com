@@ -50,7 +50,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 return _.max(company.funding_rounds, function(round){
                     return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
                 }).raised_amount;
-            })
+            }),
+            byStatuses: crossCompanies.dimension(function(company) { return company.status; })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -69,7 +70,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForAcquiredOnAreaChart: [],
         dataForFoundedOnAreaChart: [],
         dataForFundingPerRound: ['byFundingPerRound'],
-        dataForMostRecentFundingRound: ['byMostRecentFundingRound']
+        dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
+        dataForCompanyStatus: ['byStatus']
     };
 
     /**
@@ -147,6 +149,13 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 else {
                     return true;
                 }
+            });
+        },
+        byStatus: function() {
+            var statuses = this.filterData.statuses;
+            console.log(statuses);
+            this.dimensions.byStatuses.filter(function(status) {
+                return (statuses.length === 0 || _.contains(statuses, status));
             });
         }
     };
