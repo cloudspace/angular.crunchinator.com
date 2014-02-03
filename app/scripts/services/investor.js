@@ -33,7 +33,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      * @param {object} categoriesById An object/hash of all categories keyed by their IDs
      */
     Investor.prototype.linkModels = function(companiesById, categoriesById) {
-        window._investors = this.all;
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
@@ -101,11 +100,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         },
         byTotalFunding: function() {
             var ranges = this.filterData.ranges;
-            //var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'investor_ids')));
-            // var lookup = {};
-            // _.each(ids, function(key){
-            //     lookup[key] = true;
-            // });
 
             this.dimensions.byTotalFunding.filter(function(company_funding) {
                 if(ranges.length === 0) { return true; }
@@ -119,7 +113,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                         }
                     }
                 }
-                return false;//ranges.length === 0 || _.indexOf(ids, id, true) >= 0;//lookup[id];
+                return false;
             });
         }
     };
