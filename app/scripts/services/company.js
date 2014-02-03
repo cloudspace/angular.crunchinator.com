@@ -9,7 +9,6 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     var Company = function() {
         this.url = API_BASE_URL + '/companies.json';
-        window._Company = this;
     };
 
     Company.prototype = Object.create(Model);
