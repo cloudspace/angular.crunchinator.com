@@ -106,7 +106,7 @@ var randomDate = function(start, end) {
             investor_ids: [],
             funding_rounds: [],
             status: statuses[exponential_distribution(0, statuses.length)],
-            state_code: states[exponential_distribution(0, states.length)].abbreviation
+            state_code: states[Math.floor(Math.random() * states.length)].abbreviation
         };
     };
 
