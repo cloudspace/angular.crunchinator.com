@@ -61,34 +61,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return ranges;
     });
 
-    /**
-     * Constructs geoJson data necessary for the company location map
-     *
-     * @param {array} companies A filtered list of companies to display on the map
-     * @return {object} A GeoJson hash that maps the latitude and longitude of each company in companies
-     */
-    this.companyGeoJson = _.memoize(function(companies) {
-        var geojson = {
-            'type': 'FeatureCollection',
-            'features': []
-        };
-        if (companies && companies.length > 0) {
-            _.each(companies, function(company) {
-                if(company.latitude && company.longitude) {
-                    geojson.features.push({
-                        type: 'Feature',
-                        geometry: {type: 'Point', coordinates: [company.longitude, company.latitude]},
-                        properties: {
-                            name: company.name
-                        }
-                    });
-                }
-
-            });
-        }
-        return geojson;
-    });
-
     this.fundingRoundCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
@@ -240,6 +212,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return _.map(status_grouping, function(v, k) {
             return {label: k, count: v.length};
         });
+    });
+
+    this.companyStateData = _.memoize(function(companies) {
+        var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
+
+        return state_grouping;
     });
 
     function abbreviateNumber(value) {
