@@ -60,6 +60,16 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             byCategories: crossInvestors.dimension(function(investor) { return investor.invested_category_ids; }),
             byTotalFunding: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'total_funding');
+            }),
+            byFundingPerRound: crossInvestors.dimension(function(investor){
+                return _.pluck(_.flatten(_.pluck(investor.invested_companies, 'funding_rounds')), 'raised_amount');
+            }),
+            byMostRecentFundingRound: crossInvestors.dimension(function(investor){
+                return _.map(investor.invested_companies, function(company){
+                    return _.max(company.funding_rounds, function(round){
+                        return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+                    }).raised_amount;
+                });
             })
         };
 
@@ -100,7 +110,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         },
         byTotalFunding: function() {
             var ranges = this.filterData.ranges;
-
             this.dimensions.byTotalFunding.filter(function(company_funding) {
                 if(ranges.length === 0) { return true; }
                 if(company_funding.length === 0) { return false; }
@@ -115,8 +124,35 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 }
                 return false;
             });
+        },
+        byFundingPerRound: function() {
+            var ranges = this.filterData.roundRanges;
+            this.dimensions.byFundingPerRound.filter(function(roundFunding){
+                return fallsWithinRange(roundFunding, ranges);
+            });
+        },
+        byMostRecentFundingRound: function() {
+            var ranges = this.filterData.mostRecentRoundRanges;
+            this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
+                return fallsWithinRange(company_funding, ranges);
+            });
         }
     };
+
+    function fallsWithinRange(items, ranges) {
+        if(ranges.length === 0) { return true; }
+        if(items.length === 0) { return false; }
+        for(var i = 0; i < ranges.length; i++) {
+            var range = ranges[i];
+            for(var j = 0; j < items.length; j++) {
+                var funding = items[j];
+                if(funding >= range.start && funding <= range.end) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     return new Investor();
 });

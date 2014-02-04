@@ -31,7 +31,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     });
 
     /**
-     * TODO: Rewrite this to take into account data that is outside of our expected bounds
      * Constructs data necessary for the totalFunding bar graph
      *
      * @param {array} companies A filtered list of companies to include in the totalFunding graph
@@ -39,36 +38,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     this.totalFunding = _.memoize(function(companies, allCompanies) {
         if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
 
-        function abbreviateNumber(value) {
-            var newValue = value;
-            if (value >= 1000) {
-                var suffixes = ['', 'K', 'M', 'B','T'];
-                var suffixNum = Math.floor( ((''+value).length -1)/3 );
-                var shortValue = '';
-                for (var precision = 2; precision >= 1; precision--) {
-                    shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-                    var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-                    if (dotLessShortValue.length <= 3) { break; }
-                }
-
-                newValue = shortValue+suffixes[suffixNum];
-            }
-            return newValue;
-        }
-
-        function labelfy(num) {
-            return '$' + abbreviateNumber(num);
-        }
-
         var fundingValues = _.pluck(allCompanies, 'total_funding');
         var maxNum = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         var base = 2;
         var minGraph = 10000;
-        var maxGraph = minGraph;
-
-        while(maxGraph < maxNum) {
-            maxGraph *= base;
-        }
 
         var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
 
@@ -79,17 +52,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }
 
         for(var j = 0; j < companies.length; j++) {
-            var company = companies[j];
-
-            for(var k = 0; k < ranges.length; k++) {
-                var range = ranges[k];
-
-                var total_funding = parseInt(company.total_funding);
-
-                if (range.start < total_funding && total_funding < range.end) {
-                    range.count++;
-                    break;
-                }
+            var total_funding = parseInt(companies[j].total_funding);
+            if(!isNaN(total_funding)){
+                var k = rangeIndex(total_funding, minGraph, base);
+                ranges[k].count++;
             }
         }
         return ranges;
@@ -152,4 +118,94 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             return o;
         }, []);
     });
+
+    this.fundingPerRound = _.memoize(function(companies, allCompanies) {
+        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var allFundingValues = _.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'raised_amount');
+        var filteredFundingValues = _.pluck(_.flatten(_.pluck(companies, 'funding_rounds')), 'raised_amount');
+        var maxNum = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
+            );
+        }
+
+        for(var j = 0; j < filteredFundingValues.length; j++) {
+            var funding = parseInt(filteredFundingValues[j]);
+            if(!isNaN(funding)){
+                var k = rangeIndex(funding, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    });
+
+    this.mostRecentFundingRound = _.memoize(function(companies, allCompanies) {
+        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var recentRounds = _.map(allCompanies, function(company){
+            return _.max(company.funding_rounds, function(round){
+                return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+            }).raised_amount;
+        });
+        var maxNum = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
+            );
+        }
+
+        var roundByFundedOn = function(round){
+            return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+        };
+        for(var j = 0; j < companies.length; j++) {
+            var company = companies[j];
+            var roundFunding = _.max(company.funding_rounds, roundByFundedOn).raised_amount;
+            if(!isNaN(roundFunding)){
+                var k = rangeIndex(roundFunding, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    });
+
+    function abbreviateNumber(value) {
+        var newValue = value;
+        if (value >= 1000) {
+            var suffixes = ['', 'K', 'M', 'B','T'];
+            var suffixNum = Math.floor( ((''+value).length -1)/3 );
+            var shortValue = '';
+            for (var precision = 2; precision >= 1; precision--) {
+                shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+                var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+                if (dotLessShortValue.length <= 3) { break; }
+            }
+
+            newValue = shortValue+suffixes[suffixNum];
+        }
+        return newValue;
+    }
+
+    function labelfy(num) {
+        return '$' + abbreviateNumber(num);
+    }
+
+    function logN(n, b) {
+        return (Math.log(n)) / (Math.log(b));
+    }
+
+    function rangeIndex(num, min, base) {
+        return num < min ? 0 : Math.ceil(logN(num/min, base));
+    }
 });
