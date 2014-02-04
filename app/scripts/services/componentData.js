@@ -149,7 +149,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     this.foundedOnCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%m/%Y');
+        var format = d3.time.format('%Y');
         _.each(companies, function(company){
             if(company.founded_on) {
                 var foundedDate = parseDate(company.founded_on);
