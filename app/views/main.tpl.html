@@ -30,13 +30,13 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <!-- <div data-ss-colspan='2'>
             <div d3-pie
                 title="Company Statuses"
                 data="companyStatuses(companies.dataForCompanyStatus)"
                 selected="selectedStatuses"
             ></div>
-        </div>
+        </div> -->
 
         <div data-ss-colspan='2'>
              <div d3-area
@@ -49,15 +49,15 @@
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Acquired Date"
-                data="acquiredOnCount(companies.dataForAcquiredOnAreaChart)"
-                extent="1/2000"
+                data="acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                extent="1/2006"
                 ></div>
         </div>
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Founded Date"
-                data="foundedOnCount(companies.dataForFoundedOnAreaChart)"
-                extent="1/2000"
+                data="foundedOnCount(companies.dataForFoundedOnAreaChart, '1/1992')"
+                extent="1/1992"
             ></div>
         </div>
         <div data-ss-colspan='2'>

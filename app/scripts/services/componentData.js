@@ -119,19 +119,21 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
 
-    this.acquiredOnCount = _.memoize(function(companies) {
+    this.acquiredOnCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
         _.each(companies, function(company){
             if(company.acquired_on) {
                 var acquiredDate = parseDate(company.acquired_on);
-                var monthYear = format(acquiredDate);
-                if(byMonth[monthYear]) {
-                    byMonth[monthYear]++;
-                }
-                else {
-                    byMonth[monthYear] = 1;
+                if(acquiredDate >= format.parse(extent)){
+                    var monthYear = format(acquiredDate);
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
                 }
             }
         });
@@ -144,7 +146,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
     
-    this.foundedOnCount = _.memoize(function(companies) {
+    this.foundedOnCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
@@ -152,11 +154,13 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             if(company.founded_on) {
                 var foundedDate = parseDate(company.founded_on);
                 var monthYear = format(foundedDate);
-                if(byMonth[monthYear]) {
-                    byMonth[monthYear]++;
-                }
-                else {
-                    byMonth[monthYear] = 1;
+                if(foundedDate >= format.parse(extent)){
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
                 }
             }
         });
