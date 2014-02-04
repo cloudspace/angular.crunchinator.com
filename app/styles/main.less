@@ -141,10 +141,18 @@ header{
 
 .data-set-container{
   background-color: @transparent-blue;
-  padding: 20px 20px 15px 20px;
+  padding: 0px 20px 15px 20px;
   box-sizing: border-box;
   border-top: 1px @bright-blue solid;
   overflow: auto;
+
+  .drag-handle {
+    height: 15px;
+    margin: 0 -20px;
+    margin-bottom: 5px;
+    background: @bright-blue;
+    cursor: move;
+  }
 
   h3{
     font-family: 'Guilder';
