@@ -40,31 +40,6 @@ describe('Service: ComponentData', function() {
         });
     });
 
-    describe('.companyGeoJson', function(){
-        var companies;
-        beforeEach(function(){
-            companies = [
-                {name: 'Google', latitude: 1, longitude: 1},
-                {name: 'Cloudspace', latitude: 1, longitude: 1},
-                {name: 'Facebook', latitude: 1, longitude: 1}
-            ];
-        });
-        it('returns a geoJson object with a type of FeatureCollection', function(){
-            var response = ComponentData.companyGeoJson(companies);
-            expect(response.type).toEqual('FeatureCollection');
-        });
-        it('returns a geoJson object that includes a collection of features', function(){
-            var response = ComponentData.companyGeoJson(companies);
-            expect(response.features).toContain({
-                type: 'Feature',
-                geometry: {type: 'Point', coordinates: [1, 1]},
-                properties: {
-                    name: 'Cloudspace'
-                }
-            });
-        });
-    });
-
     //TODO: Implement this when we've finished total funding component
     describe('.totalFunding', function(){
     });
