@@ -13,6 +13,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.$parent[scope.selected] = [];
+                scope.oldFilterData = {};
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
@@ -94,6 +95,37 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         .attr('height', function(d) { return height - y(d.count); })
                         .attr('y', function(d) { return y(d.count); });
                         
+                    var brush = d3.svg.brush()
+                        .x(x)
+                        .extent([0, width])
+                        .on('brush', function() {
+                            scope.selectedItems = [];
+
+                            bars.each(function(d) {
+                                var extent = brush.extent();
+                                var point = x(d.label);
+                                if(extent[0] <= point && point <= extent[1]) {
+                                    scope.selectedItems.push(d);
+                                }
+                            });
+
+                            svg.selectAll('.bar').style('fill', fill);
+
+                            scope.$parent.$apply(function() {
+                                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+
+                                if(scope.oldFilterData !== $rootScope.filterData) {
+                                    $rootScope.$broadcast('filterAction');
+                                }
+                            });
+                        });
+
+                    var gBrush = svg.append('g')
+                        .attr('class', 'brush')
+                        .call(brush);
+
+                    gBrush.selectAll('rect')
+                        .attr('height', height);
 
                     bars.on('click', function(d) {
                         scope.$parent.$apply(function() {
