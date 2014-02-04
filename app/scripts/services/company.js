@@ -37,9 +37,11 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
             byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
             byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; }),
+            byAcquiredOn: crossCompanies.dimension(function(company){ return company.acquired_on; }),
             byFundingRoundMonth: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'funded_on');
             }),
+            byFoundedOn: crossCompanies.dimension(function(company){ return company.founded_on; }),
             byFundingPerRound: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'raised_amount');
             }),
@@ -47,7 +49,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 return _.max(company.funding_rounds, function(round){
                     return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
                 }).raised_amount;
-            })
+            }),
+            byStatuses: crossCompanies.dimension(function(company) { return company.status; })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -63,8 +66,11 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForLocationMap: [],
         dataForCategoriesList: ['byCategory'],
         dataForFundingRoundAreaChart: [],
+        dataForAcquiredOnAreaChart: [],
+        dataForFoundedOnAreaChart: [],
         dataForFundingPerRound: ['byFundingPerRound'],
-        dataForMostRecentFundingRound: ['byMostRecentFundingRound']
+        dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
+        dataForCompanyStatus: ['byStatus']
     };
 
     /**
@@ -142,6 +148,12 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 else {
                     return true;
                 }
+            });
+        },
+        byStatus: function() {
+            var statuses = this.filterData.statuses;
+            this.dimensions.byStatuses.filter(function(status) {
+                return (statuses.length === 0 || _.contains(statuses, status));
             });
         }
     };

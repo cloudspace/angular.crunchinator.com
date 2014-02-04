@@ -71,6 +71,9 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                         return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
                     }).raised_amount;
                 });
+            }),
+            byStatuses: crossInvestors.dimension(function(investor) {
+                return _.pluck(investor.invested_companies, 'status');
             })
         };
 
@@ -125,6 +128,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             var ranges = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
                 return fallsWithinRange(company_funding, ranges);
+            });
+        },
+        byStatus: function() {
+            var statuses = this.filterData.statuses;
+            this.dimensions.byStatuses.filter(function(company_statuses) {
+                if(statuses.length === 0) { return true; }
+
+                for(var i = 0; i < company_statuses.length; i++) {
+                    var company_status = company_statuses[i];
+                    return _.contains(statuses, company_status);
+                }
             });
         }
     };

@@ -119,6 +119,60 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
 
+    this.acquiredOnCount = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        _.each(companies, function(company){
+            if(company.acquired_on) {
+                var acquiredDate = parseDate(company.acquired_on);
+                if(acquiredDate >= format.parse(extent)){
+                    var monthYear = format(acquiredDate);
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
+                }
+            }
+        });
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    });
+    
+    this.foundedOnCount = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        _.each(companies, function(company){
+            if(company.founded_on) {
+                var foundedDate = parseDate(company.founded_on);
+                var monthYear = format(foundedDate);
+                if(foundedDate >= format.parse(extent)){
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
+                }
+            }
+        });
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    });
+
     this.fundingPerRound = _.memoize(function(companies, allCompanies) {
         if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
 
@@ -178,6 +232,14 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
+    });
+
+    this.companyStatusData = _.memoize(function(companies) {
+        var status_grouping = _.groupBy(companies, function(company) { return company.status; });
+
+        return _.map(status_grouping, function(v, k) {
+            return {label: k, count: v.length};
+        });
     });
 
     function abbreviateNumber(value) {

@@ -12,11 +12,8 @@ var exponential_distribution = function(min, max) {
     return Math.floor(num);
 };
 
-var randomDate = function(yearsBack) {
-    yearsBack = yearsBack || 3;
-    var start = new Date();
-    start.setYear(start.getFullYear() - yearsBack);
-    return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
+var randomDate = function(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
 (function (ng, fk) {
@@ -32,6 +29,8 @@ var randomDate = function(yearsBack) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
+        var statuses = ['alive', 'deadpooled', 'acquired'];
+
         return {
             id: id,
             name: name,
@@ -40,8 +39,11 @@ var randomDate = function(yearsBack) {
             total_funding: exponential_distribution(1, 6e9), //Random between 1 and 6 billion
             latitude: 1.0,
             longitude: 1.0,
+            acquired_on: d3.time.format('%x')(randomDate(new Date(2006, 1, 1), new Date())), //Random date between two dates
+            founded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
             investor_ids: [],
-            funding_rounds: []
+            funding_rounds: [],
+            status: statuses[exponential_distribution(0, 3)]
         };
     };
 
@@ -120,7 +122,7 @@ var randomDate = function(yearsBack) {
                 company.funding_rounds.push({
                     id: 1,
                     raised_amount: Math.floor(Math.random() * 1e8),
-                    funded_on: d3.time.format('%x')(randomDate(3)),
+                    funded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
                     investor_ids: [investor.id]
                 });
             });
