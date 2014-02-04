@@ -6,7 +6,8 @@ angular.module('crunchinatorApp.directives').directive('dragArrange', [function(
         link: function(scope, element) {
             var jQuery = window.jQuery || {};
             jQuery(element[0]).shapeshift({
-                minColumns: 3
+                minColumns: 3,
+                handle: '.drag-handle'
             });
         }
     };
