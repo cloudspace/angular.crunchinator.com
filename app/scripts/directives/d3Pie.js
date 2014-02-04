@@ -9,15 +9,15 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 title: '@',
                 selected: '@'
             },
-            templateUrl: 'views/d3-pie.tpl.html',
+            templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.$parent[scope.selected] = [];
                 var parent = angular.element(element[0]).parent();
-                element = angular.element(element[0]).find('.pie');
+                element = angular.element(element[0]).find('.chart');
 
                 var width = element[0].clientWidth;
-                var height = parent.height() - 124;
+                var height = parent.height() - 130;
                 var radius = (Math.min(width, height) / 2) - 20;
                 var color = d3.scale.category20b();
                 var path, ticks, labels;
