@@ -73,10 +73,10 @@ angular.module('crunchinatorApp.controllers')
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
-            filterData.ranges = $scope.selectedRanges;
-            filterData.roundRanges = $scope.selectedRoundRanges;
-            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges;
-            filterData.statuses = $scope.selectedStatuses;
+            filterData.ranges = $scope.selectedRanges || [];
+            filterData.roundRanges = $scope.selectedRoundRanges || [];
+            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges || [];
+            filterData.statuses = $scope.selectedStatuses || [];
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);
