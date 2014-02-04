@@ -61,18 +61,20 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 };
 
                 var clicked = function(d) {
-                    var state = d.properties.postal;
-                    var state_selected = _.contains(scope.selected_states, state);
-                    if(state_selected) {
-                        scope.selected_states = _.without(scope.selected_states, state);
-                    }
-                    else {
-                        scope.selected_states.push(state);
-                    }
-                    
-                    scope.$parent[scope.selected] = scope.selected_states.slice(0);
-                    g.selectAll('.state').attr('fill', fillFunction(scope.data));
-                    $rootScope.$broadcast('filterAction');
+                    scope.$parent.$apply(function(){
+                        var state = d.properties.postal;
+                        var state_selected = _.contains(scope.selected_states, state);
+                        if(state_selected) {
+                            scope.selected_states = _.without(scope.selected_states, state);
+                        }
+                        else {
+                            scope.selected_states.push(state);
+                        }
+                        
+                        scope.$parent[scope.selected] = scope.selected_states.slice(0);
+                        g.selectAll('.state').attr('fill', fillFunction(scope.data));
+                        $rootScope.$broadcast('filterAction');
+                    });
                 };
 
                 d3.json('/data/us.json', function(error, us) {
