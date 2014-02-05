@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
             link: function(scope, element) {
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
-                scope.format = scope.format || '%m/%Y'
+                scope.format = scope.format || '%m/%Y';
 
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,

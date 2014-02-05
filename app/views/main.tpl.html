@@ -2,15 +2,6 @@
     <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
     <input type="text" ng-model="savedUrl" /> -->
     <div class='drag-contain' drag-arrange>
-        <div data-ss-colspan='2'>
-            <div d3-cloud
-                data="categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
-                title="Categories"
-                total="categories.count()"
-                selected="selectedCategories"
-            ></div>
-        </div>
-
         <div>
             <div list-select
                 title="Companies"
@@ -18,6 +9,15 @@
                 selected="selectedCompanies"
                 total="companies.count()"
                 link="true"
+            ></div>
+        </div>
+
+        <div data-ss-colspan='2'>
+            <div d3-cloud
+                data="ComponentData.categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+                title="Categories"
+                total="categories.count()"
+                selected="selectedCategories"
             ></div>
         </div>
 
@@ -30,10 +30,18 @@
             ></div>
         </div>
 
+        <div data-ss-colspan='2'>
+            <div d3-map
+                title="Locations"
+                data="ComponentData.companyStateData(companies.dataForLocationMap)"
+                selected="selectedStates"
+            ></div>
+        </div>
+
         <!-- <div data-ss-colspan='2'>
             <div d3-pie
                 title="Company Statuses"
-                data="companyStatuses(companies.dataForCompanyStatus)"
+                data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
                 selected="selectedStatuses"
             ></div>
         </div> -->
@@ -41,7 +49,7 @@
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Funding Activity"
-                data="fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 extent="1/2000"
             ></div>
         </div>
@@ -49,23 +57,25 @@
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Acquired Date"
-                data="acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
                 extent="1/2006"
                 ></div>
         </div>
+
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Founded Date"
-                data="foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
+                data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
                 extent="1992"
                 format="%Y"
             ></div>
         </div>
+
         <div data-ss-colspan='2'>
             <div d3-bars
                 class="total-raised-bar"
                 title="Total Funding"
-                data="totalFundingData(companies.dataForTotalFunding, companies.all)"
+                data="ComponentData.totalFundingData(companies.dataForTotalFunding, companies.all)"
                 selected="selectedRanges"
             ></div>
         </div>
@@ -73,7 +83,7 @@
         <div data-ss-colspan='2'>
             <div d3-bars
                 title="Funding per Round"
-                data="fundingPerRound(companies.dataForFundingPerRound, companies.all)"
+                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.all)"
                 selected="selectedRoundRanges"
             ></div>
         </div>
@@ -81,7 +91,7 @@
         <div data-ss-colspan='2'>
             <div d3-bars
                 title="Most Recent Funding Round"
-                data="mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
+                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
                 selected="selectedRecentRoundRanges"
             ></div>
         </div>

@@ -50,7 +50,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                     return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
                 }).raised_amount;
             }),
-            byStatuses: crossCompanies.dimension(function(company) { return company.status; })
+            byStatuses: crossCompanies.dimension(function(company) { return company.status; }),
+            byState: crossCompanies.dimension(function(company) { return company.state_code; })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -63,7 +64,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
     Company.prototype.dataSets = {
         dataForCompaniesList: ['byId'],
         dataForTotalFunding: ['byTotalFunding'],
-        dataForLocationMap: [],
+        dataForLocationMap: ['byState'],
         dataForCategoriesList: ['byCategory'],
         dataForFundingRoundAreaChart: [],
         dataForAcquiredOnAreaChart: [],
@@ -154,6 +155,12 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             var statuses = this.filterData.statuses;
             this.dimensions.byStatuses.filter(function(status) {
                 return (statuses.length === 0 || _.contains(statuses, status));
+            });
+        },
+        byState: function() {
+            var states = this.filterData.states;
+            this.dimensions.byState.filter(function(state){
+                return (states.length === 0 || _.contains(states, state));
             });
         }
     };
