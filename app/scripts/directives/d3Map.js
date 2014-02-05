@@ -42,10 +42,12 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 // var colors = d3.scale.category20b();
                 var fillFunction = function (countByCode) {
                     var max = _.max(countByCode, function(v) { return v; });
+                    var scale = d3.scale.log();
+                    scale.domain([1, max + 1]);
 
                     return function(d) {
-                        var curr_count = countByCode[d.properties.postal] ? countByCode[d.properties.postal] : 0;
-                        var per = 1 - (curr_count / max);
+                        var curr_count = countByCode[d.properties.postal] ? countByCode[d.properties.postal] + 1 : 1;
+                        var per = 1 - scale(curr_count);
                         if(scope.selected_states.length > 0) {
                             if(_.contains(scope.selected_states, d.properties.postal)){
                                 return shadeColor('#4682b4', per);
@@ -98,7 +100,6 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 }, true);
 
                 scope.render = function(countByStateCode) {
-                    window.codes = countByStateCode;
                     var fill = fillFunction(countByStateCode);
                     g.selectAll('.state').transition().duration(1000).attr('fill', fill);
                 };
