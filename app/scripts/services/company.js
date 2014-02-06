@@ -92,56 +92,21 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             });
         },
         byTotalFunding: function() {
-            var ranges = this.filterData.ranges;
+            var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(funding) {
-                if (ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        if(funding > range.start && funding < range.end) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } else {
-                    return true;
-                }
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
             });
         },
         byFundingPerRound: function() {
-            var ranges = this.filterData.roundRanges;
-            this.dimensions.byFundingPerRound.filter(function(roundFunding){
-                if(ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        for(var j = 0; j < roundFunding.length; j++) {
-                            var roundAmount = roundFunding[j];
-                            if(roundAmount > range.start && roundAmount < range.end) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
+            var range = this.filterData.roundRanges;
+            this.dimensions.byFundingPerRound.filter(function(funding) {
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
             });
         },
         byMostRecentFundingRound: function() {
-            var ranges = this.filterData.mostRecentRoundRanges;
+            var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(funding) {
-                if (ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        if(funding > range.start && funding < range.end) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
             });
         }
     };
