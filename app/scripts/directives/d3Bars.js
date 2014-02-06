@@ -24,7 +24,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
-                var time = scope.title.replace(/\s+/g, '-');
+                var id = scope.title.replace(/\s+/g, '-');
                 
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
@@ -35,20 +35,20 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
                 svg.append('clipPath')
-                    .attr('id', 'clip-' + time)
+                    .attr('id', 'clip-' + id)
                     .append('rect')
                     .attr('width', width)
                     .attr('height', height);
 
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent([0, width])
+                    .extent([10, width])
                     .on('brush', function() {
                         var range = [Infinity, -Infinity];
 
                         var extent = brush.extent();
 
-                        svg.selectAll('#clip-' + time + ' rect')
+                        svg.selectAll('#clip-' + id + ' rect')
                             .attr('x', extent[0])
                             .attr('width', extent[1] - extent[0]);
 
@@ -116,7 +116,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     svg.selectAll('g').remove();
                     svg.append('g')
                         .attr('class', 'x axis')
-                        .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
+                        .attr('transform', 'translate(' + 0 + ', ' + height + ')')
                         .call(xAxis);
 
                     svg.selectAll('text').style('fill', '#fff');
@@ -139,7 +139,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         .attr('height', function(d) { return height - y(d.count); })
                         .attr('y', function(d) { return y(d.count); });
 
-                    bars_fore.attr('clip-path', 'url(#clip-' + time + ')');
+                    bars_fore.attr('clip-path', 'url(#clip-' + id + ')');
 
                     var gBrush = svg.append('g')
                         .attr('class', 'brush')
@@ -147,6 +147,21 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     gBrush.selectAll('rect')
                         .attr('height', height);
+
+                    gBrush.selectAll('.resize').append('path').attr('d', function(d) {
+                        var e = +(d == "e"),
+                            x = e ? 1 : -1,
+                            y = height / 3;
+                        return "M" + (.5 * x) + "," + y
+                            + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
+                            + "V" + (2 * y - 6)
+                            + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
+                            + "Z"
+                            + "M" + (2.5 * x) + "," + (y + 8)
+                            + "V" + (2 * y - 8)
+                            + "M" + (4.5 * x) + "," + (y + 8)
+                            + "V" + (2 * y - 8);
+                    });
                 };
             }
         };
