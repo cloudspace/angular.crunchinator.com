@@ -17,6 +17,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
                 scope.format = scope.format || '%m/%Y';
 
+                var area_fore, area_back;
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
                 height = parent.height() - margin.top - margin.bottom - 130;
@@ -26,6 +27,8 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 var x = d3.time.scale().range([0, width]);
 
                 var y = d3.scale.linear().range([height, 0]);
+
+                var time = scope.title.replace(/\s+/g, '-');
 
                 var xAxis = d3.svg.axis()
                     .scale(x)
@@ -45,7 +48,20 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                   .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-                svg.append('path');
+                svg.append('clipPath')
+                    .attr('id', 'clip-' + time)
+                    .append('rect')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                svg.append('path')
+                    .attr('class', 'background area');
+
+                svg.append('path')
+                    .attr('class', 'foreground area');
+
+                console.log(width);
+
 
                 scope.$watch('data', function(newval) {
                     if(newval) {
@@ -65,17 +81,45 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     svg.selectAll('g').remove();
                     
-                    svg.selectAll('path').datum(data)
+                    area_back = svg.selectAll('.background.area').datum(data)
                         .transition()
                         .duration(1000)
                         .attr('d', area)
-                        .style('fill', 'steelblue');
+                        .style('fill', '#ccc');
+
+                    area_fore = svg.selectAll('.foreground.area').datum(data)
+                        .transition()
+                        .duration(1000)
+                        .attr('d', area)
+                        .style('fill', 'steelBlue');
 
                     svg.append('g')
                         .attr('class', 'x axis')
                         .attr('transform', 'translate(0,' + height + ')')
                         .call(xAxis)
                         .style('fill', '#fff');
+
+                    area_fore.attr('clip-path', 'url(#clip-' + time + ')');
+
+                    var brush = d3.svg.brush()
+                        .x(x)
+                        .extent([parseDate(scope.extent), new Date()])
+                        .on('brush', function() {
+                            var extent = brush.extent();
+
+                            svg.selectAll('#clip-' + time + ' rect')
+                                .attr('x', x(extent[0]))
+                                .attr('width', x(extent[1]) - x(extent[0]));
+
+                            // Setup filter data here.
+                        });
+
+                    var gBrush = svg.append('g')
+                        .attr('class', 'brush')
+                        .call(brush);
+
+                    gBrush.selectAll('rect')
+                        .attr('height', height);
                 };
             }
         };
