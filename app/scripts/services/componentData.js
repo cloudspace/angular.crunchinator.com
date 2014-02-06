@@ -61,34 +61,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return ranges;
     });
 
-    /**
-     * Constructs geoJson data necessary for the company location map
-     *
-     * @param {array} companies A filtered list of companies to display on the map
-     * @return {object} A GeoJson hash that maps the latitude and longitude of each company in companies
-     */
-    this.companyGeoJson = _.memoize(function(companies) {
-        var geojson = {
-            'type': 'FeatureCollection',
-            'features': []
-        };
-        if (companies && companies.length > 0) {
-            _.each(companies, function(company) {
-                if(company.latitude && company.longitude) {
-                    geojson.features.push({
-                        type: 'Feature',
-                        geometry: {type: 'Point', coordinates: [company.longitude, company.latitude]},
-                        properties: {
-                            name: company.name
-                        }
-                    });
-                }
-
-            });
-        }
-        return geojson;
-    });
-
     this.fundingRoundCount = _.memoize(function(companies, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
@@ -110,6 +82,60 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
         });
 
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    });
+
+    this.acquiredOnCount = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%m/%Y');
+        _.each(companies, function(company){
+            if(company.acquired_on) {
+                var acquiredDate = parseDate(company.acquired_on);
+                if(acquiredDate >= format.parse(extent)){
+                    var monthYear = format(acquiredDate);
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
+                }
+            }
+        });
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    });
+    
+    this.foundedOnCount = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%Y');
+        _.each(companies, function(company){
+            if(company.founded_on) {
+                var foundedDate = parseDate(company.founded_on);
+                var monthYear = format(foundedDate);
+                if(foundedDate >= format.parse(extent)){
+                    if(byMonth[monthYear]) {
+                        byMonth[monthYear]++;
+                    }
+                    else {
+                        byMonth[monthYear] = 1;
+                    }
+                }
+            }
+        });
         return _.reduce(byMonth, function(o, v, k){
             o.push({
                 date: k,
@@ -178,6 +204,20 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
+    });
+
+    this.companyStatusData = _.memoize(function(companies) {
+        var status_grouping = _.groupBy(companies, function(company) { return company.status; });
+
+        return _.map(status_grouping, function(v, k) {
+            return {label: k, count: v.length};
+        });
+    });
+
+    this.companyStateData = _.memoize(function(companies) {
+        var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
+
+        return state_grouping;
     });
 
     function abbreviateNumber(value) {

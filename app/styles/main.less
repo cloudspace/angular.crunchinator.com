@@ -3,6 +3,7 @@
 @pale-blue: #cdebff;
 @grey-blue: #4c6d84;
 @dark-grey: #3d3d3d;
+@dark-grey-blue: #41484C;
 @transparent-blue: rgba(70, 84, 93, 0.5);
 
 @font-face {
@@ -47,7 +48,6 @@ body {
 .drag-contain > div {
   height: 440px;
   width: 265px;
-  background: #3d3d3d;
   position: absolute;
 }
 
@@ -151,7 +151,7 @@ header{
 }
 
 .data-set-container{
-  background-color: @transparent-blue;
+  background-color: @dark-grey-blue;
   padding: 0px 20px 15px 20px;
   box-sizing: border-box;
   border-top: 1px @bright-blue solid;
@@ -260,6 +260,19 @@ header{
   shape-rendering: crispEdges;
 }
 
+.value {
+  font: 10px sans-serif;
+  color: #fff;
+}
+
 .x.axis path {
   height: 1px;
+}
+
+.state {
+  cursor: pointer;
+}
+.state-boundary {
+  fill: none;
+  stroke: #41484C;
 }

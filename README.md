@@ -48,6 +48,7 @@ Once the API has been successfully updated, any code that relies on the new data
                 "total_funding": 1000,
                 "latitude": 1.0,
                 "longitude": 1.0,
+                "state_code": "FL",
                 "acquired_on": "1/28/2014",
                 "acquired_by_id": 1,
                 "ipo_on": "1/28/2014",

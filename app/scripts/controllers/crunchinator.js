@@ -25,7 +25,9 @@ angular.module('crunchinatorApp.controllers')
             companyIds: [],
             ranges: [],
             roundRanges: [],
-            mostRecentRoundRanges: []
+            mostRecentRoundRanges: [],
+            statuses: [],
+            states: []
         };
 
         $scope.selectedRanges = [];
@@ -55,13 +57,7 @@ angular.module('crunchinatorApp.controllers')
         });
 
         //Bind component data services to the scope, so we can use them in the views
-        $scope.geoJsonData = ComponentData.companyGeoJson;
-        $scope.totalFundingData = ComponentData.totalFunding;
-        $scope.categoryWordCloudData = ComponentData.categoryWordCloudData;
-        $scope.fundingRoundCount = ComponentData.fundingRoundCount;
-        $scope.fundingPerRound = ComponentData.fundingPerRound;
-        $scope.mostRecentFundingRound = ComponentData.mostRecentFundingRound;
-
+        $scope.ComponentData = ComponentData;
 
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
@@ -70,9 +66,11 @@ angular.module('crunchinatorApp.controllers')
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
-            filterData.ranges = $scope.selectedRanges;
-            filterData.roundRanges = $scope.selectedRoundRanges;
-            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges;
+            filterData.ranges = $scope.selectedRanges || [];
+            filterData.roundRanges = $scope.selectedRoundRanges || [];
+            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges || [];
+            filterData.statuses = $scope.selectedStatuses || [];
+            filterData.states = $scope.selectedStates || [];
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);
