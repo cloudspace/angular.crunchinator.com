@@ -116,7 +116,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     svg.selectAll('g').remove();
                     svg.append('g')
                         .attr('class', 'x axis')
-                        .attr('transform', 'translate(' + 0 + ', ' + height + ')')
+                        .attr('transform', 'translate(' + Math.floor(x.rangeBand() / 2) + ', ' + height + ')')
                         .call(xAxis);
 
                     svg.selectAll('text').style('fill', '#fff');
