@@ -153,6 +153,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byAcquiredOn: function() {
+            var self = this;
             var range = this.filterData.acquiredDate;
             var format = this.format;
             this.dimensions.byAcquiredOn.filter(function(company_acquired_on) {
@@ -160,6 +161,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byFoundedOn: function() {
+            var self = this;
             var range = this.filterData.foundedDate;
             var format = this.format;
             this.dimensions.byFoundedOn.filter(function(company_founded_on) {
@@ -167,6 +169,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byFundingRoundMonth: function() {
+            var self = this;
             var range = this.filterData.fundingActivity;
             var format = this.format;
             this.dimensions.byFundingRoundMonth.filter(function(funding_round_dates) {
