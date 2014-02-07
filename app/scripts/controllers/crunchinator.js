@@ -64,27 +64,25 @@ angular.module('crunchinatorApp.controllers')
         //Bind component data services to the scope, so we can use them in the views
         $scope.ComponentData = ComponentData;
 
+        var deferred = $q.defer();
+        function applyFilters() {
+            _.delay(function(){
+                $scope.$apply(function() {
+                    Company.runFilters(filterData);
+                    Category.runFilters(filterData);
+                    Investor.runFilters(filterData);
+
+                    deferred.resolve('Finished filters');
+                });
+            }, 300);
+
+            return deferred.promise;
+        }
+
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays
         $scope.$on('filterAction', function() {
-            var deferred = $q.defer();
-
-
-            function applyFilters() {
-                _.delay(function(){
-                    $scope.$apply(function() {
-                        Company.runFilters(filterData);
-                        Category.runFilters(filterData);
-                        Investor.runFilters(filterData);
-
-                        deferred.resolve('Finished filters');
-                    });
-                }, 300);
-
-                return deferred.promise;
-            }
-
             $scope.loading = true;
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
@@ -102,5 +100,7 @@ angular.module('crunchinatorApp.controllers')
                 $scope.loading = false;
             });
         });
+
+
     }
 ]);
