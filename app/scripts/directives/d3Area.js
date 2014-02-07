@@ -33,9 +33,6 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom');
-                // var yAxis = d3.svg.axis()
-                //     .scale(y)
-                //     .orient('left');
 
                 var area = d3.svg.area()
                     .x(function(d) { return x(d.parsed_date); })
@@ -59,9 +56,6 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                 svg.append('path')
                     .attr('class', 'foreground area');
-
-                console.log(width);
-
 
                 scope.$watch('data', function(newval) {
                     if(newval) {

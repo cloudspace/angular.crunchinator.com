@@ -33,7 +33,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      * @param {object} categoriesById An object/hash of all categories keyed by their IDs
      */
     Investor.prototype.linkModels = function(companiesById, categoriesById) {
-        window._investors = this.all;
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
