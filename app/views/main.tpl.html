@@ -50,6 +50,7 @@
              <div d3-area
                 title="Funding Activity"
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                selected="selectedFundingActivity"
                 extent="1/2000"
             ></div>
         </div>
@@ -58,6 +59,7 @@
              <div d3-area
                 title="Acquired Date"
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                selected="selectedAquiredDate"
                 extent="1/2006"
                 ></div>
         </div>
@@ -66,6 +68,7 @@
              <div d3-area
                 title="Founded Date"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
+                selected="selectedFoundedDate"
                 extent="1992"
                 format="%Y"
             ></div>

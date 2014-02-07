@@ -33,7 +33,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      * @param {object} categoriesById An object/hash of all categories keyed by their IDs
      */
     Investor.prototype.linkModels = function(companiesById, categoriesById) {
-        window._investors = this.all;
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
@@ -113,21 +112,21 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byTotalFunding: function() {
-            var ranges = this.filterData.ranges;
+            var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, ranges);
+                return fallsWithinRange(company_funding, range);
             });
         },
         byFundingPerRound: function() {
-            var ranges = this.filterData.roundRanges;
-            this.dimensions.byFundingPerRound.filter(function(roundFunding){
-                return fallsWithinRange(roundFunding, ranges);
+            var range = this.filterData.ranges;
+            this.dimensions.byFundingPerRound.filter(function(company_funding) {
+                return fallsWithinRange(company_funding, range);
             });
         },
         byMostRecentFundingRound: function() {
-            var ranges = this.filterData.mostRecentRoundRanges;
+            var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, ranges);
+                return fallsWithinRange(company_funding, range);
             });
         },
         byStatus: function() {
@@ -143,20 +142,20 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         }
     };
 
-    function fallsWithinRange(items, ranges) {
-        if(ranges.length === 0) { return true; }
+    function fallsWithinRange(items, range) {
         if(items.length === 0) { return false; }
-        for(var i = 0; i < ranges.length; i++) {
-            var range = ranges[i];
-            for(var j = 0; j < items.length; j++) {
-                var funding = items[j];
-                if(funding >= range.start && funding <= range.end) {
-                    return true;
-                }
+        if(range.length === 0) { return true; }
+
+
+        for(var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            if(item >= range[0] && item <= range[1]) {
+                return true;
             }
         }
+
         return false;
     }
-
     return new Investor();
 });
