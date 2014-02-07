@@ -16,8 +16,9 @@ angular.module('crunchinatorApp.controllers')
 })
 
 .controller('CrunchinatorCtrl', [
-    '$scope', 'Company', 'Category', 'Investor', 'ComponentData',
-    function CrunchinatorCtrl($scope, Company, Category, Investor, ComponentData) {
+    '$scope', '$q', 'Company', 'Category', 'Investor', 'ComponentData',
+    function CrunchinatorCtrl($scope, $q, Company, Category, Investor, ComponentData) {
+        $scope.loading = true;
         //Create the initial empty filter data for every filter
         var filterData = {
             categoryIds: [],
@@ -54,6 +55,7 @@ angular.module('crunchinatorApp.controllers')
                         Investor.linkModels(companiesById, categoriesById);
                         Investor.setupDimensions();
                         Investor.runFilters(filterData);
+                        $scope.loading = false;
                     });
                 }
             });
@@ -66,6 +68,24 @@ angular.module('crunchinatorApp.controllers')
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays
         $scope.$on('filterAction', function() {
+            var deferred = $q.defer();
+
+
+            function applyFilters() {
+                _.delay(function(){
+                    $scope.$apply(function() {
+                        Company.runFilters(filterData);
+                        Category.runFilters(filterData);
+                        Investor.runFilters(filterData);
+
+                        deferred.resolve('Finished filters');
+                    });
+                }, 300);
+
+                return deferred.promise;
+            }
+
+            $scope.loading = true;
             filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
             filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
             filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
@@ -78,9 +98,9 @@ angular.module('crunchinatorApp.controllers')
             filterData.acquiredDate = $scope.selectedAquiredDate || [];
             filterData.foundedDate = $scope.selectedFoundedDate || [];
 
-            Company.runFilters(filterData);
-            Category.runFilters(filterData);
-            Investor.runFilters(filterData);
+            applyFilters().then(function(){
+                $scope.loading = false;
+            });
         });
     }
 ]);
