@@ -73,6 +73,15 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             }),
             byStatuses: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'status');
+            }),
+            byAcquiredOn: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(investor.invested_companies, 'acquired_on'));
+            }),
+            byFundingRoundMonth: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(_.flatten(_.pluck(investor.invested_companies, 'funding_rounds')), 'funded_on'));
+            }),
+            byFoundedOn: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(investor.invested_companies, 'founded_on'));
             })
         };
 
@@ -141,6 +150,27 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     var company_status = company_statuses[i];
                     return _.contains(statuses, company_status);
                 }
+            });
+        },
+        byAcquiredOn: function() {
+            var range = this.filterData.acquiredDate;
+            var format = this.format;
+            this.dimensions.byAcquiredOn.filter(function(company_acquired_on) {
+                return self.fallsWithinRange(_.map(company_acquired_on, format.parse), range);
+            });
+        },
+        byFoundedOn: function() {
+            var range = this.filterData.foundedDate;
+            var format = this.format;
+            this.dimensions.byFoundedOn.filter(function(company_founded_on) {
+                return self.fallsWithinRange(_.map(company_founded_on, format.parse), range);
+            });
+        },
+        byFundingRoundMonth: function() {
+            var range = this.filterData.fundingActivity;
+            var format = this.format;
+            this.dimensions.byFundingRoundMonth.filter(function(funding_round_dates) {
+                return self.fallsWithinRange(_.map(funding_round_dates, format.parse), range);
             });
         }
     };
