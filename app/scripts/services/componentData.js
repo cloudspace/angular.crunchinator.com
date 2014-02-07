@@ -207,11 +207,19 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     });
 
     this.companyStatusData = _.memoize(function(companies) {
+        var statuses = ['alive', 'deadpooled', 'acquired'];
         var status_grouping = _.groupBy(companies, function(company) { return company.status; });
-
-        return _.map(status_grouping, function(v, k) {
-            return {label: k, count: v.length};
+        var results = [];
+        if(_.isEmpty(status_grouping)) { return results; }
+        _.each(statuses, function(status) {
+            if(status_grouping[status]) {
+                results.push({label: status, count: status_grouping[status].length});
+            } else {
+                results.push({label: status, count: 0});
+            }
         });
+
+        return results;
     });
 
     this.companyStateData = _.memoize(function(companies) {
