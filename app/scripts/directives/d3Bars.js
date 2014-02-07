@@ -58,12 +58,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                             if(extent[0] <= point && point <= extent[1]) {
                                 if (d.start < range[0]) {
                                     range[0] = d.start;
-                                    console.log('new start ' + d.start);
                                 }
 
                                 if (d.end > range[1]) {
                                     range[1] = d.end;
-                                    console.log('new end ' + d.end);
                                 }
                             }
                         });
