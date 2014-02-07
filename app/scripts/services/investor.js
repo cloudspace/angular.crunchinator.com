@@ -112,21 +112,24 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byTotalFunding: function() {
+            var self = this;
             var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byFundingPerRound: function() {
+            var self = this;
             var range = this.filterData.ranges;
             this.dimensions.byFundingPerRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byMostRecentFundingRound: function() {
+            var self = this;
             var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byStatus: function() {
@@ -142,20 +145,5 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         }
     };
 
-    function fallsWithinRange(items, range) {
-        if(items.length === 0) { return false; }
-        if(range.length === 0) { return true; }
-
-
-        for(var i = 0; i < items.length; i++) {
-            var item = items[i];
-
-            if(item >= range[0] && item <= range[1]) {
-                return true;
-            }
-        }
-
-        return false;
-    }
     return new Investor();
 });
