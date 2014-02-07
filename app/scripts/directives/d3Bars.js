@@ -40,12 +40,13 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     .attr('width', width)
                     .attr('height', height);
 
+                var range = [Infinity, -Infinity];
                 var brush = d3.svg.brush()
                     .x(x)
                     .extent([10, width])
                     .on('brush', function() {
-                        var range = [Infinity, -Infinity];
-
+                        
+                        range = [Infinity, -Infinity];
                         var extent = brush.extent();
 
                         svg.selectAll('#clip-' + id + ' rect')
@@ -64,7 +65,8 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                                 }
                             }
                         });
-
+                    })
+                    .on('brushend', function() {
                         scope.selectedItems = range;
 
                         scope.$parent.$apply(function() {
