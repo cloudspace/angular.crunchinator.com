@@ -17,13 +17,14 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
                 scope.format = scope.format || '%m/%Y';
 
+
                 var area_fore, area_back;
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
                 height = parent.height() - margin.top - margin.bottom - 130;
 
-                var parseDate = d3.time.format(scope.format).parse;
-
+                var formatDate = d3.time.format(scope.format);
+                var parseDate = formatDate.parse;
                 var x = d3.time.scale().range([0, width]);
 
                 var y = d3.scale.linear().range([height, 0]);
@@ -84,27 +85,27 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     });
 
 
-                    var gBrush = svg.append('g')
-                        .attr('class', 'brush')
-                        .call(brush);
+                var gBrush = svg.append('g')
+                    .attr('class', 'brush')
+                    .call(brush);
 
-                    gBrush.selectAll('rect')
-                        .attr('height', height);
+                gBrush.selectAll('rect')
+                    .attr('height', height);
 
-                    gBrush.selectAll('.resize').append('path').attr('d', function(d) {
-                        var e = +(d === 'e'),
-                            x = e ? 1 : -1,
-                            y = height / 3;
-                        return 'M' + (0.5 * x) + ',' + y +
-                            'A6,6 0 0 ' + e + ' ' + (6.5 * x) + ',' + (y + 6) +
-                            'V' + (2 * y - 6) +
-                            'A6,6 0 0 ' + e + ' ' + (0.5 * x) + ',' + (2 * y) +
-                            'Z' +
-                            'M' + (2.5 * x) + ',' + (y + 8) +
-                            'V' + (2 * y - 8) +
-                            'M' + (4.5 * x) + ',' + (y + 8) +
-                            'V' + (2 * y - 8);
-                    });
+                gBrush.selectAll('.resize').append('path').attr('d', function(d) {
+                    var e = +(d === 'e'),
+                        x = e ? 1 : -1,
+                        y = height / 3;
+                    return 'M' + (0.5 * x) + ',' + y +
+                        'A6,6 0 0 ' + e + ' ' + (6.5 * x) + ',' + (y + 6) +
+                        'V' + (2 * y - 6) +
+                        'A6,6 0 0 ' + e + ' ' + (0.5 * x) + ',' + (2 * y) +
+                        'Z' +
+                        'M' + (2.5 * x) + ',' + (y + 8) +
+                        'V' + (2 * y - 8) +
+                        'M' + (4.5 * x) + ',' + (y + 8) +
+                        'V' + (2 * y - 8);
+                });
 
                 scope.render = function(data) {
                     data.forEach(function(d) {

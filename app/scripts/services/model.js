@@ -10,6 +10,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
     var Model = function() {
         this.all = [];
         this.dimensions = [];
+        this.format = d3.time.format('%x');
     };
 
     /**
