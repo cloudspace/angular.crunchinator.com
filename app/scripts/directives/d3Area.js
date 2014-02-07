@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
-    function() {
+    function($rootScope) {
         return {
             restrict: 'EA',
             scope: {
@@ -111,7 +111,13 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                                 .attr('x', x(extent[0]))
                                 .attr('width', x(extent[1]) - x(extent[0]));
 
-                            // Setup filter data here.
+
+                            scope.selectedItems = [extent[0], extent[1]];
+
+                            scope.$parent.$apply(function() {
+                                scope.$parent[scope.selected] = scope.selectedItems;
+                                $rootScope.$broadcast('filterAction');
+                            });
                         });
 
                     var gBrush = svg.append('g')
