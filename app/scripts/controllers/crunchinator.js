@@ -27,7 +27,10 @@ angular.module('crunchinatorApp.controllers')
             roundRanges: [],
             mostRecentRoundRanges: [],
             statuses: [],
-            states: []
+            states: [],
+            fundingActivity: [],
+            acquiredDate: [],
+            foundedDate: []
         };
 
         $scope.selectedRanges = [];
@@ -71,6 +74,9 @@ angular.module('crunchinatorApp.controllers')
             filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges || [];
             filterData.statuses = $scope.selectedStatuses || [];
             filterData.states = $scope.selectedStates || [];
+            filterData.fundingActivity = $scope.selectedFundingActivity || [];
+            filterData.acquiredDate = $scope.selectedAquiredDate || [];
+            filterData.foundedDate = $scope.selectedFoundedDate || [];
 
             Company.runFilters(filterData);
             Category.runFilters(filterData);

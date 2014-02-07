@@ -63,56 +63,26 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     }
                 }, true);
 
-                scope.render = function(data) {
-                    data.forEach(function(d) {
-                        d.parsed_date = parseDate(d.date);
-                    });
-                    data = _.sortBy(data, function(d){ return d.parsed_date; });
+                x.domain([parseDate(scope.extent), new Date()]);
+                var brush = d3.svg.brush()
+                    .x(x)
+                    .extent([parseDate(scope.extent), new Date()])
+                    .on('brush', function() {
+                        var extent = brush.extent();
 
-                    
-                    y.domain([0, d3.max(data, function(d) { return d.count; })]);
-                    x.domain([parseDate(scope.extent), new Date()]);
-
-                    svg.selectAll('g').remove();
-                    
-                    area_back = svg.selectAll('.background.area').datum(data)
-                        .transition()
-                        .duration(1000)
-                        .attr('d', area)
-                        .style('fill', '#ccc');
-
-                    area_fore = svg.selectAll('.foreground.area').datum(data)
-                        .transition()
-                        .duration(1000)
-                        .attr('d', area)
-                        .style('fill', 'steelBlue');
-
-                    svg.append('g')
-                        .attr('class', 'x axis')
-                        .attr('transform', 'translate(0,' + height + ')')
-                        .call(xAxis)
-                        .style('fill', '#fff');
-
-                    area_fore.attr('clip-path', 'url(#clip-' + time + ')');
-
-                    var brush = d3.svg.brush()
-                        .x(x)
-                        .extent([parseDate(scope.extent), new Date()])
-                        .on('brush', function() {
-                            var extent = brush.extent();
-
-                            svg.selectAll('#clip-' + time + ' rect')
-                                .attr('x', x(extent[0]))
-                                .attr('width', x(extent[1]) - x(extent[0]));
-
-
-                            scope.selectedItems = [extent[0], extent[1]];
-
-                            scope.$parent.$apply(function() {
-                                scope.$parent[scope.selected] = scope.selectedItems;
-                                $rootScope.$broadcast('filterAction');
-                            });
+                        svg.selectAll('#clip-' + time + ' rect')
+                            .attr('x', x(extent[0]))
+                            .attr('width', x(extent[1]) - x(extent[0]));
+                    })
+                    .on('brushend', function(){
+                        var extent = brush.extent();
+                        scope.selectedItems = [extent[0], extent[1]];
+                        scope.$parent.$apply(function() {
+                            scope.$parent[scope.selected] = scope.selectedItems;
+                            $rootScope.$broadcast('filterAction');
                         });
+                    });
+
 
                     var gBrush = svg.append('g')
                         .attr('class', 'brush')
@@ -135,6 +105,40 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                             'M' + (4.5 * x) + ',' + (y + 8) +
                             'V' + (2 * y - 8);
                     });
+
+                scope.render = function(data) {
+                    data.forEach(function(d) {
+                        d.parsed_date = parseDate(d.date);
+                    });
+                    data = _.sortBy(data, function(d){ return d.parsed_date; });
+
+                    
+                    y.domain([0, d3.max(data, function(d) { return d.count; })]);
+                    
+
+                    //svg.selectAll('g').remove();
+                    
+                    area_back = svg.selectAll('.background.area').datum(data)
+                        .transition()
+                        .duration(1000)
+                        .attr('d', area)
+                        .style('fill', '#ccc');
+
+                    area_fore = svg.selectAll('.foreground.area').datum(data)
+                        .transition()
+                        .duration(1000)
+                        .attr('d', area)
+                        .style('fill', 'steelBlue');
+
+                    svg.append('g')
+                        .attr('class', 'x axis')
+                        .attr('transform', 'translate(0,' + height + ')')
+                        .call(xAxis)
+                        .style('fill', '#fff');
+
+                    area_fore.attr('clip-path', 'url(#clip-' + time + ')');
+
+
                 };
             }
         };

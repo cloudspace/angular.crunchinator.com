@@ -9,6 +9,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     var Company = function() {
         this.url = API_BASE_URL + '/companies.json';
+        this.format = d3.time.format('%x');
     };
 
     Company.prototype = Object.create(Model);
@@ -66,9 +67,9 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForTotalFunding: ['byTotalFunding'],
         dataForLocationMap: ['byState'],
         dataForCategoriesList: ['byCategory'],
-        dataForFundingRoundAreaChart: [],
-        dataForAcquiredOnAreaChart: [],
-        dataForFoundedOnAreaChart: [],
+        dataForFundingRoundAreaChart: ['byFundingActivity'],
+        dataForAcquiredOnAreaChart: ['byAcquiredDate'],
+        dataForFoundedOnAreaChart: ['byFoundedDate'],
         dataForFundingPerRound: ['byFundingPerRound'],
         dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
         dataForCompanyStatus: ['byStatus']
@@ -127,8 +128,47 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             this.dimensions.byState.filter(function(state){
                 return (states.length === 0 || _.contains(states, state));
             });
+        },
+        byFundingActivity: function() {
+            var range = this.filterData.fundingActivity;
+            var self = this;
+            this.dimensions.byFundingRoundMonth.filter(function(round_dates) {
+                return fallsWithinRange(_.map(round_dates, self.format.parse), range);
+            });
+        },
+        byAcquiredDate: function() {
+            var range = this.filterData.acquiredDate;
+            var self = this;
+            this.dimensions.byAcquiredOn.filter(function(acquired_on) {
+                acquired_on = self.format.parse(acquired_on);
+                return (range.length === 0 || (acquired_on >= range[0] && acquired_on <= range[1]));
+            });
+        },
+        byFoundedDate: function() {
+            var range = this.filterData.foundedDate;
+            var self = this;
+            this.dimensions.byFoundedOn.filter(function(founded_on) {
+                founded_on = self.format.parse(founded_on);
+                return (range.length === 0 || (founded_on >= range[0] && founded_on <= range[1]));
+            });
         }
     };
+
+    function fallsWithinRange(items, range) {
+        if(items.length === 0) { return false; }
+        if(range.length === 0) { return true; }
+
+
+        for(var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            if(item >= range[0] && item <= range[1]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     return new Company();
 });
