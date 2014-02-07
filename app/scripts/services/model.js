@@ -90,5 +90,28 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return this.all.length;
     };
 
+    /**
+    * Returns whether any entry of an array of items falls within a number range.
+    *
+    * @param {array} list of numbers to check with
+    * @param {array} a number range to check against
+    * @return {boolean} whether the number list contains a value within the range
+    */
+    Model.prototype.fallsWithinRange = function(items, range) {
+        if(items.length === 0) { return false; }
+        if(range.length === 0) { return true; }
+
+
+        for(var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            if(item >= range[0] && item <= range[1]) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     return new Model();
 });

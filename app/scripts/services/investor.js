@@ -121,21 +121,24 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byTotalFunding: function() {
+            var self = this;
             var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byFundingPerRound: function() {
+            var self = this;
             var range = this.filterData.ranges;
             this.dimensions.byFundingPerRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byMostRecentFundingRound: function() {
+            var self = this;
             var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, range);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byStatus: function() {
@@ -150,43 +153,30 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byAcquiredOn: function() {
+            var self = this;
             var range = this.filterData.acquiredDate;
             var format = this.format;
             this.dimensions.byAcquiredOn.filter(function(company_acquired_on) {
-                return fallsWithinRange(_.map(company_acquired_on, format.parse), range);
+                return self.fallsWithinRange(_.map(company_acquired_on, format.parse), range);
             });
         },
         byFoundedOn: function() {
+            var self = this;
             var range = this.filterData.foundedDate;
             var format = this.format;
             this.dimensions.byFoundedOn.filter(function(company_founded_on) {
-                return fallsWithinRange(_.map(company_founded_on, format.parse), range);
+                return self.fallsWithinRange(_.map(company_founded_on, format.parse), range);
             });
         },
         byFundingRoundMonth: function() {
+            var self = this;
             var range = this.filterData.fundingActivity;
             var format = this.format;
             this.dimensions.byFundingRoundMonth.filter(function(funding_round_dates) {
-                return fallsWithinRange(_.map(funding_round_dates, format.parse), range);
+                return self.fallsWithinRange(_.map(funding_round_dates, format.parse), range);
             });
         }
     };
 
-    function fallsWithinRange(items, range) {
-        if(range.length === 0) { return true; }
-        if(items.length === 0) { return false; }
-
-
-
-        for(var i = 0; i < items.length; i++) {
-            var item = items[i];
-
-            if(item >= range[0] && item <= range[1]) {
-                return true;
-            }
-        }
-
-        return false;
-    }
     return new Investor();
 });
