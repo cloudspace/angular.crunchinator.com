@@ -211,6 +211,8 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var status_grouping = _.groupBy(companies, function(company) { return company.status; });
         var results = [];
         if(_.isEmpty(status_grouping)) { return results; }
+
+        // Make sure all known status-types are always represented in the returned data-set.
         _.each(statuses, function(status) {
             if(status_grouping[status]) {
                 results.push({label: status, count: status_grouping[status].length});

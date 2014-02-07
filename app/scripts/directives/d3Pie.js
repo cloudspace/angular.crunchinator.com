@@ -123,6 +123,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
 
                     ticks = ticks.data(pie(data));
 
+                    // If a tick does not have an associated value with it, hide it.
                     ticks.classed('hidden', function(d) { return (d.value === 0 ); });
 
                     ticks.transition().duration(1000)
@@ -132,6 +133,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
 
                     labels = labels.data(pie(data));
 
+                    // If a label does not have an associated value with it, hide it.
                     labels.classed('hidden', function(d) { return (d.value === 0 ); });
 
                     labels.transition().duration(1000)
