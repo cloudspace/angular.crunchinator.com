@@ -18,14 +18,11 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                         0x100+(Math.round((B2-B1)*p)+B1)).toString(16).slice(1);
                 }
                 scope.selected_states = [];
-                var centered;
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
                 var width = element[0].clientWidth;
                 var height = parent.height() - 130;
-
-
 
                 var projection = d3.geo.albersUsa()
                     .scale(width*1.4)
@@ -38,7 +35,25 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                     .attr('width', width)
                     .attr('height', height);
 
-                var g = svg.append('g');
+                var zoomed = function() {
+                    g.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
+                    g.select('.state-border').style('stroke-width', 1.5 / d3.event.scale + 'px');
+                };
+
+                var zoom = d3.behavior.zoom()
+                    .translate([0, 0])
+                    .scale(1)
+                    .scaleExtent([.9, 10])
+                    .on("zoom", zoomed);
+
+               
+
+                var states = svg.append('g').call(zoom);
+                var rect = states.append('rect')
+                    .attr('class', 'overlay')
+                    .attr('width', width)
+                    .attr('height', height)
+                var g = states.append('g');
 
                 // var colors = d3.scale.category20b();
                 var fillFunction = function (countByCode) {
@@ -64,46 +79,21 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 };
 
                 var select = function(d) {
+                    var state = d.properties.postal;
+                    var state_selected = _.contains(scope.selected_states, state);
+                    if(state_selected) {
+                        scope.selected_states = _.without(scope.selected_states, state);
+                    }
+                    else {
+                        scope.selected_states.push(state);
+                    }
+                    
+                    scope.$parent[scope.selected] = scope.selected_states.slice(0);
+                    g.selectAll('.state').attr('fill', fillFunction(scope.data));
                     scope.$parent.$apply(function(){
-                        var state = d.properties.postal;
-                        var state_selected = _.contains(scope.selected_states, state);
-                        if(state_selected) {
-                            scope.selected_states = _.without(scope.selected_states, state);
-                        }
-                        else {
-                            scope.selected_states.push(state);
-                        }
-                        
-                        scope.$parent[scope.selected] = scope.selected_states.slice(0);
-                        g.selectAll('.state').attr('fill', fillFunction(scope.data));
                         $rootScope.$broadcast('filterAction');
                     });
                 };
-
-                var zoom = function(d) {
-                  var x, y, k;
-
-                  if (d && centered !== d) {
-                    var centroid = path.centroid(d);
-                    x = centroid[0];
-                    y = centroid[1];
-                    k = 3;
-                    centered = d;
-                  } else {
-                    x = width / 2;
-                    y = height / 2;
-                    k = 1;
-                    centered = null;
-                  }
-
-                  g.selectAll("path")
-                      .classed("active", centered && function(d) { return d === centered; });
-
-                  g.transition()
-                      .duration(750)
-                      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-                      .style("stroke-width", 1.5 / k + "px");
-                }
 
                 d3.json('/data/us.json', function(error, us) {
                     g.selectAll('.state')
@@ -111,8 +101,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                         .enter().append('path')
                         .attr('fill', fillFunction(scope.data))
                         .attr('class', 'state')
-                        .on('click.zoom', zoom)
-                        //.on('click.select', select)
+                        .on('click', select)
                         .attr('d', path);
 
                     g.append('path')

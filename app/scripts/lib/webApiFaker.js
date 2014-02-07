@@ -1,6 +1,6 @@
 'use strict';
 
-var exponential_distribution = function(min, max) {
+var exp_dist = function(min, max) {
     var increment = (max - min) / 6;
     var num;
     do {
@@ -9,11 +9,15 @@ var exponential_distribution = function(min, max) {
         num = min + (t * increment);
     }
     while(num <= min || num >= max);
-    return Math.floor(num);
+    return num;
+};
+
+var exponential_distribution = function(min, max) {
+    return Math.floor(exp_dist(min, max));
 };
 
 var randomDate = function(start, end) {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    return new Date(start.getTime() + (1 - exp_dist(0, 1)) * (end.getTime() - start.getTime()));
 };
 
 (function (ng, fk) {
@@ -40,7 +44,7 @@ var randomDate = function(start, end) {
             latitude: 1.0,
             longitude: 1.0,
             acquired_on: d3.time.format('%x')(randomDate(new Date(2006, 1, 1), new Date())), //Random date between two dates
-            founded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
+            founded_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
             investor_ids: [],
             funding_rounds: [],
             status: statuses[exponential_distribution(0, statuses.length)],
