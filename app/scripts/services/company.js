@@ -37,9 +37,11 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
             byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
             byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; }),
+            byAcquiredOn: crossCompanies.dimension(function(company){ return company.acquired_on; }),
             byFundingRoundMonth: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'funded_on');
             }),
+            byFoundedOn: crossCompanies.dimension(function(company){ return company.founded_on; }),
             byFundingPerRound: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'raised_amount');
             }),
@@ -47,7 +49,9 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 return _.max(company.funding_rounds, function(round){
                     return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
                 }).raised_amount;
-            })
+            }),
+            byStatuses: crossCompanies.dimension(function(company) { return company.status; }),
+            byState: crossCompanies.dimension(function(company) { return company.state_code; })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -60,11 +64,14 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
     Company.prototype.dataSets = {
         dataForCompaniesList: ['byId'],
         dataForTotalFunding: ['byTotalFunding'],
-        dataForLocationMap: [],
+        dataForLocationMap: ['byState'],
         dataForCategoriesList: ['byCategory'],
         dataForFundingRoundAreaChart: [],
+        dataForAcquiredOnAreaChart: [],
+        dataForFoundedOnAreaChart: [],
         dataForFundingPerRound: ['byFundingPerRound'],
-        dataForMostRecentFundingRound: ['byMostRecentFundingRound']
+        dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
+        dataForCompanyStatus: ['byStatus']
     };
 
     /**
@@ -92,56 +99,33 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             });
         },
         byTotalFunding: function() {
-            var ranges = this.filterData.ranges;
+            var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(funding) {
-                if (ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        if(funding > range.start && funding < range.end) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } else {
-                    return true;
-                }
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
             });
         },
         byFundingPerRound: function() {
-            var ranges = this.filterData.roundRanges;
-            this.dimensions.byFundingPerRound.filter(function(roundFunding){
-                if(ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        for(var j = 0; j < roundFunding.length; j++) {
-                            var roundAmount = roundFunding[j];
-                            if(roundAmount > range.start && roundAmount < range.end) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
+            var range = this.filterData.roundRanges;
+            this.dimensions.byFundingPerRound.filter(function(funding) {
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
             });
         },
         byMostRecentFundingRound: function() {
-            var ranges = this.filterData.mostRecentRoundRanges;
+            var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(funding) {
-                if (ranges.length) {
-                    for(var i = 0; i < ranges.length; i++) {
-                        var range = ranges[i];
-                        if(funding > range.start && funding < range.end) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
+            });
+        },
+        byStatus: function() {
+            var statuses = this.filterData.statuses;
+            this.dimensions.byStatuses.filter(function(status) {
+                return (statuses.length === 0 || _.contains(statuses, status));
+            });
+        },
+        byState: function() {
+            var states = this.filterData.states;
+            this.dimensions.byState.filter(function(state){
+                return (states.length === 0 || _.contains(states, state));
             });
         }
     };

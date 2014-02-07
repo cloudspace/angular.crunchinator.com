@@ -2,7 +2,7 @@
   "node": true,
   "browser": true,
   "esnext": true,
-  "bitwise": true,
+  "bitwise": false,
   "camelcase": false,
   "curly": true,
   "eqeqeq": true,
@@ -24,6 +24,7 @@
     "_": false,
     "crossfilter": false,
     "d3": false,
-    "L": false
+    "L": false,
+    "topojson": false
   }
 }

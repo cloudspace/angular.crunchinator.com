@@ -1,36 +1,38 @@
 'use strict';
 
 angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
-    function() {
+    function($rootScope) {
         return {
             restrict: 'EA',
             scope: {
                 data: '=',
                 title: '@',
                 extent: '@',
-                selected: '@'
+                selected: '@',
+                format: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
+                scope.format = scope.format || '%m/%Y';
 
+                var area_fore, area_back;
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
                 height = parent.height() - margin.top - margin.bottom - 130;
 
-                var parseDate = d3.time.format('%m/%Y').parse;
+                var parseDate = d3.time.format(scope.format).parse;
 
                 var x = d3.time.scale().range([0, width]);
 
                 var y = d3.scale.linear().range([height, 0]);
 
+                var time = scope.title.replace(/\s+/g, '-');
+
                 var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom');
-                // var yAxis = d3.svg.axis()
-                //     .scale(y)
-                //     .orient('left');
 
                 var area = d3.svg.area()
                     .x(function(d) { return x(d.parsed_date); })
@@ -43,10 +45,22 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                   .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-                svg.append('path');
+                svg.append('clipPath')
+                    .attr('id', 'clip-' + time)
+                    .append('rect')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                svg.append('path')
+                    .attr('class', 'background area');
+
+                svg.append('path')
+                    .attr('class', 'foreground area');
 
                 scope.$watch('data', function(newval) {
-                    return scope.render(newval);
+                    if(newval) {
+                        return scope.render(newval);
+                    }
                 }, true);
 
                 scope.render = function(data) {
@@ -61,17 +75,66 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     svg.selectAll('g').remove();
                     
-                    svg.selectAll('path').datum(data)
+                    area_back = svg.selectAll('.background.area').datum(data)
                         .transition()
                         .duration(1000)
                         .attr('d', area)
-                        .style('fill', 'steelblue');
+                        .style('fill', '#ccc');
+
+                    area_fore = svg.selectAll('.foreground.area').datum(data)
+                        .transition()
+                        .duration(1000)
+                        .attr('d', area)
+                        .style('fill', 'steelBlue');
 
                     svg.append('g')
                         .attr('class', 'x axis')
                         .attr('transform', 'translate(0,' + height + ')')
                         .call(xAxis)
                         .style('fill', '#fff');
+
+                    area_fore.attr('clip-path', 'url(#clip-' + time + ')');
+
+                    var brush = d3.svg.brush()
+                        .x(x)
+                        .extent([parseDate(scope.extent), new Date()])
+                        .on('brush', function() {
+                            var extent = brush.extent();
+
+                            svg.selectAll('#clip-' + time + ' rect')
+                                .attr('x', x(extent[0]))
+                                .attr('width', x(extent[1]) - x(extent[0]));
+
+
+                            scope.selectedItems = [extent[0], extent[1]];
+
+                            scope.$parent.$apply(function() {
+                                scope.$parent[scope.selected] = scope.selectedItems;
+                                $rootScope.$broadcast('filterAction');
+                            });
+                        });
+
+                    var gBrush = svg.append('g')
+                        .attr('class', 'brush')
+                        .call(brush);
+
+                    gBrush.selectAll('rect')
+                        .attr('height', height);
+
+                    gBrush.selectAll('.resize').append('path').attr('d', function(d) {
+                        var e = +(d === 'e'),
+                            x = e ? 1 : -1,
+                            y = height / 3;
+                        return 'M' + (0.5 * x) + ',' + y +
+                            'A6,6 0 0 ' + e + ' ' + (6.5 * x) + ',' + (y + 6) +
+                            'V' + (2 * y - 6) +
+                            'A6,6 0 0 ' + e + ' ' + (0.5 * x) + ',' + (2 * y) +
+                            'Z' +
+                            'M' + (2.5 * x) + ',' + (y + 8) +
+                            'V' + (2 * y - 8) +
+                            'M' + (4.5 * x) + ',' + (y + 8) +
+                            'V' + (2 * y - 8);
+                    });
                 };
             }
         };

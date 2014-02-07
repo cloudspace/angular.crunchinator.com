@@ -18,7 +18,8 @@
     "ngInfiniteScroll": "*",
     "d3-cloud": "*",
     "Faker": "*",
-    "jquery.shapeshift": "2.0.0"
+    "jquery.shapeshift": "2.0.0",
+    "topojson": "1.4.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

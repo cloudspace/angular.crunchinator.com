@@ -99,10 +99,10 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             });
         },
         byTotalFunding: function() {
-            var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'category_ids')));
+            /*var ids = _.uniq(_.flatten(_.pluck(this.filterData.ranges, 'category_ids')));
             this.dimensions.byId.filter(function(id) {
                 return (ids.length === 0 || ids.indexOf(id) > -1);
-            });
+            });*/
         }
     };
 

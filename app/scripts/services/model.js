@@ -59,6 +59,10 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
             self.applyFilters(exclusions);
             self[setName] = self.byName.bottom(Infinity);
         });
+
+        _.each(this.groups, function(group, groupName){
+            self[groupName] = group.all();
+        });
     };
 
     /**
