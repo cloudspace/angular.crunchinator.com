@@ -76,6 +76,15 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             }),
             byStatuses: crossCategories.dimension(function(category) {
                 return _.pluck(category.companies, 'status');
+            }),
+            byAcquiredOn: crossCategories.dimension(function(category){
+                return _.compact(_.pluck(category.companies, 'acquired_on'));
+            }),
+            byFundingRoundMonth: crossCategories.dimension(function(category){
+                return _.compact(_.pluck(_.flatten(_.pluck(category.companies, 'funding_rounds')), 'funded_on'));
+            }),
+            byFoundedOn: crossCategories.dimension(function(category){
+                return _.compact(_.pluck(category.companies, 'founded_on'));
             })
         };
 
