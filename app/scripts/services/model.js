@@ -98,8 +98,8 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
     * @return {boolean} whether the number list contains a value within the range
     */
     Model.prototype.fallsWithinRange = function(items, range) {
-        if(items.length === 0) { return false; }
         if(range.length === 0) { return true; }
+        if(items.length === 0) { return false; }
 
 
         for(var i = 0; i < items.length; i++) {
