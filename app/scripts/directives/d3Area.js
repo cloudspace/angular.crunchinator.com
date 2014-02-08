@@ -9,7 +9,8 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 title: '@',
                 extent: '@',
                 selected: '@',
-                format: '@'
+                format: '@',
+                ranges: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
@@ -17,13 +18,14 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
                 scope.format = scope.format || '%m/%Y';
 
-
+                console.log(scope.displayRange);
                 var area_fore, area_back;
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
                 height = parent.height() - margin.top - margin.bottom - 130;
 
                 var formatDate = d3.time.format(scope.format);
+
                 var parseDate = formatDate.parse;
                 var x = d3.time.scale().range([0, width]);
 
@@ -64,6 +66,15 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     }
                 }, true);
 
+                function set_min_max(extent) {
+                    var formatDate = function(date) {
+                        return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+                    };
+
+                    scope.min = formatDate(extent[0]);
+                    scope.max = formatDate(extent[1]);
+                };
+
                 x.domain([parseDate(scope.extent), new Date()]);
                 var brush = d3.svg.brush()
                     .x(x)
@@ -74,6 +85,10 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                         svg.selectAll('#clip-' + time + ' rect')
                             .attr('x', x(extent[0]))
                             .attr('width', x(extent[1]) - x(extent[0]));
+
+                        scope.$parent.$apply(function (){
+                            set_min_max(extent);
+                        });
                     })
                     .on('brushend', function(){
                         var extent = brush.extent();
@@ -139,7 +154,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     area_fore.attr('clip-path', 'url(#clip-' + time + ')');
 
-
+                    set_min_max(brush.extent());
                 };
             }
         };
