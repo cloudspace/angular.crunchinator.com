@@ -1,5 +1,28 @@
 'use strict';
 
+// We need to discuss moving these 'utility' functions to a depedency we can inject
+// since they are needed across services and directives.
+function abbreviateNumber(value) {
+    var newValue = value;
+    if (value >= 1000) {
+        var suffixes = ['', 'K', 'M', 'B','T'];
+        var suffixNum = Math.floor( ((''+value).length -1)/3 );
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+            if (dotLessShortValue.length <= 3) { break; }
+        }
+
+        newValue = shortValue+suffixes[suffixNum];
+    }
+    return newValue;
+}
+
+function labelfy(num) {
+    return '$' + abbreviateNumber(num);
+}
+
 angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
     function($rootScope) {
         return {
@@ -7,7 +30,8 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             scope: {
                 data: '=',
                 title: '@',
-                selected: '@'
+                selected: '@',
+                ranges: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
@@ -17,7 +41,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
-                var bars_fore, bars_back;
+                var bars_fore, bars_back, range;
                 var margin = {top: 0, right: 10, bottom: 20, left: 0};
                 var width = element.width() - margin.left - margin.right;
                 var height = parent.height() - margin.top - margin.bottom - 124;
@@ -40,30 +64,38 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     .attr('width', width)
                     .attr('height', height);
 
-                var range = [Infinity, -Infinity];
+                var set_min_max = function(extent) {
+                    range = [Infinity, -Infinity];
+
+                    bars_fore.each(function(d) {
+                        var point = x(d.label);
+                        if(extent[0] <= point && point <= extent[1]) {
+                            if (d.start < range[0]) {
+                                range[0] = d.start;
+                            }
+
+                            if (d.end > range[1]) {
+                                range[1] = d.end;
+                            }
+                        }
+                    });
+
+                    scope.min = labelfy(range[0]);
+                    scope.max = labelfy(range[1]);
+                };
+
                 var brush = d3.svg.brush()
                     .x(x)
                     .extent([10, width])
                     .on('brush', function() {
-                        
-                        range = [Infinity, -Infinity];
                         var extent = brush.extent();
 
                         svg.selectAll('#clip-' + id + ' rect')
                             .attr('x', extent[0])
                             .attr('width', extent[1] - extent[0]);
 
-                        bars_fore.each(function(d) {
-                            var point = x(d.label);
-                            if(extent[0] <= point && point <= extent[1]) {
-                                if (d.start < range[0]) {
-                                    range[0] = d.start;
-                                }
-
-                                if (d.end > range[1]) {
-                                    range[1] = d.end;
-                                }
-                            }
+                        scope.$parent.$apply(function() {
+                            set_min_max(extent);
                         });
                     })
                     .on('brushend', function() {
@@ -164,6 +196,8 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                             'M' + (4.5 * x) + ',' + (y + 8) +
                             'V' + (2 * y - 8);
                     });
+
+                    set_min_max(brush.extent());
                 };
             }
         };

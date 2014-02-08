@@ -55,6 +55,7 @@
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 selected="selectedFundingActivity"
                 extent="1/2000"
+                ranges="true"
             ></div>
         </div>
 
@@ -64,6 +65,7 @@
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
                 selected="selectedAquiredDate"
                 extent="1/2006"
+                ranges="true"
                 ></div>
         </div>
 
@@ -74,6 +76,7 @@
                 selected="selectedFoundedDate"
                 extent="1992"
                 format="%Y"
+                ranges="true"
             ></div>
         </div>
 
@@ -82,6 +85,7 @@
                 title="Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.all)"
                 selected="selectedRanges"
+                ranges="true"
             ></div>
         </div>
 
@@ -90,6 +94,7 @@
                 title="Funding per Round"
                 data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.all)"
                 selected="selectedRoundRanges"
+                ranges="true"
             ></div>
         </div>
 
@@ -98,6 +103,7 @@
                 title="Most Recent Funding Round"
                 data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
                 selected="selectedRecentRoundRanges"
+                ranges="true"
             ></div>
         </div>
     </div>
