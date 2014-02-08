@@ -73,7 +73,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     scope.min = formatDate(extent[0]);
                     scope.max = formatDate(extent[1]);
-                };
+                }
 
                 x.domain([parseDate(scope.extent), new Date()]);
                 var brush = d3.svg.brush()

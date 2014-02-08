@@ -82,7 +82,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     scope.min = labelfy(range[0]);
                     scope.max = labelfy(range[1]);
-                }
+                };
 
                 var brush = d3.svg.brush()
                     .x(x)
