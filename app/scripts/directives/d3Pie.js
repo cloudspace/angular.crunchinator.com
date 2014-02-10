@@ -38,11 +38,10 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
                 var fill = function (d) {
-                    // look at word cloud for selection coloration ideas
-                    if(_.contains(scope.selectedItems, d.data.label)) {
-                        return 'brown';
-                    } else {
+                    if(scope.selectedItems.length === 0 || _.contains(scope.selectedItems, d.data.label)) {
                         return color(d.data.label);
+                    } else {
+                        return '#ccc';
                     }
                 };
 
