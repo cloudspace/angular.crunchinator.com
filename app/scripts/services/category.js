@@ -56,6 +56,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
      */
     Category.prototype.setupDimensions = function() {
         var crossCategories = crossfilter(this.all);
+        var parse = this.format.parse;
 
         this.dimensions = {
             byId: crossCategories.dimension(function(category) { return category.id; }),
@@ -70,7 +71,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             byMostRecentFundingRound: crossCategories.dimension(function(category){
                 return _.map(category.companies, function(company){
                     return _.max(company.funding_rounds, function(round){
-                        return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+                        return round.funded_on ? parse(round.funded_on) : 0;
                     }).raised_amount;
                 });
             }),
@@ -78,13 +79,19 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
                 return _.pluck(category.companies, 'status');
             }),
             byAcquiredOn: crossCategories.dimension(function(category){
-                return _.compact(_.pluck(category.companies, 'acquired_on'));
+                return _.compact(_.map(category.companies, function(company){
+                    return company.acquired_on ? parse(company.acquired_on) : null;
+                }));
             }),
             byFundingRoundMonth: crossCategories.dimension(function(category){
-                return _.compact(_.pluck(_.flatten(_.pluck(category.companies, 'funding_rounds')), 'funded_on'));
+                return _.compact(_.map(_.flatten(_.pluck(category.companies, 'funding_rounds')), function(company){
+                    return company.funded_on ? parse(company.funded_on) : null;
+                }));
             }),
             byFoundedOn: crossCategories.dimension(function(category){
-                return _.compact(_.pluck(category.companies, 'founded_on'));
+                return _.compact(_.map(category.companies, function(company){
+                    return company.founded_on ? parse(company.founded_on) : null;
+                }));
             })
         };
 
@@ -182,9 +189,8 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
 
             if (range.length !== 0) {
                 var self = this;
-                var format = this.format;
                 this.dimensions.byAcquiredOn.filter(function(company_acquired_on) {
-                    return self.fallsWithinRange(_.map(company_acquired_on, format.parse), range);
+                    return self.fallsWithinRange(company_acquired_on, range);
                 });
             }
         },
@@ -193,9 +199,8 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
 
             if (range.length !== 0) {
                 var self = this;
-                var format = this.format;
                 this.dimensions.byFoundedOn.filter(function(company_founded_on) {
-                    return self.fallsWithinRange(_.map(company_founded_on, format.parse), range);
+                    return self.fallsWithinRange(company_founded_on, range);
                 });
             }
         },
@@ -204,9 +209,8 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
 
             if (range.length !== 0) {
                 var self = this;
-                var format = this.format;
                 this.dimensions.byFundingRoundMonth.filter(function(funding_round_dates) {
-                    return self.fallsWithinRange(_.map(funding_round_dates, format.parse), range);
+                    return self.fallsWithinRange(funding_round_dates, range);
                 });
             }
         }
