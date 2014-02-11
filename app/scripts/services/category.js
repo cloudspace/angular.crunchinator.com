@@ -175,7 +175,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         byStatus: function() {
             var statuses = this.filterData.statuses;
 
-            if (status.length !== 0) {
+            if (statuses.length !== 0) {
                 this.dimensions.byStatuses.filter(function(company_statuses) {
                     for(var i = 0; i < company_statuses.length; i++) {
                         var company_status = company_statuses[i];
@@ -189,14 +189,18 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         },
         byState: function() {
             var states = this.filterData.states;
-            this.dimensions.byStates.filter(function(company_states) {
-                if(states.length === 0) { return true; }
 
-                for(var i = 0; i < company_states.length; i++) {
-                    var company_state = company_states[i];
-                    return _.contains(states, company_state);
-                }
-            });
+            if (states.length !== 0) {
+                this.dimensions.byStates.filter(function(company_states) {
+                    for(var i = 0; i < company_states.length; i++) {
+                        var company_state = company_states[i];
+                        if(_.contains(states, company_state)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            }
         },
         byAcquiredOn: function() {
             var range = this.filterData.acquiredDate;
