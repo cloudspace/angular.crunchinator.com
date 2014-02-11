@@ -75,6 +75,9 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             byStatuses: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'status');
             }),
+            byStates: crossInvestors.dimension(function(investor) {
+                return _.pluck(investor.invested_companies, 'state_code');
+            }),
             byAcquiredOn: crossInvestors.dimension(function(investor){
                 return _.compact(_.map(investor.invested_companies, function(company){
                     return company.acquired_on ? parse(company.acquired_on) : null;
@@ -180,6 +183,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     }
                 });
             }
+        },
+        byState: function() {
+            var states = this.filterData.states;
+            this.dimensions.byStates.filter(function(company_states) {
+                if(states.length === 0) { return true; }
+
+                for(var i = 0; i < company_states.length; i++) {
+                    var company_state = company_states[i];
+                    return _.contains(states, company_state);
+                }
+            });
         },
         byAcquiredOn: function() {
             var range = this.filterData.acquiredDate;

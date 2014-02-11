@@ -92,6 +92,9 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
                 return _.compact(_.map(category.companies, function(company){
                     return company.founded_on ? parse(company.founded_on) : null;
                 }));
+            }),
+            byStates: crossCategories.dimension(function(category) {
+                return _.pluck(category.companies, 'state_code');
             })
         };
 
@@ -183,6 +186,17 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
                     return false;
                 });
             }
+        },
+        byState: function() {
+            var states = this.filterData.states;
+            this.dimensions.byStates.filter(function(company_states) {
+                if(states.length === 0) { return true; }
+
+                for(var i = 0; i < company_states.length; i++) {
+                    var company_state = company_states[i];
+                    return _.contains(states, company_state);
+                }
+            });
         },
         byAcquiredOn: function() {
             var range = this.filterData.acquiredDate;
