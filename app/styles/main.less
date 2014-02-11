@@ -24,6 +24,21 @@
     font-style: normal;
 }
 
+.brush .extent {
+  fill-opacity: .125;
+  fill: steelBlue;
+  shape-rendering: crispEdges;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+.selected {
+  fill: brown;
+}
+
 /* Space out content a bit */
 body {
   padding-bottom: 20px;
@@ -183,6 +198,8 @@ header{
 
   tbody tr td{
     border-top: 1px solid @bright-blue;
+    position: relative;
+    padding: 0;
   }
 
   tbody tr a {
@@ -272,6 +289,26 @@ header{
   stroke-linecap: round;
 }
 
-.county-boundary {
-  stroke-width: .25px;
+#loading {
+  position: fixed;
+  left: 50%;
+  width: 200px;
+  top: 10px;
+  text-align: center;
+  margin-left: -100px;
+  z-index: 999;
+}
+
+.alert-scream {
+  background-color: #ff0;
+}
+
+.dataset td>div {
+  padding: 8px;
+}
+
+.dataset td>a {
+  position: absolute;
+  right: 14px;
+  top: 9px;
 }

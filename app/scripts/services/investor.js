@@ -33,7 +33,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      * @param {object} categoriesById An object/hash of all categories keyed by their IDs
      */
     Investor.prototype.linkModels = function(companiesById, categoriesById) {
-        window._investors = this.all;
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
@@ -77,6 +76,15 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             }),
             byStates: crossInvestors.dimension(function(investor) {
                 return _.pluck(investor.invested_companies, 'state_code');
+            }),
+            byAcquiredOn: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(investor.invested_companies, 'acquired_on'));
+            }),
+            byFundingRoundMonth: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(_.flatten(_.pluck(investor.invested_companies, 'funding_rounds')), 'funded_on'));
+            }),
+            byFoundedOn: crossInvestors.dimension(function(investor){
+                return _.compact(_.pluck(investor.invested_companies, 'founded_on'));
             })
         };
 
@@ -116,21 +124,24 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             });
         },
         byTotalFunding: function() {
-            var ranges = this.filterData.ranges;
+            var self = this;
+            var range = this.filterData.ranges;
             this.dimensions.byTotalFunding.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, ranges);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byFundingPerRound: function() {
-            var ranges = this.filterData.roundRanges;
-            this.dimensions.byFundingPerRound.filter(function(roundFunding){
-                return fallsWithinRange(roundFunding, ranges);
+            var self = this;
+            var range = this.filterData.ranges;
+            this.dimensions.byFundingPerRound.filter(function(company_funding) {
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byMostRecentFundingRound: function() {
-            var ranges = this.filterData.mostRecentRoundRanges;
+            var self = this;
+            var range = this.filterData.mostRecentRoundRanges;
             this.dimensions.byMostRecentFundingRound.filter(function(company_funding) {
-                return fallsWithinRange(company_funding, ranges);
+                return self.fallsWithinRange(company_funding, range);
             });
         },
         byStatus: function() {
@@ -154,23 +165,32 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     return _.contains(states, company_state);
                 }
             });
+        },
+        byAcquiredOn: function() {
+            var self = this;
+            var range = this.filterData.acquiredDate;
+            var format = this.format;
+            this.dimensions.byAcquiredOn.filter(function(company_acquired_on) {
+                return self.fallsWithinRange(_.map(company_acquired_on, format.parse), range);
+            });
+        },
+        byFoundedOn: function() {
+            var self = this;
+            var range = this.filterData.foundedDate;
+            var format = this.format;
+            this.dimensions.byFoundedOn.filter(function(company_founded_on) {
+                return self.fallsWithinRange(_.map(company_founded_on, format.parse), range);
+            });
+        },
+        byFundingRoundMonth: function() {
+            var self = this;
+            var range = this.filterData.fundingActivity;
+            var format = this.format;
+            this.dimensions.byFundingRoundMonth.filter(function(funding_round_dates) {
+                return self.fallsWithinRange(_.map(funding_round_dates, format.parse), range);
+            });
         }
     };
-
-    function fallsWithinRange(items, ranges) {
-        if(ranges.length === 0) { return true; }
-        if(items.length === 0) { return false; }
-        for(var i = 0; i < ranges.length; i++) {
-            var range = ranges[i];
-            for(var j = 0; j < items.length; j++) {
-                var funding = items[j];
-                if(funding >= range.start && funding <= range.end) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     return new Investor();
 });

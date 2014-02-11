@@ -38,11 +38,10 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
                 var fill = function (d) {
-                    // look at word cloud for selection coloration ideas
-                    if(_.contains(scope.selectedItems, d.data.label)) {
-                        return 'brown';
-                    } else {
+                    if(scope.selectedItems.length === 0 || _.contains(scope.selectedItems, d.data.label)) {
                         return color(d.data.label);
+                    } else {
+                        return '#ccc';
                     }
                 };
 
@@ -52,7 +51,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 };
 
                 scope.$watch('data', function(data) {
-                    if(!path) {
+                    if(!path && data.length > 0) {
                         path = svg.selectAll('path')
                             .data(pie(data))
                             .enter().append('path')
@@ -108,8 +107,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 }, true);
 
                 scope.render = function(data) {
-                    if(!data) { return; }
-
+                    if(!data || data.length === 0) { return; }
                     path = path.data(pie(data));
 
                     path.transition().duration(1000).attrTween('d', function(a) {
@@ -124,12 +122,18 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
 
                     ticks = ticks.data(pie(data));
 
+                    // If a tick does not have an associated value with it, hide it.
+                    ticks.classed('hidden', function(d) { return (d.value === 0 ); });
+
                     ticks.transition().duration(1000)
                         .attr('transform', function(d) {
                             return 'rotate(' + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ')';
                         });
 
                     labels = labels.data(pie(data));
+
+                    // If a label does not have an associated value with it, hide it.
+                    labels.classed('hidden', function(d) { return (d.value === 0 ); });
 
                     labels.transition().duration(1000)
                         .attr('transform', function(d) {

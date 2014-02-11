@@ -43,16 +43,12 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 var zoom = d3.behavior.zoom()
                     .translate([0, 0])
                     .scale(1)
-                    .scaleExtent([.9, 10])
-                    .on("zoom", zoomed);
+                    .scaleExtent([0.9, 10])
+                    .on('zoom', zoomed);
 
                
 
                 var states = svg.append('g').call(zoom);
-                var rect = states.append('rect')
-                    .attr('class', 'overlay')
-                    .attr('width', width)
-                    .attr('height', height)
                 var g = states.append('g');
 
                 // var colors = d3.scale.category20b();

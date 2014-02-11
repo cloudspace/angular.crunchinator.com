@@ -10,6 +10,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
     var Model = function() {
         this.all = [];
         this.dimensions = [];
+        this.format = d3.time.format('%x');
     };
 
     /**
@@ -87,6 +88,29 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
      */
     Model.prototype.count = function() {
         return this.all.length;
+    };
+
+    /**
+    * Returns whether any entry of an array of items falls within a number range.
+    *
+    * @param {array} list of numbers to check with
+    * @param {array} a number range to check against
+    * @return {boolean} whether the number list contains a value within the range
+    */
+    Model.prototype.fallsWithinRange = function(items, range) {
+        if(range.length === 0) { return true; }
+        if(items.length === 0) { return false; }
+
+
+        for(var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            if(item >= range[0] && item <= range[1]) {
+                return true;
+            }
+        }
+
+        return false;
     };
 
     return new Model();

@@ -1,4 +1,7 @@
 <div class="container">
+    <div ng-show="loading" id="loading">
+        <div class="alert alert-scream"><strong>Loading...</strong></div>
+    </div>
     <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
     <input type="text" ng-model="savedUrl" /> -->
     <div class='drag-contain' drag-arrange>
@@ -38,19 +41,21 @@
             ></div>
         </div>
 
-        <!-- <div data-ss-colspan='2'>
+        <div data-ss-colspan='2'>
             <div d3-pie
                 title="Company Statuses"
                 data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
                 selected="selectedStatuses"
             ></div>
-        </div> -->
+        </div>
 
         <div data-ss-colspan='2'>
              <div d3-area
                 title="Funding Activity"
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                selected="selectedFundingActivity"
                 extent="1/2000"
+                ranges="true"
             ></div>
         </div>
 
@@ -58,7 +63,9 @@
              <div d3-area
                 title="Acquired Date"
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                selected="selectedAquiredDate"
                 extent="1/2006"
+                ranges="true"
                 ></div>
         </div>
 
@@ -66,8 +73,10 @@
              <div d3-area
                 title="Founded Date"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
+                selected="selectedFoundedDate"
                 extent="1992"
                 format="%Y"
+                ranges="true"
             ></div>
         </div>
 
@@ -76,6 +85,7 @@
                 title="Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.all)"
                 selected="selectedRanges"
+                ranges="true"
             ></div>
         </div>
 
@@ -84,6 +94,7 @@
                 title="Funding per Round"
                 data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.all)"
                 selected="selectedRoundRanges"
+                ranges="true"
             ></div>
         </div>
 
@@ -92,6 +103,7 @@
                 title="Most Recent Funding Round"
                 data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
                 selected="selectedRecentRoundRanges"
+                ranges="true"
             ></div>
         </div>
     </div>
