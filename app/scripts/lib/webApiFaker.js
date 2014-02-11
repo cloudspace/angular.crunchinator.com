@@ -1,6 +1,6 @@
 'use strict';
 
-var exponential_distribution = function(min, max) {
+var exp_dist = function(min, max) {
     var increment = (max - min) / 6;
     var num;
     do {
@@ -9,78 +9,20 @@ var exponential_distribution = function(min, max) {
         num = min + (t * increment);
     }
     while(num <= min || num >= max);
-    return Math.floor(num);
+    return num;
+};
+
+var exponential_distribution = function(min, max) {
+    return Math.floor(exp_dist(min, max));
 };
 
 var randomDate = function(start, end) {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    return new Date(start.getTime() + (1 - exp_dist(0, 1)) * (end.getTime() - start.getTime()));
 };
 
 (function (ng, fk) {
     var injector = ng.injector(['configuration', 'ng']);
     var environment = injector.get('ENV');
-
-    var states = [
-        { name: 'ALABAMA', abbreviation: 'AL'},
-        { name: 'ALASKA', abbreviation: 'AK'},
-        { name: 'AMERICAN SAMOA', abbreviation: 'AS'},
-        { name: 'ARIZONA', abbreviation: 'AZ'},
-        { name: 'ARKANSAS', abbreviation: 'AR'},
-        { name: 'CALIFORNIA', abbreviation: 'CA'},
-        { name: 'COLORADO', abbreviation: 'CO'},
-        { name: 'CONNECTICUT', abbreviation: 'CT'},
-        { name: 'DELAWARE', abbreviation: 'DE'},
-        { name: 'DISTRICT OF COLUMBIA', abbreviation: 'DC'},
-        { name: 'FEDERATED STATES OF MICRONESIA', abbreviation: 'FM'},
-        { name: 'FLORIDA', abbreviation: 'FL'},
-        { name: 'GEORGIA', abbreviation: 'GA'},
-        { name: 'GUAM', abbreviation: 'GU'},
-        { name: 'HAWAII', abbreviation: 'HI'},
-        { name: 'IDAHO', abbreviation: 'ID'},
-        { name: 'ILLINOIS', abbreviation: 'IL'},
-        { name: 'INDIANA', abbreviation: 'IN'},
-        { name: 'IOWA', abbreviation: 'IA'},
-        { name: 'KANSAS', abbreviation: 'KS'},
-        { name: 'KENTUCKY', abbreviation: 'KY'},
-        { name: 'LOUISIANA', abbreviation: 'LA'},
-        { name: 'MAINE', abbreviation: 'ME'},
-        { name: 'MARSHALL ISLANDS', abbreviation: 'MH'},
-        { name: 'MARYLAND', abbreviation: 'MD'},
-        { name: 'MASSACHUSETTS', abbreviation: 'MA'},
-        { name: 'MICHIGAN', abbreviation: 'MI'},
-        { name: 'MINNESOTA', abbreviation: 'MN'},
-        { name: 'MISSISSIPPI', abbreviation: 'MS'},
-        { name: 'MISSOURI', abbreviation: 'MO'},
-        { name: 'MONTANA', abbreviation: 'MT'},
-        { name: 'NEBRASKA', abbreviation: 'NE'},
-        { name: 'NEVADA', abbreviation: 'NV'},
-        { name: 'NEW HAMPSHIRE', abbreviation: 'NH'},
-        { name: 'NEW JERSEY', abbreviation: 'NJ'},
-        { name: 'NEW MEXICO', abbreviation: 'NM'},
-        { name: 'NEW YORK', abbreviation: 'NY'},
-        { name: 'NORTH CAROLINA', abbreviation: 'NC'},
-        { name: 'NORTH DAKOTA', abbreviation: 'ND'},
-        { name: 'NORTHERN MARIANA ISLANDS', abbreviation: 'MP'},
-        { name: 'OHIO', abbreviation: 'OH'},
-        { name: 'OKLAHOMA', abbreviation: 'OK'},
-        { name: 'OREGON', abbreviation: 'OR'},
-        { name: 'PALAU', abbreviation: 'PW'},
-        { name: 'PENNSYLVANIA', abbreviation: 'PA'},
-        { name: 'PUERTO RICO', abbreviation: 'PR'},
-        { name: 'RHODE ISLAND', abbreviation: 'RI'},
-        { name: 'SOUTH CAROLINA', abbreviation: 'SC'},
-        { name: 'SOUTH DAKOTA', abbreviation: 'SD'},
-        { name: 'TENNESSEE', abbreviation: 'TN'},
-        { name: 'TEXAS', abbreviation: 'TX'},
-        { name: 'UTAH', abbreviation: 'UT'},
-        { name: 'VERMONT', abbreviation: 'VT'},
-        { name: 'VIRGIN ISLANDS', abbreviation: 'VI'},
-        { name: 'VIRGINIA', abbreviation: 'VA'},
-        { name: 'WASHINGTON', abbreviation: 'WA'},
-        { name: 'WEST VIRGINIA', abbreviation: 'WV'},
-        { name: 'WISCONSIN', abbreviation: 'WI'},
-        { name: 'WYOMING', abbreviation: 'WY' }
-    ];
 
     /**
      * Generate a company object with random, usable attributes.
@@ -92,7 +34,7 @@ var randomDate = function(start, end) {
         var name = fk.Company.companyName();
         id = id || 0;
         var statuses = ['alive', 'deadpooled', 'acquired'];
-
+        var states = fk.definitions.us_state_abbr;
         return {
             id: id,
             name: name,
@@ -102,11 +44,11 @@ var randomDate = function(start, end) {
             latitude: 1.0,
             longitude: 1.0,
             acquired_on: d3.time.format('%x')(randomDate(new Date(2006, 1, 1), new Date())), //Random date between two dates
-            founded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
+            founded_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
             investor_ids: [],
             funding_rounds: [],
             status: statuses[exponential_distribution(0, statuses.length)],
-            state_code: states[Math.floor(Math.random() * states.length)].abbreviation
+            state_code: states[exponential_distribution(0, states.length)]
         };
     };
 

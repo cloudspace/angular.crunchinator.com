@@ -278,9 +278,15 @@ header{
 .state {
   cursor: pointer;
 }
-.state-boundary {
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+.state-boundary, .county-boundary {
   fill: none;
   stroke: #41484C;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 #loading {
