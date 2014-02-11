@@ -41,7 +41,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
-                var bars_fore, bars_back, range;
+                var bars_fore, bars_back, range, full_extent;
                 var margin = {top: 0, right: 10, bottom: 20, left: 0};
                 var width = element.width() - margin.left - margin.right;
                 var height = parent.height() - margin.top - margin.bottom - 124;
@@ -82,6 +82,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     scope.min = labelfy(range[0]);
                     scope.max = labelfy(range[1]);
+
+                    if (typeof full_extent === 'undefined') {
+                        full_extent = [range[0], range[1]];
+                    }
                 };
 
                 var brush = d3.svg.brush()
@@ -99,7 +103,11 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         });
                     })
                     .on('brushend', function() {
-                        scope.selectedItems = range;
+                        if (!_.isEqual(range, full_extent)) {
+                            scope.selectedItems = range;
+                        } else {
+                            scope.selectedItems = [];
+                        }
 
                         scope.$parent.$apply(function() {
                             if(scope.oldFilterData !== $rootScope.filterData) {

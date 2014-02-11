@@ -83,7 +83,7 @@
         <div data-ss-colspan='2'>
             <div d3-bars
                 title="Total Funding"
-                data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.all)"
+                data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
                 selected="selectedRanges"
                 ranges="true"
             ></div>
@@ -92,7 +92,7 @@
         <div data-ss-colspan='2'>
             <div d3-bars
                 title="Funding per Round"
-                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.all)"
+                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
                 selected="selectedRoundRanges"
                 ranges="true"
             ></div>
@@ -101,7 +101,7 @@
         <div data-ss-colspan='2'>
             <div d3-bars
                 title="Most Recent Funding Round"
-                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.all)"
+                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
                 selected="selectedRecentRoundRanges"
                 ranges="true"
             ></div>

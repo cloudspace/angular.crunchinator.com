@@ -35,19 +35,17 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      *
      * @param {array} companies A filtered list of companies to include in the totalFunding graph
      */
-    this.totalFunding = _.memoize(function(companies, allCompanies) {
-        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+    this.totalFunding = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var fundingValues = _.pluck(allCompanies, 'total_funding');
-        var maxNum = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         var base = 2;
         var minGraph = 10000;
 
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
 
         for(var i = minGraph; i < maxNum; i *= base) {
             ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
             );
         }
 
@@ -65,11 +63,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
+        var parsed_format = format.parse(extent);
         _.each(companies, function(company){
             _.each(company.funding_rounds, function(funding_round){
                 if(funding_round.funded_on) {
                     var roundDate = parseDate(funding_round.funded_on);
-                    if(roundDate >= format.parse(extent)) {
+                    if(roundDate >= parsed_format) {
                         var monthYear = format(roundDate);
                         if(byMonth[monthYear]) {
                             byMonth[monthYear]++;
@@ -95,10 +94,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
+        var parsed_format = format.parse(extent);
         _.each(companies, function(company){
             if(company.acquired_on) {
                 var acquiredDate = parseDate(company.acquired_on);
-                if(acquiredDate >= format.parse(extent)){
+                if(acquiredDate >= parsed_format){
                     var monthYear = format(acquiredDate);
                     if(byMonth[monthYear]) {
                         byMonth[monthYear]++;
@@ -122,11 +122,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%Y');
+        var parsed_format = format.parse(extent);
         _.each(companies, function(company){
             if(company.founded_on) {
                 var foundedDate = parseDate(company.founded_on);
                 var monthYear = format(foundedDate);
-                if(foundedDate >= format.parse(extent)){
+                if(foundedDate >= parsed_format){
                     if(byMonth[monthYear]) {
                         byMonth[monthYear]++;
                     }
@@ -145,12 +146,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         }, []);
     });
 
-    this.fundingPerRound = _.memoize(function(companies, allCompanies) {
-        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+    this.fundingPerRound = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var allFundingValues = _.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'raised_amount');
         var filteredFundingValues = _.pluck(_.flatten(_.pluck(companies, 'funding_rounds')), 'raised_amount');
-        var maxNum = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
         var base = 2;
         var minGraph = 10000;
 
@@ -172,15 +171,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return ranges;
     });
 
-    this.mostRecentFundingRound = _.memoize(function(companies, allCompanies) {
-        if(typeof allCompanies === 'undefined' || typeof companies === 'undefined') { return; }
+    this.mostRecentFundingRound = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var recentRounds = _.map(allCompanies, function(company){
-            return _.max(company.funding_rounds, function(round){
-                return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
-            }).raised_amount;
-        });
-        var maxNum = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
         var base = 2;
         var minGraph = 10000;
 
@@ -192,8 +185,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             );
         }
 
+        var parse = d3.time.format('%x').parse;
         var roundByFundedOn = function(round){
-            return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+            return round.funded_on ? parse(round.funded_on) : 0;
         };
         for(var j = 0; j < companies.length; j++) {
             var company = companies[j];

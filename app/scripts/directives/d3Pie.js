@@ -19,7 +19,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 var width = element[0].clientWidth;
                 var height = parent.height() - 130;
                 var radius = (Math.min(width, height) / 2) - 20;
-                var color = d3.scale.category20b();
+                var color = d3.scale.category10();
                 var path, ticks, labels;
 
                 var arc = d3.svg.arc()
@@ -41,7 +41,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     if(scope.selectedItems.length === 0 || _.contains(scope.selectedItems, d.data.label)) {
                         return color(d.data.label);
                     } else {
-                        return '#ccc';
+                        return '#666';
                     }
                 };
 

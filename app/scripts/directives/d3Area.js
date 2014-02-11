@@ -26,6 +26,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 var formatDate = d3.time.format(scope.format);
 
                 var parseDate = formatDate.parse;
+                var full_extent = [parseDate(scope.extent), new Date()];
                 var x = d3.time.scale().range([0, width]);
 
                 var y = d3.scale.linear().range([height, 0]);
@@ -74,10 +75,10 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     scope.max = formatDate(extent[1]);
                 }
 
-                x.domain([parseDate(scope.extent), new Date()]);
+                x.domain(full_extent);
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent([parseDate(scope.extent), new Date()])
+                    .extent(full_extent)
                     .on('brush', function() {
                         var extent = brush.extent();
 
@@ -91,7 +92,12 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     })
                     .on('brushend', function(){
                         var extent = brush.extent();
-                        scope.selectedItems = [extent[0], extent[1]];
+                        if (!_.isEqual(extent, full_extent)) {
+                            scope.selectedItems = [extent[0], extent[1]];
+                        } else {
+                            scope.selectedItems = [];
+                        }
+
                         scope.$parent.$apply(function() {
                             scope.$parent[scope.selected] = scope.selectedItems;
                             $rootScope.$broadcast('filterAction');

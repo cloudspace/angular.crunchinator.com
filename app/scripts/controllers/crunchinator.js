@@ -59,6 +59,7 @@ angular.module('crunchinatorApp.controllers')
                         Model.setupDimensions();
                         Model.runFilters(filterData);
                     });
+
                     $scope.loading = false;
                 }
             });
