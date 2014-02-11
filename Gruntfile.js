@@ -387,7 +387,7 @@ module.exports = function (grunt) {
             },
             staging: {
                 options: {
-                    bucket: 'staging.crunchinator.com'
+                    bucket: 'staging1.crunchinator.com'
                 },
                 sync: [{
                     src: '<%= yeoman.dist %>/**/*.*',
@@ -397,7 +397,7 @@ module.exports = function (grunt) {
             },
             production: {
                 options: {
-                    bucket: 'angular.crunchinator.com'
+                    bucket: 'angular1.crunchinator.com'
                 },
                 sync: [{
                     src: '<%= yeoman.dist %>/**/*.*',

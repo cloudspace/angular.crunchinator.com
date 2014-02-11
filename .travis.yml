@@ -7,4 +7,4 @@ before_script:
 after_success:
   - 'grunt deploy'
 env:
-  - secure: "meEj+F76Sn2bGd9a20OFM/YckUDWO5T6ro80kAX2TnQAHRE65x/KrpauNewCgTp7q/izCf6dPBpDHmhdvKry9PfhHtX1L3e09pJD5jkvyd6oXWtljs53p26JVMEa8AUW97sstn0KZJ6d8/5L9sV2bb2Us2kgq8qe0yH9friBZlA="
+  secure: edjf8CoB++5V/NF0Z6/UccF0rFowwpCOSjhnag9C0+Iib4e58SDoDDjjX0gT9TiBPqEvwzvh1GOsOTrswgjDdDNtEww8+/Po3C9cAJhZGX268yuY+H43hQa04mPPBtlDmAwv9gsrdwvk4jYvGSQY13R7NS3rTrtTE6cSMxEGiVo=
