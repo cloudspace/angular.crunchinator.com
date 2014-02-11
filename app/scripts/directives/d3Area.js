@@ -92,7 +92,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     })
                     .on('brushend', function(){
                         var extent = brush.extent();
-                        if (extent[0].getTime() !== full_extent[0].getTime() || extent[1].getTime() !== full_extent[1].getTime()) {
+                        if (!_.isEqual(extent, full_extent)) {
                             scope.selectedItems = [extent[0], extent[1]];
                         } else {
                             scope.selectedItems = [];

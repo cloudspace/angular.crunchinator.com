@@ -103,7 +103,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         });
                     })
                     .on('brushend', function() {
-                        if (range[0] !== full_extent[0] || range[1] !== full_extent[1]) {
+                        if (!_.isEqual(range, full_extent)) {
                             scope.selectedItems = range;
                         } else {
                             scope.selectedItems = [];
