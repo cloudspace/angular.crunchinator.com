@@ -35,7 +35,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-map
-                title="Locations"
+                title="Company HQ"
                 data="ComponentData.companyStateData(companies.dataForLocationMap)"
                 selected="selectedStates"
             ></div>
@@ -43,7 +43,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-pie
-                title="Company Statuses"
+                title="Company Status"
                 data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
                 selected="selectedStatuses"
             ></div>
@@ -51,7 +51,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Funding Activity"
+                title="Investments"
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 selected="selectedFundingActivity"
                 extent="1/2000"
@@ -61,7 +61,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Acquired Date"
+                title="Acquisition Date"
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
                 selected="selectedAquiredDate"
                 extent="1/2006"
@@ -71,7 +71,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Founded Date"
+                title="Date Founded"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
                 selected="selectedFoundedDate"
                 extent="1992"
@@ -91,7 +91,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-bars
-                title="Funding per Round"
+                title="Funding: Any Round"
                 data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
                 selected="selectedRoundRanges"
                 ranges="true"
@@ -100,7 +100,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-bars
-                title="Most Recent Funding Round"
+                title="Funding: Most Recent Round"
                 data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
                 selected="selectedRecentRoundRanges"
                 ranges="true"
