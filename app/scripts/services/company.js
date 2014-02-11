@@ -55,6 +55,19 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
+
+        var allCompanies = this.all;
+        var allFundingValues = _.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'raised_amount');
+        var fundingValues = _.pluck(allCompanies, 'total_funding');
+        var recentRounds = _.map(allCompanies, function(company){
+            return _.max(company.funding_rounds, function(round){
+                return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+            }).raised_amount;
+        });
+
+        this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
+        this.maxCompanyValue = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
+        this.maxRecentFundingValue = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
     };
 
     /**

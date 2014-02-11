@@ -59,6 +59,11 @@ angular.module('crunchinatorApp.controllers')
                         Model.setupDimensions();
                         Model.runFilters(filterData);
                     });
+
+                    $scope.maxFundingValue = Company.maxFundingValue;
+                    $scope.maxCompanyValue = Company.maxCompanyValue;
+                    $scope.maxRecentFundingValue = Company.maxRecentFundingValue;
+
                     $scope.loading = false;
                 }
             });
