@@ -82,92 +82,109 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
     Company.prototype.filters = {
         byCategory: function() {
             var ids = this.filterData.categoryIds;
-            this.dimensions.byCategory.filter(function(categoryId) {
-                return (ids.length === 0 || ids.indexOf(categoryId) > -1);
-            });
+
+            if (ids.length !== 0) {
+                this.dimensions.byCategory.filter(function(categoryId) {
+                    return (ids.indexOf(categoryId) > -1);
+                });
+            }
         },
         byInvestors: function() {
             var ids = this.filterData.investorIds;
-            this.dimensions.byInvestors.filter(function(investorIds) {
-                return (ids.length === 0 || _.intersection(investorIds, ids).length > 0);
-            });
+
+            if (ids.length !== 0) {
+                this.dimensions.byInvestors.filter(function(investorIds) {
+                    return (_.intersection(investorIds, ids).length > 0);
+                });
+            }
         },
         byId: function() {
             var ids = this.filterData.companyIds;
-            this.dimensions.byId.filter(function(id) {
-                return (ids.length === 0 || ids.indexOf(id) > -1);
-            });
+
+            if (ids.length !== 0) {
+                this.dimensions.byId.filter(function(id) {
+                    return (ids.indexOf(id) > -1);
+                });
+            }
         },
         byTotalFunding: function() {
             var range = this.filterData.ranges;
-            this.dimensions.byTotalFunding.filter(function(funding) {
-                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
-            });
+
+            if (range.length !== 0) {
+                this.dimensions.byTotalFunding.filter(function(funding) {
+                    return (funding >= range[0] && funding <= range[1]);
+                });
+            }
         },
         byFundingPerRound: function() {
             var range = this.filterData.roundRanges;
-            this.dimensions.byFundingPerRound.filter(function(funding) {
-                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
-            });
+
+            if (range.length !== 0) {
+                this.dimensions.byFundingPerRound.filter(function(funding) {
+                    return (funding >= range[0] && funding <= range[1]);
+                });
+            }
         },
         byMostRecentFundingRound: function() {
             var range = this.filterData.mostRecentRoundRanges;
-            this.dimensions.byMostRecentFundingRound.filter(function(funding) {
-                return (range.length === 0 || (funding >= range[0] && funding <= range[1]));
-            });
+
+            if (range.length !== 0) {
+                this.dimensions.byMostRecentFundingRound.filter(function(funding) {
+                    return (funding >= range[0] && funding <= range[1]);
+                });
+            }
         },
         byStatus: function() {
             var statuses = this.filterData.statuses;
-            this.dimensions.byStatuses.filter(function(status) {
-                return (statuses.length === 0 || _.contains(statuses, status));
-            });
+
+            if (statuses.length !== 0) {
+                this.dimensions.byStatuses.filter(function(status) {
+                    return (_.contains(statuses, status));
+                });
+            }
         },
         byState: function() {
             var states = this.filterData.states;
-            this.dimensions.byState.filter(function(state){
-                return (states.length === 0 || _.contains(states, state));
-            });
+
+            if (states.length !== 0) {
+                this.dimensions.byState.filter(function(state){
+                    return (_.contains(states, state));
+                });
+            }
         },
         byFundingActivity: function() {
             var range = this.filterData.fundingActivity;
-            var self = this;
-            this.dimensions.byFundingRoundMonth.filter(function(round_dates) {
-                return fallsWithinRange(_.map(round_dates, self.format.parse), range);
-            });
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byFundingRoundMonth.filter(function(round_dates) {
+                    return self.fallsWithinRange(_.map(round_dates, self.format.parse), range);
+                });
+            }
         },
         byAcquiredDate: function() {
             var range = this.filterData.acquiredDate;
-            var self = this;
-            this.dimensions.byAcquiredOn.filter(function(acquired_on) {
-                acquired_on = acquired_on ? self.format.parse(acquired_on) : new Date(1, 1, 1);
-                return (range.length === 0 || (acquired_on >= range[0] && acquired_on <= range[1]));
-            });
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byAcquiredOn.filter(function(acquired_on) {
+                    acquired_on = acquired_on ? self.format.parse(acquired_on) : new Date(1, 1, 1);
+                    return (range.length === 0 || (acquired_on >= range[0] && acquired_on <= range[1]));
+                });
+            }
         },
         byFoundedDate: function() {
             var range = this.filterData.foundedDate;
-            var self = this;
-            this.dimensions.byFoundedOn.filter(function(founded_on) {
-                founded_on = founded_on ? self.format.parse(founded_on) : new Date(1, 1, 1);
-                return (range.length === 0 || (founded_on >= range[0] && founded_on <= range[1]));
-            });
-        }
-    };
 
-    function fallsWithinRange(items, range) {
-        if(range.length === 0) { return true; }
-        if(items.length === 0) { return false; }
-
-
-        for(var i = 0; i < items.length; i++) {
-            var item = items[i];
-
-            if(item >= range[0] && item <= range[1]) {
-                return true;
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byFoundedOn.filter(function(founded_on) {
+                    founded_on = founded_on ? self.format.parse(founded_on) : new Date(1, 1, 1);
+                    return (range.length === 0 || (founded_on >= range[0] && founded_on <= range[1]));
+                });
             }
         }
-
-        return false;
-    }
+    };
 
     return new Company();
 });
