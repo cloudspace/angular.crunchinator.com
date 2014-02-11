@@ -31,23 +31,30 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     Company.prototype.setupDimensions = function() {
         var crossCompanies = crossfilter(this.all);
+        var parse = this.format.parse;
 
         this.dimensions = {
             byId: crossCompanies.dimension(function(company) { return company.id; }),
             byCategory: crossCompanies.dimension(function(company) { return company.category_id; }),
             byInvestors: crossCompanies.dimension(function(company) { return company.investor_ids; }),
             byTotalFunding: crossCompanies.dimension(function(company) { return company.total_funding; }),
-            byAcquiredOn: crossCompanies.dimension(function(company){ return company.acquired_on; }),
-            byFundingRoundMonth: crossCompanies.dimension(function(company){
-                return _.compact(_.pluck(company.funding_rounds, 'funded_on'));
+            byAcquiredOn: crossCompanies.dimension(function(company){
+                return company.acquired_on ? parse(company.acquired_on) : null;
             }),
-            byFoundedOn: crossCompanies.dimension(function(company){ return company.founded_on; }),
+            byFundingRoundMonth: crossCompanies.dimension(function(company){
+                return _.map(company.funding_rounds, function(company){
+                    return company.funded_on ? parse(company.funded_on) : null;
+                });
+            }),
+            byFoundedOn: crossCompanies.dimension(function(company){
+                return company.founded_on ? parse(company.founded_on) : null;
+            }),
             byFundingPerRound: crossCompanies.dimension(function(company){
                 return _.pluck(company.funding_rounds, 'raised_amount');
             }),
             byMostRecentFundingRound: crossCompanies.dimension(function(company){
                 return _.max(company.funding_rounds, function(round){
-                    return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+                    return round.funded_on ? parse(round.funded_on) : 0;
                 }).raised_amount;
             }),
             byStatuses: crossCompanies.dimension(function(company) { return company.status; }),
@@ -61,7 +68,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         var fundingValues = _.pluck(allCompanies, 'total_funding');
         var recentRounds = _.map(allCompanies, function(company){
             return _.max(company.funding_rounds, function(round){
-                return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+                return round.funded_on ? parse(round.funded_on) : 0;
             }).raised_amount;
         });
 
@@ -171,7 +178,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             if (range.length !== 0) {
                 var self = this;
                 this.dimensions.byFundingRoundMonth.filter(function(round_dates) {
-                    return self.fallsWithinRange(_.map(round_dates, self.format.parse), range);
+                    return self.fallsWithinRange(round_dates, range);
                 });
             }
         },
@@ -179,9 +186,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             var range = this.filterData.acquiredDate;
 
             if (range.length !== 0) {
-                var self = this;
                 this.dimensions.byAcquiredOn.filter(function(acquired_on) {
-                    acquired_on = acquired_on ? self.format.parse(acquired_on) : new Date(1, 1, 1);
+                    acquired_on = acquired_on || new Date(1, 1, 1);
                     return (range.length === 0 || (acquired_on >= range[0] && acquired_on <= range[1]));
                 });
             }
@@ -190,9 +196,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             var range = this.filterData.foundedDate;
 
             if (range.length !== 0) {
-                var self = this;
                 this.dimensions.byFoundedOn.filter(function(founded_on) {
-                    founded_on = founded_on ? self.format.parse(founded_on) : new Date(1, 1, 1);
+                    founded_on = founded_on || new Date(1, 1, 1);
                     return (range.length === 0 || (founded_on >= range[0] && founded_on <= range[1]));
                 });
             }
