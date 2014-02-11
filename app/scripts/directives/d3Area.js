@@ -18,7 +18,6 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
                 scope.format = scope.format || '%m/%Y';
 
-                console.log(scope.displayRange);
                 var area_fore, area_back;
                 var margin = {top: 15, right: 20, bottom: 20, left: 20},
                 width = element.width() - margin.left - margin.right,
