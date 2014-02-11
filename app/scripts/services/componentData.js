@@ -63,11 +63,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
+        var parsed_format = format.parse(extent);
         _.each(companies, function(company){
             _.each(company.funding_rounds, function(funding_round){
                 if(funding_round.funded_on) {
                     var roundDate = parseDate(funding_round.funded_on);
-                    if(roundDate >= format.parse(extent)) {
+                    if(roundDate >= parsed_format) {
                         var monthYear = format(roundDate);
                         if(byMonth[monthYear]) {
                             byMonth[monthYear]++;
@@ -184,8 +185,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             );
         }
 
+        var parse = d3.time.format('%x').parse;
         var roundByFundedOn = function(round){
-            return round.funded_on ? d3.time.format('%x').parse(round.funded_on) : 0;
+            return round.funded_on ? parse(round.funded_on) : 0;
         };
         for(var j = 0; j < companies.length; j++) {
             var company = companies[j];
