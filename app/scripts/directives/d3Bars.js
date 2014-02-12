@@ -48,7 +48,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
-                var id = scope.title.replace(/\s+/g, '-');
+                var id = Math.floor(Math.random()*1e10);
                 
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
