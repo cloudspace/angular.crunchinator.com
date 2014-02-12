@@ -92,19 +92,22 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     })
                     .on('brushend', function(){
                         var extent = brush.extent();
-                        if (!_.isEqual(extent, full_extent)) {
-                            scope.selectedItems = [extent[0], extent[1]];
-                        } else {
-                            scope.selectedItems = [];
+                        if(!_.isEqual(extent, lastExtent)){
+                            if (!_.isEqual(extent, full_extent)) {
+                                scope.selectedItems = [extent[0], extent[1]];
+                            } else {
+                                scope.selectedItems = [];
+                            }
+
+                            scope.$parent.$apply(function() {
+                                scope.$parent[scope.selected] = scope.selectedItems;
+                                $rootScope.$broadcast('filterAction');
+                            });
                         }
-
-                        scope.$parent.$apply(function() {
-                            scope.$parent[scope.selected] = scope.selectedItems;
-                            $rootScope.$broadcast('filterAction');
-                        });
+                        
+                        lastExtent = extent;
                     });
-
-
+                var lastExtent = brush.extent();
                 var gBrush = svg.append('g')
                     .attr('class', 'brush')
                     .call(brush);

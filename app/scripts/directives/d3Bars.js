@@ -88,9 +88,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     }
                 };
 
+
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent([1, width])
+                    .extent([0, width])
                     .on('brush', function() {
                         var extent = brush.extent();
 
@@ -103,19 +104,24 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         });
                     })
                     .on('brushend', function() {
-                        if (!_.isEqual(range, full_extent)) {
-                            scope.selectedItems = range;
-                        } else {
-                            scope.selectedItems = [];
-                        }
-
-                        scope.$parent.$apply(function() {
-                            if(scope.oldFilterData !== $rootScope.filterData) {
-                                scope.$parent[scope.selected] = scope.selectedItems;
-                                $rootScope.$broadcast('filterAction');
+                        if(!_.isEqual(lastExtent, brush.extent())){
+                            if (!_.isEqual(range, full_extent)) {
+                                scope.selectedItems = range;
+                            } else {
+                                scope.selectedItems = [];
                             }
-                        });
+
+                            scope.$parent.$apply(function() {
+                                if(scope.oldFilterData !== $rootScope.filterData) {
+                                    scope.$parent[scope.selected] = scope.selectedItems;
+                                    $rootScope.$broadcast('filterAction');
+                                }
+                            });
+                        }
+                        
+                        lastExtent = brush.extent();
                     });
+                var lastExtent = brush.extent();
 
                 window.onresize = function() {
                     scope.$apply();
