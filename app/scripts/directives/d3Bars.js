@@ -175,7 +175,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     bars_back.attr('class', 'background bar')
                         .attr('x', function(d) { return x(d.label); })
                         .attr('width', x.rangeBand())
-                        .style('fill', '#ccc')
+                        .style('fill', '#666')
                         .transition()
                         .duration(1000)
                         .attr('height', function(d) { return height - y(d.count); })

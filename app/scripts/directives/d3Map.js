@@ -52,7 +52,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                                 return blendColors('#4682b4', '#ffffff', per);
                             }
                             else {
-                                return blendColors('#818181', '#ffffff', per);
+                                return blendColors('#818181', '#dddddd', per);
                             }
                         }
                         else {

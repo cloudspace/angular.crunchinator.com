@@ -143,7 +143,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                         .transition()
                         .duration(1000)
                         .attr('d', area)
-                        .style('fill', '#ccc');
+                        .style('fill', '#666');
 
                     area_fore = svg.selectAll('.foreground.area').datum(data)
                         .transition()
