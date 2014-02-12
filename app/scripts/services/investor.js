@@ -195,7 +195,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     for(var i = 0; i < company_states.length; i++) {
                         var company_state = company_states[i];
                         if (_.contains(states, company_state)) {
-                            return true
+                            return true;
                         }
                     }
                     return false;
