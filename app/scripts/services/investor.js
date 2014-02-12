@@ -186,14 +186,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         },
         byState: function() {
             var states = this.filterData.states;
-            this.dimensions.byStates.filter(function(company_states) {
-                if(states.length === 0) { return true; }
 
-                for(var i = 0; i < company_states.length; i++) {
-                    var company_state = company_states[i];
-                    return _.contains(states, company_state);
-                }
-            });
+            if (states.length !== 0) {
+                this.dimensions.byStates.filter(function(company_states) {
+                    if(states.length === 0) { return true; }
+
+                    for(var i = 0; i < company_states.length; i++) {
+                        var company_state = company_states[i];
+                        return _.contains(states, company_state);
+                    }
+                });
+            }
         },
         byAcquiredOn: function() {
             var range = this.filterData.acquiredDate;
