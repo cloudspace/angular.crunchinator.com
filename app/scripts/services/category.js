@@ -18,7 +18,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
      * This is overridden for each subclass of model for different paths to the data
      *
      * @override
-     * @param {object} response The response returned from the API
+     * @param {object} [response] The response returned from the API
      * @return {array} A list of categories extracted from the response
      */
     Category.prototype.parse = function(response) {
@@ -29,8 +29,8 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
      * This links companies and investors to the category object so that when filtering
      * by categories we have access to the companies and investors it contains
      *
-     * @param {object} companiesById An object/hash of all companies keyed by their IDs
-     * @param {object} investorsById An object/hash of all categories keyed by their IDs
+     * @param {object} [companiesById] An object/hash of all companies keyed by their IDs
+     * @param {object} [investorsById] An object/hash of all categories keyed by their IDs
      */
     Category.prototype.linkModels = function(companiesById, investorsById) {
         _.each(this.all, function(category){
