@@ -25,7 +25,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 var height = parent.height() - 130;
 
                 var projection = d3.geo.albersUsa()
-                    .scale(width*1.4)
+                    .scale(width*1.3)
                     .translate([width / 2, height / 2]);
 
                 var path = d3.geo.path()
@@ -35,20 +35,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                     .attr('width', width)
                     .attr('height', height);
 
-                var zoomed = function() {
-                    g.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
-                    g.select('.state-border').style('stroke-width', 1.5 / d3.event.scale + 'px');
-                };
-
-                var zoom = d3.behavior.zoom()
-                    .translate([0, 0])
-                    .scale(1)
-                    .scaleExtent([0.9, 10])
-                    .on('zoom', zoomed);
-
-               
-
-                var states = svg.append('g').call(zoom);
+                var states = svg.append('g');
                 var g = states.append('g');
 
                 // var colors = d3.scale.category20b();
