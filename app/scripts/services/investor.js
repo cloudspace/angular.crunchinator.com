@@ -179,8 +179,11 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 this.dimensions.byStatuses.filter(function(company_statuses) {
                     for(var i = 0; i < company_statuses.length; i++) {
                         var company_status = company_statuses[i];
-                        return _.contains(statuses, company_status);
+                        if (_.contains(statuses, company_status)) {
+                            return true;
+                        }
                     }
+                    return false;
                 });
             }
         },
