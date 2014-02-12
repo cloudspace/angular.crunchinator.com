@@ -32,6 +32,7 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
                 selectedItem = selectedItem ? selectedItem : scope.selectedItem;
                 if(!_.contains(scope.selectedItems, selectedItem)) {
                     scope.selectedItems.push(selectedItem);
+                    element[0].scrollTop = 0;
                     scope.selectedItem = '';
                 }
 
