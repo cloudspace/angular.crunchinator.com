@@ -91,7 +91,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent([1, width])
+                    .extent([0, width])
                     .on('brush', function() {
                         var extent = brush.extent();
 
