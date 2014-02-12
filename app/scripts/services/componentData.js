@@ -57,6 +57,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -95,6 +98,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -130,6 +136,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
     
     /**
@@ -165,6 +174,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -197,6 +209,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -234,6 +249,9 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
@@ -258,12 +276,18 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         });
 
         return results;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     this.companyStateData = _.memoize(function(companies) {
         var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
 
         return state_grouping;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
     });
 
     /**
