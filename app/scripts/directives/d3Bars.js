@@ -151,7 +151,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     for(var i = 0; i < labels.length; i++) {
                         var label = labels[i];
 
-                        if(i % 2 === 0){
+                        if(i % 3 === 0){
                             labelsToDisplay.push(label);
                         }
                     }

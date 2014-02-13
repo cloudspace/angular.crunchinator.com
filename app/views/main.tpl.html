@@ -15,12 +15,12 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
-            <div d3-cloud
-                data="ComponentData.categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+        <div>
+            <div list-select
                 chart-title="Categories"
-                total="categories.count()"
+                items="categories.dataForCategoryList"
                 selected="selectedCategories"
+                total="categories.count()"
             ></div>
         </div>
 
@@ -33,7 +33,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
             <div d3-map
                 chart-title="Company HQ"
                 data="ComponentData.companyStateData(companies.dataForLocationMap)"
@@ -41,7 +41,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
             <div d3-pie
                 chart-title="Company Status"
                 data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
@@ -49,7 +49,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
              <div d3-area
                 chart-title="Investments"
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
@@ -59,7 +59,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
              <div d3-area
                 chart-title="Acquisition Date"
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
@@ -69,7 +69,7 @@
                 ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
              <div d3-area
                 chart-title="Date Founded"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
@@ -80,7 +80,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
             <div d3-bars
                 chart-title="Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
@@ -89,7 +89,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
             <div d3-bars
                 chart-title="Funding: Any Round"
                 data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
@@ -98,7 +98,7 @@
             ></div>
         </div>
 
-        <div data-ss-colspan='2'>
+        <div>
             <div d3-bars
                 chart-title="Funding: Most Recent Round"
                 data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
