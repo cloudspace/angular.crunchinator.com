@@ -5,7 +5,7 @@ angular.module('crunchinatorApp.directives').directive('listToggle', ['$rootScop
         restrict: 'EA',
         scope: {
             items: '=',
-            title: '@',
+            chartTitle: '@',
             total: '=',
             selected: '@'
         },

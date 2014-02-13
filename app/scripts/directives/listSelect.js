@@ -5,7 +5,7 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
         restrict: 'EA',
         scope: {
             items: '=',
-            title: '@',
+            chartTitle: '@',
             selected: '@',
             total: '=',
             link: '='

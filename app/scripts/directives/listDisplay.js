@@ -5,7 +5,7 @@ angular.module('crunchinatorApp.directives').directive('listDisplay', function()
         restrict: 'EA',
         scope: {
             data: '=',
-            title: '@',
+            chartTitle: '@',
             total: '='
         },
         templateUrl: 'views/list-display.tpl.html',

@@ -29,7 +29,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             restrict: 'EA',
             scope: {
                 data: '=',
-                title: '@',
+                chartTitle: '@',
                 selected: '@',
                 ranges: '@'
             },
