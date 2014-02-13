@@ -140,19 +140,21 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
 
         //byAcquiredOn
         if (filterData.acquiredDate.length !== 0) {
+            if(!company.acquired_on){ return false; }
             if(!self.fallsWithinRange(parse(company.acquired_on), filterData.acquiredDate)) { return false; }
         }
 
         //byFoundedOn
         if (filterData.foundedDate.length !== 0) {
+            if(!company.founded_on){ return false; }
             if(!self.fallsWithinRange(parse(company.founded_on), filterData.foundedDate)) { return false; }
         }
 
         //byAllFundingRoundsDate
         if (filterData.fundingActivity.length !== 0) {
-            var funding_rounds_date = _.map(company.funding_rounds, function(round){
+            var funding_rounds_date = _.compact(_.map(company.funding_rounds, function(round){
                 return round.funded_on ? parse(round.funded_on) : null;
-            });
+            }));
             if(!self.anyItemFallsWithinRange(funding_rounds_date, filterData.fundingActivity)) { return false; }
         }
 

@@ -131,7 +131,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
 
             if (range.length !== 0) {
                 this.dimensions.byTotalFunding.filter(function(funding) {
-                    return (funding >= range[0] && funding <= range[1]);
+                    return self.fallsWithinRange(funding, range);
                 });
             }
         },
@@ -141,7 +141,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             if (range.length !== 0) {
                 var self = this;
                 this.dimensions.byFundingPerRound.filter(function(funding) {
-                    return self.fallsWithinRange(funding, range);
+                    return self.anyItemFallsWithinRange(funding, range);
                 });
             }
         },
@@ -150,7 +150,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
 
             if (range.length !== 0) {
                 this.dimensions.byMostRecentFundingRound.filter(function(funding) {
-                    return (funding >= range[0] && funding <= range[1]);
+                    return self.fallsWithinRange(funding, range);
                 });
             }
         },
@@ -178,7 +178,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             if (range.length !== 0) {
                 var self = this;
                 this.dimensions.byFundingRoundMonth.filter(function(round_dates) {
-                    return self.fallsWithinRange(round_dates, range);
+                    return self.anyItemFallsWithinRange(round_dates, range);
                 });
             }
         },
@@ -188,7 +188,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             if (range.length !== 0) {
                 this.dimensions.byAcquiredOn.filter(function(acquired_on) {
                     acquired_on = acquired_on || new Date(1, 1, 1);
-                    return (range.length === 0 || (acquired_on >= range[0] && acquired_on <= range[1]));
+                    return self.fallsWithinRange(acquired_on, range);
                 });
             }
         },
@@ -198,7 +198,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             if (range.length !== 0) {
                 this.dimensions.byFoundedOn.filter(function(founded_on) {
                     founded_on = founded_on || new Date(1, 1, 1);
-                    return (range.length === 0 || (founded_on >= range[0] && founded_on <= range[1]));
+                    return self.fallsWithinRange(founded_on, range);
                 });
             }
         }
