@@ -44,7 +44,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var bars_fore, bars_back, range, full_extent;
                 var margin = {top: 0, right: 10, bottom: 20, left: 10};
                 var width = element.width() - margin.left - margin.right;
-                var height = parent.height() - margin.top - margin.bottom - 124;
+                var height = parent.height() - margin.top - margin.bottom - 100;
 
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
@@ -53,8 +53,6 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
                     .style('height', height + margin.top + margin.bottom + 'px')
-                    .style('margin', '0 auto')
-                    .style('display', 'block')
                     .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 

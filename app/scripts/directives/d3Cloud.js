@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.cloud');
                 var w = element.width();
-                var h = parent.height() - 130;
+                var h = parent.height() - 100;
                 scope.selectedItems = [];
 
                 var svg = d3.select(element[0]).append('svg').attr('width', w).attr('height', h);

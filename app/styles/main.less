@@ -50,13 +50,9 @@ body {
 }
 
 .drag-contain > div {
-  height: 365px;
+  height: 332px;
   width: 365px;
   position: absolute;
-}
-
-.drag-contain div[data-ss-colspan='2'] {
-  width: 365px;
 }
 
 .drag-contain .ss-dragged-child {
@@ -156,14 +152,18 @@ header{
 
 .data-set-container{
   background-color: @dark-grey-blue;
-  padding: 0px 20px 15px 20px;
+  padding-bottom: 10px;
   box-sizing: border-box;
   border-top: 1px @bright-blue solid;
   overflow: auto;
 
+  .head {
+    overflow: auto;
+    padding: 0 10px;
+  }
+
   .drag-handle {
     height: 15px;
-    margin: 0 -20px;
     margin-bottom: 5px;
     background: @bright-blue;
     cursor: move;
@@ -171,18 +171,19 @@ header{
 
   h3{
     font-family: 'Guilder';
-    font-size: 40px;
-    color: #ffffff;
+    font-size: 38px;
+    color: @white;
     vertical-align: bottom;
+    margin-top: 10px;
   }
   
   p{
-    margin-top: 44px;
     color: @white;
   }
   
   .textlist{
     border: 1px solid @bright-blue;
+    margin: 0 10px;
   }
   
   .form-group{
