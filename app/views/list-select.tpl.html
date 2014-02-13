@@ -23,7 +23,7 @@
                 <tbody>
                     <tr ng-repeat="item in selectedShownItems"  class="selected">
                         <td>
-                            <div ng-click="removeItem(item)">{{item.name}}</div>
+                            <div class='list-item' ng-click="removeItem(item)">{{item.name}}</div>
                             <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
@@ -31,7 +31,7 @@
                     </tr>
                     <tr ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
                         <td>
-                            <div ng-click="selectItem(item)">{{item.name}}</div>
+                            <div class='list-item' ng-click="selectItem(item)">{{item.name}}</div>
                             <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
