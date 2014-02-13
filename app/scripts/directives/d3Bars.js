@@ -42,7 +42,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
 
                 var bars_fore, bars_back, range, full_extent;
-                var margin = {top: 0, right: 10, bottom: 20, left: 10};
+                var margin = {top: 0, right: 15, bottom: 20, left: 15};
                 var width = element.width() - margin.left - margin.right;
                 var height = parent.height() - margin.top - margin.bottom - 100;
 
