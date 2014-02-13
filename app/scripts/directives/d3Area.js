@@ -28,13 +28,13 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 var parseDate = formatDate.parse;
                 var full_extent = [parseDate(scope.extent), new Date()];
                 var x = d3.time.scale().range([0, width]);
-
                 var y = d3.scale.linear().range([height, 0]);
 
                 var time = Math.floor(Math.random()*1e10);
 
                 var xAxis = d3.svg.axis()
                     .scale(x)
+                    .tickFormat(d3.time.format("'%y"))
                     .orient('bottom');
 
                 var area = d3.svg.area()
