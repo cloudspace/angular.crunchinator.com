@@ -45,18 +45,19 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
         var parsed_format = format.parse(extent);
+        var now = new Date();
+
+        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
+            byMonth[format(i)] = 0;
+        }
+
         _.each(companies, function(company){
             _.each(company.funding_rounds, function(funding_round){
                 if(funding_round.funded_on) {
                     var roundDate = parseDate(funding_round.funded_on);
                     if(roundDate >= parsed_format) {
                         var monthYear = format(roundDate);
-                        if(byMonth[monthYear]) {
-                            byMonth[monthYear]++;
-                        }
-                        else {
-                            byMonth[monthYear] = 1;
-                        }
+                        byMonth[monthYear]++;
                     }
                 }
             });
@@ -86,20 +87,21 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
         var parsed_format = format.parse(extent);
+        var now = new Date();
+
+        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
+            byMonth[format(i)] = 0;
+        }
         _.each(companies, function(company){
             if(company.acquired_on) {
                 var acquiredDate = parseDate(company.acquired_on);
                 if(acquiredDate >= parsed_format){
                     var monthYear = format(acquiredDate);
-                    if(byMonth[monthYear]) {
-                        byMonth[monthYear]++;
-                    }
-                    else {
-                        byMonth[monthYear] = 1;
-                    }
+                    byMonth[monthYear]++;
                 }
             }
         });
+
         return _.reduce(byMonth, function(o, v, k){
             o.push({
                 date: k,
@@ -124,20 +126,23 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%Y');
         var parsed_format = format.parse(extent);
+        var now = new Date();
+
+        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
+            byMonth[i.toString()] = 0;
+        }
+
         _.each(companies, function(company){
             if(company.founded_on) {
                 var foundedDate = parseDate(company.founded_on);
                 var monthYear = format(foundedDate);
                 if(foundedDate >= parsed_format){
-                    if(byMonth[monthYear]) {
-                        byMonth[monthYear]++;
-                    }
-                    else {
-                        byMonth[monthYear] = 1;
-                    }
+                    byMonth[monthYear]++;
                 }
+
             }
         });
+
         return _.reduce(byMonth, function(o, v, k){
             o.push({
                 date: k,
