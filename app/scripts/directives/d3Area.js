@@ -34,7 +34,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                 var xAxis = d3.svg.axis()
                     .scale(x)
-                    .tickFormat(d3.time.format("'%y"))
+                    .tickFormat(d3.time.format('\'%y'))
                     .orient('bottom');
 
                 var area = d3.svg.area()

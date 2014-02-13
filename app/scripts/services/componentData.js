@@ -2,35 +2,6 @@
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
     /**
-     * Constructs data necessary for the word cloud of categories
-     *
-     * @param {array} [categories] A filtered list of categories to display in the category word cloud
-     * @param {array} [companies] A list of companies that have categories
-     *                that are displayed in the category word cloud
-     * @return {array} A list of categories including a display name and
-                       a count of how many companies are in that category
-     */
-    this.categoryWordCloudData = _.memoize(function(categories, companies) {
-        var cats = [];
-        if(categories){
-            _.each(categories, function(category){
-                var cat = {};
-                cat.name = category.name;
-                cat.id = category.id;
-                cat.count = _.select(companies, function(company){
-                    return company.category_id === category.id;
-                }).length;
-                cat.display = category.name.replace('_', '/');
-                cats.push(cat);
-            });
-        }
-        return cats;
-    }, function(categories, companies) {
-        var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
-
-    /**
      * Constructs data necessary for the totalFunding bar graph
      *
      * @param {array} [companies] A filtered list of companies to include in the totalFunding graph
