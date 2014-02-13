@@ -6,7 +6,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
             restrict: 'EA',
             scope: {
                 data: '=',
-                title: '@',
+                chartTitle: '@',
                 selected: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',

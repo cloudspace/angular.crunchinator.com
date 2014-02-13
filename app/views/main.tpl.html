@@ -7,7 +7,7 @@
     <div class='drag-contain' drag-arrange>
         <div>
             <div list-select
-                title="Companies"
+                chart-title="Companies"
                 items="companies.dataForCompaniesList"
                 selected="selectedCompanies"
                 total="companies.count()"
@@ -18,7 +18,7 @@
         <div data-ss-colspan='2'>
             <div d3-cloud
                 data="ComponentData.categoryWordCloudData(categories.dataForCategoryList, companies.dataForCategoriesList)"
-                title="Categories"
+                chart-title="Categories"
                 total="categories.count()"
                 selected="selectedCategories"
             ></div>
@@ -26,7 +26,7 @@
 
         <div>
             <div list-select
-                title="Investors"
+                chart-title="Investors"
                 items="investors.dataForInvestorsList"
                 selected="selectedInvestors"
                 total="investors.count()"
@@ -35,7 +35,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-map
-                title="Company HQ"
+                chart-title="Company HQ"
                 data="ComponentData.companyStateData(companies.dataForLocationMap)"
                 selected="selectedStates"
             ></div>
@@ -43,7 +43,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-pie
-                title="Company Status"
+                chart-title="Company Status"
                 data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
                 selected="selectedStatuses"
             ></div>
@@ -51,7 +51,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Investments"
+                chart-title="Investments"
                 data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
                 selected="selectedFundingActivity"
                 extent="1/2000"
@@ -61,7 +61,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Acquisition Date"
+                chart-title="Acquisition Date"
                 data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
                 selected="selectedAquiredDate"
                 extent="1/2006"
@@ -71,7 +71,7 @@
 
         <div data-ss-colspan='2'>
              <div d3-area
-                title="Date Founded"
+                chart-title="Date Founded"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
                 selected="selectedFoundedDate"
                 extent="1992"
@@ -82,7 +82,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-bars
-                title="Total Funding"
+                chart-title="Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
                 selected="selectedRanges"
                 ranges="true"
@@ -91,7 +91,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-bars
-                title="Funding: Any Round"
+                chart-title="Funding: Any Round"
                 data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
                 selected="selectedRoundRanges"
                 ranges="true"
@@ -100,7 +100,7 @@
 
         <div data-ss-colspan='2'>
             <div d3-bars
-                title="Funding: Most Recent Round"
+                chart-title="Funding: Most Recent Round"
                 data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
                 selected="selectedRecentRoundRanges"
                 ranges="true"

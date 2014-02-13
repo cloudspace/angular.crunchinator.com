@@ -6,7 +6,7 @@ angular.module('crunchinatorApp.directives').directive('d3Cloud', ['$rootScope',
             restrict: 'EA',
             scope: {
                 data: '=',
-                title: '@',
+                chartTitle: '@',
                 selected: '@',
                 total: '='
             },

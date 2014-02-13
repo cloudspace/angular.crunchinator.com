@@ -6,7 +6,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
             restrict: 'EA',
             scope: {
                 data: '=',
-                title: '@',
+                chartTitle: '@',
                 extent: '@',
                 selected: '@',
                 format: '@',
@@ -31,7 +31,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                 var y = d3.scale.linear().range([height, 0]);
 
-                var time = scope.title.replace(/\s+/g, '-');
+                var time = Math.floor(Math.random()*1e10);
 
                 var xAxis = d3.svg.axis()
                     .scale(x)
