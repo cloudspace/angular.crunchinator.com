@@ -139,8 +139,9 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             var range = this.filterData.roundRanges;
 
             if (range.length !== 0) {
+                var self = this;
                 this.dimensions.byFundingPerRound.filter(function(funding) {
-                    return (funding >= range[0] && funding <= range[1]);
+                    return self.fallsWithinRange(funding, range);
                 });
             }
         },
