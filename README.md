@@ -1,7 +1,8 @@
 # angular.crunchinator.com
 
-Cloudspace Crunchinator Angular Demo
+[![Build Status](https://travis-ci.org/cloudspace/angular.crunchinator.com.png?branch=master)](https://travis-ci.org/cloudspace/angular.crunchinator.com)
 
+Crunchbase visualization with Angular.js and D3
 
 ## Quick Start if developing from Mac
 
