@@ -10,7 +10,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @return {array} A list of categories ordered by the companies they belong to.
      */
     this.categoryListData = _.memoize(function(categories, companies) {
-        if(typeof categories === 'undefined' || typeof companies === 'undefined') { return; }
+        if(typeof categories === 'undefined' || typeof companies === 'undefined') { return []; }
 
         // Underscore's sortBy function only sorts in ascending order. However
         var orderedCategories = _.sortBy(categories, function(category) {
@@ -33,7 +33,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @return {array} A list of investors ordered by the companies they have invested in.
      */
     this.investorListData = _.memoize(function(investors, companies) {
-        if(typeof investors === 'undefined' || typeof companies === 'undefined') { return; }
+        if(typeof investors === 'undefined' || typeof companies === 'undefined') { return []; }
 
         var orderedInvestors = _.sortBy(investors, function(investor) {
             return _.select(companies, function(company) {
