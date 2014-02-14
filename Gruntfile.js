@@ -397,7 +397,7 @@ module.exports = function (grunt) {
             },
             production: {
                 options: {
-                    bucket: 'angular.crunchinator.com'
+                    bucket: 'crunchinator.com'
                 },
                 sync: [{
                     src: '<%= yeoman.dist %>/**/*.*',
