@@ -17,7 +17,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
 
                 var width = element[0].clientWidth;
-                var height = parent.height() - 130;
+                var height = parent.height() - 100;
                 var radius = (Math.min(width, height) / 2) - 20;
                 var color = d3.scale.category10();
                 var path, ticks, labels;

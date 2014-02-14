@@ -22,7 +22,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
 
                 var width = element[0].clientWidth;
-                var height = parent.height() - 130;
+                var height = parent.height() - 100;
 
                 var projection = d3.geo.albersUsa()
                     .scale(width*1.3)
