@@ -166,7 +166,7 @@ var randomDate = function(start, end) {
         base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/fakedata';
         break;
     case 'production':
-        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/realdata';
+        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/fakedata';
         break;
     }
 
