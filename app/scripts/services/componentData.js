@@ -2,6 +2,51 @@
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
     /**
+     * Constructs data necessary for the category list display
+     *
+     * @param {array} [categories] A filtered list of categories to display in the category list display
+     * @param {array} [companies] A list of companies that have categories
+     *                that are displayed in the category list display
+     * @return {array} A list of categories ordered by the companies they belong to.
+     */
+    this.categoryListData = _.memoize(function(categories, companies) {
+        if(typeof categories === 'undefined' || typeof companies === 'undefined') { return; }
+
+        // Underscore's sortBy function only sorts in ascending order. However
+        var orderedCategories = _.sortBy(categories, function(category) {
+            return _.select(companies, function(company) {
+                return company.category_id === category.id;
+            }).length * -1;
+        });
+        return orderedCategories;
+    }, function(categories, companies) {
+        var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    /**
+     * Constructs data necessary for the investor list display
+     *
+     * @param {array} [categories] A filtered list of inevestor to display in the inevestor list display
+     * @param {array} [companies] A list of companies that have investors
+     *                that are displayed in the inevestor list display
+     * @return {array} A list of investors ordered by the companies they have invested in.
+     */
+    this.investorListData = _.memoize(function(investors, companies) {
+        if(typeof investors === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var orderedInvestors = _.sortBy(investors, function(investor) {
+            return _.select(companies, function(company) {
+                return _.contains(investor.invested_company_ids, company.id);
+            }).length * -1;
+        });
+        return orderedInvestors;
+    }, function(investors, companies) {
+        var current_hash = _.pluck(investors, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    /**
      * Constructs data necessary for the totalFunding bar graph
      *
      * @param {array} [companies] A filtered list of companies to include in the totalFunding graph

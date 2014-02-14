@@ -83,6 +83,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     Company.prototype.dataSets = {
         dataForCompaniesList: ['byId'],
+        dataForCategoriesList: ['byCategory'],
+        dataForInvestorsList: ['byInvestors'],
         dataForTotalFunding: ['byTotalFunding'],
         dataForLocationMap: ['byState'],
         dataForFundingRoundAreaChart: ['byFundingActivity'],

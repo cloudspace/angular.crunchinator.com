@@ -9,7 +9,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      */
     var Investor = function() {
         this.url = API_BASE_URL + '/investors.json';
-        window.bad_investors = [];
     };
 
     Investor.prototype = Object.create(Model);
@@ -86,8 +85,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                         return true;
                     }
                 }
-
-                window.bad_investors.push(investor);
 
                 //Couldn't find a company that passes all the filters.
                 return false;
