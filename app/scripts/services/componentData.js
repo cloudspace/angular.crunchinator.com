@@ -267,6 +267,39 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     });
 
     /**
+     * Constructs data necessary for the IPO Value bar graph
+     *
+     * @param {array} [companies] A filtered list of companies to include in the IPO value graph
+     * @return {array} A collection of logarithmic ranges with their company count and pretty label
+     */
+    this.ipoValueData = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+            );
+        }
+
+        for(var j = 0; j < companies.length; j++) {
+            var ipo_valuation = parseInt(companies[j].ipo_valuation);
+            if(!isNaN(total_funding)){
+                var k = rangeIndex(ipo_valuation, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    /**
      * Abbreviates a number into a shortened string
      *
      * @param {number} [value] A large number to abbreviate
