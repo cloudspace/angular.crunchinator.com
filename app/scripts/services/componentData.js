@@ -288,7 +288,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < companies.length; j++) {
             var ipo_valuation = parseInt(companies[j].ipo_valuation);
-            if(!isNaN(total_funding)){
+            if(!isNaN(ipo_valuation)){
                 var k = rangeIndex(ipo_valuation, minGraph, base);
                 ranges[k].count++;
             }
