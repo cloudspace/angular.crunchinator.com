@@ -61,7 +61,7 @@
 
         <div>
             <div d3-bars
-                chart-title="Total Funding"
+                chart-title="Funding: Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
                 selected="selectedRanges"
                 ranges="true"
@@ -98,14 +98,14 @@
 
         <div>
             <div placeholder
-                chart-title="Acquisition Value"
+                chart-title="Acquisition Price"
                 placeholder-text="Coming Soon!"
             ></div>
         </div>
 
         <div>
              <div d3-area
-                chart-title="Date Founded"
+                chart-title="Founding Date"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
                 selected="selectedFoundedDate"
                 extent="1992"
@@ -127,7 +127,7 @@
 
         <div>
             <div d3-bars
-                chart-title="IPO Valuation"
+                chart-title="IPO Raise"
                 data="ComponentData.ipoValueData(companies.dataForIPOValue, companies.maxIPOValue)"
                 selected="selectedIPOValueRanges"
                 ranges="true"
