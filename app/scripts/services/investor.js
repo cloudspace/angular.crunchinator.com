@@ -9,7 +9,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
      */
     var Investor = function() {
         this.url = API_BASE_URL + '/investors.json';
-        window.bad_investors = [];
     };
 
     Investor.prototype = Object.create(Model);
@@ -87,8 +86,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                     }
                 }
 
-                window.bad_investors.push(investor);
-
                 //Couldn't find a company that passes all the filters.
                 return false;
             });
@@ -157,6 +154,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 return round.funded_on ? parse(round.funded_on) : null;
             }));
             if(!self.anyItemFallsWithinRange(funding_rounds_date, filterData.fundingActivity)) { return false; }
+        }
+
+        //byIPOValue
+        if (filterData.ipoValueRange.length !== 0) {
+            if(!self.fallsWithinRange(company.ipo_valuation, filterData.ipoValueRange)) { return false; }
+        }
+
+        //byIPODate
+        if (filterData.ipoDateRange.length !== 0) {
+            if(!company.ipo_on) { return false; }
+            if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
         }
 
         return true;
