@@ -51,6 +51,7 @@ Once the API has been successfully updated, any code that relies on the new data
                 "longitude": 1.0,
                 "state_code": "FL",
                 "acquired_on": "1/28/2014",
+                "acquired_value: 3000000,
                 "acquired_by_id": 1,
                 "ipo_on": "1/28/2014",
                 "ipo_valuation": 50000,
