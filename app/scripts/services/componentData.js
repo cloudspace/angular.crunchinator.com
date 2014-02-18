@@ -299,6 +299,40 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         return current_hash;
     });
 
+    this.ipoDateData = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%Y');
+        var parsed_format = format.parse(extent);
+        var now = new Date();
+
+        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
+            byMonth[i.toString()] = 0;
+        }
+
+        _.each(companies, function(company){
+            if(company.ipo_on) {
+                var ipoDate = parseDate(company.ipo_on);
+                var monthYear = format(ipoDate);
+                if(ipoDate >= parsed_format){
+                    byMonth[monthYear]++;
+                }
+
+            }
+        });
+
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
     /**
      * Abbreviates a number into a shortened string
      *

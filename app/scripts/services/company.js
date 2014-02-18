@@ -99,7 +99,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForFundingPerRound: ['byFundingPerRound'],
         dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
         dataForCompanyStatus: ['byStatus'],
-        dataForIPOValue: ['byIPOValue']
+        dataForIPOValue: ['byIPOValue'],
+        dataForIPODate: ['byIPODate']
     };
 
     /**
@@ -222,6 +223,17 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 var self = this;
                 this.dimensions.byIPOValue.filter(function(ipo) {
                     return self.fallsWithinRange(ipo, range);
+                });
+            }
+        },
+        byIPODate: function() {
+            var range = this.filterData.ipoDateRange;
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byIPODate.filter(function(ipo_on) {
+                    ipo_on = ipo_on || new Date(1, 1, 1);
+                    return self.fallsWithinRange(ipo_on, range);
                 });
             }
         }
