@@ -16,11 +16,20 @@
         </div>
 
         <div>
-            <div list-select
-                chart-title="Categories"
-                items="ComponentData.categoryListData(categories.dataForCategoryList, companies.dataForCategoriesList)"
-                selected="selectedCategories"
-                total="categories.count()"
+            <div d3-map
+                chart-title="Company HQ"
+                data="ComponentData.companyStateData(companies.dataForLocationMap)"
+                selected="selectedStates"
+            ></div>
+        </div>
+
+        <div>
+             <div d3-area
+                chart-title="Investments"
+                data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                selected="selectedFundingActivity"
+                extent="1/2000"
+                ranges="true"
             ></div>
         </div>
 
@@ -34,14 +43,6 @@
         </div>
 
         <div>
-            <div d3-map
-                chart-title="Company HQ"
-                data="ComponentData.companyStateData(companies.dataForLocationMap)"
-                selected="selectedStates"
-            ></div>
-        </div>
-
-        <div>
             <div d3-pie
                 chart-title="Company Status"
                 data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
@@ -50,11 +51,37 @@
         </div>
 
         <div>
-             <div d3-area
-                chart-title="Investments"
-                data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
-                selected="selectedFundingActivity"
-                extent="1/2000"
+            <div list-select
+                chart-title="Categories"
+                items="ComponentData.categoryListData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+                selected="selectedCategories"
+                total="categories.count()"
+            ></div>
+        </div>
+
+        <div>
+            <div d3-bars
+                chart-title="Total Funding"
+                data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
+                selected="selectedRanges"
+                ranges="true"
+            ></div>
+        </div>
+
+        <div>
+            <div d3-bars
+                chart-title="Funding: Any Round"
+                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
+                selected="selectedRoundRanges"
+                ranges="true"
+            ></div>
+        </div>
+
+        <div>
+            <div d3-bars
+                chart-title="Funding: Latest Round"
+                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
+                selected="selectedRecentRoundRanges"
                 ranges="true"
             ></div>
         </div>
@@ -88,28 +115,12 @@
         </div>
 
         <div>
-            <div d3-bars
-                chart-title="Total Funding"
-                data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
-                selected="selectedRanges"
-                ranges="true"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-bars
-                chart-title="Funding: Any Round"
-                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
-                selected="selectedRoundRanges"
-                ranges="true"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-bars
-                chart-title="Funding: Latest Round"
-                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentFundingRound, companies.maxRecentFundingValue)"
-                selected="selectedRecentRoundRanges"
+            <div d3-area
+                chart-title="IPO Date"
+                data="ComponentData.ipoDateData(companies.dataForIPODate, '1992')"
+                selected="selectedIPODateRanges"
+                extent="1992"
+                format="%Y"
                 ranges="true"
             ></div>
         </div>
@@ -119,17 +130,6 @@
                 chart-title="IPO Valuation"
                 data="ComponentData.ipoValueData(companies.dataForIPOValue, companies.maxIPOValue)"
                 selected="selectedIPOValueRanges"
-                ranges="true"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-area
-                chart-title="IPO Date"
-                data="ComponentData.ipoDateData(companies.dataForIPODate, '1992')"
-                selected="selectedIPODateRanges"
-                extent="1992"
-                format="%Y"
                 ranges="true"
             ></div>
         </div>
