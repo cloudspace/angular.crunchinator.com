@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('placeholder', ['$rootScope',
-    function($rootScope) {
+angular.module('crunchinatorApp.directives').directive('placeholder',
+    function() {
         return {
             restrict: 'EA',
             scope: {
@@ -11,4 +11,4 @@ angular.module('crunchinatorApp.directives').directive('placeholder', ['$rootSco
             templateUrl: 'views/d3-chart.tpl.html'
         };
     }
-]);
+);
