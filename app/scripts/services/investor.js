@@ -156,6 +156,17 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             if(!self.anyItemFallsWithinRange(funding_rounds_date, filterData.fundingActivity)) { return false; }
         }
 
+        //byIPOValue
+        if (filterData.ipoValueRange.length !== 0) {
+            if(!self.fallsWithinRange(company.ipo_valuation, filterData.ipoValueRange)) { return false; }
+        }
+
+        //byIPODate
+        if (filterData.ipoDateRange.length !== 0) {
+            if(!company.ipo_on) { return false; }
+            if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
+        }
+
         return true;
     };
 

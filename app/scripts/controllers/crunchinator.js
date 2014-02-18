@@ -31,7 +31,9 @@ angular.module('crunchinatorApp.controllers')
             states: [],
             fundingActivity: [],
             acquiredDate: [],
-            foundedDate: []
+            foundedDate: [],
+            ipoValueRange: [],
+            ipoDateRange: []
         };
 
         $scope.selectedRanges = [];
@@ -103,6 +105,8 @@ angular.module('crunchinatorApp.controllers')
             filterData.fundingActivity = $scope.selectedFundingActivity || [];
             filterData.acquiredDate = $scope.selectedAquiredDate || [];
             filterData.foundedDate = $scope.selectedFoundedDate || [];
+            filterData.ipoValueRange = $scope.selectedIPOValueRanges || [];
+            filterData.ipoDateRange = $scope.selectedIPODateRanges || [];
 
             applyFilters().then(function(){
                 $scope.loading = false;

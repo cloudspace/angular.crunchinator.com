@@ -58,7 +58,13 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 }).raised_amount;
             }),
             byStatuses: crossCompanies.dimension(function(company) { return company.status; }),
-            byState: crossCompanies.dimension(function(company) { return company.state_code; })
+            byState: crossCompanies.dimension(function(company) { return company.state_code; }),
+            byIPOValue: crossCompanies.dimension(function(company) {
+                return company.ipo_valuation ? company.ipo_valuation : null;
+            }),
+            byIPODate: crossCompanies.dimension(function(company) {
+                return company.ipo_on ? parse(company.ipo_on) : null;
+            })
         };
 
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
@@ -71,10 +77,12 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 return round.funded_on ? parse(round.funded_on) : 0;
             }).raised_amount;
         });
+        var ipoValues = _.pluck(allCompanies, 'ipo_valuation');
 
         this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
         this.maxCompanyValue = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         this.maxRecentFundingValue = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
+        this.maxIPOValue = parseInt(_.max(ipoValues, function(n) { return parseInt(n); }));
     };
 
     /**
@@ -92,7 +100,9 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForFoundedOnAreaChart: ['byFoundedDate'],
         dataForFundingPerRound: ['byFundingPerRound'],
         dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
-        dataForCompanyStatus: ['byStatus']
+        dataForCompanyStatus: ['byStatus'],
+        dataForIPOValue: ['byIPOValue'],
+        dataForIPODate: ['byIPODate']
     };
 
     /**
@@ -205,6 +215,27 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 this.dimensions.byFoundedOn.filter(function(founded_on) {
                     founded_on = founded_on || new Date(1, 1, 1);
                     return self.fallsWithinRange(founded_on, range);
+                });
+            }
+        },
+        byIPOValue: function() {
+            var range = this.filterData.ipoValueRange;
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byIPOValue.filter(function(ipo) {
+                    return self.fallsWithinRange(ipo, range);
+                });
+            }
+        },
+        byIPODate: function() {
+            var range = this.filterData.ipoDateRange;
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byIPODate.filter(function(ipo_on) {
+                    ipo_on = ipo_on || new Date(1, 1, 1);
+                    return self.fallsWithinRange(ipo_on, range);
                 });
             }
         }

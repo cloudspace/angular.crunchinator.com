@@ -312,6 +312,73 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
     });
 
     /**
+     * Constructs data necessary for the IPO Value bar graph
+     *
+     * @param {array} [companies] A filtered list of companies to include in the IPO value graph
+     * @return {array} A collection of logarithmic ranges with their company count and pretty label
+     */
+    this.ipoValueData = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+            );
+        }
+
+        for(var j = 0; j < companies.length; j++) {
+            var ipo_valuation = parseInt(companies[j].ipo_valuation);
+            if(!isNaN(ipo_valuation)){
+                var k = rangeIndex(ipo_valuation, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    this.ipoDateData = _.memoize(function(companies, extent) {
+        var byMonth = {};
+        var parseDate = d3.time.format('%x').parse;
+        var format = d3.time.format('%Y');
+        var parsed_format = format.parse(extent);
+        var now = new Date();
+
+        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
+            byMonth[i.toString()] = 0;
+        }
+
+        _.each(companies, function(company){
+            if(company.ipo_on) {
+                var ipoDate = parseDate(company.ipo_on);
+                var monthYear = format(ipoDate);
+                if(ipoDate >= parsed_format){
+                    byMonth[monthYear]++;
+                }
+
+            }
+        });
+
+        return _.reduce(byMonth, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    /**
      * Abbreviates a number into a shortened string
      *
      * @param {number} [value] A large number to abbreviate
