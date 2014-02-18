@@ -16,36 +16,10 @@
         </div>
 
         <div>
-            <div list-select
-                chart-title="Categories"
-                items="ComponentData.categoryListData(categories.dataForCategoryList, companies.dataForCategoriesList)"
-                selected="selectedCategories"
-                total="categories.count()"
-            ></div>
-        </div>
-
-        <div>
-            <div list-select
-                chart-title="Investors"
-                items="ComponentData.investorListData(investors.dataForInvestorsList, companies.dataForInvestorsList)"
-                selected="selectedInvestors"
-                total="investors.count()"
-            ></div>
-        </div>
-
-        <div>
             <div d3-map
                 chart-title="Company HQ"
                 data="ComponentData.companyStateData(companies.dataForLocationMap)"
                 selected="selectedStates"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-pie
-                chart-title="Company Status"
-                data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
-                selected="selectedStatuses"
             ></div>
         </div>
 
@@ -60,36 +34,34 @@
         </div>
 
         <div>
-             <div d3-area
-                chart-title="Acquisition Date"
-                data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
-                selected="selectedAquiredDate"
-                extent="1/2006"
-                ranges="true"
-                ></div>
-        </div>
-
-        <div>
-            <div placeholder
-                chart-title="Acquisition Value"
-                placeholder-text="Coming Soon!"
+            <div list-select
+                chart-title="Investors"
+                items="ComponentData.investorListData(investors.dataForInvestorsList, companies.dataForInvestorsList)"
+                selected="selectedInvestors"
+                total="investors.count()"
             ></div>
         </div>
 
         <div>
-             <div d3-area
-                chart-title="Date Founded"
-                data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
-                selected="selectedFoundedDate"
-                extent="1992"
-                format="%Y"
-                ranges="true"
+            <div d3-pie
+                chart-title="Company Status"
+                data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
+                selected="selectedStatuses"
+            ></div>
+        </div>
+
+        <div>
+            <div list-select
+                chart-title="Categories"
+                items="ComponentData.categoryListData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+                selected="selectedCategories"
+                total="categories.count()"
             ></div>
         </div>
 
         <div>
             <div d3-bars
-                chart-title="Total Funding"
+                chart-title="Funding: Total Funding"
                 data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
                 selected="selectedRanges"
                 ranges="true"
@@ -115,10 +87,29 @@
         </div>
 
         <div>
-            <div d3-bars
-                chart-title="IPO Valuation"
-                data="ComponentData.ipoValueData(companies.dataForIPOValue, companies.maxIPOValue)"
-                selected="selectedIPOValueRanges"
+             <div d3-area
+                chart-title="Acquisition Date"
+                data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                selected="selectedAquiredDate"
+                extent="1/2006"
+                ranges="true"
+                ></div>
+        </div>
+
+        <div>
+            <div placeholder
+                chart-title="Acquisition Price"
+                placeholder-text="Coming Soon!"
+            ></div>
+        </div>
+
+        <div>
+             <div d3-area
+                chart-title="Founding Date"
+                data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
+                selected="selectedFoundedDate"
+                extent="1992"
+                format="%Y"
                 ranges="true"
             ></div>
         </div>
@@ -130,6 +121,15 @@
                 selected="selectedIPODateRanges"
                 extent="1992"
                 format="%Y"
+                ranges="true"
+            ></div>
+        </div>
+
+        <div>
+            <div d3-bars
+                chart-title="IPO Raise"
+                data="ComponentData.ipoValueData(companies.dataForIPOValue, companies.maxIPOValue)"
+                selected="selectedIPOValueRanges"
                 ranges="true"
             ></div>
         </div>
