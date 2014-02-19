@@ -110,7 +110,8 @@ Once the API has been successfully updated, any code that relies on the new data
         [
             {
                 "id": 1,
-                "name", "A Category",
+                "name": "A Category",
+                "display_name": "A better Category Name",
                 "company_ids":
                 [
                     1,
