@@ -36,7 +36,7 @@
         <div>
             <div list-select
                 chart-title="Investors"
-                items="ComponentData.investorListData(investors.dataForInvestorsList, companies.dataForInvestorsList)"
+                items="investors.dataForInvestorsList"
                 selected="selectedInvestors"
                 total="investors.count()"
             ></div>
@@ -53,7 +53,7 @@
         <div>
             <div list-select
                 chart-title="Categories"
-                items="ComponentData.categoryListData(categories.dataForCategoryList, companies.dataForCategoriesList)"
+                items="categories.dataForCategoryList"
                 selected="selectedCategories"
                 total="categories.count()"
             ></div>
