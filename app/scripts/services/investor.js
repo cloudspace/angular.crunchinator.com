@@ -36,8 +36,19 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
+            investor.funding_rounds = [];
             _.each(investor.invested_company_ids, function(companyId){
-                investor.invested_companies.push(companiesById[companyId]);
+                var company = companiesById[companyId];
+                
+                if(company) {
+                    investor.invested_companies.push(company);
+                    _.each(company.funding_rounds, function(round){
+                        round.company_id = company.id;
+                        if(_.include(round.investor_ids, investor.id)){
+                            investor.funding_rounds.push(round);
+                        }
+                    });
+                }
             });
             _.each(investor.invested_category_ids, function(categoryId){
                 investor.invested_categories.push(categoriesById[categoryId]);
@@ -55,7 +66,8 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         var crossInvestors = crossfilter(this.all);
 
         this.dimensions = {
-            byCompanies: crossInvestors.dimension(function(investor) { return investor; })
+            byCompanies: crossInvestors.dimension(function(investor) { return investor.invested_companies; }),
+            byFundingRounds: crossInvestors.dimension(function(investor) { return investor.funding_rounds; })
         };
 
         this.byName = crossInvestors.dimension(function(investor) { return investor.name; });
@@ -77,8 +89,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
     Investor.prototype.filters = {
         byCompanies: function() {
             var self = this;
-            this.dimensions.byCompanies.filter(function(investor){
-                var companies = investor.invested_companies;
+            this.dimensions.byCompanies.filter(function(companies){
                 for(var i = 0; i < companies.length; i++) {
                     //As long as one company passes the filters, return true for this investor.
                     if(self.companyPassesFilters(companies[i], self.filterData)) {
@@ -89,7 +100,44 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
                 //Couldn't find a company that passes all the filters.
                 return false;
             });
+        },
+        byFundingRounds: function() {
+            var self = this;
+            this.dimensions.byFundingRounds.filter(function(funding_rounds){
+                //A company fails if none of its rounds passes filters.
+                for(var i = 0; i < funding_rounds.length; i++) {
+                    var round = funding_rounds[i];
+                    if(self.roundPassesFilters(round, self.filterData)){
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
+    };
+
+    Investor.prototype.roundPassesFilters = function(round, filterData) {
+        var self = this;
+        var parse = this.format.parse;
+
+        //If we're filtering on companies and this round's company
+        //isn't in the filterData the round doesn't pass
+        if (filterData.companyIds.length !== 0 && !_.include(filterData.companyIds, round.company_id)) {
+            return false;
+        }
+
+        //byAllFundingRoundsRaised
+        if (filterData.roundRanges.length !== 0) {
+            if(!self.fallsWithinRange(round.raised_amount, filterData.roundRanges)) { return false; }
+        }
+
+        //byAllFundingRoundsDate
+        if (filterData.fundingActivity.length !== 0) {
+            var funded_on = round.funded_on ? parse(round.funded_on) : null;
+            if(!self.fallsWithinRange(funded_on, filterData.fundingActivity)) { return false; }
+        }
+
+        return true;
     };
 
     //Determines if a company passes
@@ -110,12 +158,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         //byTotalFunding
         if (filterData.ranges.length !== 0) {
             if(!self.fallsWithinRange(company.total_funding, filterData.ranges)) { return false; }
-        }
-
-        //byAllFundingRoundsRaised
-        if (filterData.roundRanges.length !== 0) {
-            var funding_rounds_raised = _.pluck(company.funding_rounds, 'raised_amount');
-            if(!self.anyItemFallsWithinRange(funding_rounds_raised, filterData.roundRanges)) { return false; }
         }
 
         //byMostRecentFundingRoundRaised
@@ -148,14 +190,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             if(!self.fallsWithinRange(parse(company.founded_on), filterData.foundedDate)) { return false; }
         }
 
-        //byAllFundingRoundsDate
-        if (filterData.fundingActivity.length !== 0) {
-            var funding_rounds_date = _.compact(_.map(company.funding_rounds, function(round){
-                return round.funded_on ? parse(round.funded_on) : null;
-            }));
-            if(!self.anyItemFallsWithinRange(funding_rounds_date, filterData.fundingActivity)) { return false; }
-        }
-
         //byIPOValue
         if (filterData.ipoValueRange.length !== 0) {
             if(!self.fallsWithinRange(company.ipo_valuation, filterData.ipoValueRange)) { return false; }
@@ -166,7 +200,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             if(!company.ipo_on) { return false; }
             if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
         }
-
         return true;
     };
 
