@@ -447,15 +447,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-
-        downloadfile: {
-            files: [
-                {
-                    url: 'https://s3.amazonaws.com/crunchinator.com/api/current_release.json',
-                    dest: '.tmp'
-                }
-            ]
-        }
     });
 
 
