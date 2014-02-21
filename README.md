@@ -65,6 +65,7 @@ Once the API has been successfully updated, any code that relies on the new data
                 [
                     {
                         "id": 1,
+                        "round_code": "series a",
                         "raised_amount": 100.0,
                         "funded_on": "10/10/2013",
                         "investor_ids":
