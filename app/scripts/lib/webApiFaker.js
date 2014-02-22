@@ -50,7 +50,8 @@ var randomDate = function(start, end) {
             status: statuses[exponential_distribution(0, statuses.length)],
             state_code: states[exponential_distribution(0, states.length)],
             ipo_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
-            ipo_valuation: exponential_distribution(3e6, 17e10)
+            ipo_valuation: exponential_distribution(3e6, 17e10),
+            acquired_value: exponential_distribution(3e6, 17e10)
         };
     };
 
