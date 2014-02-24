@@ -76,9 +76,17 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 }
 
                 x.domain(full_extent);
+                var initial_extent = full_extent;
+                if(scope.$parent.filterData[scope.selected].length > 0) {
+                    initial_extent = scope.$parent.filterData[scope.selected];
+
+                    svg.selectAll('#clip-' + time + ' rect')
+                            .attr('x', x(initial_extent[0]))
+                            .attr('width', x(initial_extent[1]) - x(initial_extent[0]));
+                }
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent(full_extent)
+                    .extent(initial_extent)
                     .on('brush', function() {
                         var extent = brush.extent();
 
@@ -100,13 +108,14 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                             }
 
                             scope.$parent.$apply(function() {
-                                scope.$parent[scope.selected] = scope.selectedItems;
+                                scope.$parent.filterData[scope.selected] = scope.selectedItems;
                                 $rootScope.$broadcast('filterAction');
                             });
                         }
                         
                         lastExtent = extent;
                     });
+
                 var lastExtent = brush.extent();
                 var gBrush = svg.append('g')
                     .attr('class', 'brush')

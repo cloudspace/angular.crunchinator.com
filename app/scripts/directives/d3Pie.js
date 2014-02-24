@@ -11,8 +11,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
-                scope.selectedItems = [];
-                scope.$parent[scope.selected] = [];
+                scope.selectedItems = scope.$parent.filterData[scope.selected].slice(0);
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
@@ -69,7 +68,7 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                                     scope.selectedItems.splice(index, 1);
                                 }
                                 svg.selectAll('path').style('fill', fill);
-                                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                                scope.$parent.filterData[scope.selected] = scope.selectedItems.slice(0);
                                 $rootScope.$broadcast('filterAction');
                             });
                         });

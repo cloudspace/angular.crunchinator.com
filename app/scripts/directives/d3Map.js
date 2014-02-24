@@ -17,7 +17,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                     return '#'+(0x1000000+(Math.round((R2-R1)*p)+R1)*0x10000+(Math.round((G2-G1)*p)+G1)*
                         0x100+(Math.round((B2-B1)*p)+B1)).toString(16).slice(1);
                 }
-                scope.selected_states = [];
+                scope.selected_states = scope.$parent.filterData[scope.selected].slice(0);
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
@@ -71,7 +71,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                         scope.selected_states.push(state);
                     }
                     
-                    scope.$parent[scope.selected] = scope.selected_states.slice(0);
+                    scope.$parent.filterData[scope.selected] = scope.selected_states.slice(0);
                     g.selectAll('.state').attr('fill', fillFunction(scope.data));
                     scope.$parent.$apply(function(){
                         $rootScope.$broadcast('filterAction');
