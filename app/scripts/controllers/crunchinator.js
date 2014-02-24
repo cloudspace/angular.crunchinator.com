@@ -16,11 +16,12 @@ angular.module('crunchinatorApp.controllers')
 })
 
 .controller('CrunchinatorCtrl', [
-    '$scope', '$q', 'Company', 'Category', 'Investor', 'ComponentData',
-    function CrunchinatorCtrl($scope, $q, Company, Category, Investor, ComponentData) {
+    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'ComponentData',
+    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, ComponentData) {
         $scope.loading = true;
+
         //Create the initial empty filter data for every filter
-        var filterData = {
+        $scope.filterData = {
             categoryIds: [],
             investorIds: [],
             companyIds: [],
@@ -35,6 +36,21 @@ angular.module('crunchinatorApp.controllers')
             ipoValueRange: [],
             ipoDateRange: []
         };
+
+        window._filterData = $scope.filterData;
+
+
+
+        if($location.search().filters) {
+            $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
+            var toDate = function(dateString){
+                return new Date(dateString);
+            };
+            $scope.filterData.fundingActivity = _.map($scope.filterData.fundingActivity, toDate);
+            $scope.filterData.ipoDateRange = _.map($scope.filterData.ipoDateRange, toDate);
+            $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
+            $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
+        }
 
         $scope.selectedRanges = [];
 
@@ -59,7 +75,7 @@ angular.module('crunchinatorApp.controllers')
 
                     _.each(models, function(Model) {
                         Model.setupDimensions();
-                        Model.runFilters(filterData);
+                        Model.runFilters($scope.filterData);
                     });
 
                     $scope.loading = false;
@@ -72,6 +88,7 @@ angular.module('crunchinatorApp.controllers')
 
 
 
+        console.log($scope.filterData.companyIds);
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays
@@ -81,9 +98,10 @@ angular.module('crunchinatorApp.controllers')
             function applyFilters() {
                 _.delay(function(){
                     $scope.$apply(function() {
-                        Company.runFilters(filterData);
-                        Category.runFilters(filterData);
-                        Investor.runFilters(filterData);
+                        $location.search({filters: encodeURIComponent(JSON.stringify($scope.filterData))});
+                        Company.runFilters($scope.filterData);
+                        Category.runFilters($scope.filterData);
+                        Investor.runFilters($scope.filterData);
 
                         deferred.resolve('Finished filters');
                     });
@@ -93,20 +111,6 @@ angular.module('crunchinatorApp.controllers')
             }
 
             $scope.loading = true;
-
-            filterData.categoryIds = _.pluck($scope.selectedCategories, 'id');
-            filterData.companyIds = _.pluck($scope.selectedCompanies, 'id');
-            filterData.investorIds = _.pluck($scope.selectedInvestors, 'id');
-            filterData.ranges = $scope.selectedRanges || [];
-            filterData.roundRanges = $scope.selectedRoundRanges || [];
-            filterData.mostRecentRoundRanges = $scope.selectedRecentRoundRanges || [];
-            filterData.statuses = $scope.selectedStatuses || [];
-            filterData.states = $scope.selectedStates || [];
-            filterData.fundingActivity = $scope.selectedFundingActivity || [];
-            filterData.acquiredDate = $scope.selectedAquiredDate || [];
-            filterData.foundedDate = $scope.selectedFoundedDate || [];
-            filterData.ipoValueRange = $scope.selectedIPOValueRanges || [];
-            filterData.ipoDateRange = $scope.selectedIPODateRanges || [];
 
             applyFilters().then(function(){
                 $scope.loading = false;

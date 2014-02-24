@@ -17,14 +17,25 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             element.height(parent.height() - 130);
 
             scope.items = scope.items || [];
-            scope.selectedItems = [];
             scope.scrollItems = [];
-            scope.selectedShownItems = [];
+            scope.selectedItems = [];
+            scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
 
+            var set_initially = false;
             scope.$watch('items', function(){
+                console.log(scope.$parent.filterData[scope.selected]);
+                if(!set_initially && scope.items.length > 0) {
+
+                    scope.selectedItems = _.filter(scope.items, function(item){
+                        return _.include(scope.$parent.filterData[scope.selected], item.id);
+                    });
+                    console.log(scope.selectedItems);
+                    set_initially = true;
+                }
+
                 scope.scrollItems = [];
                 scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
-                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                //scope.$parent.filterData[scope.selected] = _.pluck(scope.selectedItems, 'id');
                 scope.updateScrollItems();
             });
 
@@ -37,14 +48,14 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
                 }
 
                 scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
-                scope.$parent[scope.selected] = scope.selectedItems;
+                scope.$parent.filterData[scope.selected] = _.pluck(scope.selectedItems, 'id');
                 $rootScope.$broadcast('filterAction');
             };
 
             scope.removeItem = function(item) {
                 scope.selectedItems = _.without(scope.selectedItems, item);
                 scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
-                scope.$parent[scope.selected] = scope.selectedItems.slice(0);
+                scope.$parent.filterData[scope.selected] = _.pluck(scope.selectedItems, 'id');
                 $rootScope.$broadcast('filterAction');
             };
 

@@ -36,7 +36,6 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
                 scope.selectedItems = [];
-                scope.$parent[scope.selected] = [];
                 scope.oldFilterData = {};
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
@@ -87,9 +86,10 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 };
 
 
+                var initial_extent = [0, width];
                 var brush = d3.svg.brush()
                     .x(x)
-                    .extent([0, width])
+                    .extent(initial_extent)
                     .on('brush', function() {
                         var extent = brush.extent();
 
@@ -111,7 +111,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                             scope.$parent.$apply(function() {
                                 if(scope.oldFilterData !== $rootScope.filterData) {
-                                    scope.$parent[scope.selected] = scope.selectedItems;
+                                    scope.$parent.filterData[scope.selected] = scope.selectedItems;
                                     $rootScope.$broadcast('filterAction');
                                 }
                             });
@@ -135,6 +135,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     scope.render(scope.data);
                 });
 
+                var set_initial = false;
                 scope.render = function(data) {
                     if(!data) { return; }
 
@@ -158,6 +159,21 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     x.domain(data.map(function(d) { return d.label; }));
                     y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+                    var sel = scope.$parent.filterData[scope.selected];
+                    if(sel.length > 0 && !set_initial) {
+                        var begin_ext = x(labelfy(sel[0]));
+                        begin_ext = begin_ext ? begin_ext : 0;
+                        var end_ext = x(labelfy(sel[1]));
+                        end_ext = end_ext ? end_ext : width;
+                        initial_extent = [begin_ext, end_ext];
+                        brush.extent(initial_extent);
+
+                        svg.selectAll('#clip-' + id + ' rect')
+                            .attr('x', initial_extent[0])
+                            .attr('width', initial_extent[1] - initial_extent[0]);
+                        set_initial = true;
+                    }
 
                     svg.selectAll('g').remove();
                     svg.append('g')
