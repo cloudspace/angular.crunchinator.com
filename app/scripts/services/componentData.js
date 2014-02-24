@@ -158,7 +158,41 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         var current_hash = _.pluck(companies, 'id').join('|');
         return current_hash;
     });
-    
+
+    /**
+     * Constructs data necessary for the acquired value bar graph
+     *
+     * @param {array} [companies] A filtered list of companies to include in the acquired value graph
+     * @param {int} [maxNum] integer representation of maximum acquired value
+     * @return {array} of dollar ranges with their company counts
+     */
+    this.acquiredValueCount = _.memoize(function(companies, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
+
+        var base = 2;
+        var minGraph = 10000;
+
+        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
+
+        for(var i = minGraph; i < maxNum; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+            );
+        }
+
+        for(var j = 0; j < companies.length; j++) {
+            var acquired_value = parseInt(companies[j].acquired_value);
+            if(!isNaN(acquired_value)){
+                var k = rangeIndex(acquired_value, minGraph, base);
+                ranges[k].count++;
+            }
+        }
+        return ranges;
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
     /**
      * Constructs data necessary for the Date Founded area chart
      *
