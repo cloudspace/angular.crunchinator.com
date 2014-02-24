@@ -15,6 +15,11 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
+    var httpsync = require('httpsync');
+
+    // Get version of API needed to run Crunchinator
+    var API_VERSION = require('./api-version.json').version;
+
     var aws = {
         key: grunt.option('key') || process.env.AWS_ACCESS_KEY_ID,
         secret: grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY
@@ -25,6 +30,11 @@ module.exports = function (grunt) {
             aws.env = 'production';
         }
         cb();
+    }
+
+    function fetchCurrentRelease() {
+        var response = httpsync.get({url: 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json'}).end();
+        return JSON.parse(response.data.toString()).release;
     }
 
     // Define the configuration for all the tasks
@@ -360,7 +370,8 @@ module.exports = function (grunt) {
                 dest: '<%= yeoman.app %>/scripts/configuration.js',
                 name: 'configuration',
                 constants: {
-                    ENV: '<%= ENV.env || "production" %>'
+                    ENV: '<%= ENV.env || "production" %>',
+                    API_VERSION: '<%= ENV.version %>'
                 }
             }
         },
@@ -433,7 +444,7 @@ module.exports = function (grunt) {
                     '.tmp/styles/main.css':'app/styles/main.less'
                 }
             }
-        }
+        },
     });
 
 
@@ -487,6 +498,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('ENV', function(env) {
         ENV.env = env;
+        if(!ENV.version) {
+            ENV.version = fetchCurrentRelease();
+        }
     });
 
     grunt.registerTask('deploy', function(env) {
@@ -510,6 +524,17 @@ module.exports = function (grunt) {
         // this is a git tag.
         grunt.task.run('shell:isGitTag');
         env = env || aws.env || 'staging';
+
+        if (env === 'production') {
+            var parse_release_version = fetchCurrentRelease().split('.');
+            var parse_api_version = API_VERSION.split('.');
+
+            if (parse_api_version[0] !== parse_release_version[0] ||
+                parse_api_version[1] !== parse_release_version[1] &&
+                parse_api_version[1] !== '*') {
+                throw new Error('Version does not match, cancelling the deploy.');
+            }
+        }
 
         grunt.task.run(['ENV:' + env, 'build', 's3:' + env]);
     });
