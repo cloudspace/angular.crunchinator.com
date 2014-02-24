@@ -34,7 +34,7 @@ var randomDate = function(start, end) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
-        var statuses = ['alive', 'deadpooled', 'acquired'];
+        var statuses = ['alive', 'deadpooled', 'acquired', 'IPOed'];
         var states = fk.definitions.us_state_abbr;
         return {
             id: id,
@@ -49,7 +49,10 @@ var randomDate = function(start, end) {
             investor_ids: [],
             funding_rounds: [],
             status: statuses[exponential_distribution(0, statuses.length)],
-            state_code: states[exponential_distribution(0, states.length)]
+            state_code: states[exponential_distribution(0, states.length)],
+            ipo_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
+            ipo_valuation: exponential_distribution(3e6, 17e10),
+            acquired_value: exponential_distribution(3e6, 17e10)
         };
     };
 
