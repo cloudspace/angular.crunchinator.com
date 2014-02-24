@@ -33,7 +33,7 @@ var randomDate = function(start, end) {
     var randomCompany = function(id) {
         var name = fk.Company.companyName();
         id = id || 0;
-        var statuses = ['alive', 'deadpooled', 'acquired'];
+        var statuses = ['alive', 'deadpooled', 'acquired', 'IPOed'];
         var states = fk.definitions.us_state_abbr;
         return {
             id: id,

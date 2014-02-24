@@ -316,7 +316,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @return {array} A count of the number of companies per status (deadpooled, acquired, alive)
      */
     this.companyStatusData = _.memoize(function(companies) {
-        var statuses = ['alive', 'deadpooled', 'acquired'];
+        var statuses = ['alive', 'deadpooled', 'acquired', 'IPOed'];
         var status_grouping = _.groupBy(companies, function(company) { return company.status; });
         var results = [];
         if(_.isEmpty(status_grouping)) { return results; }
