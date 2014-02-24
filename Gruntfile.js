@@ -32,8 +32,18 @@ module.exports = function (grunt) {
         cb();
     }
 
-    function fetchCurrentRelease() {
-        var response = httpsync.get({url: 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json'}).end();
+    function fetchCurrentRelease(env) {
+        var env = env || 'staging';
+        var url = '';
+        switch(env) {
+            case "staging":
+                url = 'http://s3.amazonaws.com/staging.crunchinator.com/api/current_release.json'
+                break;
+            case "production":
+                url = 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json'
+                break;
+        }
+        var response = httpsync.get({url: url}).end();
         return JSON.parse(response.data.toString()).release;
     }
 
@@ -499,7 +509,7 @@ module.exports = function (grunt) {
     grunt.registerTask('ENV', function(env) {
         ENV.env = env;
         if(!ENV.version) {
-            ENV.version = fetchCurrentRelease();
+            ENV.version = fetchCurrentRelease(env);
         }
     });
 
@@ -526,7 +536,7 @@ module.exports = function (grunt) {
         env = env || aws.env || 'staging';
 
         if (env === 'production') {
-            var parse_release_version = fetchCurrentRelease().split('.');
+            var parse_release_version = fetchCurrentRelease(env).split('.');
             var parse_api_version = API_VERSION.split('.');
 
             if (parse_api_version[0] !== parse_release_version[0] ||
