@@ -23,6 +23,7 @@ var randomDate = function(start, end) {
 (function (ng, fk) {
     var injector = ng.injector(['configuration', 'ng']);
     var environment = injector.get('ENV');
+    var api_version = injector.get('API_VERSION');
 
     /**
      * Generate a company object with random, usable attributes.
@@ -166,10 +167,10 @@ var randomDate = function(start, end) {
         setupStubbedBackend();
         break;
     case 'staging':
-        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/fakedata';
+        base_url = 'https://s3.amazonaws.com/staging.crunchinator.com/api/' + api_version;
         break;
     case 'production':
-        base_url = 'https://s3.amazonaws.com/temp.crunchinator.com/fakedata';
+        base_url = 'https://s3.amazonaws.com/crunchinator.com/api/' + api_version;
         break;
     }
 
