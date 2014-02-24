@@ -23,13 +23,11 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
 
             var set_initially = false;
             scope.$watch('items', function(){
-                console.log(scope.$parent.filterData[scope.selected]);
                 if(!set_initially && scope.items.length > 0) {
 
                     scope.selectedItems = _.filter(scope.items, function(item){
                         return _.include(scope.$parent.filterData[scope.selected], item.id);
                     });
-                    console.log(scope.selectedItems);
                     set_initially = true;
                 }
 

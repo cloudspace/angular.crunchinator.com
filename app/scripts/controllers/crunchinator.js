@@ -38,10 +38,6 @@ angular.module('crunchinatorApp.controllers')
             acquiredValueRange: []
         };
 
-        window._filterData = $scope.filterData;
-
-
-
         if($location.search().filters) {
             $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
             var toDate = function(dateString){
