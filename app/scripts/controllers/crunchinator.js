@@ -34,7 +34,8 @@ angular.module('crunchinatorApp.controllers')
             acquiredDate: [],
             foundedDate: [],
             ipoValueRange: [],
-            ipoDateRange: []
+            ipoDateRange: [],
+            acquiredValueRange: []
         };
 
         window._filterData = $scope.filterData;
@@ -86,9 +87,6 @@ angular.module('crunchinatorApp.controllers')
         //Bind component data services to the scope, so we can use them in the views
         $scope.ComponentData = ComponentData;
 
-
-
-        console.log($scope.filterData.companyIds);
         //All of our filters broadcast 'filterAction' when they've been operated on
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays

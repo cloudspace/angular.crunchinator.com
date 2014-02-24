@@ -169,6 +169,11 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
         }
 
+        //byAcquiredValue
+        if (filterData.acquiredValueRange.length !== 0) {
+            if(!self.fallsWithinRange(company.acquired_value, filterData.acquiredValueRange)) { return false; }
+        }
+
         return true;
     };
 

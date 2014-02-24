@@ -97,7 +97,8 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                             .attr('dy', '0.35em')
                             .attr('text-anchor', 'middle')
                             .text(function(d){
-                                return d.data.label;
+                                // this needs to be removed when 'alive' is changed to 'active' on the backend.
+                                return d.data.label === 'alive' ? 'active' : d.data.label;
                             })
                             .style('fill', '#fff');
                     } else {

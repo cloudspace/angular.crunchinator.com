@@ -41,6 +41,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             byAcquiredOn: crossCompanies.dimension(function(company){
                 return company.acquired_on ? parse(company.acquired_on) : null;
             }),
+            byAcquiredValue: crossCompanies.dimension(function(company) { return company.acquired_value; }),
             byFundingRoundMonth: crossCompanies.dimension(function(company){
                 return _.map(company.funding_rounds, function(company){
                     return company.funded_on ? parse(company.funded_on) : null;
@@ -78,11 +79,13 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
             }).raised_amount;
         });
         var ipoValues = _.pluck(allCompanies, 'ipo_valuation');
+        var acquiredValues = _.pluck(allCompanies, 'acquired_value');
 
         this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
         this.maxCompanyValue = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         this.maxRecentFundingValue = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
         this.maxIPOValue = parseInt(_.max(ipoValues, function(n) { return parseInt(n); }));
+        this.maxAcquiredValue = parseInt(_.max(acquiredValues, function(n) { return parseInt(n); }));
     };
 
     /**
@@ -102,7 +105,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         dataForMostRecentFundingRound: ['byMostRecentFundingRound'],
         dataForCompanyStatus: ['byStatus'],
         dataForIPOValue: ['byIPOValue'],
-        dataForIPODate: ['byIPODate']
+        dataForIPODate: ['byIPODate'],
+        dataForAcquiredValue: ['byAcquiredValue']
     };
 
     /**
@@ -236,6 +240,16 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 this.dimensions.byIPODate.filter(function(ipo_on) {
                     ipo_on = ipo_on || new Date(1, 1, 1);
                     return self.fallsWithinRange(ipo_on, range);
+                });
+            }
+        },
+        byAcquiredValue: function() {
+            var range = this.filterData.acquiredValueRange;
+
+            if (range.length !== 0) {
+                var self = this;
+                this.dimensions.byTotalFunding.filter(function(acquired_value) {
+                    return self.fallsWithinRange(acquired_value, range);
                 });
             }
         }
