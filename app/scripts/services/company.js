@@ -248,7 +248,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
 
             if (range.length !== 0) {
                 var self = this;
-                this.dimensions.byTotalFunding.filter(function(acquired_value) {
+                this.dimensions.byAcquiredValue.filter(function(acquired_value) {
                     return self.fallsWithinRange(acquired_value, range);
                 });
             }

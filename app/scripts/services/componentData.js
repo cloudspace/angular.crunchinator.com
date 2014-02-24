@@ -182,7 +182,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         for(var j = 0; j < companies.length; j++) {
             var acquired_value = parseInt(companies[j].acquired_value);
-            if(!isNaN(acquired_value)){
+            if(!isNaN(acquired_value) && acquired_value > 0){
                 var k = rangeIndex(acquired_value, minGraph, base);
                 ranges[k].count++;
             }
