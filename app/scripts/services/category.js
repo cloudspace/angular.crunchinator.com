@@ -61,7 +61,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             byCompanies: crossCategories.dimension(function(category) { return category.companies; })
         };
 
-        this.byName = crossCategories.dimension(function(category) { return category.name; });
+        this.byName = crossCategories.dimension(function(category) { return category.display_name.toLowerCase(); });
     };
 
     /**
