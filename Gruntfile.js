@@ -33,14 +33,13 @@ module.exports = function (grunt) {
     }
 
     function fetchCurrentRelease(env) {
-        var env = env || 'staging';
         var url = '';
         switch(env) {
-            case "production":
-                url = 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json'
+            case 'production':
+                url = 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json';
                 break;
             default:
-                url = 'http://s3.amazonaws.com/staging.crunchinator.com/api/current_release.json'
+                url = 'http://s3.amazonaws.com/staging.crunchinator.com/api/current_release.json';
                 break;
         }
         var response = httpsync.get({url: url}).end();

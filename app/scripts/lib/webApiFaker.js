@@ -132,7 +132,8 @@ var randomDate = function(start, end) {
                     id: 1,
                     raised_amount: Math.floor(Math.random() * 1e8),
                     funded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
-                    investor_ids: [investor.id]
+                    investor_ids: [investor.id],
+                    round_code: 'Unattributed'
                 });
             });
         });

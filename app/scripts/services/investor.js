@@ -116,30 +116,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         }
     };
 
-    Investor.prototype.roundPassesFilters = function(round, filterData) {
-        var self = this;
-        var parse = this.format.parse;
-
-        //If we're filtering on companies and this round's company
-        //isn't in the filterData the round doesn't pass
-        if (filterData.companyIds.length !== 0 && !_.include(filterData.companyIds, round.company_id)) {
-            return false;
-        }
-
-        //byAllFundingRoundsRaised
-        if (filterData.roundRanges.length !== 0) {
-            if(!self.fallsWithinRange(round.raised_amount, filterData.roundRanges)) { return false; }
-        }
-
-        //byAllFundingRoundsDate
-        if (filterData.fundingActivity.length !== 0) {
-            var funded_on = round.funded_on ? parse(round.funded_on) : null;
-            if(!self.fallsWithinRange(funded_on, filterData.fundingActivity)) { return false; }
-        }
-
-        return true;
-    };
-
     //Determines if a company passes
     Investor.prototype.companyPassesFilters = function(company, filterData){
         var self = this;

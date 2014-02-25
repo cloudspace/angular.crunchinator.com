@@ -35,7 +35,8 @@ angular.module('crunchinatorApp.controllers')
             foundedDate: [],
             ipoValueRange: [],
             ipoDateRange: [],
-            acquiredValueRange: []
+            acquiredValueRange: [],
+            roundCodes: []
         };
 
         if($location.search().filters) {
