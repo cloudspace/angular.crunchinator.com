@@ -36,11 +36,11 @@ module.exports = function (grunt) {
         var env = env || 'staging';
         var url = '';
         switch(env) {
-            case "staging":
-                url = 'http://s3.amazonaws.com/staging.crunchinator.com/api/current_release.json'
-                break;
             case "production":
                 url = 'http://s3.amazonaws.com/crunchinator.com/api/current_release.json'
+                break;
+            default:
+                url = 'http://s3.amazonaws.com/staging.crunchinator.com/api/current_release.json'
                 break;
         }
         var response = httpsync.get({url: url}).end();
