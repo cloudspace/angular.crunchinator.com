@@ -9,7 +9,6 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
      */
     var Company = function() {
         this.url = API_BASE_URL + '/companies.json';
-        window._companies = this;
     };
 
     Company.prototype = Object.create(Model);
@@ -91,7 +90,6 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.maxIPOValue = parseInt(_.max(ipoValues, function(n) { return parseInt(n); }));
         this.maxAcquiredValue = parseInt(_.max(acquiredValues, function(n) { return parseInt(n); }));
         this.fundingSeries = _.unique(_.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'round_code'));
-        console.log(this.fundingSeries);
     };
 
     /**
