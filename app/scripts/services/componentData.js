@@ -2,6 +2,30 @@
 
 angular.module('crunchinatorApp.services').service('ComponentData', function() {
     /**
+     * Constructs data necessary for the round code list display
+     *
+     * @param {array} [companies] A filtered list of companies to construct a list of displayed round codes
+     * @return {array} A list of round codes
+     */
+    this.roundCodeListData = _.memoize(function(companies) {
+        if(typeof companies === 'undefined') { return []; }
+
+        var codeNames = _.unique(_.pluck(_.flatten(_.pluck(companies, 'funding_rounds')), 'round_code'));
+        var sortedRoundCodes = _.sortBy(_.map(codeNames, function(roundCode){
+            return {
+                name: roundCode.length > 1 ? roundCode : 'Series ' + roundCode,
+                id: roundCode
+            };
+        }), function(round){ return round.name; });
+
+        return sortedRoundCodes;
+
+    }, function(companies) {
+        var current_hash = _.pluck(companies, 'id').join('|');
+        return current_hash;
+    });
+
+    /**
      * Constructs data necessary for the category list display
      *
      * @param {array} [categories] A filtered list of categories to display in the category list display

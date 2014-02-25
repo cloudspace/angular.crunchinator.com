@@ -106,6 +106,15 @@
         </div>
 
         <div>
+            <div list-select
+                chart-title="Funding: Round Name"
+                items="ComponentData.roundCodeListData(companies.dataForRoundCodesList)"
+                selected="roundCodes"
+                total="companies.fundingSeries.length"
+            ></div>
+        </div>
+
+        <div>
              <div d3-area
                 chart-title="Founding Date"
                 data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"

@@ -90,6 +90,35 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return this.all.length;
     };
 
+    Model.prototype.roundPassesFilters = function(round, filterData) {
+        var self = this;
+        var parse = this.format.parse;
+
+        //If we're filtering on companies and this round's company
+        //isn't in the filterData the round doesn't pass
+        if (filterData.companyIds.length > 0 && !_.include(filterData.companyIds, round.company_id)) {
+            return false;
+        }
+
+        //byAllFundingRoundsRaised
+        if (filterData.roundRanges.length > 0) {
+            if(!self.fallsWithinRange(round.raised_amount, filterData.roundRanges)) { return false; }
+        }
+
+        //byAllFundingRoundsCodes
+        if(filterData.roundCodes.length > 0) {
+            if(!_.include(filterData.roundCodes, round.round_code)) { return false; }
+        }
+
+        //byAllFundingRoundsDate
+        if (filterData.fundingActivity.length !== 0) {
+            var funded_on = round.funded_on ? parse(round.funded_on) : null;
+            if(!self.fallsWithinRange(funded_on, filterData.fundingActivity)) { return false; }
+        }
+
+        return true;
+    };
+
     /**
     * Returns whether any entry of an array of items falls within a number range.
     *

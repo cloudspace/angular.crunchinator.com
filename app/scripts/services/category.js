@@ -36,9 +36,17 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         _.each(this.all, function(category){
             category.companies = [];
             category.investors = [];
+            category.funding_rounds = [];
 
             _.each(category.company_ids, function(companyId){
-                category.companies.push(companiesById[companyId]);
+                var company = companiesById[companyId];
+                
+                if(company) {
+                    category.companies.push(company);
+                    _.each(company.funding_rounds, function(round){
+                        category.funding_rounds.push(round);
+                    });
+                }
             });
 
             _.each(category.investor_ids, function(investorId){
@@ -58,10 +66,11 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         var crossCategories = crossfilter(this.all);
 
         this.dimensions = {
-            byCompanies: crossCategories.dimension(function(category) { return category.companies; })
+            byCompanies: crossCategories.dimension(function(category) { return category.companies; }),
+            byFundingRounds: crossCategories.dimension(function(category) { return category.funding_rounds; })
         };
 
-        this.byName = crossCategories.dimension(function(category) { return category.name; });
+        this.byName = crossCategories.dimension(function(category) { return category.display_name.toLowerCase(); });
     };
 
     /**
@@ -91,6 +100,19 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
                 //Couldn't find a company that passes all the filters.
                 return false;
             });
+        },
+        byFundingRounds: function() {
+            var self = this;
+            this.dimensions.byFundingRounds.filter(function(funding_rounds){
+                //A company fails if none of its rounds passes filters.
+                for(var i = 0; i < funding_rounds.length; i++) {
+                    var round = funding_rounds[i];
+                    if(self.roundPassesFilters(round, self.filterData)){
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
     };
 
@@ -112,12 +134,6 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         //byTotalFunding
         if (filterData.ranges.length !== 0) {
             if(!self.fallsWithinRange(company.total_funding, filterData.ranges)) { return false; }
-        }
-
-        //byAllFundingRoundsRaised
-        if (filterData.roundRanges.length !== 0) {
-            var funding_rounds_raised = _.pluck(company.funding_rounds, 'raised_amount');
-            if(!self.anyItemFallsWithinRange(funding_rounds_raised, filterData.roundRanges)) { return false; }
         }
 
         //byMostRecentFundingRoundRaised
@@ -148,14 +164,6 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         if (filterData.foundedDate.length !== 0) {
             if(!company.founded_on){ return false; }
             if(!self.fallsWithinRange(parse(company.founded_on), filterData.foundedDate)) { return false; }
-        }
-
-        //byAllFundingRoundsDate
-        if (filterData.fundingActivity.length !== 0) {
-            var funding_rounds_date = _.compact(_.map(company.funding_rounds, function(round){
-                return round.funded_on ? parse(round.funded_on) : null;
-            }));
-            if(!self.anyItemFallsWithinRange(funding_rounds_date, filterData.fundingActivity)) { return false; }
         }
 
         //byIPOValue
