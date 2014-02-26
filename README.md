@@ -56,27 +56,35 @@ Once the API has been successfully updated, any code that relies on the new data
                 "ipo_on": "1/28/2014",
                 "ipo_valuation": 50000,
                 "founded_on": "1/28/2014",
+                "most_recent_raised_amount": 10000,
                 "investor_ids":
                 [
                     "person-1",
                     "company-1"
-                ],
-                "funding_rounds":
-                [
-                    {
-                        "id": 1,
-                        "round_code": "series a",
-                        "raised_amount": 100.0,
-                        "funded_on": "10/10/2013",
-                        "investor_ids":
-                        [
-                            "person-10",
-                            "financial_organization-3",
-                            "company-7"
-                        ]
-                    }
                 ]
             }
+        ]
+    }
+
+
+### Rounds
+    {
+        "rounds"
+        [
+            {
+                "id": 1,
+                "company_id": 3,
+                "round_code": "series a",
+                "raised_amount": 100.0,
+                "funded_on": "10/10/2013",
+                "investor_ids":
+                [
+                    "person-10",
+                    "financial_organization-3",
+                    "company-7"
+                ]
+            }
+
         ]
     }
 
