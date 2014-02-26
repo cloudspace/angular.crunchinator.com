@@ -9,6 +9,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
      */
     var Category = function() {
         this.url = API_BASE_URL + '/categories.json';
+
     };
 
     Category.prototype = Object.create(Model);
@@ -41,14 +42,13 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             _.each(category.company_ids, function(companyId){
                 var company = companiesById[companyId];
                 
+                //Add company to category
                 if(company) {
                     category.companies.push(company);
-                    _.each(company.funding_rounds, function(round){
-                        category.funding_rounds.push(round);
-                    });
                 }
             });
 
+            //Add investors to category
             _.each(category.investor_ids, function(investorId){
                 category.investors.push(investorsById[investorId]);
             });
@@ -116,70 +116,39 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         }
     };
 
-    //Determines if a company passes
-    Category.prototype.companyPassesFilters = function(company, filterData){
-        var self = this;
-        var parse = this.format.parse;
-
-        //byCompanyId
-        if (filterData.companyIds.length !== 0) {
-            if(!_.contains(filterData.companyIds, company.id)) { return false; }
+    Category.prototype.roundPassesFilters = function(round, fd){
+        //Round's company includes filtered investor ids
+        if(fd.investorIds.length > 0 && _.intersection(fd.investorIds, round.company.investor_ids).length < 1) {
+            return false;
         }
 
-        //byInvestorIds
-        if(filterData.investorIds.length !== 0) {
-            if(_.intersection(filterData.investorIds, company.investor_ids).length === 0) { return false; }
+        //Round's company is included in filtered company ids 
+        if(fd.companyIds.length > 0 && !_.include(fd.companyIds, round.company.id)) {
+            return false;
         }
 
-        //byTotalFunding
-        if (filterData.ranges.length !== 0) {
-            if(!self.fallsWithinRange(company.total_funding, filterData.ranges)) { return false; }
+        //Round passes all other filters
+        if(!Category.prototype.roundPassesFilters(round, fd)) {
+            return false;
         }
 
-        //byMostRecentFundingRoundRaised
-        if (filterData.mostRecentRoundRanges.length !== 0) {
-            var most_recent_funding_amount = _.max(company.funding_rounds, function(round){
-                return round.funded_on ? parse(round.funded_on) : 0;
-            }).raised_amount;
-            if(!self.fallsWithinRange(most_recent_funding_amount, filterData.mostRecentRoundRanges)) { return false; }
+        return true;
+    };
+
+    Category.prototype.companyPassesFilters = function(company, fd){
+        //Company includes filtered investor ids
+        if(fd.investorIds.length > 0 && _.intersection(fd.investorIds, company.investor_ids).length < 1) {
+            return false;
         }
 
-        //byStatus
-        if (filterData.statuses.length !== 0) {
-            if(!_.contains(filterData.statuses, company.status)) { return false; }
+        //Company is included in filtered company ids
+        if(fd.companyIds.length > 0 && !_.include(fd.companyIds, company.id)) {
+            return false;
         }
 
-        //byState
-        if (filterData.states.length !== 0) {
-            if(!_.contains(filterData.states, company.state_code)) { return false; }
-        }
-
-        //byAcquiredOn
-        if (filterData.acquiredDate.length !== 0) {
-            if(!company.acquired_on){ return false; }
-            if(!self.fallsWithinRange(parse(company.acquired_on), filterData.acquiredDate)) { return false; }
-        }
-
-        //byFoundedOn
-        if (filterData.foundedDate.length !== 0) {
-            if(!company.founded_on){ return false; }
-            if(!self.fallsWithinRange(parse(company.founded_on), filterData.foundedDate)) { return false; }
-        }
-
-        //byIPOValue
-        if (filterData.ipoValueRange.length !== 0) {
-            if(!self.fallsWithinRange(company.ipo_valuation, filterData.ipoValueRange)) { return false; }
-        }
-
-        //byIPODate
-        if (filterData.ipoDateRange.length !== 0) {
-            if(!company.ipo_on) { return false; }
-            if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
-        }
-
-        //byAcquiredValue
-        if (filterData.acquiredValueRange.length !== 0) {
-            if(!self.fallsWithinRange(company.acquired_value, filterData.acquiredValueRange)) { return false; }
+        //Company passes all other filters
+        if(!Category.prototype.companyPassesFilters(company, fd)) {
+            return false;
         }
 
         return true;
