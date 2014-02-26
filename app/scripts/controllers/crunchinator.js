@@ -19,6 +19,7 @@ angular.module('crunchinatorApp.controllers')
     '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'ComponentData',
     function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, ComponentData) {
         $scope.loading = true;
+        $scope.shouldScroll = false;
 
         //Create the initial empty filter data for every filter
         $scope.filterData = {
@@ -77,6 +78,7 @@ angular.module('crunchinatorApp.controllers')
                     });
 
                     $scope.loading = false;
+                    $scope.shouldScroll = true;
                 }
             });
         });
