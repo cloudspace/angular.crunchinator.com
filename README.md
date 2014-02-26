@@ -67,9 +67,9 @@ Once the API has been successfully updated, any code that relies on the new data
     }
 
 
-### Rounds
+### Funding Rounds
     {
-        "rounds"
+        "funding_rounds":
         [
             {
                 "id": 1,
@@ -84,7 +84,6 @@ Once the API has been successfully updated, any code that relies on the new data
                     "company-7"
                 ]
             }
-
         ]
     }
 
