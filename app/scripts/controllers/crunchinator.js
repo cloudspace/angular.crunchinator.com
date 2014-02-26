@@ -7,8 +7,20 @@ angular.module('crunchinatorApp.controllers')
         url: '/crunchinator',
         views: {
             main: {
-                controller: 'CrunchinatorCtrl',
+                controller: 'BlankCtrl',
                 templateUrl: 'views/main.tpl.html'
+            },
+            splash: {
+                controller: 'CrunchinatorCtrl',
+                templateUrl: 'views/splash.tpl.html'
+            },
+            nav: {
+                controller: 'BlankCtrl',
+                templateUrl: 'views/nav.tpl.html'
+            },
+            about: {
+                controller: 'BlankCtrl',
+                templateUrl: 'views/about.tpl.html'
             }
         },
         data:{ pageTitle: 'Crunchinator - A Cloudspace Project' }
@@ -114,4 +126,19 @@ angular.module('crunchinatorApp.controllers')
 
 
     }
+])
+
+.controller('BlankCtrl', [
+    '$scope',
+    function BlankCtrl($scope) {
+        console.log('hey');
+    }
 ]);
+
+/*
+
+top bar needs to sit at the bottom of the page
+when you scroll to the app portion of the page, the app bar should stick to the top
+
+
+*/

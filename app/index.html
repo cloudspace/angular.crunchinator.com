@@ -8,6 +8,10 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <!-- Typekit Fonts -->
+        <script type="text/javascript" src="//use.typekit.net/rxk7mer.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
         <!-- build:css({.tmp,app}) styles/main.css -->
         <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
         <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -22,22 +26,16 @@
     </head>
     <body>
         <!-- Add your site or application content here -->
-        <header>
-            <div class="navbar" role="navigation">
-                <div class="container">
-                    <div class="row">
-                        <img src="images/logo.png"/>
-                        <div class="header-text">
-                            <h1><a href="#">Crunch<span>inator</span></a></h1>
-                            <h2>Crunchbase visualization with Angular.js and D3</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div id="main" role="main" ui-view="main">
-
+        
+        <div id="splash" role="splash" ui-view="splash">
         </div>
+        <div id="nav" role="nav" ui-view="nav">
+        </div>
+        <div id="main" role="main" ui-view="main">
+        </div>
+        <div id="about" role="about" ui-view="about">
+        </div>
+
         <footer>
             Powered by <a href='http://cloudspace.com'>Cloudspace</a>
         </footer>
