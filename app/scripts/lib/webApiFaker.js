@@ -84,10 +84,12 @@ var randomDate = function(start, end) {
      */
     var randomCategory = function(id) {
         id = id || 0;
+        var name = fk.random.bs_noun();
         return {
             id: id,
-            name: fk.random.bs_noun(),
+            name: name,
             permalink: name.toLowerCase(),
+            display_name: name,
             company_ids: [],
             investor_ids: []
         };
