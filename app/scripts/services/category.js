@@ -128,7 +128,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         }
 
         //Round passes all other filters
-        if(!Category.prototype.roundPassesFilters(round, fd)) {
+        if(!Model.roundPassesFilters(round, fd)) {
             return false;
         }
 
@@ -147,7 +147,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
         }
 
         //Company passes all other filters
-        if(!Category.prototype.companyPassesFilters(company, fd)) {
+        if(!Model.companyPassesFilters(company, fd)) {
             return false;
         }
 

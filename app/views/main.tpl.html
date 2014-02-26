@@ -26,7 +26,7 @@
         <div>
              <div d3-area
                 chart-title="Investments"
-                data="ComponentData.fundingRoundCount(companies.dataForFundingRoundAreaChart, '1/2000')"
+                data="ComponentData.fundingRoundCount(fundingRounds.dataForInvestments, '1/2000')"
                 selected="fundingActivity"
                 extent="1/2000"
                 ranges="true"
@@ -71,7 +71,7 @@
         <div>
             <div d3-bars
                 chart-title="Funding: Any Round"
-                data="ComponentData.fundingPerRound(companies.dataForFundingPerRound, companies.maxFundingValue)"
+                data="ComponentData.fundingPerRound(fundingRounds.dataForFundingAmount, fundingRounds.maxFundingValue)"
                 selected="roundRanges"
                 ranges="true"
             ></div>
@@ -108,9 +108,9 @@
         <div>
             <div list-select
                 chart-title="Funding: Round Name"
-                items="ComponentData.roundCodeListData(companies.dataForRoundCodesList)"
+                items="ComponentData.roundCodeListData(fundingRounds.dataForRoundName)"
                 selected="roundCodes"
-                total="companies.fundingSeries.length"
+                total="fundingRounds.fundingSeries.length"
             ></div>
         </div>
 

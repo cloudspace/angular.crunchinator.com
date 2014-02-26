@@ -42,7 +42,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
                 return company.acquired_on ? parse(company.acquired_on) : null;
             }),
             byAcquiredValue: crossCompanies.dimension(function(company) { return company.acquired_value; }),
-            byFundingRounds: crossCompanies.dimension(function(company){ return company.funding_rounds; }),
+            byFundingRounds: crossCompanies.dimension(function(company){ return company.funding_rounds || []; }),
             byFoundedOn: crossCompanies.dimension(function(company){
                 return company.founded_on ? parse(company.founded_on) : null;
             }),
@@ -62,22 +62,17 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
 
         var allCompanies = this.all;
-        var allFundingValues = _.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'raised_amount');
+        
         var fundingValues = _.pluck(allCompanies, 'total_funding');
-        var recentRounds = _.map(allCompanies, function(company){
-            return _.max(company.funding_rounds, function(round){
-                return round.funded_on ? parse(round.funded_on) : 0;
-            }).raised_amount;
-        });
         var ipoValues = _.pluck(allCompanies, 'ipo_valuation');
         var acquiredValues = _.pluck(allCompanies, 'acquired_value');
 
-        this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
         this.maxCompanyValue = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
-        this.maxRecentFundingValue = parseInt(_.max(recentRounds, function(n){ return parseInt(n); }));
+        this.maxRecentFundingValue = parseInt(_.max(allCompanies, function(n){
+            return parseInt(n.most_recent_raised_amount);
+        }));
         this.maxIPOValue = parseInt(_.max(ipoValues, function(n) { return parseInt(n); }));
         this.maxAcquiredValue = parseInt(_.max(acquiredValues, function(n) { return parseInt(n); }));
-        this.fundingSeries = _.unique(_.pluck(_.flatten(_.pluck(allCompanies, 'funding_rounds')), 'round_code'));
     };
 
     /**
@@ -253,7 +248,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         }
 
         //Round passes all other filters
-        if(!Company.prototype.roundPassesFilters(round, fd)) {
+        if(!Model.roundPassesFilters(round, fd)) {
             return false;
         }
 

@@ -8,7 +8,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
      * @this {FundingRound}
      */
     var FundingRound = function() {
-        this.url = API_BASE_URL + '/funding_round.json';
+        this.url = API_BASE_URL + '/funding_rounds.json';
     };
 
     FundingRound.prototype = Object.create(Model);
@@ -66,7 +66,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
         var parse = this.format.parse;
 
         this.dimensions = {
-            byCompanies: crossFundingRounds.dimension(function(round) { return round.companies; }),
+            byCompany: crossFundingRounds.dimension(function(round) { return round.company; }),
             byFundedOn: crossFundingRounds.dimension(function(round){
                 return round.funded_on ? parse(round.funded_on) : null;
             }),
@@ -75,8 +75,12 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
         };
 
         this.byName = crossFundingRounds.dimension(function(round) {
-            return round.round_code.length > 1 ? round.round_code : 'Series ' + round.round_code;
+            return round.round_code;
         });
+
+        var allFundingValues = _.pluck(this.all, 'raised_amount');
+        this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
+        this.fundingSeries = _.unique(_.pluck(allFundingValues, 'round_code'));
     };
 
     /**
@@ -95,18 +99,10 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
     * Adding a new filter here will apply the filter to every dataset unless its excluded
     */
     FundingRound.prototype.filters = {
-        byCompanies: function() {
+        byCompany: function() {
             var self = this;
-            this.dimensions.byCompanies.filter(function(companies){
-                for(var i = 0; i < companies.length; i++) {
-                    //As long as one company passes the filters, return true for this investor.
-                    if(self.companyPassesFilters(companies[i], self.filterData)) {
-                        return true;
-                    }
-                }
-
-                //Couldn't find a company that passes all the filters.
-                return false;
+            this.dimensions.byCompany.filter(function(company){
+                return self.companyPassesFilters(company, self.filterData);
             });
         },
         byFundedOn: function() {
@@ -157,7 +153,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
         }
 
         //Company passes all other filters
-        if(!FundingRound.prototype.companyPassesFilters(company, fd)) {
+        if(!Model.companyPassesFilters(company, fd)) {
             return false;
         }
 
