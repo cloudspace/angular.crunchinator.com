@@ -1,11 +1,24 @@
-@white: #ffffff;
-@bright-blue: #60beff;
-@pale-blue: #cdebff;
-@grey-blue: #4c6d84;
-@dark-grey: #3d3d3d;
-@dark-grey-blue: #41484C;
-@transparent-blue: rgba(70, 84, 93, 0.5);
-@font-proxima-nova: "proxima-nova-1", "proxima-nova-2", sans-serif;
+
+@bright-blue:       #60beff;
+@bright-blue2:      #2b8fff;
+@pale-blue:         #cdebff;
+@deep-blue:         #1961b2;
+@transparent-blue:  rgba(70, 84, 93, 0.5);
+
+@dark-grey:         #3d3d3d;
+@medium-grey:       #5e5e5e;
+@medium-grey2:      #4a4b50;
+@medium-grey3:      #54575c;
+@light-grey:        #959597;
+@light-grey2:       #ededed;
+@white:             #ffffff;
+
+@grey-blue:         #4c6d84;
+@dark-grey-blue:    #41484C;
+@dark-grey-blue2:   #404041;
+@dark-grey-blue3:   #27292d;
+
+@yellow:            #f6d64f;
 
 @font-face {
     font-family: 'Guilder';
@@ -24,6 +37,12 @@
     font-weight: normal;
     font-style: normal;
 }
+
+/* Proxima Nova is loaded via JavaScript in index.html */
+
+@font-proxima-nova: "proxima-nova-1", "proxima-nova-2", sans-serif;
+@font-guilder: "Guilder", "sans-serif";
+@font-bebas: "BebasNeue", "sans-serif";
 
 .brush .extent {
   fill-opacity: .125;
@@ -338,11 +357,143 @@ footer {
 
 #splash,
 #about {
-  display: block;
-  width: 100%;
-  min-height: 600px;
-  background: orange;
-  position: relative;
+  display:                  block;
+  width:                    100%;
+  min-height:               600px;
+  background:               @white;
+  position:                 relative;
+  font-family:              @font-proxima-nova;
+}
+                            
+#about{
+
+  #contact-us{
+    p{
+      font-size:            30px;
+      color:                @white;
+      margin-bottom:        30px;
+      font-weight:          200;
+    }
+
+    a{
+      padding:              10px 40px 10px 40px;
+      border-radius:        40px;
+      background-color:     @yellow;
+      display:              inline-block;
+      text-decoration:      none;
+      color:                @dark-grey-blue2;
+    }
+
+    padding-top:            50px;
+    padding-bottom:         50px;
+    background-color:       @dark-grey-blue3;
+  }
+
+  #pop-quiz{
+    .ellipsis{
+      display:              inline;
+    }
+
+    .continuation, button{
+      display:              none;
+    }
+
+    .triangle{
+        width:              0; 
+        height:             0; 
+        border-top:         10px solid transparent;
+        border-bottom:      10px solid transparent; 
+        border-right:       10px solid @white;
+        position:           absolute;
+        left:               -10px;
+        top:                27px;
+    }
+
+    ul{
+      display:              inline-block;
+      margin-left:          auto;
+      margin-right:         auto;
+      border-left:          solid 5px @light-grey2;
+      max-width:            800px;
+      
+      li{
+        color:              @light-grey;
+        text-align:         left;
+        padding:            20px 40px 20px 40px;
+        margin-top:         10px;
+        margin-bottom:      10px;
+        border:             solid 1px @light-grey2;
+        border-radius:      5px;
+        box-sizing:         border-box;
+        box-shadow:         @light-grey2 0px 2px 4px 0px;
+        list-style-type:    none;
+        position:           relative;
+      }
+
+      li.active{
+        padding:            180px 120px 20px 120px;
+        background:         @bright-blue2 url('../images/check_mark.png') center top 40px no-repeat;
+        color:              @white;
+        text-align:         center;
+        
+        .triangle{
+          border-right:     10px solid @bright-blue2;
+          top:              50px;
+          left:             -10px; 
+        }
+
+        .ellipsis{
+          display:          none;
+        }
+
+        .continuation, button{
+          display:          inline;
+        }
+
+        button{
+          margin-top:       50px;
+          margin-bottom:    10px;
+          background-color: @white;
+          border:           none;
+          color:            @bright-blue2;
+          padding:          5px 30px 5px 30px;
+          border-radius:    5px;
+        }
+      }
+    }
+  }
+
+  font-size:                24px;
+  
+  h3, p, #contact-us, #pop-quiz{
+    margin-left:            auto;
+    margin-right:           auto;
+    text-align:             center;
+    margin-bottom:          70px;
+  }
+
+  h3{
+    color:                  @medium-grey3;
+    max-width:              780px;
+    font-size:              32px;
+    font-weight:            900;
+  }
+
+  p{
+    color:                  @medium-grey;
+    width:                  1080px;
+  }
+
+  em{
+    font-style:             normal;
+    font-weight:            900;
+    color:                  @deep-blue;
+  }
+
+  strong{
+    color:                  @medium-grey2;
+    font-weight:            900;
+  }
 }
 
 #splash {
