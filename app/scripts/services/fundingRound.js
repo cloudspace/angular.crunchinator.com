@@ -45,7 +45,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
             fundingRound.investors = [];
             _.each(fundingRound.investor_ids, function(investorId){
                 var investor = investorsById[investorId];
-                investor.funding_rounds = [];
+                investor.funding_rounds = investor.funding_rounds || [];
                 if(investor) {
                     //Add investors to funding rounds
                     fundingRound.investors.push(investor);
