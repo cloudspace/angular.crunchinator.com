@@ -139,7 +139,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
 
     FundingRound.prototype.companyPassesFilters = function(company, fd){
         //Company's category is included in filters
-        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, company.catgory_id)) {
+        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, company.category_id)) {
             return false;
         }
 

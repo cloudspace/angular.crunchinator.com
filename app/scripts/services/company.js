@@ -238,7 +238,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
 
     Company.prototype.roundPassesFilters = function(round, fd){
         //Round's category is included in filters
-        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, round.company.catgory_id)) {
+        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, round.company.category_id)) {
             return false;
         }
 
