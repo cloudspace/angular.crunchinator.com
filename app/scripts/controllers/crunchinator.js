@@ -7,11 +7,11 @@ angular.module('crunchinatorApp.controllers')
         url: '/crunchinator',
         views: {
             main: {
-                controller: 'BlankCtrl',
+                controller: 'CrunchinatorCtrl',
                 templateUrl: 'views/main.tpl.html'
             },
             splash: {
-                controller: 'CrunchinatorCtrl',
+                controller: 'BlankCtrl',
                 templateUrl: 'views/splash.tpl.html'
             },
             nav: {
@@ -133,7 +133,7 @@ angular.module('crunchinatorApp.controllers')
 .controller('BlankCtrl', [
     '$scope',
     function BlankCtrl($scope) {
-        console.log('hey');
+        //console.log('do something');
     }
 ]);
 

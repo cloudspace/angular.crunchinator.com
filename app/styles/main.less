@@ -5,6 +5,7 @@
 @dark-grey: #3d3d3d;
 @dark-grey-blue: #41484C;
 @transparent-blue: rgba(70, 84, 93, 0.5);
+@font-proxima-nova: "proxima-nova-1", "proxima-nova-2", sans-serif;
 
 @font-face {
     font-family: 'Guilder';
@@ -373,7 +374,7 @@ footer {
     text-align: center;
 
     p {
-      font-family: "proxima-nova-1", "proxima-nova-2", sans-serif;
+      font-family: @font-proxima-nova;
       text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
       font-weight: 700;
 
@@ -399,9 +400,14 @@ footer {
 }
 
 #nav {
+  nav {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
   position: relative;
 
-  font-family: "proxima-nova-1", "proxima-nova-2", sans-serif;
+  font-family: @font-proxima-nova;
 
   border-top: 1px solid #2d2d2e;
   border-bottom: 1px solid #2d2d2e;
@@ -416,22 +422,50 @@ footer {
   h1 {
     font-size: 20px;
     color: #fff;
-    font-family: "proxima-nova-1", "proxima-nova-2", sans-serif;
+    font-family: @font-proxima-nova;
+    display: inline;
+  }
 
+  .share-results {
+    display: inline;
   }
 
   .counter,
   .share {
-    margin: 0;
-    padding: 0;
+    display: inline;
+    text-align: right;
 
-    li {
+    ul {
       display: inline;
+      margin: 0;
+      padding: 0;
     }
+    li {
+      list-style-type: none;
+      display: inline-block;
+    }
+  }
+
+  .share {
+    float: right;
   }
 }
 
-#main {
-  margin-top: 300px;
-}
+#filters {
+  width: 100%;
+  background: green;
 
+  ul {
+    width: 1200px;
+    margin: 0 auto;
+    background: red;
+    padding: 0;
+  }
+  li {
+    background: blue;
+    list-style-type: none;
+    display: inline-block;
+    min-width: 200px;
+    margin-right: 20px;
+  }
+}
