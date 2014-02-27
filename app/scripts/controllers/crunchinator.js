@@ -72,11 +72,8 @@ angular.module('crunchinatorApp.controllers')
                     Investor.linkModels(companiesById, categoriesById);
                     Category.linkModels(companiesById, investorsById);
                     FundingRound.linkModels(companiesById, investorsById, categoriesById);
-                    console.log('linked');
                     _.each(models, function(Model) {
-                        console.log('Setup for ' + Model.url);
                         Model.setupDimensions();
-                        console.log('Filtering for '+ Model.url);
                         Model.runFilters($scope.filterData);
                     });
 
@@ -101,6 +98,7 @@ angular.module('crunchinatorApp.controllers')
                         Company.runFilters($scope.filterData);
                         Category.runFilters($scope.filterData);
                         Investor.runFilters($scope.filterData);
+                        FundingRound.runFilters($scope.filterData);
 
                         deferred.resolve('Finished filters');
                     });

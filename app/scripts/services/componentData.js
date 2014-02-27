@@ -129,7 +129,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
                 }
             }
         });
-
         return _.reduce(byMonth, function(o, v, k){
             o.push({
                 date: k,
@@ -264,7 +263,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @return {array} A count of all funding rounds grouped by raised amount in logarithmic ranges
      */
     this.fundingPerRound = _.memoize(function(rounds, maxNum) {
-        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
+        if(typeof maxNum === 'undefined' || typeof rounds === 'undefined') { return; }
 
         var filteredFundingValues = _.pluck(rounds, 'raised_amount');
         var base = 2;

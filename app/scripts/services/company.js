@@ -70,7 +70,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.maxCompanyValue = parseInt(_.max(fundingValues, function(n){ return parseInt(n); }));
         this.maxRecentFundingValue = parseInt(_.max(allCompanies, function(n){
             return parseInt(n.most_recent_raised_amount);
-        }));
+        }).most_recent_raised_amount);
         this.maxIPOValue = parseInt(_.max(ipoValues, function(n) { return parseInt(n); }));
         this.maxAcquiredValue = parseInt(_.max(acquiredValues, function(n) { return parseInt(n); }));
     };
