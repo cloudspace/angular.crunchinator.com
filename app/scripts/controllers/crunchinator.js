@@ -64,7 +64,7 @@ angular.module('crunchinatorApp.controllers')
         _.each(models, function(Model) {
             Model.fetch().then(function() {
                 modelCount++;
-                if(modelCount === 4) {
+                if(modelCount === models.length) {
                     var companiesById = _.indexBy(Company.all, 'id');
                     var categoriesById = _.indexBy(Category.all, 'id');
                     var investorsById = _.indexBy(Investor.all, 'id');

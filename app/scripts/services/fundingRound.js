@@ -80,7 +80,8 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
 
         var allFundingValues = _.pluck(this.all, 'raised_amount');
         this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
-        this.fundingSeries = _.unique(_.pluck(allFundingValues, 'round_code'));
+
+        this.fundingSeries = _.unique(_.pluck(this.all, 'round_code'));
     };
 
     /**
