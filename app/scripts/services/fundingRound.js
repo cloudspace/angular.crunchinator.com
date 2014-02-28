@@ -64,6 +64,7 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
     FundingRound.prototype.setupDimensions = function() {
         var crossFundingRounds = crossfilter(this.all);
         var parse = this.format.parse;
+        var self = this;
 
         this.dimensions = {
             byCompany: crossFundingRounds.dimension(function(round) { return round.company; }),
@@ -82,6 +83,13 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
         this.maxFundingValue = parseInt(_.max(allFundingValues, function(n){ return parseInt(n); }));
 
         this.fundingSeries = _.unique(_.pluck(this.all, 'round_code'));
+        this.roundHash = {};
+        _.each(this.fundingSeries, function(roundCode){
+            self.roundHash[roundCode] = {
+                name: roundCode.length > 1 ? roundCode : 'Series ' + roundCode,
+                id: roundCode
+            };
+        });
     };
 
     /**
