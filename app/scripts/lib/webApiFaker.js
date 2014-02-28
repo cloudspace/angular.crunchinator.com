@@ -47,7 +47,7 @@ var randomDate = function(start, end) {
             acquired_on: d3.time.format('%x')(randomDate(new Date(2006, 1, 1), new Date())), //Random date between two dates
             founded_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
             investor_ids: [],
-            funding_rounds: [],
+            most_recent_raised_amount: Math.floor(Math.random() * 1e8),
             status: statuses[exponential_distribution(0, statuses.length)],
             state_code: states[exponential_distribution(0, states.length)],
             ipo_on: d3.time.format('%x')(randomDate(new Date(1992, 1, 1), new Date())),
@@ -95,6 +95,18 @@ var randomDate = function(start, end) {
         };
     };
 
+    var randomFundingRound = function(id) {
+        id = id || 0;
+        return {
+            id: id,
+            company_id: 0,
+            round_code: 'Unattributed',
+            raised_amount: Math.floor(Math.random() * 1e8),
+            funded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
+            investor_ids: []
+        };
+    };
+
     /**
      * Generate a list of data based on a supplied function
      *
@@ -117,7 +129,7 @@ var randomDate = function(start, end) {
      * @param {array} [investors] An unlinked list of investors
      * @param {array} [categories] An unlinked list of categories
      */
-    var linkGeneratedLists = function(companies, investors, categories) {
+    var linkGeneratedLists = function(companies, investors, categories, rounds) {
         _.each(companies, function(company){
             var category = categories[exponential_distribution(0, categories.length)];
             company.category_id = category.id;
@@ -129,15 +141,13 @@ var randomDate = function(start, end) {
                 category.investor_ids.push(investor.id);
                 investor.invested_company_ids.push(company.id);
                 investor.invested_category_ids.push(company.category_id);
-
-                company.funding_rounds.push({
-                    id: 1,
-                    raised_amount: Math.floor(Math.random() * 1e8),
-                    funded_on: d3.time.format('%x')(randomDate(new Date(2000, 1, 1), new Date())),
-                    investor_ids: [investor.id],
-                    round_code: 'Unattributed'
-                });
             });
+        });
+
+        _.each(rounds, function(round){
+            var company = companies[Math.floor(Math.random() * companies.length)];
+            round.investor_ids = company.investor_ids;
+            round.company_id = company.id;
         });
     };
 
@@ -148,7 +158,8 @@ var randomDate = function(start, end) {
         var categories = generateDataList(42, randomCategory);
         var investors = generateDataList(9987, randomInvestor);
         var companies = generateDataList(16635, randomCompany);
-        linkGeneratedLists(companies, investors, categories);
+        var rounds = generateDataList(30000, randomFundingRound);
+        linkGeneratedLists(companies, investors, categories, rounds);
 
         ng.module('crunchinatorApp')
         .config(['$provide', function($provide) {
@@ -157,6 +168,7 @@ var randomDate = function(start, end) {
             $httpBackend.when('GET', '/companies.json').respond({ companies: companies });
             $httpBackend.when('GET', '/categories.json').respond({ categories: categories });
             $httpBackend.when('GET', '/investors.json').respond({investors: investors });
+            $httpBackend.when('GET', '/funding_rounds.json').respond({funding_rounds: rounds });
             $httpBackend.when('GET', /.*/).passThrough();
             $httpBackend.when('POST', /.*/).passThrough();
             $httpBackend.when('DELETE', /.*/).passThrough();

@@ -36,20 +36,16 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         _.each(this.all, function(investor){
             investor.invested_companies = [];
             investor.invested_categories = [];
-            investor.funding_rounds = [];
             _.each(investor.invested_company_ids, function(companyId){
                 var company = companiesById[companyId];
                 
                 if(company) {
+                    //Add company to investor
                     investor.invested_companies.push(company);
-                    _.each(company.funding_rounds, function(round){
-                        round.company_id = company.id;
-                        if(_.include(round.investor_ids, investor.id)){
-                            investor.funding_rounds.push(round);
-                        }
-                    });
                 }
             });
+
+            //Add category to investor
             _.each(investor.invested_category_ids, function(categoryId){
                 investor.invested_categories.push(categoriesById[categoryId]);
             });
@@ -67,7 +63,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
 
         this.dimensions = {
             byCompanies: crossInvestors.dimension(function(investor) { return investor.invested_companies; }),
-            byFundingRounds: crossInvestors.dimension(function(investor) { return investor.funding_rounds; })
+            byFundingRounds: crossInvestors.dimension(function(investor) { return investor.funding_rounds || []; })
         };
 
         this.byName = crossInvestors.dimension(function(investor) { return investor.name; });
@@ -116,70 +112,39 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         }
     };
 
-    //Determines if a company passes
-    Investor.prototype.companyPassesFilters = function(company, filterData){
-        var self = this;
-        var parse = this.format.parse;
-
-        //byCompanyId
-        if (filterData.companyIds.length !== 0) {
-            if(!_.contains(filterData.companyIds, company.id)) { return false; }
+    Investor.prototype.roundPassesFilters = function(round, fd){
+        //Round's category is included in filters
+        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, round.company.category_id)) {
+            return false;
         }
 
-        //byCategoryId
-        if(filterData.categoryIds.length !== 0) {
-            if(!_.contains(filterData.categoryIds, company.category_id)) { return false; }
+        //Round's company is included in filters
+        if(fd.companyIds.length > 0 && !_.include(fd.companyIds, round.company.id)) {
+            return false;
         }
 
-        //byTotalFunding
-        if (filterData.ranges.length !== 0) {
-            if(!self.fallsWithinRange(company.total_funding, filterData.ranges)) { return false; }
+        //Round passes all other filters
+        if(!Model.roundPassesFilters(round, fd)) {
+            return false;
         }
 
-        //byMostRecentFundingRoundRaised
-        if (filterData.mostRecentRoundRanges.length !== 0) {
-            var most_recent_funding_amount = _.max(company.funding_rounds, function(round){
-                return round.funded_on ? parse(round.funded_on) : 0;
-            }).raised_amount;
-            if(!self.fallsWithinRange(most_recent_funding_amount, filterData.mostRecentRoundRanges)) { return false; }
+        return true;
+    };
+
+    Investor.prototype.companyPassesFilters = function(company, fd){
+        //Company's category is included in filters
+        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, company.category_id)) {
+            return false;
         }
 
-        //byStatus
-        if (filterData.statuses.length !== 0) {
-            if(!_.contains(filterData.statuses, company.status)) { return false; }
+        //Company's id is included in filters
+        if(fd.companyIds.length > 0 && !_.include(fd.companyIds, company.id)) {
+            return false;
         }
 
-        //byState
-        if (filterData.states.length !== 0) {
-            if(!_.contains(filterData.states, company.state_code)) { return false; }
-        }
-
-        //byAcquiredOn
-        if (filterData.acquiredDate.length !== 0) {
-            if(!company.acquired_on){ return false; }
-            if(!self.fallsWithinRange(parse(company.acquired_on), filterData.acquiredDate)) { return false; }
-        }
-
-        //byFoundedOn
-        if (filterData.foundedDate.length !== 0) {
-            if(!company.founded_on){ return false; }
-            if(!self.fallsWithinRange(parse(company.founded_on), filterData.foundedDate)) { return false; }
-        }
-
-        //byIPOValue
-        if (filterData.ipoValueRange.length !== 0) {
-            if(!self.fallsWithinRange(company.ipo_valuation, filterData.ipoValueRange)) { return false; }
-        }
-
-        //byIPODate
-        if (filterData.ipoDateRange.length !== 0) {
-            if(!company.ipo_on) { return false; }
-            if(!self.fallsWithinRange(parse(company.ipo_on), filterData.ipoDateRange)) { return false; }
-        }
-
-        //byAcquiredValue
-        if (filterData.acquiredValueRange.length !== 0) {
-            if(!self.fallsWithinRange(company.acquired_value, filterData.acquiredValueRange)) { return false; }
+        //Company passes all other filters
+        if(!Model.companyPassesFilters(company, fd)) {
+            return false;
         }
 
         return true;

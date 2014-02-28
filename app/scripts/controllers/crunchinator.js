@@ -16,8 +16,8 @@ angular.module('crunchinatorApp.controllers')
 })
 
 .controller('CrunchinatorCtrl', [
-    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'ComponentData',
-    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, ComponentData) {
+    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData',
+    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData) {
         $scope.loading = true;
 
         //Create the initial empty filter data for every filter
@@ -56,21 +56,22 @@ angular.module('crunchinatorApp.controllers')
         $scope.companies = Company;
         $scope.investors = Investor;
         $scope.categories = Category;
+        $scope.fundingRounds = FundingRound;
 
         //Fetch the data for each model, then set up its dimensions and run its filters.
         var modelCount = 0;
-        var models = [Company, Category, Investor];
+        var models = [Company, Category, Investor, FundingRound];
         _.each(models, function(Model) {
             Model.fetch().then(function() {
                 modelCount++;
-                if(modelCount === 3) {
+                if(modelCount === models.length) {
                     var companiesById = _.indexBy(Company.all, 'id');
                     var categoriesById = _.indexBy(Category.all, 'id');
                     var investorsById = _.indexBy(Investor.all, 'id');
 
                     Investor.linkModels(companiesById, categoriesById);
                     Category.linkModels(companiesById, investorsById);
-
+                    FundingRound.linkModels(companiesById, investorsById, categoriesById);
                     _.each(models, function(Model) {
                         Model.setupDimensions();
                         Model.runFilters($scope.filterData);
@@ -97,6 +98,7 @@ angular.module('crunchinatorApp.controllers')
                         Company.runFilters($scope.filterData);
                         Category.runFilters($scope.filterData);
                         Investor.runFilters($scope.filterData);
+                        FundingRound.runFilters($scope.filterData);
 
                         deferred.resolve('Finished filters');
                     });
