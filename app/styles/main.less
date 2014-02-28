@@ -1,24 +1,30 @@
+@cloudspace:                  #1861b2;
+@bright-blue:                 #60beff;
+@pale-blue:                   #cdebff;
+@deep-blue:                   #1961b2;
+@transparent-blue:            rgba(70, 84, 93, 0.5);
 
-@bright-blue:       #60beff;
-@bright-blue2:      #2b8fff;
-@pale-blue:         #cdebff;
-@deep-blue:         #1961b2;
-@transparent-blue:  rgba(70, 84, 93, 0.5);
+@dark-grey:                   #3d3d3d;
+@dark-grey2:                  #3f4143;
+@medium-grey:                 #5e5e5e;
+@medium-grey2:                #4a4b50;
+@medium-grey3:                #54575c;
+@light-grey:                  #959597;
+@light-grey2:                 #ededed;
+@white:                       #ffffff;
 
-@dark-grey:         #3d3d3d;
-@medium-grey:       #5e5e5e;
-@medium-grey2:      #4a4b50;
-@medium-grey3:      #54575c;
-@light-grey:        #959597;
-@light-grey2:       #ededed;
-@white:             #ffffff;
+@faq-text:                    #AFAFAF;
 
-@grey-blue:         #4c6d84;
-@dark-grey-blue:    #41484C;
-@dark-grey-blue2:   #404041;
-@dark-grey-blue3:   #27292d;
+@grey-blue:                   #4c6d84;
+@dark-grey-blue:              #41484C;
+@dark-grey-blue2:             #404041;
+@dark-grey-blue3:             #27292d;
 
-@yellow:            #f6d64f;
+@active-container-blue:       #2b8fff;
+
+@button-yellow:               #f6d64f;
+@button-green:                #1AC26A;
+@button-blue:                 #00BFFA;
 
 @font-face {
     font-family: 'Guilder';
@@ -61,7 +67,6 @@
 
 /* Space out content a bit */
 body {
-  padding-bottom: 20px;
   background-color: @dark-grey;
 }
 
@@ -353,7 +358,6 @@ footer {
   cursor: pointer;
 }
 
-/* Splash Page */
 
 #splash,
 #about {
@@ -364,21 +368,47 @@ footer {
   position:                 relative;
   font-family:              @font-proxima-nova;
 }
-                            
-#about{
 
-  #contact-us{
-    p{
+#about {
+  
+  #about-header {
+
+    nav, ul, li {
+      display:              inline;
+    }
+
+    ul {
+      float:                right;
+    }
+
+    li {
+      list-style-type:      none;
+      margin-left:          60px;
+
+      a {
+        text-decoration:    none;
+        color:              @dark-grey2;
+      }
+    }
+
+    padding-top:            30px;
+    padding-bottom:         30px;
+    max-width:              1080px;
+  }
+
+
+  #contact-us {
+    p {
       font-size:            30px;
       color:                @white;
       margin-bottom:        30px;
       font-weight:          200;
     }
 
-    a{
+    a {
       padding:              10px 40px 10px 40px;
       border-radius:        40px;
-      background-color:     @yellow;
+      background-color:     @button-yellow;
       display:              inline-block;
       text-decoration:      none;
       color:                @dark-grey-blue2;
@@ -389,34 +419,32 @@ footer {
     background-color:       @dark-grey-blue3;
   }
 
-  #pop-quiz{
-    .ellipsis{
+
+  #pop-quiz {
+    .ellipsis {
       display:              inline;
     }
 
-    .continuation, button{
+    .continuation, button {
       display:              none;
     }
 
-    .triangle{
-        width:              0; 
-        height:             0; 
-        border-top:         10px solid transparent;
-        border-bottom:      10px solid transparent; 
-        border-right:       10px solid @white;
+    .triangle {
         position:           absolute;
-        left:               -10px;
-        top:                27px;
+        left:               -19px;
+        top:                24px;
+        color:              @white;
+        text-shadow:        @light-grey2 -3px 0px 4px;
     }
 
-    ul{
+    ul {
       display:              inline-block;
       margin-left:          auto;
       margin-right:         auto;
       border-left:          solid 5px @light-grey2;
       max-width:            800px;
       
-      li{
+      li {
         color:              @light-grey;
         text-align:         left;
         padding:            20px 40px 20px 40px;
@@ -430,71 +458,206 @@ footer {
         position:           relative;
       }
 
-      li.active{
+
+      li:before{
+        content:            " ";
+        padding:            10px;
+        border-radius:      10px;
+        background-color:   @light-grey2;
+        box-shadow:         @light-grey2 0px 2px 4px 0px;
+        position:           absolute;
+        left:               -54px;
+        top:                27px;
+      }
+
+      li.active:before{
+        position:           absolute;
+        left:               -54px;
+        top:                53px;
+        background-color:   @active-container-blue;
+      }
+
+      li.active {
         padding:            180px 120px 20px 120px;
-        background:         @bright-blue2 url('../images/check_mark.png') center top 40px no-repeat;
+        background:         @active-container-blue url('../images/check_mark.png') center top 40px no-repeat;
         color:              @white;
         text-align:         center;
-        
+        margin-bottom:      20px;
+
         .triangle{
-          border-right:     10px solid @bright-blue2;
+          border-right:     10px solid @active-container-blue;
           top:              50px;
-          left:             -10px; 
+          color:            @active-container-blue;
         }
 
-        .ellipsis{
+        .ellipsis {
           display:          none;
         }
 
-        .continuation, button{
+        .continuation, button {
           display:          inline;
         }
 
-        button{
+        button {
           margin-top:       50px;
           margin-bottom:    10px;
           background-color: @white;
           border:           none;
-          color:            @bright-blue2;
+          color:            @active-container-blue;
           padding:          5px 30px 5px 30px;
           border-radius:    5px;
         }
       }
     }
+
+    padding-top:            100px;
   }
 
-  font-size:                24px;
-  
-  h3, p, #contact-us, #pop-quiz{
+
+  #faq {
+    h4 {
+      text-align:           center;
+      font-size:            20px;
+      color:                @dark-grey2;
+      margin-bottom:        80px;
+    }
+
+    h5{
+      font-size:            16px;
+      color:                @dark-grey2;
+      margin-bottom:        30px;
+    }
+
+    ul {
+      margin-left:          auto;
+      margin-right:         auto;
+      margin-bottom:        50px;
+      padding-left:         0px;
+      padding-right:        0px;
+      width:                850px;
+      text-align:           center;
+
+      li {
+        list-style-type:    none;
+        display:            inline;
+        margin-right:       5px;
+        margin-left:        5px;
+      }
+    }
+
+    hr{
+      width:                400px;
+      margin-bottom:        70px;
+    }
+    
+    button {
+      border:               none;
+      background-color:     @button-green;
+      color:                @white;
+      font-size:            20px;
+      border-radius:        5px;
+      width:                320px;
+      padding-top:          20px;
+      padding-bottom:       20px;
+    }
+
+    button:focus {
+      border:               none;
+    }
+
+    button.blue {
+      background-color:     @button-blue;
+    }
+
+    p {
+      text-align:           left;
+      font-size:            16px;
+      line-height:          32px;
+      color:                @faq-text;
+    }
+  }
+    
+  h3, p, #contact-us, #pop-quiz {
     margin-left:            auto;
     margin-right:           auto;
     text-align:             center;
     margin-bottom:          70px;
   }
 
-  h3{
+  h2 {
+    display:                inline;
+    font-size:              26px;
+    font-family:            'futura-pt-1', 'futura-pt-2', Arial, sans-serif;;
+    letter-spacing:         1px;
+    color:                  @cloudspace;
+    background:             url('/images/cloudspace-logo-blue-and-white.png') 0 0 no-repeat;
+    padding:                5px 0px 10px 95px;
+  }
+
+  h3 {
     color:                  @medium-grey3;
     max-width:              780px;
     font-size:              32px;
-    font-weight:            900;
+    font-weight:            200;
   }
 
-  p{
+  p {
     color:                  @medium-grey;
-    width:                  1080px;
+    max-width:              1080px;
   }
 
-  em{
+  em {
     font-style:             normal;
     font-weight:            900;
     color:                  @deep-blue;
   }
 
-  strong{
+  strong {
     color:                  @medium-grey2;
     font-weight:            900;
   }
+
+  font-size:                24px;
 }
+
+footer {
+  background:               @cloudspace url('../images/large-cloudspace-logo-blue.png') right top 65px no-repeat;
+  color:                    @white;
+  margin-top:               0px;
+  margin-bottom:            0px;
+
+  ul, p {
+    margin-left:            auto;
+    margin-right:           auto;
+  }
+
+  p {
+    max-width:              800px;
+    font-size:              48px;
+    line-height:            48px;
+    padding-top:            90px;
+  }
+  ul {
+    li {
+      font-size:            30px; 
+      list-style-type:      none;
+      float:                left;
+      padding-right:        15px;
+      padding-left:         15px; 
+    }
+
+    li:last-of-type {
+      border-left:          solid 3px @white;
+    }
+
+    display:                inline-block;
+    padding-top:            40px;
+    padding-bottom:         60px;
+    padding-left:           0px;
+  }
+}
+
+
 
 #splash {
   background: url('/images/burner.jpg');
