@@ -18,7 +18,7 @@
         <div>
             <div d3-map
                 chart-title="Company HQ"
-                data="ComponentData.companyStateData(companies.dataForLocationMap)"
+                data="ComponentData.dataSets.companyStateData"
                 selected="states"
             ></div>
         </div>
@@ -26,7 +26,7 @@
         <div>
              <div d3-area
                 chart-title="Investments"
-                data="ComponentData.fundingRoundCount(fundingRounds.dataForInvestments, '1/2000')"
+                data="ComponentData.dataSets.fundingRoundCount"
                 selected="fundingActivity"
                 extent="1/2000"
                 ranges="true"
@@ -45,7 +45,7 @@
         <div>
             <div d3-pie
                 chart-title="Company Status"
-                data="ComponentData.companyStatusData(companies.dataForCompanyStatus)"
+                data="ComponentData.dataSets.companyStatusData"
                 selected="statuses"
             ></div>
         </div>
@@ -62,7 +62,7 @@
         <div>
             <div d3-bars
                 chart-title="Funding: Total Funding"
-                data="ComponentData.totalFunding(companies.dataForTotalFunding, companies.maxCompanyValue)"
+                data="ComponentData.dataSets.totalFunding"
                 selected="ranges"
                 ranges="true"
             ></div>
@@ -71,7 +71,7 @@
         <div>
             <div d3-bars
                 chart-title="Funding: Any Round"
-                data="ComponentData.fundingPerRound(fundingRounds.dataForFundingAmount, fundingRounds.maxFundingValue)"
+                data="ComponentData.dataSets.fundingPerRound"
                 selected="roundRanges"
                 ranges="true"
             ></div>
@@ -80,7 +80,7 @@
         <div>
             <div d3-bars
                 chart-title="Funding: Latest Round"
-                data="ComponentData.mostRecentFundingRound(companies.dataForMostRecentRaisedAmount, companies.maxRecentFundingValue)"
+                data="ComponentData.dataSets.mostRecentFundingRound"
                 selected="mostRecentRoundRanges"
                 ranges="true"
             ></div>
@@ -89,7 +89,7 @@
         <div>
              <div d3-area
                 chart-title="Acquisition Date"
-                data="ComponentData.acquiredOnCount(companies.dataForAcquiredOnAreaChart, '1/2006')"
+                data="ComponentData.dataSets.acquiredOnCount"
                 selected="acquiredDate"
                 extent="1/2006"
                 ranges="true"
@@ -99,7 +99,7 @@
         <div>
             <div d3-bars
                 chart-title="Acquisition Price"
-                data="ComponentData.acquiredValueCount(companies.dataForAcquiredValue, companies.maxAcquiredValue)"
+                data="ComponentData.dataSets.acquiredValueCount"
                 selected="acquiredValueRange"
                 ranges="true"
             ></div>
@@ -108,7 +108,7 @@
         <div>
             <div list-select
                 chart-title="Funding: Round Name"
-                items="ComponentData.roundCodeListData(fundingRounds.dataForRoundName, fundingRounds.roundHash)"
+                items="ComponentData.dataSets.roundCodeListData"
                 selected="roundCodes"
                 total="fundingRounds.fundingSeries.length"
             ></div>
@@ -117,7 +117,7 @@
         <div>
              <div d3-area
                 chart-title="Founding Date"
-                data="ComponentData.foundedOnCount(companies.dataForFoundedOnAreaChart, '1992')"
+                data="ComponentData.dataSets.foundedOnCount"
                 selected="foundedDate"
                 extent="1992"
                 format="%Y"
@@ -128,7 +128,7 @@
         <div>
             <div d3-area
                 chart-title="IPO Date"
-                data="ComponentData.ipoDateData(companies.dataForIPODate, '1992')"
+                data="ComponentData.dataSets.ipoDateData"
                 selected="ipoDateRange"
                 extent="1992"
                 format="%Y"
@@ -139,7 +139,7 @@
         <div>
             <div d3-bars
                 chart-title="IPO Raise"
-                data="ComponentData.ipoValueData(companies.dataForIPOValue, companies.maxIPOValue)"
+                data="ComponentData.dataSets.ipoValueData"
                 selected="ipoValueRange"
                 ranges="true"
             ></div>

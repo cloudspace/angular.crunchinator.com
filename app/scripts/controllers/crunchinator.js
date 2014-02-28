@@ -20,6 +20,8 @@ angular.module('crunchinatorApp.controllers')
     function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData) {
         $scope.loading = true;
 
+        ComponentData.updateDataSets();
+
         //Create the initial empty filter data for every filter
         $scope.filterData = {
             categoryIds: [],
@@ -76,7 +78,7 @@ angular.module('crunchinatorApp.controllers')
                         Model.setupDimensions();
                         Model.runFilters($scope.filterData);
                     });
-
+                    ComponentData.updateDataSets();
                     $scope.loading = false;
                 }
             });
@@ -99,7 +101,7 @@ angular.module('crunchinatorApp.controllers')
                         Category.runFilters($scope.filterData);
                         Investor.runFilters($scope.filterData);
                         FundingRound.runFilters($scope.filterData);
-
+                        ComponentData.updateDataSets();
                         deferred.resolve('Finished filters');
                     });
                 }, 250);

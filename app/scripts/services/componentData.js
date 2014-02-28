@@ -1,6 +1,31 @@
 'use strict';
 
-angular.module('crunchinatorApp.services').service('ComponentData', function() {
+angular.module('crunchinatorApp.services').service('ComponentData', function(Company, Investor, Category, FundingRound) {
+    this.dataSets ={};
+    this.updateDataSets = function() {
+        var data = this.dataSets;
+        //Run each data function
+        data.roundCodeListData = this.roundCodeListData(FundingRound.dataForRoundName, FundingRound.roundHash);
+        // data.categoryListData = this.categoryListData();
+        // data.investorListData = this.investorListData();
+        data.totalFunding = this.totalFunding(Company.dataForTotalFunding, Company.maxCompanyValue);
+        data.fundingRoundCount = this.fundingRoundCount(FundingRound.dataForInvestments, '1/2000');
+        data.acquiredOnCount = this.acquiredOnCount(Company.dataForAcquiredOnAreaChart, '1/2006');
+        data.acquiredValueCount = this.acquiredValueCount(Company.dataForAcquiredValue, Company.maxAcquiredValue);
+        data.foundedOnCount = this.foundedOnCount(Company.dataForFoundedOnAreaChart, '1992');
+        data.fundingPerRound = this.fundingPerRound(FundingRound.dataForFundingAmount, FundingRound.maxFundingValue);
+        data.mostRecentFundingRound = this.mostRecentFundingRound(Company.dataForMostRecentRaisedAmount, Company.maxRecentFundingValue);
+        data.companyStatusData = this.companyStatusData(Company.dataForCompanyStatus);
+        data.companyStateData = this.companyStateData(Company.dataForLocationMap);
+        data.ipoValueData = this.ipoValueData(Company.dataForIPOValue, Company.maxIPOValue);
+        data.ipoDateData = this.ipoDateData(Company.dataForIPODate, '1992');
+    };
+
+    var idListMemoFunction = function(items) {
+        var current_hash = _.pluck(items, 'id').join('|');
+        return current_hash;
+    };
+
     /**
      * Constructs data necessary for the round code list display
      *
@@ -17,10 +42,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
 
         return sortedRoundCodes;
 
-    }, function(rounds) {
-        var current_hash = _.pluck(rounds, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the category list display
@@ -94,10 +116,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Any Round area chart
@@ -133,10 +152,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(round) {
-        var current_hash = _.pluck(round, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Acquisition Date area chart
@@ -172,10 +188,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the acquired value bar graph
@@ -206,10 +219,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Date Founded area chart
@@ -247,10 +257,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Any Round bar chart
@@ -282,10 +289,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(rounds) {
-        var current_hash = _.pluck(rounds, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Most Recent Round bar chart
@@ -318,10 +322,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Company Status pie chart
@@ -345,19 +346,13 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         });
 
         return results;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     this.companyStateData = _.memoize(function(companies) {
         var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
 
         return state_grouping;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the IPO Value bar graph
@@ -387,10 +382,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     this.ipoDateData = _.memoize(function(companies, extent) {
         var byMonth = {};
@@ -421,10 +413,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Abbreviates a number into a shortened string
