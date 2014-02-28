@@ -7,15 +7,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @param {array} [companies] A filtered list of companies to construct a list of displayed round codes
      * @return {array} A list of round codes
      */
-    this.roundCodeListData = _.memoize(function(rounds) {
+    this.roundCodeListData = _.memoize(function(rounds, roundHash) {
         if(typeof rounds === 'undefined') { return []; }
 
         var codeNames = _.unique(_.pluck(rounds, 'round_code'));
         var sortedRoundCodes = _.sortBy(_.map(codeNames, function(roundCode){
-            return {
-                name: roundCode.length > 1 ? roundCode : 'Series ' + roundCode,
-                id: roundCode
-            };
+            return roundHash[roundCode];
         }), function(round){ return round.name; });
 
         return sortedRoundCodes;

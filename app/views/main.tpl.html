@@ -108,7 +108,7 @@
         <div>
             <div list-select
                 chart-title="Funding: Round Name"
-                items="ComponentData.roundCodeListData(fundingRounds.dataForRoundName)"
+                items="ComponentData.roundCodeListData(fundingRounds.dataForRoundName, fundingRounds.roundHash)"
                 selected="roundCodes"
                 total="fundingRounds.fundingSeries.length"
             ></div>
