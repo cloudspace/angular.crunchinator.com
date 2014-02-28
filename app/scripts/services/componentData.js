@@ -1,29 +1,48 @@
 'use strict';
 
-angular.module('crunchinatorApp.services').service('ComponentData', function() {
+angular.module('crunchinatorApp.services').service('ComponentData', function(Company, Investor, Category, FundingRound) {
+    this.dataSets ={};
+    this.updateDataSets = function() {
+        var data = this.dataSets;
+        //Run each data function
+        data.roundCodeListData = this.roundCodeListData(FundingRound.dataForRoundName, FundingRound.roundHash);
+        // data.categoryListData = this.categoryListData();
+        // data.investorListData = this.investorListData();
+        data.totalFunding = this.totalFunding(Company.dataForTotalFunding, Company.maxCompanyValue);
+        data.fundingRoundCount = this.fundingRoundCount(FundingRound.dataForInvestments, '1/2000');
+        data.acquiredOnCount = this.acquiredOnCount(Company.dataForAcquiredOnAreaChart, '1/2006');
+        data.acquiredValueCount = this.acquiredValueCount(Company.dataForAcquiredValue, Company.maxAcquiredValue);
+        data.foundedOnCount = this.foundedOnCount(Company.dataForFoundedOnAreaChart, '1992');
+        data.fundingPerRound = this.fundingPerRound(FundingRound.dataForFundingAmount, FundingRound.maxFundingValue);
+        data.mostRecentFundingRound = this.mostRecentFundingRound(Company.dataForMostRecentRaisedAmount, Company.maxRecentFundingValue);
+        data.companyStatusData = this.companyStatusData(Company.dataForCompanyStatus);
+        data.companyStateData = this.companyStateData(Company.dataForLocationMap);
+        data.ipoValueData = this.ipoValueData(Company.dataForIPOValue, Company.maxIPOValue);
+        data.ipoDateData = this.ipoDateData(Company.dataForIPODate, '1992');
+    };
+
+    var idListMemoFunction = function(items) {
+        var current_hash = _.pluck(items, 'id').join('|');
+        return current_hash;
+    };
+
     /**
      * Constructs data necessary for the round code list display
      *
      * @param {array} [companies] A filtered list of companies to construct a list of displayed round codes
      * @return {array} A list of round codes
      */
-    this.roundCodeListData = _.memoize(function(companies) {
-        if(typeof companies === 'undefined') { return []; }
+    this.roundCodeListData = _.memoize(function(rounds, roundHash) {
+        if(typeof rounds === 'undefined') { return []; }
 
-        var codeNames = _.unique(_.pluck(_.flatten(_.pluck(companies, 'funding_rounds')), 'round_code'));
+        var codeNames = _.unique(_.pluck(rounds, 'round_code'));
         var sortedRoundCodes = _.sortBy(_.map(codeNames, function(roundCode){
-            return {
-                name: roundCode.length > 1 ? roundCode : 'Series ' + roundCode,
-                id: roundCode
-            };
+            return roundHash[roundCode];
         }), function(round){ return round.name; });
 
         return sortedRoundCodes;
 
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the category list display
@@ -97,10 +116,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Any Round area chart
@@ -109,7 +125,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @param {string} [extent] Where to start the x-axis of the area chart
      * @return {array} A count of all funding rounds grouped by round month/Year
      */
-    this.fundingRoundCount = _.memoize(function(companies, extent) {
+    this.fundingRoundCount = _.memoize(function(rounds, extent) {
         var byMonth = {};
         var parseDate = d3.time.format('%x').parse;
         var format = d3.time.format('%m/%Y');
@@ -120,18 +136,15 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             byMonth[format(i)] = 0;
         }
 
-        _.each(companies, function(company){
-            _.each(company.funding_rounds, function(funding_round){
-                if(funding_round.funded_on) {
-                    var roundDate = parseDate(funding_round.funded_on);
-                    if(roundDate >= parsed_format) {
-                        var monthYear = format(roundDate);
-                        byMonth[monthYear]++;
-                    }
+        _.each(rounds, function(funding_round){
+            if(funding_round.funded_on) {
+                var roundDate = parseDate(funding_round.funded_on);
+                if(roundDate >= parsed_format) {
+                    var monthYear = format(roundDate);
+                    byMonth[monthYear]++;
                 }
-            });
+            }
         });
-
         return _.reduce(byMonth, function(o, v, k){
             o.push({
                 date: k,
@@ -139,10 +152,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Acquisition Date area chart
@@ -178,10 +188,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the acquired value bar graph
@@ -212,10 +219,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Date Founded area chart
@@ -253,10 +257,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Any Round bar chart
@@ -265,10 +266,10 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
      * @param {string} [maxNum] The largest number in the set that we're graphing
      * @return {array} A count of all funding rounds grouped by raised amount in logarithmic ranges
      */
-    this.fundingPerRound = _.memoize(function(companies, maxNum) {
-        if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
+    this.fundingPerRound = _.memoize(function(rounds, maxNum) {
+        if(typeof maxNum === 'undefined' || typeof rounds === 'undefined') { return; }
 
-        var filteredFundingValues = _.pluck(_.flatten(_.pluck(companies, 'funding_rounds')), 'raised_amount');
+        var filteredFundingValues = _.pluck(rounds, 'raised_amount');
         var base = 2;
         var minGraph = 10000;
 
@@ -288,10 +289,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Funding: Most Recent Round bar chart
@@ -315,23 +313,16 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             );
         }
 
-        var parse = d3.time.format('%x').parse;
-        var roundByFundedOn = function(round){
-            return round.funded_on ? parse(round.funded_on) : 0;
-        };
         for(var j = 0; j < companies.length; j++) {
             var company = companies[j];
-            var roundFunding = _.max(company.funding_rounds, roundByFundedOn).raised_amount;
+            var roundFunding = company.most_recent_raised_amount;
             if(!isNaN(roundFunding)){
                 var k = rangeIndex(roundFunding, minGraph, base);
                 ranges[k].count++;
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the Company Status pie chart
@@ -355,19 +346,13 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
         });
 
         return results;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     this.companyStateData = _.memoize(function(companies) {
         var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
 
         return state_grouping;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Constructs data necessary for the IPO Value bar graph
@@ -397,10 +382,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             }
         }
         return ranges;
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     this.ipoDateData = _.memoize(function(companies, extent) {
         var byMonth = {};
@@ -431,10 +413,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function() {
             });
             return o;
         }, []);
-    }, function(companies) {
-        var current_hash = _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    }, idListMemoFunction);
 
     /**
      * Abbreviates a number into a shortened string
