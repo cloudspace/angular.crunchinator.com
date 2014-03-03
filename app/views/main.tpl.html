@@ -36,9 +36,10 @@
         <div>
             <div list-select
                 chart-title="Investors"
-                items="investors.dataForInvestorsList"
+                items="ComponentData.dataSets.investorListData"
                 selected="investorIds"
                 total="investors.count()"
+                count="true"
             ></div>
         </div>
 
@@ -53,9 +54,10 @@
         <div>
             <div list-select
                 chart-title="Categories"
-                items="categories.dataForCategoryList"
+                items="ComponentData.dataSets.categoryListData"
                 selected="categoryIds"
                 total="categories.count()"
+                count="true"
             ></div>
         </div>
 

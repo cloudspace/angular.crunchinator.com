@@ -6,8 +6,8 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         var data = this.dataSets;
         //Run each data function
         data.roundCodeListData = this.roundCodeListData(FundingRound.dataForRoundName, FundingRound.roundHash);
-        // data.categoryListData = this.categoryListData();
-        // data.investorListData = this.investorListData();
+        data.categoryListData = this.categoryListData(Category.dataForCategoryList, Company.dataForCategoriesList);
+        data.investorListData = this.investorListData(Investor.dataForInvestorsList, Company.dataForInvestorsList);
         data.totalFunding = this.totalFunding(Company.dataForTotalFunding, Company.maxCompanyValue);
         data.fundingRoundCount = this.fundingRoundCount(FundingRound.dataForInvestments, '1/2000');
         data.acquiredOnCount = this.acquiredOnCount(Company.dataForAcquiredOnAreaChart, '1/2006');
@@ -55,13 +55,17 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.categoryListData = _.memoize(function(categories, companies) {
         if(typeof categories === 'undefined' || typeof companies === 'undefined') { return []; }
 
-        // Underscore's sortBy function only sorts in ascending order. However
-        var orderedCategories = _.sortBy(categories, function(category) {
-            return _.select(companies, function(company) {
-                return company.category_id === category.id;
-            }).length * -1;
+        var freshCategories = _.map(categories, function(category) {
+            return _.clone(category);
         });
-        return orderedCategories;
+
+        _.each(freshCategories, function(category) {
+            var companyCount = _.select(companies, function(company) {
+                return company.category_id === category.id;
+            }).length;
+            category.model_count = companyCount;
+        });
+        return freshCategories;
     }, function(categories, companies) {
         var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
         return current_hash;
@@ -78,12 +82,22 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.investorListData = _.memoize(function(investors, companies) {
         if(typeof investors === 'undefined' || typeof companies === 'undefined') { return []; }
 
-        var orderedInvestors = _.sortBy(investors, function(investor) {
-            return _.select(companies, function(company) {
-                return _.contains(investor.invested_company_ids, company.id);
-            }).length * -1;
-        });
-        return orderedInvestors;
+        if(companies.length <= 1000) {
+            var freshInvestors = _.map(investors, function(investor) {
+                return _.clone(investor);
+            });
+
+            var orderedInvestors = _.sortBy(freshInvestors, function(investor) {
+                var companyCount = _.select(companies, function(company) {
+                    return _.contains(investor.invested_company_ids, company.id);
+                }).length;
+                investor.model_count = companyCount;
+                return companyCount * -1;
+            });
+
+            return orderedInvestors;
+        }
+        return investors;
     }, function(investors, companies) {
         var current_hash = _.pluck(investors, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
         return current_hash;
