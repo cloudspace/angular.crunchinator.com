@@ -8,7 +8,8 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             chartTitle: '@',
             selected: '@',
             total: '=',
-            link: '='
+            link: '=',
+            count: '='
         },
         templateUrl: 'views/list-select.tpl.html',
         link: function(scope, element) {

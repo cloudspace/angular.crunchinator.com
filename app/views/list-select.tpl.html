@@ -29,6 +29,7 @@
                             <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
+                            <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
                         </td>
                     </tr>
                     <tr ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
@@ -37,6 +38,7 @@
                             <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
+                            <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
                         </td>
                     </tr>
                 </tbody>
