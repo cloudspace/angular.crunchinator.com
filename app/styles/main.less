@@ -148,15 +148,13 @@
 }
 
 .brush .extent {
-  /*fill-opacity: .125;*/
   fill-opacity: 0;
-  fill: #2c3136;
-  shape-rendering: crispEdges;
 }
 
-.brush .resize path {
-  fill: #eee;
-  stroke: #666;
+.brush .resize .handle {
+  fill: @bright-blue;
+  stroke: white;
+  stroke-width: 2px;
 }
 
 .selected {
@@ -483,7 +481,7 @@ header{
   padding: 4px;
 }
 
-.dataset td>a {
+.dataset td>a, .dataset .model-count {
   position: absolute;
   right: 14px;
   top: 9px;
@@ -509,19 +507,6 @@ footer {
   position: relative;
   font-family: @font-proxima-nova;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* 
   ABOUT SECTION
@@ -576,6 +561,12 @@ footer {
 
 
   #pop-quiz {
+
+    h3 {
+      font-family: @font-proxima-nova;
+      font-weight: 600;
+    }
+
     .ellipsis { display: inline; }
     .continuation, button { display: none; }
     .triangle {
@@ -719,6 +710,7 @@ footer {
   h3 {
     .SetText(@medium-grey3, 32px, 200);
     max-width: 780px;
+    font-family: @font-proxima-nova;
   }
 
   p {
@@ -755,11 +747,14 @@ footer {
   p {
     max-width: 800px;
     font-size: 48px;
+    font-family: @font-proxima-nova;
+    font-weight: 600;
     line-height: 48px;
     padding-top: 90px;
   }
   ul {
     li {
+    font-family: @font-proxima-nova;
       font-size: 30px; 
       list-style-type: none;
       padding: 0px 15px 0px 15px;
