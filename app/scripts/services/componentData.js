@@ -101,25 +101,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.totalFunding = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var total_funding = parseInt(companies[j].total_funding);
-            if(!isNaN(total_funding)){
-                var k = rangeIndex(total_funding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'total_funding', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -204,25 +186,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.acquiredValueCount = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var acquired_value = parseInt(companies[j].acquired_value);
-            if(!isNaN(acquired_value) && acquired_value > 0){
-                var k = rangeIndex(acquired_value, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'acquired_value', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -273,26 +237,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.fundingPerRound = _.memoize(function(rounds, maxNum) {
         if(typeof maxNum === 'undefined' || typeof rounds === 'undefined') { return; }
 
-        var filteredFundingValues = _.pluck(rounds, 'raised_amount');
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
-            );
-        }
-
-        for(var j = 0; j < filteredFundingValues.length; j++) {
-            var funding = parseInt(filteredFundingValues[j]);
-            if(!isNaN(funding)){
-                var k = rangeIndex(funding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(rounds, 'raised_amount', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -306,26 +251,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.mostRecentFundingRound = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var company = companies[j];
-            var roundFunding = company.most_recent_raised_amount;
-            if(!isNaN(roundFunding)){
-                var k = rangeIndex(roundFunding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'most_recent_raised_amount', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -367,25 +293,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.ipoValueData = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var ipo_valuation = parseInt(companies[j].ipo_valuation);
-            if(!isNaN(ipo_valuation)){
-                var k = rangeIndex(ipo_valuation, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'ipo_valuation', maxNum);
     }, idListMemoFunction);
 
     this.ipoDateData = _.memoize(function(companies, extent) {
@@ -472,6 +380,42 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {num}
      */
     function rangeIndex(num, min, base) {
+        num = parseInt(num);
         return num < min ? 0 : Math.ceil(logN(num/min, base));
+    }
+
+    /**
+    * Creates logarithmic ranges used in bar charts
+    *
+    * @param {array} collection of data to operate on
+    * @param {string} property to calculate with
+    * @param {int} maximum range
+    * @param {int} number base
+    * @param {int} upper bound of first range
+    * @param {int} lower bound of first range
+    * @return {array} of ranges and their counts
+    */
+    function setupRanges(collection, property, max, base, min, start) {
+        min = min || 10000;
+        base = base || 2;
+        start = start || 1;
+
+        var propertyList = _.pluck(collection, property);
+        var ranges = [{start: start, end: min, label: labelfy(min), count: 0}];
+
+        for(var i = min; i < max; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+            );
+        }
+
+        _.each(propertyList, function(property) {
+            if(!isNaN(property) && property > 0) {
+                var index = rangeIndex(property, min, base);
+                ranges[index].count++;
+            }
+        });
+
+        return ranges;
     }
 });
