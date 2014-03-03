@@ -579,9 +579,10 @@ footer {
     .ellipsis { display: inline; }
     .continuation, button { display: none; }
     .triangle {
-        .PositionAbsolute(24px, -19px);
-        color: @white;
-        text-shadow: @light-grey2 -3px 0px 4px;
+        .PositionAbsolute(24px, -13px);
+        background: url("../images/triangle_white.png") no-repeat;
+        height: 25px;
+        width: 13px;
     }
 
     ul {
@@ -627,9 +628,8 @@ footer {
         margin-bottom: 20px;
 
         .triangle{
-          border-right: 10px solid @active-container-blue;
           top: 50px;
-          color: @active-container-blue;
+          background: url("../images/triangle_blue.png") no-repeat;
         }
 
         .ellipsis { display: none; }
