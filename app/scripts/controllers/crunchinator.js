@@ -132,8 +132,7 @@ angular.module('crunchinatorApp.controllers')
 
 .controller('BlankCtrl', [
     '$scope',
-    function BlankCtrl($scope) {
-        console.log('do something');
+    function BlankCtrl() {
     }
 ]);
 
