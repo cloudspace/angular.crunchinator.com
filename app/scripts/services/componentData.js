@@ -335,8 +335,8 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
                 date[i.toString()] = 0;
             }
         } else {
-            for(var i = dateFormat.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
-                date[dateFormat(i)] = 0;
+            for(var j = dateFormat.parse(extent); j <= now; j.setMonth(j.getMonth() + 1)) {
+                date[dateFormat(j)] = 0;
             }
         }
 
