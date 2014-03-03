@@ -76,6 +76,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     scope.min = formatDate(extent[0]);
                     scope.max = formatDate(extent[1]);
+
+                    svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
+                    svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
                 }
 
                 x.domain(full_extent);
@@ -127,6 +130,27 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 gBrush.selectAll('rect')
                     .attr('height', height);
 
+                //Blue lines on left and right of range selection
+                gBrush.selectAll('.resize').append('rect')
+                    .attr('class', 'limit')
+                    .attr('height', height - 35)
+                    .attr('transform', 'translate(0,35)')
+                    .attr('width', 1);
+
+                //Boxes surrounding range selection text
+                gBrush.selectAll('.resize').append('rect')
+                    .attr('class', 'range')
+                    .attr('height', 20).attr('width', 74)
+                    .attr('transform', 'translate(-37,30)')
+                    .attr('rx', 5).attr('ry', 5);
+
+
+                //Range selection text showing current selection
+                gBrush.selectAll('.resize').append('text')
+                    .attr('class', 'range_text')
+                    .attr('transform', 'translate(0,45)');
+
+                //Circles used as selection handles
                 gBrush.selectAll('.resize').append('circle')
                     .attr('class', 'handle')
                     .attr('transform', 'translate(0,' + height + ')')
@@ -140,9 +164,6 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     
                     y.domain([0, d3.max(data, function(d) { return d.count; })]);
-                    
-
-                    //svg.selectAll('g').remove();
                     
                     area_back = svg.selectAll('.background.area').datum(data)
                         .transition()

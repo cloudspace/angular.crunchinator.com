@@ -4,7 +4,8 @@ angular.module('crunchinatorApp.directives').directive('waitThenScroll', functio
     return {
         restrict: 'A',
         scope: {
-            shouldScroll: '='
+            shouldScroll: '=',
+            scrollTo: '@'
         },
         controller: function($scope) {
             $scope.isScrolling = false;
@@ -13,10 +14,10 @@ angular.module('crunchinatorApp.directives').directive('waitThenScroll', functio
         link: function postLink(scope, element, iAttrs) {
             scope.$watch('shouldScroll', function(shouldScroll) {
                 if (shouldScroll && !scope.isScrolling) {
-                    var scrollSpeed = iAttrs.scrollSpeed || 2000;
+                    var scrollSpeed = iAttrs.scrollSpeed || 1500;
                     scope.isScrolling = true;
                     scope.jQuery('html, body').animate({
-                        scrollTop: 186 //$(element[0]).offset().top
+                        scrollTop: scope.scrollTo //$(element[0]).offset().top
                     }, scrollSpeed, function() {
                         scope.isScrolling = false;
                     });
