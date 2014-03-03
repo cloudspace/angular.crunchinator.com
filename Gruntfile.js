@@ -457,7 +457,11 @@ module.exports = function (grunt) {
     });
 
 
-    grunt.registerTask('serve', function (target) {
+    grunt.registerTask('serve', function (target, version) {
+        if (version) {
+            ENV.version = version;
+        }
+
         target = target || 'development';
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);

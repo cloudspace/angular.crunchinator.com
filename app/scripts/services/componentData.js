@@ -6,8 +6,8 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         var data = this.dataSets;
         //Run each data function
         data.roundCodeListData = this.roundCodeListData(FundingRound.dataForRoundName, FundingRound.roundHash);
-        // data.categoryListData = this.categoryListData();
-        // data.investorListData = this.investorListData();
+        data.categoryListData = this.categoryListData(Category.dataForCategoryList, Company.dataForCategoriesList);
+        data.investorListData = this.investorListData(Investor.dataForInvestorsList, Company.dataForInvestorsList);
         data.totalFunding = this.totalFunding(Company.dataForTotalFunding, Company.maxCompanyValue);
         data.fundingRoundCount = this.fundingRoundCount(FundingRound.dataForInvestments, '1/2000');
         data.acquiredOnCount = this.acquiredOnCount(Company.dataForAcquiredOnAreaChart, '1/2006');
@@ -52,20 +52,17 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      *                that are displayed in the category list display
      * @return {array} A list of categories ordered by the companies they belong to.
      */
-    this.categoryListData = _.memoize(function(categories, companies) {
+    this.categoryListData = function(categories, companies) {
         if(typeof categories === 'undefined' || typeof companies === 'undefined') { return []; }
 
-        // Underscore's sortBy function only sorts in ascending order. However
-        var orderedCategories = _.sortBy(categories, function(category) {
-            return _.select(companies, function(company) {
+        _.each(categories, function(category) {
+            var companyCount = _.select(companies, function(company) {
                 return company.category_id === category.id;
-            }).length * -1;
+            }).length;
+            category.model_count = companyCount;
         });
-        return orderedCategories;
-    }, function(categories, companies) {
-        var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+        return categories;
+    };
 
     /**
      * Constructs data necessary for the investor list display
@@ -75,19 +72,26 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      *                that are displayed in the inevestor list display
      * @return {array} A list of investors ordered by the companies they have invested in.
      */
-    this.investorListData = _.memoize(function(investors, companies) {
+    this.investorListData = function(investors, companies) {
         if(typeof investors === 'undefined' || typeof companies === 'undefined') { return []; }
 
-        var orderedInvestors = _.sortBy(investors, function(investor) {
-            return _.select(companies, function(company) {
-                return _.contains(investor.invested_company_ids, company.id);
-            }).length * -1;
+        if(companies.length <= 1000) {
+            var orderedInvestors = _.sortBy(investors, function(investor) {
+                var companyCount = _.select(companies, function(company) {
+                    return _.contains(investor.invested_company_ids, company.id);
+                }).length;
+                investor.model_count = companyCount;
+                return companyCount * -1;
+            });
+
+            return orderedInvestors;
+        }
+
+        _.each(investors, function(investor) {
+            delete investor.model_count;
         });
-        return orderedInvestors;
-    }, function(investors, companies) {
-        var current_hash = _.pluck(investors, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+        return investors;
+    };
 
     /**
      * Constructs data necessary for the totalFunding bar graph
