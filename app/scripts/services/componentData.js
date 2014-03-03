@@ -380,7 +380,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {num}
      */
     function rangeIndex(num, min, base) {
-        num = parseInt(num);
         return num < min ? 0 : Math.ceil(logN(num/min, base));
     }
 
