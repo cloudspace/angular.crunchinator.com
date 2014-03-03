@@ -112,32 +112,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all funding rounds grouped by round month/Year
      */
     this.fundingRoundCount = _.memoize(function(rounds, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%m/%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
-            byMonth[format(i)] = 0;
-        }
-
-        _.each(rounds, function(funding_round){
-            if(funding_round.funded_on) {
-                var roundDate = parseDate(funding_round.funded_on);
-                if(roundDate >= parsed_format) {
-                    var monthYear = format(roundDate);
-                    byMonth[monthYear]++;
-                }
-            }
-        });
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(rounds, 'funded_on', '%m/%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -148,32 +123,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all companies grouped by acquired_on month/Year
      */
     this.acquiredOnCount = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%m/%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
-            byMonth[format(i)] = 0;
-        }
-        _.each(companies, function(company){
-            if(company.acquired_on) {
-                var acquiredDate = parseDate(company.acquired_on);
-                if(acquiredDate >= parsed_format){
-                    var monthYear = format(acquiredDate);
-                    byMonth[monthYear]++;
-                }
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'acquired_on', '%m/%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -197,34 +147,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all companies grouped by founded_on month/Year
      */
     this.foundedOnCount = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
-            byMonth[i.toString()] = 0;
-        }
-
-        _.each(companies, function(company){
-            if(company.founded_on) {
-                var foundedDate = parseDate(company.founded_on);
-                var monthYear = format(foundedDate);
-                if(foundedDate >= parsed_format){
-                    byMonth[monthYear]++;
-                }
-
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'founded_on', '%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -297,34 +220,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     }, idListMemoFunction);
 
     this.ipoDateData = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
-            byMonth[i.toString()] = 0;
-        }
-
-        _.each(companies, function(company){
-            if(company.ipo_on) {
-                var ipoDate = parseDate(company.ipo_on);
-                var monthYear = format(ipoDate);
-                if(ipoDate >= parsed_format){
-                    byMonth[monthYear]++;
-                }
-
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'ipo_on', '%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -416,5 +312,49 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         });
 
         return ranges;
+    }
+
+    /**
+    * @param {array} collection of data to operate on
+    * @param {string} property to calculate with
+    * @param {string} D3 time format
+    * @param {extent} starting date
+    # @return {array} of ranges and their counts group by date
+    */
+    function clusterByDate(collection, property, format, extent) {
+        extent = extent || 1992;
+
+        var parseDate = d3.time.format('%x').parse;
+        var dateFormat = d3.time.format(format);
+        var parsedFormat = dateFormat.parse(extent);
+        var now = new Date();
+
+        var date = {};
+        if(format === '%Y') {
+            for(var i = parsedFormat.getFullYear(); i <= now.getFullYear(); i++) {
+                date[i.toString()] = 0;
+            }
+        } else {
+            for(var i = dateFormat.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
+                date[dateFormat(i)] = 0;
+            }
+        }
+
+        _.each(collection, function(item) {
+            if(item[property]) {
+                var propertyDate = parseDate(item[property]);
+                if(propertyDate >= parsedFormat) {
+                    date[dateFormat(propertyDate)]++;
+                }
+            }
+        });
+
+        return _.reduce(date, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
     }
 });
