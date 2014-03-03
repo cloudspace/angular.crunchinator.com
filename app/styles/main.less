@@ -148,15 +148,14 @@
 }
 
 .brush .extent {
-  /*fill-opacity: .125;*/
   fill-opacity: 0;
-  fill: #2c3136;
-  shape-rendering: crispEdges;
 }
 
-.brush .resize path {
-  fill: #eee;
-  stroke: #666;
+.brush .resize .handle {
+  fill: @bright-blue;
+  stroke: white;
+  stroke-width: 2px;
+  z-index: 999;
 }
 
 .selected {

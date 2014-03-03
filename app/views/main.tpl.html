@@ -1,3 +1,53 @@
+<div id='nav'>
+<nav>
+    <img class="logo" src="images/logo.png"/>
+    <h1><a href="#">Crunchinator</a></h1>
+    <ul class="amount-counter">
+        <li><span class="amount-count">{{companies.dataForCompaniesList.length}}</span> Companies</li>
+        <li><span class="amount-count">{{companies.dataForInvestorsList.length}}</span> Investors</li>
+    </ul>
+
+    <div class="share">
+        <p class="share-results">Share Results:</p>
+        <ul>
+            <li class="facebook"><a href="#facebook"><i class="fa fa-thumbs-up"></i>Share</a></li>
+            <li class="twitter"><a href="#tweet"><i class="fa fa-twitter"></i>Tweet</a></li>
+            <li class="email"><a href="#email"><i class="fa fa-envelope-o"></i>E-mail</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div id="filters">
+    <ul>
+        <li>
+            <span class="filter_type">Type</span>
+            <span class="filter_name">Filter 1</span>
+            <a href="" class="filter_remove">remove</a>
+        </li>
+        <li>
+            <span class="filter_type">Type</span>
+            <span class="filter_name">Filter 2</span>
+            <a href="" class="filter_remove">remove</a>
+        </li>
+        <li>
+            <span class="filter_type">Type</span>
+            <span class="filter_name">Filter 3</span>
+            <a href="" class="filter_remove">remove</a>
+        </li>
+        <li>
+            <span class="filter_type">Type</span>
+            <span class="filter_name">Filter 4</span>
+            <a href="" class="filter_remove">remove</a>
+        </li>
+        <li>
+            <span class="filter_type">Type</span>
+            <span class="filter_name">Filter 5</span>
+            <a href="" class="filter_remove">remove</a>
+        </li>
+    </ul>
+</div>
+</div>
+
 <div class="container" wait-then-scroll should-scroll="shouldScroll">
     <div ng-show="loading" id="loading">
         <div class="alert alert-scream"><strong>Loading...</strong></div>

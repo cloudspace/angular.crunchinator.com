@@ -14,10 +14,6 @@ angular.module('crunchinatorApp.controllers')
                 controller: 'BlankCtrl',
                 templateUrl: 'views/splash.tpl.html'
             },
-            nav: {
-                controller: 'BlankCtrl',
-                templateUrl: 'views/nav.tpl.html'
-            },
             about: {
                 controller: 'BlankCtrl',
                 templateUrl: 'views/about.tpl.html'
@@ -137,7 +133,7 @@ angular.module('crunchinatorApp.controllers')
 .controller('BlankCtrl', [
     '$scope',
     function BlankCtrl($scope) {
-        //console.log('do something');
+        console.log('do something');
     }
 ]);
 
