@@ -52,24 +52,17 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      *                that are displayed in the category list display
      * @return {array} A list of categories ordered by the companies they belong to.
      */
-    this.categoryListData = _.memoize(function(categories, companies) {
+    this.categoryListData = function(categories, companies) {
         if(typeof categories === 'undefined' || typeof companies === 'undefined') { return []; }
 
-        var freshCategories = _.map(categories, function(category) {
-            return _.clone(category);
-        });
-
-        _.each(freshCategories, function(category) {
+        _.each(categories, function(category) {
             var companyCount = _.select(companies, function(company) {
                 return company.category_id === category.id;
             }).length;
             category.model_count = companyCount;
         });
-        return freshCategories;
-    }, function(categories, companies) {
-        var current_hash = _.pluck(categories, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+        return categories;
+    };
 
     /**
      * Constructs data necessary for the investor list display
@@ -79,15 +72,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      *                that are displayed in the inevestor list display
      * @return {array} A list of investors ordered by the companies they have invested in.
      */
-    this.investorListData = _.memoize(function(investors, companies) {
+    this.investorListData = function(investors, companies) {
         if(typeof investors === 'undefined' || typeof companies === 'undefined') { return []; }
 
         if(companies.length <= 1000) {
-            var freshInvestors = _.map(investors, function(investor) {
-                return _.clone(investor);
-            });
-
-            var orderedInvestors = _.sortBy(freshInvestors, function(investor) {
+            var orderedInvestors = _.sortBy(investors, function(investor) {
                 var companyCount = _.select(companies, function(company) {
                     return _.contains(investor.invested_company_ids, company.id);
                 }).length;
@@ -97,11 +86,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
 
             return orderedInvestors;
         }
+
+        _.each(investors, function(investor) {
+            delete investor.model_count;
+        });
         return investors;
-    }, function(investors, companies) {
-        var current_hash = _.pluck(investors, 'id').join('|') + '&' + _.pluck(companies, 'id').join('|');
-        return current_hash;
-    });
+    };
 
     /**
      * Constructs data necessary for the totalFunding bar graph
