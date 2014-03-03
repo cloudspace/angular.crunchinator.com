@@ -80,6 +80,9 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                     scope.min = labelfy(range[0]);
                     scope.max = labelfy(range[1]);
 
+                    svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
+                    svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
+
                     if (typeof full_extent === 'undefined') {
                         full_extent = [range[0], range[1]];
                     }
@@ -209,6 +212,22 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     gBrush.selectAll('rect')
                         .attr('height', height);
+
+                    gBrush.selectAll('.resize').append('rect')
+                        .attr('class', 'limit')
+                        .attr('height', height - 35)
+                        .attr('transform', 'translate(0,35)')
+                        .attr('width', 1);
+
+                    gBrush.selectAll('.resize').append('rect')
+                        .attr('class', 'range')
+                        .attr('height', 20).attr('width', 40)
+                        .attr('transform', 'translate(-20,30)')
+                        .attr('rx', 5).attr('ry', 5);
+                        
+                    gBrush.selectAll('.resize').append('text')
+                        .attr('class', 'range_text')
+                        .attr('transform', 'translate(0,45)');
 
                     gBrush.selectAll('.resize').append('circle')
                         .attr('class', 'handle')

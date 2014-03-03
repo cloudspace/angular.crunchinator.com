@@ -131,16 +131,54 @@
   }
 }
 
-
 /*
   Global Components
 */
+.brush .resize .limit {
+  fill: @bright-blue;
+}
+
+.brush .resize .range {
+  fill: @bright-blue;
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.brush .resize .range_text {
+  fill: white;
+  font-size: 12px;
+  text-align: center;
+  text-anchor: middle;
+}
+
+.selected {
+  fill: brown;
+}
+
+.affix {
+  position: relative;
+}
+
+.affix-top {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+}
+
+.affix-bottom {
+  position: absolute;
+  bottom: 0;
+  z-index: 999;
+  width: 100%;
+}
 
 body {
   background-color: @dark-grey;
   background-image: url('/images/background-noise.png');
 }
 
+/* Space out content a bit */
 .spacing-med {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -176,6 +214,60 @@ body {
 
 .brush .extent {
   fill-opacity: 0;
+}
+
+.data-set-container .placeholder {
+    text-align: center;
+    line-height: 270px;
+    font-size: 55px;
+    background: #666;
+    margin: 0;
+}
+
+#main {
+  position: relative;
+}
+
+header{
+
+  /*background-image: url('/images/cloud.png');*/
+  padding-bottom: 15px;
+
+  .row{
+    margin-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid @bright-blue;
+  }
+
+  img{
+    display: inline;
+    float: left;
+  }
+
+  .header-text{
+    margin-left: 30px;
+    float: left;
+    h1{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-family: 'BebasNeue';
+        font-size: 68px;
+
+        a{
+          color: @pale-blue;
+
+          span{
+            color: @white;
+          }
+        }
+    }
+
+    h2{
+      margin-top: 0px;
+      font-size: 13px;
+      color: @white;
+    }
+  }
 }
 
 .brush .resize .handle {
@@ -754,19 +846,18 @@ footer {
 #nav {
   display: block;
   width: 100%;
-  min-height: 50px;
-  height: auto !important;
-  overflow: auto;
-  background: black;
+  height: 103px;
+  overflow: visible;
   color: @white;
-  position: absolute;
-  bottom: 0;
-  position: relative;
   font-family: @font-proxima-nova;
-  border-top: 1px solid #2d2d2e;
-  background: #232528;
-  box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.35);
   margin-bottom: 20px;
+
+  .affixit {
+    height: 102px;
+    border-top: 1px solid #2d2d2e;
+    background: #232528;
+    box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.35);
+  }
 
   nav {
     width: 1200px;
