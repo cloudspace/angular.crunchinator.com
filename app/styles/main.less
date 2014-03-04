@@ -160,14 +160,14 @@
 }
 
 .affix-top {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   z-index: 999;
   width: 100%;
 }
 
 .affix-bottom {
-  position: absolute;
+  position: absolute !important;
   bottom: 0;
   z-index: 999;
   width: 100%;
@@ -502,6 +502,13 @@ header{
   background: @white;
   position: relative;
   font-family: @font-proxima-nova;
+
+  .forkme {
+    left: 0;
+    width: 150px;
+    height: 133px;
+    position: absolute;
+  }
 }
 
 /* 
