@@ -22,7 +22,7 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                 element = angular.element(element[0]).find('.chart');
 
                 var width = element[0].clientWidth;
-                var height = parent.height() - 100;
+                var height = parent.height() - 70;
 
                 var projection = d3.geo.albersUsa()
                     .scale(width*1.3)
@@ -49,14 +49,14 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                         var per = 1 - scale(curr_count);
                         if(scope.selected_states.length > 0) {
                             if(_.contains(scope.selected_states, d.properties.postal)){
-                                return blendColors('#4682b4', '#ffffff', per);
+                                return blendColors('#20597D', '#ffffff', per);
                             }
                             else {
                                 return blendColors('#818181', '#dddddd', per);
                             }
                         }
                         else {
-                            return blendColors('#4682b4', '#ffffff', per);
+                            return blendColors('#20597D', '#ffffff', per);
                         }
                     };
                 };

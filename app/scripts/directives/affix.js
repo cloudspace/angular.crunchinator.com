@@ -36,7 +36,6 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window', '
                 }
 
                 scope.end = scope.end || document.body.offsetHeight.toString();
-                console.log(scope.end);
                 
                 var win = angular.element ( $window ),
                     affixed;

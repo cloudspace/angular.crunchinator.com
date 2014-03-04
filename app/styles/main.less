@@ -439,7 +439,6 @@ header{
 .axis path,
 .axis line {
   fill: none;
-  stroke: #fff;
   shape-rendering: crispEdges;
 }
 
@@ -449,7 +448,7 @@ header{
 }
 
 .x.axis path {
-  height: 1px;
+  height: 0;
 }
 
 .state {
@@ -752,7 +751,9 @@ footer {
   margin: 0px;
 
   ul, p { .CenterContainer(); }
-
+  a, a:hover {
+    color: white;
+  }
   p {
     max-width: 800px;
     font-size: 48px;

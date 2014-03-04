@@ -19,9 +19,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 scope.format = scope.format || '%m/%Y';
 
                 var area_fore, area_back;
-                var margin = {top: 0, right: 15, bottom: 20, left: 15},
+                var margin = {top: 0, right: 42, bottom: 20, left: 42},
                 width = element.width() - margin.left - margin.right,
-                height = parent.height() - margin.top - margin.bottom - 100;
+                height = parent.height() - margin.top - margin.bottom - 70;
 
                 var formatDate = d3.time.format(scope.format);
 
@@ -79,6 +79,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
                     svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
+
+                    // gBrush.selectAll('.resize.e .range').attr('transform', 'translate(-74,30)');
+                    // gBrush.selectAll('.resize.w .range').attr('transform', 'translate(0,30)');
                 }
 
                 x.domain(full_extent);
