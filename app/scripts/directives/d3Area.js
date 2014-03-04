@@ -79,6 +79,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
                     svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
+
+                    // gBrush.selectAll('.resize.e .range').attr('transform', 'translate(-74,30)');
+                    // gBrush.selectAll('.resize.w .range').attr('transform', 'translate(0,30)');
                 }
 
                 x.domain(full_extent);
