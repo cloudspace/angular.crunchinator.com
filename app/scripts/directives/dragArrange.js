@@ -7,7 +7,7 @@ angular.module('crunchinatorApp.directives').directive('dragArrange', [function(
             var jQuery = window.jQuery || {};
             jQuery(element[0]).shapeshift({
                 minColumns: 3,
-                handle: '.drag-handle'
+                handle: '.head'
             });
         }
     };

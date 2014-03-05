@@ -19,7 +19,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 scope.format = scope.format || '%m/%Y';
 
                 var area_fore, area_back;
-                var margin = {top: 0, right: 42, bottom: 20, left: 42},
+                var margin = {top: 10, right: 42, bottom: 20, left: 42},
                 width = element.width() - margin.left - margin.right,
                 height = parent.height() - margin.top - margin.bottom - 70;
 

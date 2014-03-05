@@ -305,39 +305,31 @@ header{
     padding: 0 15px;
     background: #343a40;
     border-bottom: 1px inset #272b30;
+    cursor: move;
   }
 
-  .drag-handle {
+  .drag-handle, .settings-button {
     height: 15px;
     margin-bottom: 0;
     background: #343a40;
-    cursor: move;
-
+    display: none;
     position: absolute;
-    background: url('/images/drag-n-drop-handle.png');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     width: 35px;
     height: 35px;
     top: 7px;
+  }
+
+  .drag-handle {
+    background-image: url('/images/drag-n-drop-handle.png');
     left: 6px;
   }
 
   .settings-button {
-    height: 15px;
-    margin-bottom: 0;
-    background: #343a40;
-
-    position: absolute;
-    background: url('/images/settings-gear.png');
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    width: 35px;
-    height: 35px;
-    top: 7px;
+    background-image: url('/images/settings-gear.png');
+    background-image: url('/images/drag-n-drop-handle.png');
     right: 6px;
-
-    display: none;
   }
 
   h3{
@@ -360,8 +352,7 @@ header{
   }
   
   .form-group{
-    margin-bottom: 0px;
-    margin-top: 0px;
+    margin: 10px 0;
   }
 
   .dataset {
@@ -423,6 +414,11 @@ header{
   }
 }
 
+.data-set-container:hover {
+  .drag-handle, .settings-button {
+    display: block;
+  }
+}
 .remove-selected {
   text-align: right;
 }

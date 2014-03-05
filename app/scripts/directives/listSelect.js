@@ -9,13 +9,14 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             selected: '@',
             total: '=',
             link: '=',
-            count: '='
+            count: '=',
+            showSearch: '='
         },
         templateUrl: 'views/list-select.tpl.html',
         link: function(scope, element) {
             var parent = angular.element(element[0]).parent();
             element = angular.element(element[0]).find('.dataset');
-            element.height(parent.height() - 100);
+            element.height(parent.height() - (scope.showSearch ? 120 : 65));
 
             scope.items = scope.items || [];
             scope.scrollItems = [];
