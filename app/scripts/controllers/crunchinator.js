@@ -133,7 +133,7 @@ angular.module('crunchinatorApp.controllers')
 .controller('BlankCtrl', [
     '$scope',
     function BlankCtrl($scope) {
-        $scope.showPage = "faq";
+        $scope.showPage = 'faq';
         $scope.quizPos = 0;
         $scope.incPos = function(){
             $scope.quizPos++;
