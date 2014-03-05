@@ -13,15 +13,15 @@
                 </ul>
 
                 <ul class="nav nav-pills">
-                    <li ng-class='{active: showPage=="faq"}'><a ng-click='showPage = "faq"' href="#faq">F.A.Q</a></li>
-                    <li ng-class='{active: showPage=="about"}'><a ng-click='showPage = "about"' href="#about">About Us</a></li>
+                    <li ng-class="{active: showPage=='faq'}"><a ng-click="showPage = 'faq'" href="#faq">F.A.Q</a></li>
+                    <li ng-class="{active: showPage=='about'}"><a ng-click="showPage = 'about'" href="#about">About Us</a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </div>
 
-<div ng-show='showPage == "about"' class="container" id="about">
+<div ng-show="showPage=='about'" class="container" id="about">
     <div class="container" id="pop-quiz">
         <div class="row">
             <h3>Time for a Pop Quiz, Why did we (Cloudspace) build the Crunchinator</h3>
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<div ng-show='showPage == "faq"' class="container" id="faq">
+<div ng-show="showPage=='faq'" class="container" id="faq">
     <div class="row">
         <h3>Seems you've got a couple of questions? Let's chat.</h3>
         <ul>
