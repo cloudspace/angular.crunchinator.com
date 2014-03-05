@@ -15,7 +15,7 @@ angular.module('crunchinatorApp.controllers')
                 templateUrl: 'views/splash.tpl.html'
             },
             about: {
-                controller: 'BlankCtrl',
+                controller: 'AboutCtrl',
                 templateUrl: 'views/about.tpl.html'
             }
         },
@@ -130,14 +130,19 @@ angular.module('crunchinatorApp.controllers')
     }
 ])
 
-.controller('BlankCtrl', [
+.controller('AboutCtrl', [
     '$scope',
-    function BlankCtrl($scope) {
+    function AboutCtrl($scope) {
         $scope.showPage = 'faq';
         $scope.quizPos = 0;
         $scope.incPos = function(){
             $scope.quizPos++;
         };
+    }
+])
+
+.controller('BlankCtrl', [
+    function BlankCtrl() {
     }
 ]);
 
