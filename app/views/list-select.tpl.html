@@ -8,9 +8,9 @@
         </p>
     </div>
     <div class="select-list textlist clear-both">
-        <div ng-if="showSearch" class="form-group">
+        <div ng-show="showSearch" class="form-group">
             <div class="controls">
-                <div class="input-group">
+                <div class="input-group data">
                     <input type="text" placeholder="Search {{chartTitle}}" class="form-control"
                         ng-model="selectedItem"
                         typeahead-min-length="2"
@@ -27,7 +27,7 @@
                     <tr ng-repeat="item in selectedShownItems"  class="selected">
                         <td>
                             <div class='list-item' ng-click="removeItem(item)">{{ item.display_name || item.name}}</div>
-                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                            <a ng-if="link" class='permalink' target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
@@ -36,7 +36,7 @@
                     <tr ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
                         <td>
                             <div class='list-item' ng-click="selectItem(item)">{{ item.display_name || item.name}}</div>
-                            <a ng-if="link" target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                            <a ng-if="link" class='permalink' target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
