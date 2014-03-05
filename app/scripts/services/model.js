@@ -26,6 +26,18 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
     };
 
     /**
+     * Get object of a specified ID
+     *
+     * @param {string} value to lookup
+     * @return {object} with associated ID
+     */
+    Model.prototype.get = function(id) {
+        return _.find(this.all, function(item) {
+            return item.id === id;
+        });
+    };
+
+    /**
      * A function called on the response object that returns the raw model data
      * This is overridden for each subclass of model for different paths to the data
      *

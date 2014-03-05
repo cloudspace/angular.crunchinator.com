@@ -23,8 +23,8 @@ function labelfy(num) {
     return '$' + abbreviateNumber(num);
 }
 
-angular.module('crunchinatorApp.directives').directive('crunchNav',
-    function() {
+angular.module('crunchinatorApp.directives').directive('crunchNav', ['Company', 'Investor', 'Category',
+    function(Company, Investor, Category) {
         return {
             restrict: 'EA',
             scope: {
@@ -34,16 +34,39 @@ angular.module('crunchinatorApp.directives').directive('crunchNav',
             },
             templateUrl: 'views/crunch-nav.tpl.html',
             link: function(scope) {
-
+                var specialFilters = ['companyIds', 'investorIds', 'categoryIds'];
                 scope.$watch('filters', function() {
                     scope.filterList = [];
 
                     _.each(scope.filters, function(filter, key) {
                         if (filter.length !== 0) {
-                            scope.filterList.push(new FilterItem(filter, key));
+                            if(_.contains(specialFilters, key)) {
+                                scope.filterList.push(new FilterItem(idsToObjects(filter, key), key));
+                            } else {
+                                scope.filterList.push(new FilterItem(filter, key));
+                            }
                         }
                     });
                 }, true);
+
+                function idsToObjects(collection, type) {
+                    var model;
+                    switch(type) {
+                        case 'companyIds':
+                            model = Company;
+                            break;
+                        case 'investorIds':
+                            model = Investor;
+                            break;
+                        case 'categoryIds':
+                            model = Category;
+                            break;
+                    }
+                    return _.map(collection, function(item) {
+                        var object = model.get(item);
+                        return model === Category ? object.display_name : object.name;
+                    });
+                }
 
                 function FilterItem(data, type) {
                     this.type = this.typeLookup[type];
@@ -89,4 +112,4 @@ angular.module('crunchinatorApp.directives').directive('crunchNav',
             }
         };
     }
-);
+]);
