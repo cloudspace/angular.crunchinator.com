@@ -49,14 +49,14 @@ angular.module('crunchinatorApp.directives').directive('d3Map', ['$rootScope',
                         var per = 1 - scale(curr_count);
                         if(scope.selected_states.length > 0) {
                             if(_.contains(scope.selected_states, d.properties.postal)){
-                                return blendColors('#20597D', '#ffffff', per);
+                                return blendColors('#0095ea', '#ffffff', per);
                             }
                             else {
                                 return blendColors('#818181', '#dddddd', per);
                             }
                         }
                         else {
-                            return blendColors('#20597D', '#ffffff', per);
+                            return blendColors('#0095ea', '#ffffff', per);
                         }
                     };
                 };

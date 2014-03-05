@@ -20,10 +20,10 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                 var radius = (Math.min(width, height) / 2) - 20;
                 var color = function(slice){
                     return {
-                        deadpooled: '#67BEFD',
-                        acquired: '#6BBFF0',
-                        IPOed: '#3FAAEC',
-                        alive: '#2495E8'
+                        deadpooled: '#caeafc',
+                        acquired: '#36b0f1',
+                        IPOed: '#0096ed',
+                        alive: '#8acff7'
                     }[slice];
                 };
                 var path, ticks, labels;
