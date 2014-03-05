@@ -1,28 +1,6 @@
 'use strict';
 
 angular.module('crunchinatorApp.controllers')
-
-.config(function config($stateProvider) {
-    $stateProvider.state('crunchinator', {
-        url: '/crunchinator',
-        views: {
-            main: {
-                controller: 'CrunchinatorCtrl',
-                templateUrl: 'views/main.tpl.html'
-            },
-            splash: {
-                controller: 'BlankCtrl',
-                templateUrl: 'views/splash.tpl.html'
-            },
-            about: {
-                controller: 'AboutCtrl',
-                templateUrl: 'views/about.tpl.html'
-            }
-        },
-        data:{ pageTitle: 'Crunchinator - A Cloudspace Project' }
-    });
-})
-
 .controller('CrunchinatorCtrl', [
     '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData',
     function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData) {
@@ -125,31 +103,5 @@ angular.module('crunchinatorApp.controllers')
                 $scope.loading = false;
             });
         });
-
-
-    }
-])
-
-.controller('AboutCtrl', [
-    '$scope',
-    function AboutCtrl($scope) {
-        $scope.showPage = 'faq';
-        $scope.quizPos = 0;
-        $scope.incPos = function(){
-            $scope.quizPos++;
-        };
-    }
-])
-
-.controller('BlankCtrl', [
-    function BlankCtrl() {
     }
 ]);
-
-/*
-
-top bar needs to sit at the bottom of the page
-when you scroll to the app portion of the page, the app bar should stick to the top
-
-
-*/
