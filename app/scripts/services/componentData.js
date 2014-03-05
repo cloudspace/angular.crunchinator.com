@@ -101,25 +101,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.totalFunding = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var total_funding = parseInt(companies[j].total_funding);
-            if(!isNaN(total_funding)){
-                var k = rangeIndex(total_funding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'total_funding', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -130,32 +112,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all funding rounds grouped by round month/Year
      */
     this.fundingRoundCount = _.memoize(function(rounds, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%m/%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
-            byMonth[format(i)] = 0;
-        }
-
-        _.each(rounds, function(funding_round){
-            if(funding_round.funded_on) {
-                var roundDate = parseDate(funding_round.funded_on);
-                if(roundDate >= parsed_format) {
-                    var monthYear = format(roundDate);
-                    byMonth[monthYear]++;
-                }
-            }
-        });
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(rounds, 'funded_on', '%m/%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -166,32 +123,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all companies grouped by acquired_on month/Year
      */
     this.acquiredOnCount = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%m/%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = format.parse(extent); i <= now; i.setMonth(i.getMonth() + 1)) {
-            byMonth[format(i)] = 0;
-        }
-        _.each(companies, function(company){
-            if(company.acquired_on) {
-                var acquiredDate = parseDate(company.acquired_on);
-                if(acquiredDate >= parsed_format){
-                    var monthYear = format(acquiredDate);
-                    byMonth[monthYear]++;
-                }
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'acquired_on', '%m/%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -204,25 +136,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.acquiredValueCount = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var acquired_value = parseInt(companies[j].acquired_value);
-            if(!isNaN(acquired_value) && acquired_value > 0){
-                var k = rangeIndex(acquired_value, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'acquired_value', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -233,34 +147,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      * @return {array} A count of all companies grouped by founded_on month/Year
      */
     this.foundedOnCount = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
-            byMonth[i.toString()] = 0;
-        }
-
-        _.each(companies, function(company){
-            if(company.founded_on) {
-                var foundedDate = parseDate(company.founded_on);
-                var monthYear = format(foundedDate);
-                if(foundedDate >= parsed_format){
-                    byMonth[monthYear]++;
-                }
-
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'founded_on', '%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -273,26 +160,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.fundingPerRound = _.memoize(function(rounds, maxNum) {
         if(typeof maxNum === 'undefined' || typeof rounds === 'undefined') { return; }
 
-        var filteredFundingValues = _.pluck(rounds, 'raised_amount');
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
-            );
-        }
-
-        for(var j = 0; j < filteredFundingValues.length; j++) {
-            var funding = parseInt(filteredFundingValues[j]);
-            if(!isNaN(funding)){
-                var k = rangeIndex(funding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(rounds, 'raised_amount', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -306,26 +174,7 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.mostRecentFundingRound = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0, investor_ids: [], category_ids: []}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0, investor_ids: [], category_ids: []}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var company = companies[j];
-            var roundFunding = company.most_recent_raised_amount;
-            if(!isNaN(roundFunding)){
-                var k = rangeIndex(roundFunding, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'most_recent_raised_amount', maxNum);
     }, idListMemoFunction);
 
     /**
@@ -367,56 +216,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     this.ipoValueData = _.memoize(function(companies, maxNum) {
         if(typeof maxNum === 'undefined' || typeof companies === 'undefined') { return; }
 
-        var base = 2;
-        var minGraph = 10000;
-
-        var ranges = [{start: 1, end: minGraph, label: labelfy(minGraph), count: 0}];
-
-        for(var i = minGraph; i < maxNum; i *= base) {
-            ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
-            );
-        }
-
-        for(var j = 0; j < companies.length; j++) {
-            var ipo_valuation = parseInt(companies[j].ipo_valuation);
-            if(!isNaN(ipo_valuation)){
-                var k = rangeIndex(ipo_valuation, minGraph, base);
-                ranges[k].count++;
-            }
-        }
-        return ranges;
+        return setupRanges(companies, 'ipo_valuation', maxNum);
     }, idListMemoFunction);
 
     this.ipoDateData = _.memoize(function(companies, extent) {
-        var byMonth = {};
-        var parseDate = d3.time.format('%x').parse;
-        var format = d3.time.format('%Y');
-        var parsed_format = format.parse(extent);
-        var now = new Date();
-
-        for(var i = parsed_format.getFullYear(); i <= now.getFullYear(); i++) {
-            byMonth[i.toString()] = 0;
-        }
-
-        _.each(companies, function(company){
-            if(company.ipo_on) {
-                var ipoDate = parseDate(company.ipo_on);
-                var monthYear = format(ipoDate);
-                if(ipoDate >= parsed_format){
-                    byMonth[monthYear]++;
-                }
-
-            }
-        });
-
-        return _.reduce(byMonth, function(o, v, k){
-            o.push({
-                date: k,
-                count: v
-            });
-            return o;
-        }, []);
+        return clusterByDate(companies, 'ipo_on', '%Y', extent);
     }, idListMemoFunction);
 
     /**
@@ -473,5 +277,84 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
      */
     function rangeIndex(num, min, base) {
         return num < min ? 0 : Math.ceil(logN(num/min, base));
+    }
+
+    /**
+    * Creates logarithmic ranges used in bar charts
+    *
+    * @param {array} collection of data to operate on
+    * @param {string} property to calculate with
+    * @param {int} maximum range
+    * @param {int} number base
+    * @param {int} upper bound of first range
+    * @param {int} lower bound of first range
+    * @return {array} of ranges and their counts
+    */
+    function setupRanges(collection, property, max, base, min, start) {
+        min = min || 10000;
+        base = base || 2;
+        start = start || 1;
+
+        var propertyList = _.pluck(collection, property);
+        var ranges = [{start: start, end: min, label: labelfy(min), count: 0}];
+
+        for(var i = min; i < max; i *= base) {
+            ranges.push(
+                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+            );
+        }
+
+        _.each(propertyList, function(property) {
+            if(!isNaN(property) && property > 0) {
+                var index = rangeIndex(property, min, base);
+                ranges[index].count++;
+            }
+        });
+
+        return ranges;
+    }
+
+    /**
+    * @param {array} collection of data to operate on
+    * @param {string} property to calculate with
+    * @param {string} D3 time format
+    * @param {extent} starting date
+    # @return {array} of ranges and their counts group by date
+    */
+    function clusterByDate(collection, property, format, extent) {
+        extent = extent || 1992;
+
+        var parseDate = d3.time.format('%x').parse;
+        var dateFormat = d3.time.format(format);
+        var parsedFormat = dateFormat.parse(extent);
+        var now = new Date();
+
+        var date = {};
+        if(format === '%Y') {
+            for(var i = parsedFormat.getFullYear(); i <= now.getFullYear(); i++) {
+                date[i.toString()] = 0;
+            }
+        } else {
+            for(var j = dateFormat.parse(extent); j <= now; j.setMonth(j.getMonth() + 1)) {
+                date[dateFormat(j)] = 0;
+            }
+        }
+
+        _.each(collection, function(item) {
+            if(item[property]) {
+                var propertyDate = parseDate(item[property]);
+                if(propertyDate >= parsedFormat) {
+                    date[dateFormat(propertyDate)]++;
+                }
+            }
+        });
+
+        return _.reduce(date, function(o, v, k){
+            o.push({
+                date: k,
+                count: v
+            });
+            return o;
+        }, []);
     }
 });
