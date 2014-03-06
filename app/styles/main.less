@@ -176,7 +176,8 @@
 }
 
 .affix-bottom.affixit {
-  bottom: 600px;
+  bottom: auto;
+  top: 1730px;
 }
 
 .affix-bottom {
@@ -525,6 +526,7 @@ header{
     width: 150px;
     height: 133px;
     position: absolute;
+    z-index: 100;
   }
 }
 
@@ -546,9 +548,12 @@ header{
 
     li {
       list-style-type: none;
-      margin-left: 60px;
+      margin-left: 20px;
 
       a { .ResetAnchor(@dark-grey2); }
+    }
+    li.active {
+      a { .ResetAnchor(#fff); }
     }
 
     padding: 30px 0px 30px 0px;
@@ -591,7 +596,7 @@ header{
     .continuation, button { display: none; }
     .triangle {
         .PositionAbsolute(24px, -13px);
-        background: url("../images/triangle_white.png") no-repeat;
+        background: url("/images/triangle_white.png") no-repeat;
         height: 25px;
         width: 13px;
     }
@@ -613,6 +618,7 @@ header{
         box-sizing: border-box;
         list-style-type: none;
         position: relative;
+        cursor: pointer;
       }
 
 
@@ -632,15 +638,16 @@ header{
 
       li.active {
         padding: 180px 120px 20px 120px;
-        background: @active-container-blue url('../images/check_mark.png') center top no-repeat;
+        background: @active-container-blue url('/images/check_mark.png') center top no-repeat;
         background-position: center 40px; 
         color: @white;
         text-align: center;
         margin-bottom: 20px;
+        cursor: default;
 
         .triangle{
           top: 50px;
-          background: url("../images/triangle_blue.png") no-repeat;
+          background: url("/images/triangle_blue.png") no-repeat;
         }
 
         .ellipsis { display: none; }
@@ -763,7 +770,7 @@ header{
 
 footer {
   text-align: center;
-  background: @cloudspace url('../images/large-cloudspace-logo-blue.png') right top no-repeat;
+  background: @cloudspace url('/images/large-cloudspace-logo-blue.png') right top no-repeat;
   background-position: right 65px; 
   color: @white;
   margin: 0px;
@@ -879,7 +886,6 @@ footer {
   margin-bottom: 20px;
 
   .affixit {
-    height: 102px;
     border-top: 1px solid #2d2d2e;
     background: #232528;
     box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.35);

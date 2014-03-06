@@ -11,7 +11,26 @@ angular.module('crunchinatorApp.controllers', [
     'crunchinatorApp.directives',
     'crunchinatorApp.services',
     'infinite-scroll'
-]);
+]).config(function config($stateProvider) {
+    $stateProvider.state('crunchinator', {
+        url: '/crunchinator',
+        views: {
+            main: {
+                controller: 'CrunchinatorCtrl',
+                templateUrl: 'views/main.tpl.html'
+            },
+            splash: {
+                controller: 'BlankCtrl',
+                templateUrl: 'views/splash.tpl.html'
+            },
+            about: {
+                controller: 'AboutCtrl',
+                templateUrl: 'views/about.tpl.html'
+            }
+        },
+        data:{ pageTitle: 'Crunchinator - A Cloudspace Project' }
+    });
+});
 
 angular.module('crunchinatorApp', [
     'ui.state',

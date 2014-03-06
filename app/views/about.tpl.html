@@ -9,78 +9,77 @@
             <h2><a href="http://cloudspace.com/" class="cloudspace-logo">cloudspace</a></h2>
             <nav>
                 <ul>
-                    <li><a href="#faq">F.A.Q</a></li>
-                    <li><a href="#about">About Us</a></li>
+                    
+                </ul>
+
+                <ul class="nav nav-pills">
+                    <li ng-class="{active: showPage=='faq'}"><a ng-click="showPage = 'faq'" href="#faq">F.A.Q</a></li>
+                    <li ng-class="{active: showPage=='about'}"><a ng-click="showPage = 'about'" href="#about">About Us</a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </div>
 
-<div class="container" id="pop-quiz">
-    <div class="row">
-        <h3>Time for a Pop Quiz, Why did we (Cloudspace) build the Crunchinator</h3>
-        <ul>
-            <li ng-class="{active: quizPos==0}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>We love Crunchbase but needed a better way to slice</span>
-                    <span class="ellipsis">&hellip;</span>
-                    <span class="continuation">&amp; dice the data for in-house research</span>
-                </div>
-                <button ng-click='incPos()'>Continue</button>
-            </li>
-            <li ng-class="{active: quizPos==1}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>We thought others would find it useful, so we made the tool</span>
-                    <span class="ellipsis">&hellip;</span>
-                    <span class="continuation"> public and the beautiful code open source</span>
-                </div>
-                <button ng-click='incPos()'>Continue</button>
-            </li>
-            <li ng-class="{active: quizPos==2}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>We wanted a sexy D3, Angular.js, and Cross Filter demo for</span>
-                    <span class="ellipsis">&hellip;</span> 
-                    <span class="continuation"> big/fast data visualization projects</span>
-                </div>
-                <button ng-click='incPos()'>Continue</button>
-            </li>
-            <li ng-class="{active: quizPos==3}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>We needed to refine our split-stack development: backend</span>
-                    <span class="ellipsis">&hellip;</span> 
-                    <span class="continuation"> engineering (AWS tuned Rails API) and our new UX group (visualizations and user experience)</span>
-                </div>
-                <button ng-click='incPos()'>Continue</button>
-            </li>
-            <li ng-class="{active: quizPos==4}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>We wanted to show what we could do for your businesses.</span>
-                </div>
-                <button ng-click='incPos()'>Continue</button>
-            </li>
-            <li ng-class="{active: quizPos==5}">
-                <div>
-                    <span class="triangle"></span>
-                    <span>All of the above, of course</span>
-                </div>
-                <button ng-click='quizPos = 0'>Start Over</button>
-            </li>
-        </ul>
+<div ng-show="showPage=='about'" class="container" id="about">
+    <div class="container" id="pop-quiz">
+        <div class="row">
+            <h3>Time for a Pop Quiz, Why did we (Cloudspace) build the Crunchinator</h3>
+            <ul>
+                <li ng-click="quizPos=0" ng-class="{active: quizPos==0}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>We love Crunchbase but needed a better way to slice</span>
+                        <span class="ellipsis">&hellip;</span>
+                        <span class="continuation">&amp; dice the data for in-house research</span>
+                    </div>
+                </li>
+                <li ng-click="quizPos=1" ng-class="{active: quizPos==1}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>We thought others would find it useful, so we made the tool</span>
+                        <span class="ellipsis">&hellip;</span>
+                        <span class="continuation"> public and the beautiful code open source</span>
+                    </div>
+                </li>
+                <li ng-click="quizPos=2" ng-class="{active: quizPos==2}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>We wanted a sexy D3, Angular.js, and Cross Filter demo for</span>
+                        <span class="ellipsis">&hellip;</span> 
+                        <span class="continuation"> big/fast data visualization projects</span>
+                    </div>
+                </li>
+                <li ng-click="quizPos=3" ng-class="{active: quizPos==3}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>We needed to refine our split-stack development: backend</span>
+                        <span class="ellipsis">&hellip;</span> 
+                        <span class="continuation"> engineering (AWS tuned Rails API) and our new UX group (visualizations and user experience)</span>
+                    </div>
+                </li>
+                <li ng-click="quizPos=4" ng-class="{active: quizPos==4}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>We wanted to show what we could do for your businesses.</span>
+                    </div>
+                </li>
+                <li ng-click="quizPos=5" ng-class="{active: quizPos==5}">
+                    <div>
+                        <span class="triangle"></span>
+                        <span>All of the above, of course</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<div id="contact-us">
-    <p>If you dig it, we'd love to discuss your project to see if it would be a good fit.</p>
-    <a href="http://cloudspace.com/contact/">Contact Us</a>
-</div>
+    <div id="contact-us">
+        <p>If you dig it, we'd love to discuss your project to see if it would be a good fit.</p>
+        <a href="http://cloudspace.com/contact/">Contact Us</a>
+    </div>
 
-<div class="container" id="about">
+
     <div class="row">
         <p>
             <a href='http://cloudspace.com'>Cloudspace</a> is Todd Sampson, Eric Marcoullier and 19 killer engineers, designers and office staff. Todd and Eric founded and ran many successful startups including IGN.com (IPO), BuzzSite (flamed out), MyBlogLog (acquired by Yahoo), Gnip (going strong) and OneTrueFan (acquired by BigDoor).  We have also built, invested in and advised a wide array of startups over the last 17 years including Zynga, UberVU, Beatport, Mashery, Storify, Klout, Wetfeet, Rent Advisor, Cloud Logistics, Pocket, Yummly and many, many more.
@@ -94,19 +93,15 @@
     </div>
 </div>
 
-<div class="container" id="faq">
+<div ng-show="showPage=='faq'" class="container" id="faq">
     <div class="row">
         <h3>Seems you've got a couple of questions? Let's chat.</h3>
         <ul>
             <li>
-                <a href='mailto:sales@cloudspace.com?subject=I have a Question'>
-                    <button>Email us your question</button>
-                </a>
+                <button>Email us your question</button>
             </li>
             <li>
-                <a target='_blank' href='https://twitter.com/cloudspace'>
-                    <button class="blue">Send us a tweet</button>
-                </a>
+                <button class="blue">Send us a tweet</button>
             </li>
         </ul>
         <hr/>
