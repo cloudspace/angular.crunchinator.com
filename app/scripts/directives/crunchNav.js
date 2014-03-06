@@ -23,8 +23,8 @@ function labelfy(num) {
     return '$' + abbreviateNumber(num);
 }
 
-angular.module('crunchinatorApp.directives').directive('crunchNav', ['Company', 'Investor', 'Category',
-    function(Company, Investor, Category) {
+angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', 'Company', 'Investor', 'Category',
+    function($rootScope, Company, Investor, Category) {
         return {
             restrict: 'EA',
             scope: {
@@ -49,6 +49,11 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['Company', 
                     });
                 }, true);
 
+                scope.removeFilter = function(item) {
+                    scope.$parent.filterData[item.raw_type] = [];
+                    $rootScope.$broadcast('filterAction');
+                };
+
                 function idsToObjects(collection, type) {
                     var model;
                     switch(type) {
@@ -71,6 +76,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['Company', 
                 function FilterItem(data, type) {
                     this.type = this.typeLookup[type];
                     this.label = !(data[0] instanceof Date) && isNaN(data[0]) ? this.prettifyList(data) : this.prettifyRange(data);
+                    this.raw_type = type;
                 }
 
                 FilterItem.prototype.prettifyList = function(collection) {

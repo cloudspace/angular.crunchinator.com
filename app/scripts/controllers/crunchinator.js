@@ -28,17 +28,6 @@ angular.module('crunchinatorApp.controllers')
             roundCodes: []
         };
 
-        if($location.search().filters) {
-            $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
-            var toDate = function(dateString){
-                return new Date(dateString);
-            };
-            $scope.filterData.fundingActivity = _.map($scope.filterData.fundingActivity, toDate);
-            $scope.filterData.ipoDateRange = _.map($scope.filterData.ipoDateRange, toDate);
-            $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
-            $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
-        }
-
         $scope.selectedRanges = [];
 
         //Bind models to the scope, so we can use the calls in the views
@@ -61,11 +50,24 @@ angular.module('crunchinatorApp.controllers')
                     Investor.linkModels(companiesById, categoriesById);
                     Category.linkModels(companiesById, investorsById);
                     FundingRound.linkModels(companiesById, investorsById, categoriesById);
+
+                    if($location.search().filters) {
+                        $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
+                        var toDate = function(dateString){
+                            return new Date(dateString);
+                        };
+                        $scope.filterData.fundingActivity = _.map($scope.filterData.fundingActivity, toDate);
+                        $scope.filterData.ipoDateRange = _.map($scope.filterData.ipoDateRange, toDate);
+                        $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
+                        $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
+                    }
+
                     _.each(models, function(Model) {
                         Model.setupDimensions();
                         Model.runFilters($scope.filterData);
                     });
                     ComponentData.updateDataSets();
+
                     $scope.loading = false;
                     $scope.shouldScroll = true;
                 }

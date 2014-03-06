@@ -23,7 +23,7 @@
                 <li ng-repeat="item in filterList">
                     <span class="filter_type">{{item.type}}</span>
                     <span class="filter_name">{{item.label}}</span>
-                    <a href="" class="filter_remove">remove</a>
+                    <a href="" class="filter_remove" ng-click="removeFilter(item)">remove</a>
                 </li>
             </ul>
         </div>
