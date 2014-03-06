@@ -50,11 +50,6 @@ angular.module('crunchinatorApp.controllers')
                     Investor.linkModels(companiesById, categoriesById);
                     Category.linkModels(companiesById, investorsById);
                     FundingRound.linkModels(companiesById, investorsById, categoriesById);
-                    _.each(models, function(Model) {
-                        Model.setupDimensions();
-                        Model.runFilters($scope.filterData);
-                    });
-                    ComponentData.updateDataSets();
 
                     if($location.search().filters) {
                         $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
@@ -66,6 +61,12 @@ angular.module('crunchinatorApp.controllers')
                         $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
                         $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
                     }
+
+                    _.each(models, function(Model) {
+                        Model.setupDimensions();
+                        Model.runFilters($scope.filterData);
+                    });
+                    ComponentData.updateDataSets();
 
                     $scope.loading = false;
                     $scope.shouldScroll = true;
