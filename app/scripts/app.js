@@ -5,7 +5,6 @@ angular.module('crunchinatorApp.directives', []);
 angular.module('crunchinatorApp.services', []);
 angular.module('crunchinatorApp.controllers', [
     'ui.state',
-    'ui.bootstrap',
     'configuration',
     'crunchinatorApp.models',
     'crunchinatorApp.directives',
@@ -18,10 +17,6 @@ angular.module('crunchinatorApp.controllers', [
             main: {
                 controller: 'CrunchinatorCtrl',
                 templateUrl: 'views/main.tpl.html'
-            },
-            splash: {
-                controller: 'BlankCtrl',
-                templateUrl: 'views/splash.tpl.html'
             },
             about: {
                 controller: 'AboutCtrl',

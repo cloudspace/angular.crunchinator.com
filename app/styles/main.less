@@ -164,32 +164,14 @@
   fill: brown;
 }
 
-.affix {
-  position: relative;
-}
-
-.affix-top {
-  position: fixed !important;
-  top: 0;
-  z-index: 999;
-  width: 100%;
-}
-
-.affix-bottom.affixit {
-  bottom: auto;
-  top: 1730px;
-}
-
-.affix-bottom {
-  position: absolute !important;
-  bottom: 0;
-  z-index: 999;
-  width: 100%;
+html {
+  height: 100%;
 }
 
 body {
   background-color: @dark-grey;
   background-image: url('/images/background-noise.png');
+  height: 100%;
 }
 
 /* Space out content a bit */
@@ -240,6 +222,8 @@ body {
 
 #main {
   position: relative;
+  min-height: 300px;
+  margin-top: -64px;
 
   .continue {
     text-align: center;
@@ -520,14 +504,6 @@ header{
   background: @white;
   position: relative;
   font-family: @font-proxima-nova;
-
-  .forkme {
-    left: 0;
-    width: 150px;
-    height: 133px;
-    position: absolute;
-    z-index: 100;
-  }
 }
 
 /* 
@@ -540,8 +516,27 @@ header{
 */
 
 #about {
-  
+  .about-contain {
+    height: 135px;
+  }
   #about-header {
+    width: 100%;
+    background: #fff;
+    z-index: 100;
+    height: 135px;
+
+    .forkme {
+      left: 0;
+      width: 150px;
+      height: 133px;
+      position: absolute;
+    }
+
+    .header-text {
+      margin: 0 auto;
+      max-width: 1080px;
+      padding: 40px 0;
+    }
 
     nav, ul, li { display: inline; }
     ul { float: right; }
@@ -555,12 +550,14 @@ header{
     li.active {
       a { .ResetAnchor(#fff); }
     }
-
-    padding: 30px 0px 30px 0px;
-    max-width: 1080px;
+    
     @media screen and (max-width: 800px){
       padding: 30px 20px 30px 20px;
     }
+  }
+  #about-header.affix {
+    position: fixed;
+    top: 0;
   }
 
 
@@ -731,11 +728,13 @@ header{
 
   h2 {
     .SetText(@cloudspace, 26px, normal);
-    display: inline;
+    float: left;
     font-family: @font-futura;
     letter-spacing: 1px;
     background: url('/images/cloudspace-logo-blue-and-white.png') 0 0 no-repeat;
-    padding: 5px 0px 10px 95px;
+    padding: 5px 0 0 95px;
+    margin: 0;
+    line-height: 45px;
   }
 
   h3 {
@@ -818,16 +817,21 @@ footer {
   background-size: cover;
   background-position: 50% 50%;
   text-align: center;
+  height: 100%;
+
+  .forkme {
+    position: absolute;
+    left: 0;
+  }
 
   .header-text {
-
-    padding-top: 180px;
-
-    color: #ffffff;
-
-    max-width: 975px;
-    margin: 0 auto;
+    color: white;
     text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin-top: -25px;
 
     p {
       font-family: @font-proxima-nova;
@@ -885,12 +889,28 @@ footer {
   font-family: @font-proxima-nova;
   margin-bottom: 20px;
 
-  .affixit {
-    border-top: 1px solid #2d2d2e;
-    background: #232528;
+  .movable {
     box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    z-index: 100;
+  }
+  .movable.affix-top {
+    position: static;
+  }
+  .movable.affix {
+    position: fixed;
+    top: 1px;
+    .back {
+      margin-top: -1px;
+    }
+  }
+  .movable.affix-bottom {
+    position: absolute;
   }
 
+  .back {
+    background: #232528;
+  }
   nav {
     width: 1200px;
     margin: 0 auto;
