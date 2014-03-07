@@ -7,7 +7,8 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
             scope: {
                 data: '=',
                 chartTitle: '@',
-                selected: '@'
+                selected: '@',
+                filterProperty: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
@@ -55,6 +56,13 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     scope.$apply();
                     $rootScope.$broadcast('filterAction');
                 };
+
+                scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
+                    if(newval.length === 0) {
+                        scope.selectedItems = [];
+                        svg.selectAll('path').style('fill', fill);
+                    }
+                });
 
                 scope.$watch('data', function(data) {
                     if(!path && data.length > 0) {

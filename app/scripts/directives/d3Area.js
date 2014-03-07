@@ -10,7 +10,8 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                 extent: '@',
                 selected: '@',
                 format: '@',
-                ranges: '@'
+                ranges: '@',
+                filterProperty: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
@@ -189,6 +190,19 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
 
                     set_min_max(brush.extent());
                 };
+
+                scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
+                    if (newval.length === 0) {
+                        svg.selectAll('#clip-' + time + ' rect')
+                            .attr('x', x(full_extent[0]))
+                            .attr('width', x(full_extent[1]) - x(full_extent[0]));
+
+                        brush.extent(full_extent);
+                        gBrush.call(brush);
+                        set_min_max(brush.extent());
+                        lastExtent = full_extent;
+                    }
+                });
             }
         };
     }

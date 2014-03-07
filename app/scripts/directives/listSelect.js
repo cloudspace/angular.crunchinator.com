@@ -10,7 +10,8 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
             total: '=',
             link: '=',
             count: '=',
-            showSearch: '='
+            showSearch: '=',
+            filterProperty: '@'
         },
         templateUrl: 'views/list-select.tpl.html',
         link: function(scope, element) {
@@ -37,6 +38,13 @@ angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScop
                 scope.selectedShownItems = _.intersection(scope.selectedItems, scope.items);
                 //scope.$parent.filterData[scope.selected] = _.pluck(scope.selectedItems, 'id');
                 scope.updateScrollItems();
+            });
+
+            scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
+                if(newval.length === 0) {
+                    scope.selectedItems = [];
+                    scope.selectedShownItems = [];
+                }
             });
 
             scope.selectItem = function(selectedItem) {

@@ -20,6 +20,7 @@
                 total="companies.count()"
                 link="true"
                 show-search="true"
+                filter-property="companyIds"
             ></div>
         </div>
 
@@ -28,6 +29,7 @@
                 chart-title="Company HQ"
                 data="ComponentData.dataSets.companyStateData"
                 selected="states"
+                filter-property="states"
             ></div>
         </div>
 
@@ -38,6 +40,7 @@
                 selected="fundingActivity"
                 extent="1/2000"
                 ranges="true"
+                filter-property="fundingActivity"
             ></div>
         </div>
 
@@ -49,6 +52,7 @@
                 total="investors.count()"
                 count="true"
                 show-search="true"
+                filter-property="investorIds"
             ></div>
         </div>
 
@@ -57,6 +61,7 @@
                 chart-title="Company Status"
                 data="ComponentData.dataSets.companyStatusData"
                 selected="statuses"
+                filter-property="statuses"
             ></div>
         </div>
 
@@ -67,6 +72,7 @@
                 selected="categoryIds"
                 total="categories.count()"
                 count="true"
+                filter-property="categoryIds"
             ></div>
         </div>
 
@@ -76,6 +82,7 @@
                 data="ComponentData.dataSets.totalFunding"
                 selected="ranges"
                 ranges="true"
+                filter-property="ranges"
             ></div>
         </div>
 
@@ -85,6 +92,7 @@
                 data="ComponentData.dataSets.fundingPerRound"
                 selected="roundRanges"
                 ranges="true"
+                filter-property="roundRanges"
             ></div>
         </div>
 
@@ -94,6 +102,7 @@
                 data="ComponentData.dataSets.mostRecentFundingRound"
                 selected="mostRecentRoundRanges"
                 ranges="true"
+                filter-property="mostRecentRoundRanges"
             ></div>
         </div>
 
@@ -104,6 +113,7 @@
                 selected="acquiredDate"
                 extent="1/2006"
                 ranges="true"
+                filter-property="acquiredDate"
                 ></div>
         </div>
 
@@ -113,6 +123,7 @@
                 data="ComponentData.dataSets.acquiredValueCount"
                 selected="acquiredValueRange"
                 ranges="true"
+                filter-property="acquiredValueRange"
             ></div>
         </div>
 
@@ -122,6 +133,7 @@
                 items="ComponentData.dataSets.roundCodeListData"
                 selected="roundCodes"
                 total="fundingRounds.fundingSeries.length"
+                filter-property="roundCodes"
             ></div>
         </div>
 
@@ -133,6 +145,7 @@
                 extent="1992"
                 format="%Y"
                 ranges="true"
+                filter-property="foundedDate"
             ></div>
         </div>
 
@@ -144,6 +157,7 @@
                 extent="1992"
                 format="%Y"
                 ranges="true"
+                filter-property="ipoDateRange"
             ></div>
         </div>
 
@@ -153,6 +167,7 @@
                 data="ComponentData.dataSets.ipoValueData"
                 selected="ipoValueRange"
                 ranges="true"
+                filter-property="ipoValueRange"
             ></div>
         </div>
     </div>

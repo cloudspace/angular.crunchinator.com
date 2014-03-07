@@ -31,7 +31,8 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 data: '=',
                 chartTitle: '@',
                 selected: '@',
-                ranges: '@'
+                ranges: '@',
+                filterProperty: '@'
             },
             templateUrl: 'views/d3-chart.tpl.html',
             link: function(scope, element) {
@@ -49,6 +50,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var y = d3.scale.linear().range([height, 0]);
                 var id = Math.floor(Math.random()*1e10);
                 
+                var gBrush;
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
                     .style('height', height + margin.top + margin.bottom + 'px')
@@ -206,7 +208,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     bars_fore.attr('clip-path', 'url(#clip-' + id + ')');
 
-                    var gBrush = svg.append('g')
+                    gBrush = svg.append('g')
                         .attr('class', 'brush')
                         .call(brush);
 
@@ -236,6 +238,20 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     set_min_max(brush.extent());
                 };
+
+                scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
+                    if (newval.length === 0) {
+                        if (typeof gBrush === 'undefined') { return; }
+                        svg.selectAll('#clip-' + id + ' rect')
+                            .attr('x', 0)
+                            .attr('width', width);
+
+                        brush.extent([0, width]);
+                        gBrush.call(brush);
+                        set_min_max(brush.extent());
+                        lastExtent = brush.extent();
+                    }
+                });
             }
         };
     }
