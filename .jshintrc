@@ -25,6 +25,7 @@
     "crossfilter": false,
     "d3": false,
     "L": false,
-    "topojson": false
+    "topojson": false,
+    "FB": false
   }
 }

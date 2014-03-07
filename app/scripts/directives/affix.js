@@ -30,18 +30,9 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
                 };
                 if(scope.bottom) {
                     config.offset.bottom = function(){
-                        // var windowHeight = scope.jQuery(window).height();
-                        // var bottomHeight = scope.jQuery(scope.bottom).offset.top();
                         return scope.jQuery(scope.bottom).offset().top;
                     };
                 }
-
-                // config = {
-                //     offset: {
-                //         top: 400,
-                //         bottom: 2000
-                //     }
-                // }
 
                 scope.jQuery(element[0]).affix(config);
             }
