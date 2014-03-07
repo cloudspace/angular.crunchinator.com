@@ -1,175 +1,177 @@
-<div crunch-nav
-    id="nav"
-    company-count="{{companies.dataForCompaniesList.length}}"
-    investor-count="{{investors.dataForInvestorsList.length}}"
-    filters="filterData"
-></div>
+<div wait-then-scroll should-scroll="shouldScroll">
+    <div crunch-nav
+        id="nav"
+        company-count="{{companies.dataForCompaniesList.length}}"
+        investor-count="{{investors.dataForInvestorsList.length}}"
+        filters="filterData"
+    ></div>
 
-<div class="container" wait-then-scroll should-scroll="shouldScroll" scroll-to='649'>
-    <div ng-show="loading" id="loading">
-        <div class="alert alert-scream"><strong>Loading...</strong></div>
-    </div>
-    <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
-    <input type="text" ng-model="savedUrl" /> -->
-    <div class='drag-contain' drag-arrange>
-        <div>
-            <div list-select
-                chart-title="Companies"
-                items="companies.dataForCompaniesList"
-                selected="companyIds"
-                total="companies.count()"
-                link="true"
-                show-search="true"
-                filter-property="companyIds"
-            ></div>
+    <div class="container">
+        <div ng-show="loading" id="loading">
+            <div class="alert alert-scream"><strong>Loading...</strong></div>
         </div>
-
-        <div>
-            <div d3-map
-                chart-title="Company HQ"
-                data="ComponentData.dataSets.companyStateData"
-                selected="states"
-                filter-property="states"
-            ></div>
-        </div>
-
-        <div>
-             <div d3-area
-                chart-title="Investments"
-                data="ComponentData.dataSets.fundingRoundCount"
-                selected="fundingActivity"
-                extent="1/2000"
-                ranges="true"
-                filter-property="fundingActivity"
-            ></div>
-        </div>
-
-        <div>
-            <div list-select
-                chart-title="Investors"
-                items="ComponentData.dataSets.investorListData"
-                selected="investorIds"
-                total="investors.count()"
-                count="true"
-                show-search="true"
-                filter-property="investorIds"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-pie
-                chart-title="Company Status"
-                data="ComponentData.dataSets.companyStatusData"
-                selected="statuses"
-                filter-property="statuses"
-            ></div>
-        </div>
-
-        <div>
-            <div list-select
-                chart-title="Categories"
-                items="ComponentData.dataSets.categoryListData"
-                selected="categoryIds"
-                total="categories.count()"
-                count="true"
-                filter-property="categoryIds"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-bars
-                chart-title="Funding: Total Funding"
-                data="ComponentData.dataSets.totalFunding"
-                selected="ranges"
-                ranges="true"
-                filter-property="ranges"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-bars
-                chart-title="Funding: Any Round"
-                data="ComponentData.dataSets.fundingPerRound"
-                selected="roundRanges"
-                ranges="true"
-                filter-property="roundRanges"
-            ></div>
-        </div>
-
-        <div>
-            <div d3-bars
-                chart-title="Funding: Latest Round"
-                data="ComponentData.dataSets.mostRecentFundingRound"
-                selected="mostRecentRoundRanges"
-                ranges="true"
-                filter-property="mostRecentRoundRanges"
-            ></div>
-        </div>
-
-        <div>
-             <div d3-area
-                chart-title="Acquisition Date"
-                data="ComponentData.dataSets.acquiredOnCount"
-                selected="acquiredDate"
-                extent="1/2006"
-                ranges="true"
-                filter-property="acquiredDate"
+        <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
+        <input type="text" ng-model="savedUrl" /> -->
+        <div class='drag-contain' drag-arrange>
+            <div>
+                <div list-select
+                    chart-title="Companies"
+                    items="companies.dataForCompaniesList"
+                    selected="companyIds"
+                    total="companies.count()"
+                    link="true"
+                    show-search="true"
+                    filter-property="companyIds"
                 ></div>
-        </div>
+            </div>
 
-        <div>
-            <div d3-bars
-                chart-title="Acquisition Price"
-                data="ComponentData.dataSets.acquiredValueCount"
-                selected="acquiredValueRange"
-                ranges="true"
-                filter-property="acquiredValueRange"
-            ></div>
-        </div>
+            <div>
+                <div d3-map
+                    chart-title="Company HQ"
+                    data="ComponentData.dataSets.companyStateData"
+                    selected="states"
+                    filter-property="states"
+                ></div>
+            </div>
 
-        <div>
-            <div list-select
-                chart-title="Funding: Round Name"
-                items="ComponentData.dataSets.roundCodeListData"
-                selected="roundCodes"
-                total="fundingRounds.fundingSeries.length"
-                filter-property="roundCodes"
-            ></div>
-        </div>
+            <div>
+                 <div d3-area
+                    chart-title="Investments"
+                    data="ComponentData.dataSets.fundingRoundCount"
+                    selected="fundingActivity"
+                    extent="1/2000"
+                    ranges="true"
+                    filter-property="fundingActivity"
+                ></div>
+            </div>
 
-        <div>
-             <div d3-area
-                chart-title="Founding Date"
-                data="ComponentData.dataSets.foundedOnCount"
-                selected="foundedDate"
-                extent="1992"
-                format="%Y"
-                ranges="true"
-                filter-property="foundedDate"
-            ></div>
-        </div>
+            <div>
+                <div list-select
+                    chart-title="Investors"
+                    items="ComponentData.dataSets.investorListData"
+                    selected="investorIds"
+                    total="investors.count()"
+                    count="true"
+                    show-search="true"
+                    filter-property="investorIds"
+                ></div>
+            </div>
 
-        <div>
-            <div d3-area
-                chart-title="IPO Date"
-                data="ComponentData.dataSets.ipoDateData"
-                selected="ipoDateRange"
-                extent="1992"
-                format="%Y"
-                ranges="true"
-                filter-property="ipoDateRange"
-            ></div>
-        </div>
+            <div>
+                <div d3-pie
+                    chart-title="Company Status"
+                    data="ComponentData.dataSets.companyStatusData"
+                    selected="statuses"
+                    filter-property="statuses"
+                ></div>
+            </div>
 
-        <div>
-            <div d3-bars
-                chart-title="IPO Raise"
-                data="ComponentData.dataSets.ipoValueData"
-                selected="ipoValueRange"
-                ranges="true"
-                filter-property="ipoValueRange"
-            ></div>
+            <div>
+                <div list-select
+                    chart-title="Categories"
+                    items="ComponentData.dataSets.categoryListData"
+                    selected="categoryIds"
+                    total="categories.count()"
+                    count="true"
+                    filter-property="categoryIds"
+                ></div>
+            </div>
+
+            <div>
+                <div d3-bars
+                    chart-title="Funding: Total Funding"
+                    data="ComponentData.dataSets.totalFunding"
+                    selected="ranges"
+                    ranges="true"
+                    filter-property="ranges"
+                ></div>
+            </div>
+
+            <div>
+                <div d3-bars
+                    chart-title="Funding: Any Round"
+                    data="ComponentData.dataSets.fundingPerRound"
+                    selected="roundRanges"
+                    ranges="true"
+                    filter-property="roundRanges"
+                ></div>
+            </div>
+
+            <div>
+                <div d3-bars
+                    chart-title="Funding: Latest Round"
+                    data="ComponentData.dataSets.mostRecentFundingRound"
+                    selected="mostRecentRoundRanges"
+                    ranges="true"
+                    filter-property="mostRecentRoundRanges"
+                ></div>
+            </div>
+
+            <div>
+                 <div d3-area
+                    chart-title="Acquisition Date"
+                    data="ComponentData.dataSets.acquiredOnCount"
+                    selected="acquiredDate"
+                    extent="1/2006"
+                    ranges="true"
+                    filter-property="acquiredDate"
+                    ></div>
+            </div>
+
+            <div>
+                <div d3-bars
+                    chart-title="Acquisition Price"
+                    data="ComponentData.dataSets.acquiredValueCount"
+                    selected="acquiredValueRange"
+                    ranges="true"
+                    filter-property="acquiredValueRange"
+                ></div>
+            </div>
+
+            <div>
+                <div list-select
+                    chart-title="Funding: Round Name"
+                    items="ComponentData.dataSets.roundCodeListData"
+                    selected="roundCodes"
+                    total="fundingRounds.fundingSeries.length"
+                    filter-property="roundCodes"
+                ></div>
+            </div>
+
+            <div>
+                 <div d3-area
+                    chart-title="Founding Date"
+                    data="ComponentData.dataSets.foundedOnCount"
+                    selected="foundedDate"
+                    extent="1992"
+                    format="%Y"
+                    ranges="true"
+                    filter-property="foundedDate"
+                ></div>
+            </div>
+
+            <div>
+                <div d3-area
+                    chart-title="IPO Date"
+                    data="ComponentData.dataSets.ipoDateData"
+                    selected="ipoDateRange"
+                    extent="1992"
+                    format="%Y"
+                    ranges="true"
+                    filter-property="ipoDateRange"
+                ></div>
+            </div>
+
+            <div>
+                <div d3-bars
+                    chart-title="IPO Raise"
+                    data="ComponentData.dataSets.ipoValueData"
+                    selected="ipoValueRange"
+                    ranges="true"
+                    filter-property="ipoValueRange"
+                ></div>
+            </div>
         </div>
     </div>
+    <div class='continue'>Keep scrolling to learn more about The Crunchinator.</div>
 </div>
-<div class='continue'>Keep scrolling to learn more about The Crunchinator.</div>
