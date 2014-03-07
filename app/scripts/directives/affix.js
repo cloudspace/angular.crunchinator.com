@@ -1,49 +1,49 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window', '$document', '$parse',
-    function ( $window, $document, $parse ) {
+angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
+    function ( $window ) {
         return {
-            scope: {
-                affix: '@',
-                end: '@'
+            restrict: 'A',
+            controller: function($scope) {
+                $scope.jQuery = $window.jQuery;
             },
-            link: function ( scope, element ) {
-                function checkPosition() {
-                    //Where we should start affixing the element
-                    var fixStart = $parse(scope.affix)(scope);
-
-                    //Where we should stop affixing the element
-                    var fixEnd = $parse(scope.end)(scope);
-
-                    //Where the page top is
-                    var offset = win.prop('pageYOffset');
-
-                    var affix = false;
-                    //Offset is between start and end, put it at the top.
-                    if((offset >= fixStart) && (offset <= fixEnd)) {
-                        affix = 'top';
-                    }
-                    //Offset is past the fix end, put it at the bottom of its container.
-                    else if(offset >= fixEnd) {
-                        affix = 'bottom';
-                    }
-                    
-                    if (affixed === affix) { return; }
-                        
-                    affixed = affix;
-                        
-                    element.removeClass('affix affix-top affix-bottom').addClass('affix' + (affix ? '-' + affix : ''));
+            scope: {
+                parent: '@',
+                bottom: '@'
+            },
+            link: function (scope, element) {
+                
+                var top = scope.jQuery(scope.parent).offset().top;
+                if(scope.bottom) {
+                    var bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
                 }
 
-                scope.end = scope.end || document.body.offsetHeight.toString();
-                
-                var win = angular.element ( $window ),
-                    affixed;
-                                            
-                win.bind( 'scroll', checkPosition );
-                win.bind( 'click', function () {
-                    setTimeout( checkPosition, 1 );
+                scope.jQuery(window).resize(function() {
+                    top = scope.jQuery(scope.parent).offset().top;
+                    if(scope.bottom) {
+                        bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
+                    }
                 });
+
+                var config = {
+                    offset: { top: function() { return top; } }
+                };
+                if(scope.bottom) {
+                    config.offset.bottom = function(){
+                        // var windowHeight = scope.jQuery(window).height();
+                        // var bottomHeight = scope.jQuery(scope.bottom).offset.top();
+                        return scope.jQuery(scope.bottom).offset().top;
+                    };
+                }
+
+                // config = {
+                //     offset: {
+                //         top: 400,
+                //         bottom: 2000
+                //     }
+                // }
+
+                scope.jQuery(element[0]).affix(config);
             }
         };
     }

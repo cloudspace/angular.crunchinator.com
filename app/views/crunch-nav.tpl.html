@@ -1,29 +1,31 @@
-<div class='affixit' affix='649' end='2379'>
-    <nav>
-        <img class="logo" src="images/logo.png"/>
-        <h1><a href="#">Crunchinator</a></h1>
-        <ul class="amount-counter">
-            <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
-            <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
-        </ul>
+<div class='movable' affix parent='#nav' bottom='#about'>
+    <div class='back'>
+        <nav>
+            <img class="logo" src="images/logo.png"/>
+            <h1><a href="#">Crunchinator</a></h1>
+            <ul class="amount-counter">
+                <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
+                <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
+            </ul>
 
-        <div class="share">
-            <p class="share-results">Share Results:</p>
+            <div class="share">
+                <p class="share-results">Share Results:</p>
+                <ul>
+                    <li class="facebook"><a href="#facebook"><i class="fa fa-thumbs-up"></i>Share</a></li>
+                    <li class="twitter"><a href="#tweet"><i class="fa fa-twitter"></i>Tweet</a></li>
+                    <li class="email"><a href="#email"><i class="fa fa-envelope-o"></i>E-mail</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="filters">
             <ul>
-                <li class="facebook"><a href="#facebook"><i class="fa fa-thumbs-up"></i>Share</a></li>
-                <li class="twitter"><a href="#tweet"><i class="fa fa-twitter"></i>Tweet</a></li>
-                <li class="email"><a href="#email"><i class="fa fa-envelope-o"></i>E-mail</a></li>
+                <li ng-repeat="item in filterList">
+                    <span class="filter_type">{{item.type}}</span>
+                    <span class="filter_name">{{item.label}}</span>
+                    <a href="" class="filter_remove" ng-click="removeFilter(item)">remove</a>
+                </li>
             </ul>
         </div>
-    </nav>
-
-    <div id="filters">
-        <ul>
-            <li ng-repeat="item in filterList">
-                <span class="filter_type">{{item.type}}</span>
-                <span class="filter_name">{{item.label}}</span>
-                <a href="" class="filter_remove" ng-click="removeFilter(item)">remove</a>
-            </li>
-        </ul>
     </div>
 </div>

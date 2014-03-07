@@ -1,10 +1,10 @@
-<a affix='3082' end='96122'
-    class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'
->
-    <img src='https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png' alt='Fork me on GitHub' />
-</a>
-<div class="container" id="about-header">
-    <div class="row">
+<div class='about-contain'>
+    <div id="about-header"  affix parent='#about'>
+        <div class='forkme' >
+            <a target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
+                <img src='https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png' alt='Fork me on GitHub' />
+            </a>
+        </div>
         <div class="header-text">
             <h2><a href="http://cloudspace.com/" class="cloudspace-logo">cloudspace</a></h2>
             <nav>
@@ -13,14 +13,13 @@
                 </ul>
 
                 <ul class="nav nav-pills">
-                    <li ng-class="{active: showPage=='faq'}"><a ng-click="showPage = 'faq'" href="#faq">F.A.Q</a></li>
-                    <li ng-class="{active: showPage=='about'}"><a ng-click="showPage = 'about'" href="#about">About Us</a></li>
+                    <li ng-class="{active: showPage=='about'}"><a ng-click="showPage = 'about'" href="#about">About Us
+                    <li ng-class="{active: showPage=='faq'}"><a ng-click="showPage = 'faq'" href="#faq">F.A.Q</a></li></a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </div>
-
 <div ng-show="showPage=='about'" class="container" id="about">
     <div class="container" id="pop-quiz">
         <div class="row">
