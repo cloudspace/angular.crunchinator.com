@@ -12,9 +12,9 @@
   Contains
     - Blues
     - Greyscale
-    - Grey Blues 
+    - Grey Blues
     - FAQ Text
-    - Buttons 
+    - Buttons
 */
 
 @cloudspace: #1861b2;
@@ -49,7 +49,7 @@
   FONTS
   Contains
     - Proxima Nova ( Loaded via Typekit )
-    - Futura ( Loaded via Typekit ) 
+    - Futura ( Loaded via Typekit )
 */
 
 @font-proxima-nova: "proxima-nova-1", "proxima-nova-2", sans-serif;
@@ -86,7 +86,7 @@
 /*
   Applies absolute positioning with top and left arguments
   @param top    vertical displacement in pixels
-  @param left   horizontal displacement in pixels   
+  @param left   horizontal displacement in pixels
 */
 .PositionAbsolute(@top, @left){
   position: absolute;
@@ -109,7 +109,7 @@
 
 
 /*
-  Basic flat button 
+  Basic flat button
   @param background     background color for the button
   @param color          font color for button text
   @param padding        typically only vertical, but left open ended for edge cases
@@ -185,7 +185,7 @@ body {
 }
 
 
-/* 
+/*
   Drag and Drop Components
 */
 
@@ -223,7 +223,6 @@ body {
 #main {
   position: relative;
   min-height: 300px;
-  margin-top: -64px;
 
   .continue {
     text-align: center;
@@ -284,8 +283,8 @@ header{
 }
 
 
-/* 
-  Data Containers 
+/*
+  Data Containers
 */
 
 .count {
@@ -349,15 +348,15 @@ header{
     padding: 16px 0;
     margin: 0;
   }
-  
+
   p{
     color: @white;
   }
-  
+
   .textlist{
     margin: 0 15px;
   }
-  
+
   .form-group{
     margin: 10px 0;
   }
@@ -431,8 +430,8 @@ header{
 }
 
 
-/* 
-  Chart Axis styles 
+/*
+  Chart Axis styles
 */
 
 .axis {
@@ -468,16 +467,6 @@ header{
   stroke-linecap: round;
 }
 
-#loading {
-  position: fixed;
-  left: 50%;
-  width: 200px;
-  top: 10px;
-  text-align: center;
-  margin-left: -100px;
-  z-index: 999;
-}
-
 .alert-scream {
   background-color: #ff0;
 }
@@ -506,13 +495,13 @@ header{
   font-family: @font-proxima-nova;
 }
 
-/* 
+/*
   ABOUT SECTION
   Contains
     - Pop Quiz
     - About Text
     - Contact Us
-    - FAQ 
+    - FAQ
 */
 
 #about {
@@ -550,7 +539,7 @@ header{
     li.active {
       a { .ResetAnchor(#fff); }
     }
-    
+
     @media screen and (max-width: 800px){
       padding: 30px 20px 30px 20px;
     }
@@ -603,7 +592,7 @@ header{
       display: inline-block;
       border-left: solid 5px @light-grey2;
       max-width: 800px;
-      
+
       li {
         .LightBoxShadow();
         color: @light-grey;
@@ -636,7 +625,7 @@ header{
       li.active {
         padding: 180px 120px 20px 120px;
         background: @active-container-blue url('/images/check_mark.png') center top no-repeat;
-        background-position: center 40px; 
+        background-position: center 40px;
         color: @white;
         text-align: center;
         margin-bottom: 20px;
@@ -698,7 +687,7 @@ header{
       width: 400px;
       margin-bottom: 70px;
     }
-    
+
     button {
       .Button(@button-green, @white, 20px 0px 20px 0px, 5px, 320px);
       font-size: 20px;
@@ -719,7 +708,7 @@ header{
       line-height: 32px;
     }
   }
-    
+
   h3, p, #contact-us, #pop-quiz {
     .CenterContainer();
     text-align: center;
@@ -760,7 +749,7 @@ header{
 }
 
 
-/* 
+/*
   FOOTER
   Contains
     - Footer Text
@@ -770,7 +759,7 @@ header{
 footer {
   text-align: center;
   background: @cloudspace url('/images/large-cloudspace-logo-blue.png') right top no-repeat;
-  background-position: right 65px; 
+  background-position: right 65px;
   color: @white;
   margin: 0px;
 
@@ -789,7 +778,7 @@ footer {
   ul {
     li {
       font-family: @font-proxima-nova;
-      font-size: 30px; 
+      font-size: 30px;
       list-style-type: none;
       padding: 0px 15px 0px 15px;
       .DisplayToggle(inline, block, 700px);
@@ -818,10 +807,12 @@ footer {
   background-position: 50% 50%;
   text-align: center;
   height: 100%;
+  overflow: hidden;
+  margin-bottom: -64px;
 
   .forkme {
-    position: absolute;
-    left: 0;
+    float: left;
+    display:block;
   }
 
   .header-text {
@@ -937,7 +928,7 @@ footer {
 
     a:link,
     a:visited,
-    a:active, 
+    a:active,
     a:hover {
       color: @white;
       font-size: 24px;
@@ -1006,7 +997,7 @@ footer {
         background: -o-linear-gradient(top, #5078b3 0%,#385f99 100%); /* Opera 11.10+ */
         background: -ms-linear-gradient(top, #5078b3 0%,#385f99 100%); /* IE10+ */
         background: linear-gradient(to bottom, #5078b3 0%,#385f99 100%); /* W3C */
-        
+
         &:hover {
           opacity: 0.90;
           text-decoration: none;
@@ -1020,7 +1011,7 @@ footer {
         background: -o-linear-gradient(top, #70d9f8 0%,#1cc6f8 100%); /* Opera 11.10+ */
         background: -ms-linear-gradient(top, #70d9f8 0%,#1cc6f8 100%); /* IE10+ */
         background: linear-gradient(to bottom, #70d9f8 0%,#1cc6f8 100%); /* W3C */
-        
+
         &:hover {
           opacity: 0.90;
           text-decoration: none;
@@ -1034,7 +1025,7 @@ footer {
         background: -o-linear-gradient(top, #494b58 0%,#343a40 100%); /* Opera 11.10+ */
         background: -ms-linear-gradient(top, #494b58 0%,#343a40 100%); /* IE10+ */
         background: linear-gradient(to bottom, #494b58 0%,#343a40 100%); /* W3C */
-        
+
         &:hover {
           opacity: 0.90;
           text-decoration: none;
@@ -1121,4 +1112,14 @@ footer {
       }
     }
   }
+}
+
+h1#loading {
+  font-size: 30px;
+  font-weight: 600;
+  display: inline-block;
+  margin: 1px 0px 2px 0px;
+  padding-bottom: 8px;
+  left: 40px;
+  color: @bright-blue;
 }

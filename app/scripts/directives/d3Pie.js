@@ -57,10 +57,15 @@ angular.module('crunchinatorApp.directives').directive('d3Pie', ['$rootScope',
                     $rootScope.$broadcast('filterAction');
                 };
 
+                var initial_load = true;
                 scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
-                    if(newval.length === 0) {
+                    if(newval.length === 0 && !initial_load) {
                         scope.selectedItems = [];
                         svg.selectAll('path').style('fill', fill);
+                    } else if (newval.length > 0 && initial_load) {
+                        scope.selectedItems = scope.$parent.filterData[scope.selected].slice(0);
+                        svg.selectAll('path').style('fill', fill);
+                        initial_load = false;
                     }
                 });
 
