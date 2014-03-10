@@ -25,6 +25,7 @@ module.exports = function (grunt) {
         secret: grunt.option('secret') || process.env.AWS_SECRET_ACCESS_KEY
     };
     var ENV = {};
+    ENV.bitly_key = process.env.BITLY_KEY;
     function isGitTag(err, stdout, stderr, cb) {
         if (!err) {
             aws.env = 'production';
@@ -380,7 +381,8 @@ module.exports = function (grunt) {
                 name: 'configuration',
                 constants: {
                     ENV: '<%= ENV.env || "production" %>',
-                    API_VERSION: '<%= ENV.version %>'
+                    API_VERSION: '<%= ENV.version %>',
+                    BITLY_KEY: '<%= ENV.bitly_key %>'
                 }
             }
         },

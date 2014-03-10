@@ -25,8 +25,23 @@
         <![endif]-->
     </head>
     <body>
+        <div id="fb-root"></div>
+        <script>
+            //Facebook
+            window.fbAsyncInit = function() {
+                FB.init({ appId: '505638872880080', status: true, xfbml: true });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+        </script>
         <!-- Add your site or application content here -->
-        
+
         <div id="splash" role="splash" ui-view="splash">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
                 <img src='https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png' alt='Fork me on GitHub' />
@@ -87,6 +102,7 @@
         <script src="scripts/services/investor.js"></script>
         <script src="scripts/services/fundingRound.js"></script>
         <script src="scripts/services/componentData.js"></script>
+        <script src="scripts/services/bitly.js"></script>
 
         <script src="scripts/controllers/crunchinator.js"></script>
         <script src="scripts/controllers/about.js"></script>
@@ -101,6 +117,9 @@
         <script src="scripts/directives/placeholder.js"></script>
         <script src="scripts/directives/waitthenscroll.js"></script>
         <script src="scripts/directives/affix.js"></script>
+        <script src="scripts/directives/fbShare.js"></script>
+        <script src="scripts/directives/emailShare.js"></script>
+        <script src="scripts/directives/twitterShare.js"></script>
         <script src="scripts/directives/crunchNav.js"></script>
         <!-- endbuild -->
 
