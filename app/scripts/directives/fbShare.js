@@ -9,12 +9,14 @@ angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [ '$location
                     Bitly.shorten(encodeURIComponent($location.absUrl())).then(function(response){
                         FB.ui({
                             method: 'feed',
-                            name: 'This is the name field',
+                            name: 'Slice, Filter & Explore Crunchbase Data',
                             link: response.data,
                             picture: 'http://staging.crunchinator.com/images/burner.jpg',
-                            caption: 'This is the caption',
-                            description: 'A description',
-                            message: 'The message goes here.'
+                            caption: '',
+                            description: 'With Cloudspace\'s free Crunchinator tool, you can quickly identify all' +
+                                'companies and investors based upon a variety of criteria, including geography, ' +
+                                'fundraising amounts and exits.',
+                            message: ''
                         });
                     });
                 });
