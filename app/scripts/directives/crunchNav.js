@@ -50,7 +50,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                 }, true);
 
                 scope.$parent.$watch('loading', function(newval, oldval) {
-                    scope.loadText = newval === oldval ? "Loading lots of data" : "Crunching...";
+                    scope.loadText = newval === oldval ? 'Loading lots of data' : 'Crunching...';
                     scope.loading = newval;
                 });
 
