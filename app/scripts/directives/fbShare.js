@@ -13,7 +13,7 @@ angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [ '$location
                             link: response.data,
                             picture: 'http://staging.crunchinator.com/images/burner.jpg',
                             caption: '',
-                            description: 'With Cloudspace\'s free Crunchinator tool, you can quickly identify all' +
+                            description: 'With Cloudspace\'s free Crunchinator tool, you can quickly identify all ' +
                                 'companies and investors based upon a variety of criteria, including geography, ' +
                                 'fundraising amounts and exits.',
                             message: ''
