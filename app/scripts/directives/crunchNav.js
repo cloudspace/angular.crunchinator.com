@@ -49,6 +49,10 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                     });
                 }, true);
 
+                scope.$parent.$watch('loading', function(newval) {
+                    scope.loading = newval;
+                });
+
                 scope.removeFilter = function(item) {
                     scope.$parent.filterData[item.raw_type] = [];
                     $rootScope.$broadcast('filterAction');
