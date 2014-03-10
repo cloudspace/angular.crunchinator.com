@@ -3,7 +3,8 @@
         <nav>
             <img class="logo" src="images/logo.png"/>
             <h1><a href="#">Crunchinator</a></h1>
-            <ul class="amount-counter">
+            <h1 id="loading" ng-show="loading">Loading...</h1>
+            <ul class="amount-counter" ng-show="!loading">
                 <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
                 <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
             </ul>
