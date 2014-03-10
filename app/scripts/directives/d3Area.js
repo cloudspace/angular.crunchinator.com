@@ -122,7 +122,7 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                                 $rootScope.$broadcast('filterAction');
                             });
                         }
-                        
+
                         lastExtent = extent;
                     });
 
@@ -166,9 +166,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     });
                     data = _.sortBy(data, function(d){ return d.parsed_date; });
 
-                    
+
                     y.domain([0, d3.max(data, function(d) { return d.count; })]);
-                    
+
                     area_back = svg.selectAll('.background.area').datum(data)
                         .transition()
                         .duration(1000)
@@ -191,8 +191,9 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                     set_min_max(brush.extent());
                 };
 
+                var initial_load = true;
                 scope.$parent.$watch('filterData.' + scope.filterProperty, function(newval) {
-                    if (newval.length === 0) {
+                    if (newval.length === 0 && !initial_load) {
                         svg.selectAll('#clip-' + time + ' rect')
                             .attr('x', x(full_extent[0]))
                             .attr('width', x(full_extent[1]) - x(full_extent[0]));
@@ -201,6 +202,17 @@ angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
                         gBrush.call(brush);
                         set_min_max(brush.extent());
                         lastExtent = full_extent;
+                    } else if (initial_load && newval.length > 0) {
+                        var extent = scope.$parent.filterData[scope.selected];
+                        svg.selectAll('#clip-' + time + ' rect')
+                            .attr('x', x(extent[0]))
+                            .attr('width', x(extent[1]) - x(extent[0]));
+
+                        brush.extent(extent);
+                        gBrush.call(brush);
+                        set_min_max(brush.extent());
+                        lastExtent = extent;
+                        initial_load = false;
                     }
                 });
             }
