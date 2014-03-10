@@ -12,28 +12,28 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
                 bottom: '@'
             },
             link: function (scope, element) {
-                
-                var top = scope.jQuery(scope.parent).offset().top;
-                if(scope.bottom) {
-                    var bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
-                }
-
-                scope.jQuery(window).resize(function() {
+                var top, bottom;
+                var setAffixPoints = function(){
                     top = scope.jQuery(scope.parent).offset().top;
                     if(scope.bottom) {
                         bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
                     }
-                });
+                    console.log('top: '+top);
+                    console.log('bottom: '+bottom);
+                };
+                setAffixPoints();
+
+                scope.$watch(function(){return scope.jQuery(document).height(); }, setAffixPoints);
+                scope.$watch(function(){return scope.jQuery(window).height(); }, setAffixPoints);
 
                 var config = {
                     offset: { top: function() { return top; } }
                 };
                 if(scope.bottom) {
                     config.offset.bottom = function(){
-                        return scope.jQuery(scope.bottom).offset().top;
+                        return scope.jQuery(scope.bottom).offset().top + scope.jQuery(window).height();
                     };
                 }
-
                 scope.jQuery(element[0]).affix(config);
             }
         };
