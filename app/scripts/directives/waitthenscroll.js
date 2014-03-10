@@ -5,7 +5,6 @@ angular.module('crunchinatorApp.directives').directive('waitThenScroll', functio
         restrict: 'A',
         scope: {
             shouldScroll: '=',
-            scrollTo: '@'
         },
         controller: function($scope) {
             $scope.isScrolling = false;
@@ -17,7 +16,7 @@ angular.module('crunchinatorApp.directives').directive('waitThenScroll', functio
                     var scrollSpeed = iAttrs.scrollSpeed || 1500;
                     scope.isScrolling = true;
                     scope.jQuery('html, body').animate({
-                        scrollTop: scope.scrollTo //$(element[0]).offset().top
+                        scrollTop: scope.jQuery(element[0]).offset().top
                     }, scrollSpeed, function() {
                         scope.isScrolling = false;
                     });
