@@ -18,8 +18,6 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
                     if(scope.bottom) {
                         bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
                     }
-                    console.log('top: '+top);
-                    console.log('bottom: '+bottom);
                 };
                 setAffixPoints();
 
