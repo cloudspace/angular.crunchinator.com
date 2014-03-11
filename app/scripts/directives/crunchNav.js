@@ -59,6 +59,14 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                     $rootScope.$broadcast('filterAction');
                 };
 
+                scope.reset = function() {
+                    _.each(scope.$parent.filterData, function(filter, key) {
+                        scope.$parent.filterData[key] = [];
+                    });
+                    console.log(scope.$parent.filterData);
+                    $rootScope.$broadcast('filterAction');
+                };
+
                 function idsToObjects(collection, type) {
                     var model;
                     switch(type) {

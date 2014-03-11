@@ -1,8 +1,8 @@
 <div class='movable' affix parent='#nav' bottom='#about'>
     <div class='back'>
         <nav>
-            <img class="logo" src="images/logo.png"/>
-            <h1><a href="#">Crunchinator</a></h1>
+            <img class="logo" ng-click="reset()" src="images/logo.png"/>
+            <h1><a href="" ng-click="reset()">Crunchinator</a></h1>
             <h1 id="loading" ng-show="loading">{{loadText}}</h1>
             <ul class="amount-counter" ng-show="!loading">
                 <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
