@@ -9,7 +9,7 @@
             <h2><a href="http://cloudspace.com/" class="cloudspace-logo">cloudspace</a></h2>
             <nav>
                 <ul>
-                    
+
                 </ul>
 
                 <ul class="nav nav-pills">
@@ -45,7 +45,7 @@
                     <div>
                         <span class="triangle"></span>
                         <span>We wanted a sexy D3, Angular.js, and Cross Filter demo for</span>
-                        <span class="ellipsis">&hellip;</span> 
+                        <span class="ellipsis">&hellip;</span>
                         <span class="continuation"> big/fast data visualization projects</span>
                     </div>
                 </li>
@@ -53,7 +53,7 @@
                     <div>
                         <span class="triangle"></span>
                         <span>We needed to refine our split-stack development: backend</span>
-                        <span class="ellipsis">&hellip;</span> 
+                        <span class="ellipsis">&hellip;</span>
                         <span class="continuation"> engineering (AWS tuned Rails API) and our new UX group (visualizations and user experience)</span>
                     </div>
                 </li>
@@ -105,28 +105,64 @@
         </ul>
         <hr/>
         <h4>Here's a few answers to our most common questions</h4>
+    </div>
+
+    <div class="row">
         <div class="col-md-6">
-            <h5>What is Lorme Ipsum</h5>
+            <h5>Why isn’t &lt;insert company&gt; appearing in the Crunchinator?</h5>
             <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                If the company a funded startup in the US, please check the data in Crunchbase and make sure that it has an associated funding round and a location with either zip code or city & state. If the information isn’t in there, please add it yourself -- Crunchbase is what we all make it.
             </p>
         </div>
         <div class="col-md-6">
-            <h5>What is Lorme Ipsum</h5>
+            <h5>Why don’t you show non-funded companies?</h5>
             <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                There are loads of companies in Crunchbase, including everything from tens of thousands of pre-funded startups, thousands of consulting companies and at least one towing service. Because the Crunchinator is meant to show off real-time cross-filtering using Javascript and D3, those companies don’t visualize well. They do, however, take a ton of memory and slow everything down.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Why are you only showing US companies?</h5>
+            <p>
+                The vast majority of funded companies in Crunchbase are located in the US. The map would have been a heck of a lot more complicated to handle the rest of the world, so we opted for US only. If you’ve got a great idea to improve the map, code it up and send us a pull request!
             </p>
         </div>
         <div class="col-md-6">
-            <h5>What is Lorme Ipsum</h5>
+            <h5>Why don’t you have a filter for People?</h5>
             <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                Great question, and man do we wish we had that in there. But that’s a ton of extra data to load and then filter in real-time. The Crunchinator was a constant balance between awesome data and usable load times.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Are you going to add AngelList information?</h5>
+            <p>
+                There aren’t any plans at the moment, but we completely get why you’re asking. We at Cloudspace tend to use the two services in different ways -- Crunchbase for researching companies and AngelList for our entrepreneurial profiles -- and we tend to use Crunchbase significantly more often than AngelList. As a result, we opted to make the best interface we could just for Crunchbase.
             </p>
         </div>
         <div class="col-md-6">
-            <h5>What is Lorme Ipsum</h5>
+            <h5>Is Crunchinator a new company?</h5>
             <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                Nope, just a cool tool we built for ourselves and decided to share with you. Cloudspace builds businesses for other people and occasionally a sweet service comes along for the ride. And in the long run, companies like CB Insights and Mattermark and even Crunchbase itself will render the Crunchinator obsolete. And we’re excited for that to happen. This the tool that you need, not the tool you deserve.
+            </p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Are you charging for access?</h5>
+            <p>
+                We wouldn’t even if we could, but we can’t so it’s moot. Hopefully the Crunchinator will help you find investors, customers or partners and if you want to pay us back, you can 1) share the service, 2) let us know how it was helpful, 3) improve it or 4) become a Cloudspace client.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h5>Are you really making this open source?</h5>
+            <p>
+                Heck yeah, we are. We’re excited about what we’ve built but there’s loads more that can be done. If you’ve got a great new visualization or filtering idea, code it up and let us know; we’re happy to merge it in. And if you’re feeling really courageous, fork what we’ve done and build on top of it. If you REALLY want to see this thing with AngelList data, make it happen. Just let people know that we kicked things off with the Crunchinator.
             </p>
         </div>
     </div>
