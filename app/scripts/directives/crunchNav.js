@@ -63,7 +63,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                     _.each(scope.$parent.filterData, function(filter, key) {
                         scope.$parent.filterData[key] = [];
                     });
-                    console.log(scope.$parent.filterData);
+
                     $rootScope.$broadcast('filterAction');
                 };
 
