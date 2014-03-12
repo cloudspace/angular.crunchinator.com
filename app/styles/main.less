@@ -512,19 +512,25 @@ header{
     width: 100%;
     background: #fff;
     z-index: 100;
-    height: 135px;
 
     .forkme {
       left: 0;
-      width: 150px;
-      height: 133px;
+      width: 115px;
+      height: 115px;
       position: absolute;
+
+      img {
+          height: 115px;
+          width: 115px;
+      }
     }
 
     .header-text {
       margin: 0 auto;
       max-width: 1080px;
-      padding: 40px 0;
+      overflow: auto;
+      overflow-y: visible;
+      padding: 10px 0;
     }
 
     nav, ul, li { display: inline; }
@@ -547,6 +553,7 @@ header{
   #about-header.affix {
     position: fixed;
     top: 0;
+    box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.35);
   }
 
 
