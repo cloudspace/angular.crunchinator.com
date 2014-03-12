@@ -13,8 +13,8 @@
                 </ul>
 
                 <ul class="nav nav-pills">
-                    <li ng-class="{active: showPage=='about'}"><a ng-click="showPage = 'about'" href="#about">About Us
-                    <li ng-class="{active: showPage=='faq'}"><a ng-click="showPage = 'faq'" href="#faq">F.A.Q</a></li></a></li>
+                    <li ng-class="{active: showPage=='about'}"><a ng-click="navigate('about')" href="#about">About Us
+                    <li ng-class="{active: showPage=='faq'}"><a ng-click="navigate('faq')" href="#faq">F.A.Q</a></li></a></li>
                 </ul>
             </nav>
         </div>
@@ -151,7 +151,7 @@
             </p>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-6">
             <h5>Are you charging for access?</h5>
