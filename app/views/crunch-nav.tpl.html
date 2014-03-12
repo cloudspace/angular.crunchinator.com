@@ -1,16 +1,23 @@
 <div class='movable' affix parent='#nav' bottom='#about'>
     <div class='back'>
         <nav>
-            <img class="logo" ng-click="reset()" src="images/logo.png"/>
-            <h1><a href="" ng-click="reset()">Crunchinator</a></h1>
-            <h1 id="loading" ng-show="loading">{{loadText}}</h1>
-            <ul class="amount-counter" ng-show="!loading">
-                <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
-                <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
-            </ul>
+            <div class='logo'>
+                <img ng-click="reset()" src="images/logo.png"/>
+                <h1 ng-show="initiated"><a href="" ng-click="reset()">Crunchinator</a></h1>
+            </div>
 
-            <div class="share">
-                <p class="share-results">Share Results:</p>
+            <div class='status'>
+                <h2 id="loading" ng-show="loading">Crunching...</h2>
+                <h2 id="loading" ng-show="!initiated">Loading LOTS of data (10-20 seconds)...</h2>
+
+                <ul class="amount-counter" ng-show="initiated && !loading">
+                    <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
+                    <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
+                </ul>
+            </div>
+
+
+            <div title='Share your results' ng-show="initiated" class="share">
                 <ul>
                     <li class="facebook"><button fb-share><i class="fa fa-thumbs-up"></i>Share</button></li>
                     <li class="twitter"><button twitter-share><i class="fa fa-twitter"></i>Tweet</button></li>

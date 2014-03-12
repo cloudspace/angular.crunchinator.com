@@ -4,7 +4,6 @@ angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
     '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData',
     function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData) {
-        $scope.loading = true;
         $scope.shouldScroll = false;
 
         ComponentData.updateDataSets();
@@ -68,8 +67,14 @@ angular.module('crunchinatorApp.controllers')
                     });
                     ComponentData.updateDataSets();
 
-                    $scope.loading = false;
-                    $scope.shouldScroll = true;
+                    $scope.initiated = true;
+
+                    //Smoother initial loading hide
+                    _.defer(function(){
+                        $scope.$apply(function(){
+                            $scope.shouldScroll = true;
+                        });
+                    });
                 }
             });
         });
