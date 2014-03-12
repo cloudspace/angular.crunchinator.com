@@ -734,7 +734,7 @@ header{
 
   p {
     .SetText(@medium-grey, 24px);
-    max-width: 1080px;
+    max-width: 865px;
     padding: 0px 20px 0px 20px;
   }
 
@@ -905,72 +905,79 @@ footer {
   nav {
     width: 1200px;
     margin: 0 auto;
-    text-align: middle;
-    padding: 10px 0;
+    text-align: center;
+    padding: 11px 0;
+    position: relative;
   }
 
   .logo {
-    width: 54px;
-    height: 39px;
-    vertical-align: top;
-    margin-top: 1px;
-    margin-right: 15px;
-    cursor: pointer;
-  }
-
-  h1 {
-    font-size: 20px;
-    color: @white;
-    font-family: @font-proxima-nova;
-    display: inline;
-    font-weight: 600;
-    top: 3px;
-    position: relative;
-
-    a:link,
-    a:visited,
-    a:active,
-    a:hover {
-      color: @white;
-      font-size: 24px;
-      text-decoration: none;
+    position: absolute;
+    left: 0;
+    img {
+      width: 54px;
+      height: 39px;
+      cursor: pointer;
+      vertical-align: top;
     }
-  }
-
-  .share-results {
-    display: inline;
-  }
-
-  .amount-counter,
-  .share {
-    display: inline;
-    text-align: right;
-
-    ul {
-      display: inline;
+    h1 {
+      font-family: @font-proxima-nova;
+      font-weight: 600;
       margin: 0;
-      padding: 0;
-    }
-    li {
-      list-style-type: none;
-      display: inline-block;
-      padding-top: 2px;
+      margin-left: 15px;
+      display: inline;
+
+      a:link,
+      a:visited,
+      a:active,
+      a:hover {
+        color: @white;
+        font-size: 24px;
+        text-decoration: none;
+      }
     }
   }
 
-  .amount-counter li {
-      padding-right: 40px;
+  .status, .share {
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        list-style-type: none;
+        display: inline-block;
+      }
   }
+
+  .status {
+      text-align: center;
+
+      .amount-counter li {
+          padding: 0 20px;
+      }
+  }
+
+
 
   .share {
-    padding-top: 8px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #abacb5;
+    p {
+        display: inline;
+    }
 
     ul {
       padding-left: 5px;
+      display: inline;
     }
 
     li {
       padding-left: 7px;
+      padding-top: 2px;
 
       button {
         padding: 4px 10px;
@@ -1048,13 +1055,6 @@ footer {
     vertical-align: middle;
     padding-right: 10px;
   }
-
-  .share {
-    float: right;
-    font-size: 16px;
-    font-weight: 600;
-    color: #abacb5;
-  }
 }
 
 
@@ -1115,12 +1115,11 @@ footer {
   }
 }
 
-h1#loading {
+h2#loading {
   font-size: 30px;
   font-weight: 600;
-  display: inline-block;
-  margin: 1px 0px 2px 0px;
-  padding-bottom: 8px;
-  left: 40px;
+  margin: 0;
+  text-align: center;
+  line-height: 42px;
   color: @bright-blue;
 }
