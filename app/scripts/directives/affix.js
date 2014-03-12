@@ -32,7 +32,10 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
                         return scope.jQuery(scope.bottom).offset().top + scope.jQuery(window).height();
                     };
                 }
-                scope.jQuery(element[0]).affix(config);
+
+                scope.$parent.$watch('shouldScroll', function(){
+                    scope.jQuery(element[0]).affix(config);
+                });
             }
         };
     }
