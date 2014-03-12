@@ -2,11 +2,15 @@
 
 angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
-    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData',
-    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData) {
+    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData', 'Bitly',
+    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData, Bitly) {
         $scope.shouldScroll = false;
 
         ComponentData.updateDataSets();
+
+        Bitly.shorten(encodeURIComponent($location.absUrl())).then(function(response){
+            $scope.shortUrl = response.data;
+        });
 
         //Create the initial empty filter data for every filter
         $scope.filterData = {
@@ -97,6 +101,10 @@ angular.module('crunchinatorApp.controllers')
                         Investor.runFilters($scope.filterData);
                         FundingRound.runFilters($scope.filterData);
                         ComponentData.updateDataSets();
+
+                        Bitly.shorten(encodeURIComponent($location.absUrl())).then(function(response){
+                            $scope.shortUrl = response.data;
+                        });
                         deferred.resolve('Finished filters');
                     });
                 }, 250);
