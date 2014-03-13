@@ -604,13 +604,18 @@ header{
         .LightBoxShadow();
         color: @light-grey;
         text-align: left;
-        padding: 20px 40px 20px 40px;
+        padding: 20px 40px;
         margin: 10px 20px 10px 0px;
         border: solid 1px @light-grey2;
         border-radius: 5px;
         box-sizing: border-box;
         list-style-type: none;
         position: relative;
+
+        background: white 20px center no-repeat;
+
+        
+        -webkit-transition: padding 500ms ease;
       }
 
 
@@ -624,19 +629,23 @@ header{
       }
 
       li.active:before{
-        .PositionAbsolute(53px, -54px);
+        .PositionAbsolute(50%, -54px);
+        margin-top: -10px;
         background-color: @active-container-blue;
       }
 
       li.active {
-        padding-top: 180px;
-        background: @active-container-blue url('/images/check_mark.png') center 40px no-repeat;
+        padding: 70px 40px 70px 135px;
+        background-color: @active-container-blue;
+        background-image: url('/images/check_mark.png');
         color: @white;
-        text-align: center;
+        
         margin-bottom: 20px;
+        -webkit-transition: padding 500ms ease, background-image 0 500ms;
 
         .triangle{
-          top: 50px;
+          top: 50%;
+          margin-top: -13px;
           background: url("/images/triangle_blue.png") no-repeat;
         }
 
