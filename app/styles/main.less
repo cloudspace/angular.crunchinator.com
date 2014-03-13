@@ -611,7 +611,6 @@ header{
         box-sizing: border-box;
         list-style-type: none;
         position: relative;
-        cursor: pointer;
       }
 
 
@@ -630,13 +629,11 @@ header{
       }
 
       li.active {
-        padding: 180px 120px 20px 120px;
-        background: @active-container-blue url('/images/check_mark.png') center top no-repeat;
-        background-position: center 40px;
+        padding-top: 180px;
+        background: @active-container-blue url('/images/check_mark.png') center 40px no-repeat;
         color: @white;
         text-align: center;
         margin-bottom: 20px;
-        cursor: default;
 
         .triangle{
           top: 50px;
@@ -1121,11 +1118,15 @@ footer {
   }
 }
 
-h2#loading {
+h2.loading {
   font-size: 30px;
   font-weight: 600;
   margin: 0;
   text-align: center;
   line-height: 42px;
   color: @bright-blue;
+}
+h2.initiate {
+  margin-left: 150px;
+  white-space: nowrap;
 }
