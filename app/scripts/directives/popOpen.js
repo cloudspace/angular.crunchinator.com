@@ -10,7 +10,7 @@ angular.module( 'crunchinatorApp.directives').directive( 'popOpen', [ '$window',
                     var elementOffset = $element.offset().top;
                     var pageOffset = this.pageYOffset;
 
-                    var activeZoneTop = elementOffset - 500;
+                    var activeZoneTop = elementOffset - 400;
                     if(pageOffset > activeZoneTop){
                         $element.addClass('active');
                     }
