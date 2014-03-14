@@ -514,7 +514,7 @@ header{
     z-index: 100;
 
     .forkme {
-      left: 0;
+      right: 0;
       width: 115px;
       height: 115px;
       position: absolute;
@@ -822,7 +822,7 @@ footer {
   margin-bottom: -64px;
 
   .forkme {
-    float: left;
+    float: right;
     display:block;
   }
 
@@ -1135,7 +1135,14 @@ h2.loading {
   line-height: 42px;
   color: @bright-blue;
 }
+
 h2.initiate {
   margin-left: 150px;
   white-space: nowrap;
+}
+
+.special {
+    .head, .drag-handle {
+        background-color: #5a83a0;
+    }
 }
