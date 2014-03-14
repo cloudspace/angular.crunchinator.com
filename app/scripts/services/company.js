@@ -236,24 +236,5 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         }
     };
 
-    Company.prototype.roundPassesFilters = function(round, fd){
-        //Round's category is included in filters
-        if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, round.company.category_id)) {
-            return false;
-        }
-
-        //Round's company includes filtered investor ids
-        if(fd.investorIds.length > 0 && _.intersection(fd.investorIds, round.company.investor_ids).length < 1) {
-            return false;
-        }
-
-        //Round passes all other filters
-        if(!Model.roundPassesFilters(round, fd)) {
-            return false;
-        }
-
-        return true;
-    };
-
     return new Company();
 });
