@@ -1,5 +1,5 @@
 <div class="data-set-container">
-    <div class='head'>
+    <div class="head">
         <div class="drag-handle"></div>
         <h3>{{chartTitle}}</h3>
         <p class="count">
@@ -25,8 +25,8 @@
                 <tbody>
                     <tr ng-repeat="item in selectedShownItems"  class="selected">
                         <td>
-                            <div class='list-item' ng-click="removeItem(item)">{{ item.display_name || item.name}}</div>
-                            <a ng-if="link" class='permalink' target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                            <div class="list-item" ng-click="removeItem(item)">{{ item.display_name || item.name}}</div>
+                            <a ng-if="link" class="permalink" target="_blank" href="http://crunchbase.com/{{ item.investor_type.replace('_', '-') || 'company' }}/{{item.permalink}}">
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
@@ -34,8 +34,8 @@
                     </tr>
                     <tr ng-if="selectedItems.indexOf(item) < 0" ng-repeat="item in scrollItems" >
                         <td>
-                            <div class='list-item' ng-click="selectItem(item)">{{ item.display_name || item.name}}</div>
-                            <a ng-if="link" class='permalink' target='_blank' href='http://crunchbase.com/company/{{item.permalink}}'>
+                            <div class="list-item" ng-click="selectItem(item)">{{ item.display_name || item.name}}</div>
+                            <a ng-if="link" class="permalink" target="_blank" href="http://crunchbase.com/{{ item.investor_type.replace('_', '-') || 'company' }}/{{item.permalink}}">
                                 <span class="pull-right glyphicon glyphicon-new-window"></span>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
