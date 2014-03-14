@@ -1123,16 +1123,23 @@ h2.loading {
   text-align: center;
   line-height: 42px;
   color: @bright-blue;
-
-  -webkit-animation: pulsate 3s ease-out;
+  
+  text-shadow: 0 0 20px rgba(200, 200, 200, .5);
+  -webkit-animation: opacity-pulsate 2s linear;
   -webkit-animation-iteration-count: infinite; 
-  opacity: 0;
+  
 }
 
 @-webkit-keyframes pulsate {
-    0% {-webkit-transform: opacity: 0.0;}
-    50% {opacity: 1.0;}
-    100% {-webkit-transform: opacity: 0.0;}
+    0% {text-shadow: 0 0 20px rgba(255, 255, 255, 1);}
+    50%   {text-shadow: 0 0 0px rgba(255, 255, 255, 0.5);}
+    100% {text-shadow: 0 0 20px rgba(255, 255, 255, 1);}
+}
+
+@-webkit-keyframes opacity-pulsate {
+    0% {opacity: 0.5;}
+    50%   {opacity: 1;}
+    100% {opacity: 0.5;}
 }
 
 h2.initiate {
