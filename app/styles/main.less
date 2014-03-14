@@ -1123,6 +1123,16 @@ h2.loading {
   text-align: center;
   line-height: 42px;
   color: @bright-blue;
+
+  -webkit-animation: pulsate 3s ease-out;
+  -webkit-animation-iteration-count: infinite; 
+  opacity: 0;
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: opacity: 0.0;}
 }
 
 h2.initiate {
