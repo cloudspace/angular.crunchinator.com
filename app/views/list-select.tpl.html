@@ -27,7 +27,7 @@
                         <td>
                             <div class="list-item" ng-click="removeItem(item)">{{ item.display_name || item.name}}</div>
                             <a ng-if="link" class="permalink" target="_blank" href="http://crunchbase.com/{{ item.investor_type.replace('_', '-') || 'company' }}/{{item.permalink}}">
-                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                                <i class="pull-right fa fa-external-link"></i>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
                         </td>
@@ -36,7 +36,7 @@
                         <td>
                             <div class="list-item" ng-click="selectItem(item)">{{ item.display_name || item.name}}</div>
                             <a ng-if="link" class="permalink" target="_blank" href="http://crunchbase.com/{{ item.investor_type.replace('_', '-') || 'company' }}/{{item.permalink}}">
-                                <span class="pull-right glyphicon glyphicon-new-window"></span>
+                                <i class="pull-right fa fa-external-link"></i>
                             </a>
                             <span ng-if="count" class="pull-right model-count">{{ item.model_count }}</span>
                         </td>
