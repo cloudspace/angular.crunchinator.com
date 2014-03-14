@@ -588,10 +588,11 @@ header{
     .ellipsis { display: inline; }
     .continuation, button { display: none; }
     .triangle {
-        .PositionAbsolute(24px, -13px);
+        .PositionAbsolute(50%, -13px);
         background: url("/images/triangle_white.png") no-repeat;
         height: 25px;
         width: 13px;
+        margin-top: -13px;
     }
 
     ul {
@@ -604,7 +605,7 @@ header{
         .LightBoxShadow();
         color: @light-grey;
         text-align: left;
-        padding: 20px 40px;
+        padding: 70px 40px 70px 135px;
         margin: 10px 20px 10px 0px;
         border: solid 1px @light-grey2;
         border-radius: 5px;
@@ -615,7 +616,7 @@ header{
         background: white 20px center no-repeat;
 
         
-        -webkit-transition: padding 500ms ease;
+        -webkit-transition: color 1s, background-color 1s;
       }
 
 
@@ -625,27 +626,22 @@ header{
         padding: 10px;
         border-radius: 10px;
         background-color: @light-grey2;
-        .PositionAbsolute(27px, -54px);
+        .PositionAbsolute(50%, -54px);
+        margin-top: -10px;
       }
 
       li.active:before{
-        .PositionAbsolute(50%, -54px);
-        margin-top: -10px;
+
         background-color: @active-container-blue;
       }
 
       li.active {
-        padding: 70px 40px 70px 135px;
+        
         background-color: @active-container-blue;
         background-image: url('/images/check_mark.png');
         color: @white;
-        
-        margin-bottom: 20px;
-        -webkit-transition: padding 500ms ease, background-image 0 500ms;
 
         .triangle{
-          top: 50%;
-          margin-top: -13px;
           background: url("/images/triangle_blue.png") no-repeat;
         }
 

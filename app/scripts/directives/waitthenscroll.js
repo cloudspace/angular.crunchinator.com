@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('waitThenScroll', function ($window) {
+angular.module('crunchinatorApp.directives').directive('waitThenScroll', function ($window, $rootScope) {
     return {
         restrict: 'A',
         scope: {
@@ -20,6 +20,7 @@ angular.module('crunchinatorApp.directives').directive('waitThenScroll', functio
                         'margin-bottom': 0
                     }, scrollSpeed, function() {
                         scope.isScrolling = false;
+                        $rootScope.$broadcast('scrollFinish');
                     });
                 }
             });
