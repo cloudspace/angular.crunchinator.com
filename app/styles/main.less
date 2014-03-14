@@ -588,10 +588,11 @@ header{
     .ellipsis { display: inline; }
     .continuation, button { display: none; }
     .triangle {
-        .PositionAbsolute(24px, -13px);
+        .PositionAbsolute(50%, -13px);
         background: url("/images/triangle_white.png") no-repeat;
         height: 25px;
         width: 13px;
+        margin-top: -13px;
     }
 
     ul {
@@ -604,14 +605,18 @@ header{
         .LightBoxShadow();
         color: @light-grey;
         text-align: left;
-        padding: 20px 40px 20px 40px;
+        padding: 70px 40px 70px 135px;
         margin: 10px 20px 10px 0px;
         border: solid 1px @light-grey2;
         border-radius: 5px;
         box-sizing: border-box;
         list-style-type: none;
         position: relative;
-        cursor: pointer;
+
+        background: white 20px center no-repeat;
+
+        
+        -webkit-transition: color 1s, background-color 1s;
       }
 
 
@@ -621,25 +626,22 @@ header{
         padding: 10px;
         border-radius: 10px;
         background-color: @light-grey2;
-        .PositionAbsolute(27px, -54px);
+        .PositionAbsolute(50%, -54px);
+        margin-top: -10px;
       }
 
       li.active:before{
-        .PositionAbsolute(53px, -54px);
+
         background-color: @active-container-blue;
       }
 
       li.active {
-        padding: 180px 120px 20px 120px;
-        background: @active-container-blue url('/images/check_mark.png') center top no-repeat;
-        background-position: center 40px;
+        
+        background-color: @active-container-blue;
+        background-image: url('/images/check_mark.png');
         color: @white;
-        text-align: center;
-        margin-bottom: 20px;
-        cursor: default;
 
         .triangle{
-          top: 50px;
           background: url("/images/triangle_blue.png") no-repeat;
         }
 
@@ -1121,13 +1123,18 @@ footer {
   }
 }
 
-h2#loading {
+h2.loading {
   font-size: 30px;
   font-weight: 600;
   margin: 0;
   text-align: center;
   line-height: 42px;
   color: @bright-blue;
+}
+
+h2.initiate {
+  margin-left: 150px;
+  white-space: nowrap;
 }
 
 .special {

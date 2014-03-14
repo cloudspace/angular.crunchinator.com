@@ -8,10 +8,6 @@ angular.module('crunchinatorApp.controllers')
         var body = angular.element('body');
 
         $scope.showPage = 'about';
-        $scope.quizPos = 0;
-        $scope.incPos = function(){
-            $scope.quizPos++;
-        };
 
         $scope.navigate = function(page) {
             if (body.scrollTop() === section.offset().top) {

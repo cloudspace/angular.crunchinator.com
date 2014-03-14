@@ -7,8 +7,8 @@
             </div>
 
             <div class='status'>
-                <h2 id="loading" ng-show="loading">Crunching...</h2>
-                <h2 id="loading" ng-show="!initiated">Loading LOTS of data (10-20 seconds)...</h2>
+                <h2 class="loading" ng-show="loading">Crunching...</h2>
+                <h2 class="loading initiate" ng-show="!initiated">Loading LOTS of data (10-20 seconds)...</h2>
 
                 <ul class="amount-counter" ng-show="initiated && !loading">
                     <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>

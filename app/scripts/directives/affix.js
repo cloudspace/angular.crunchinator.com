@@ -1,12 +1,9 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
-    function ( $window ) {
+angular.module( 'crunchinatorApp.directives').directive( 'affix', ['$rootScope',
+    function ($rootScope) {
         return {
             restrict: 'A',
-            controller: function($scope) {
-                $scope.jQuery = $window.jQuery;
-            },
             scope: {
                 parent: '@',
                 bottom: '@'
@@ -14,27 +11,32 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [ '$window',
             link: function (scope, element) {
                 var top, bottom;
                 var setAffixPoints = function(){
-                    top = scope.jQuery(scope.parent).offset().top;
+                    top = angular.element(scope.parent).offset().top;
                     if(scope.bottom) {
-                        bottom = scope.jQuery(scope.bottom).offset().top - scope.jQuery(window).height();
+                        var docHeight = angular.element(document).height();
+                        var botOffset = angular.element(scope.bottom).offset().top;
+                        var winHeight = angular.element(window).height();
+                        bottom = docHeight - botOffset + winHeight ;
                     }
                 };
                 setAffixPoints();
 
-                scope.$watch(function(){return scope.jQuery(document).height(); }, setAffixPoints);
-                scope.$watch(function(){return scope.jQuery(window).height(); }, setAffixPoints);
+                scope.$watch(function(){ return angular.element(document).height(); }, setAffixPoints);
+                scope.$watch(function(){ return angular.element(window).height(); }, setAffixPoints);
 
                 var config = {
                     offset: { top: function() { return top; } }
                 };
                 if(scope.bottom) {
                     config.offset.bottom = function(){
-                        return scope.jQuery(scope.bottom).offset().top + scope.jQuery(window).height();
+
+                        return bottom;
                     };
                 }
 
-                scope.$parent.$watch('shouldScroll', function(){
-                    scope.jQuery(element[0]).affix(config);
+                $rootScope.$on('scrollFinish', function() {
+                    angular.element(element[0]).affix(config);
+                    scope.$digest();
                 });
             }
         };
