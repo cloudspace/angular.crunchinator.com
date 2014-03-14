@@ -33,17 +33,6 @@
             </div>
 
             <div>
-                 <div d3-area
-                    chart-title="Investments"
-                    data="ComponentData.dataSets.fundingRoundCount"
-                    selected="fundingActivity"
-                    extent="1/2000"
-                    ranges="true"
-                    filter-property="fundingActivity"
-                ></div>
-            </div>
-
-            <div>
                 <div list-select
                     class="special"
                     chart-title="Investors"
@@ -67,12 +56,22 @@
 
             <div>
                 <div list-select
-                    chart-title="Categories"
-                    items="ComponentData.dataSets.categoryListData"
-                    selected="categoryIds"
-                    total="categories.count()"
-                    count="true"
-                    filter-property="categoryIds"
+                    chart-title="Funding: Round Name"
+                    items="ComponentData.dataSets.roundCodeListData"
+                    selected="roundCodes"
+                    total="fundingRounds.fundingSeries.length"
+                    filter-property="roundCodes"
+                ></div>
+            </div>
+
+            <div>
+                 <div d3-area
+                    chart-title="Investments"
+                    data="ComponentData.dataSets.fundingRoundCount"
+                    selected="fundingActivity"
+                    extent="1/2000"
+                    ranges="true"
+                    filter-property="fundingActivity"
                 ></div>
             </div>
 
@@ -107,6 +106,17 @@
             </div>
 
             <div>
+                <div list-select
+                    chart-title="Categories"
+                    items="ComponentData.dataSets.categoryListData"
+                    selected="categoryIds"
+                    total="categories.count()"
+                    count="true"
+                    filter-property="categoryIds"
+                ></div>
+            </div>
+
+            <div>
                  <div d3-area
                     chart-title="Acquisition Date"
                     data="ComponentData.dataSets.acquiredOnCount"
@@ -124,16 +134,6 @@
                     selected="acquiredValueRange"
                     ranges="true"
                     filter-property="acquiredValueRange"
-                ></div>
-            </div>
-
-            <div>
-                <div list-select
-                    chart-title="Funding: Round Name"
-                    items="ComponentData.dataSets.roundCodeListData"
-                    selected="roundCodes"
-                    total="fundingRounds.fundingSeries.length"
-                    filter-property="roundCodes"
                 ></div>
             </div>
 
