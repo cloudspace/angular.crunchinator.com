@@ -56,7 +56,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                 };
 
                 angular.element($window).bind('scroll', function(){
-                    var offset = angular.element('#nav').offset().top - this.pageYOffset;;
+                    var offset = angular.element('#nav').offset().top - this.pageYOffset;
                     scope.chevroned =  offset <= 100;
                 });
 
