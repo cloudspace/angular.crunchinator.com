@@ -44,17 +44,11 @@
         </script>
         <!-- Add your site or application content here -->
 
-        <div id="splash" role="splash" ui-view="splash">
-            <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
-                <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
-            </a>
-            <div class='container'>
-                <div class='row'>
-                    <div class='header-text'>
-                        <p class='tagline'>Slice, Filter &amp; Explore CrunchBase Data</p>
-                    </div>
-                </div>
-            </div>
+        <div id="splash" role="splash">
+            <video autoplay="" preload="">
+                <source src="data/VideoTest.mp4" type="video/mp4">
+            </video>
+            <button ng-click="navigate('#main')" ng-show="initiated" class='tryit'>Try it out!</button>
         </div>
         <div id="main" role="main" ui-view="main">
         </div>

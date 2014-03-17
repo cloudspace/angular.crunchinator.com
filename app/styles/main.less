@@ -804,13 +804,35 @@ footer {
 */
 
 #splash {
-  background: url('/images/burner.jpg');
-  background-size: cover;
-  background-position: 50% 50%;
+  // background: url('/images/burner.jpg');
+  // background-size: cover;
+  // background-position: 50% 50%;
   text-align: center;
   height: 100%;
   overflow: hidden;
-  margin-bottom: -64px;
+
+  video {
+      width: 100%;
+  }
+
+  button.tryit {
+    font-size: 24pt;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 3px #ccc solid;
+    border-radius: 7px;
+    color: #ccc;
+    padding: 10px 50px;
+    outline: none;
+  }
+
+  button.tryit:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border: 3px #fff solid;
+    color: #fff;
+  }
 
   .forkme {
     float: right;
