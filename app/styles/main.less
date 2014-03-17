@@ -151,14 +151,14 @@
   Global Components
 */
 @-webkit-keyframes bounce {
-    0%, 20%, 50%, 80%, 100%{ top: 0; }
-	40% { top: -12px; }
-    60% { top: -6px; }
+    0%, 2%, 5%, 8%, 100%  { top: 0; }
+	4% { top: -12px; }
+    6% { top: -6px; }
 }
 
 .bounce {
     position: relative;
-    .Animation(bounce 30s infinite);
+    .Animation(bounce 20s infinite 1s);
 }
 
 .brush .resize .limit {
