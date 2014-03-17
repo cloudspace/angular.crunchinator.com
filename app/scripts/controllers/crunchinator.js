@@ -2,8 +2,8 @@
 
 angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
-    '$scope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData', 'Bitly',
-    function CrunchinatorCtrl($scope, $location, $q, Company, Category, Investor, FundingRound, ComponentData, Bitly) {
+    '$scope', '$rootScope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData', 'Bitly',
+    function CrunchinatorCtrl($scope, $rootScope, $location, $q, Company, Category, Investor, FundingRound, ComponentData, Bitly) {
         $scope.shouldScroll = false;
 
         ComponentData.updateDataSets();
@@ -72,6 +72,7 @@ angular.module('crunchinatorApp.controllers')
                     ComponentData.updateDataSets();
 
                     $scope.initiated = true;
+                    $rootScope.initiated = true;
 
                     //Smoother initial loading hide
                     _.defer(function(){

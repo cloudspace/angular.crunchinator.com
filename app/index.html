@@ -44,18 +44,20 @@
         </script>
         <!-- Add your site or application content here -->
 
-        <div id="splash" role="splash" ui-view="splash">
+        <div id="splash" role="splash">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
-            <div class='container'>
-                <div class='row'>
-                    <div class='header-text'>
-                        <p class='tagline'>Slice, Filter &amp; Explore CrunchBase Data</p>
-                    </div>
+            <div class='initializing'>
+                <div class='header-text'>
+                    Slice, Filter &amp; Explore CrunchBase Data
                 </div>
+                <video autoplay="" preload="" width="720" height="450">
+                    <source src="data/VideoTest.mp4" type="video/mp4">
+                </video>
             </div>
         </div>
+
         <div id="main" role="main" ui-view="main">
         </div>
         <div id="about" role="about" ui-view="about">

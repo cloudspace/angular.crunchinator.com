@@ -49,6 +49,17 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                     });
                 }, true);
 
+                scope.chevron = function() {
+                    var $section = angular.element('#splash');
+                    $section.slideUp('slow', function(){
+                        scope.chevroned = true;
+                        angular.element('html, body').css({
+                            'overflow': 'visible',
+                        });
+                        scope.$digest();
+                    });
+                };
+
                 scope.$parent.$watch('loading', function(newval) {
                     scope.loading = newval;
                 });

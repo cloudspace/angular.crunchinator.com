@@ -3,29 +3,42 @@
         <nav>
             <div class='logo'>
                 <img ng-click="reset()" src="images/logo.png"/>
-                <h1 ng-show="initiated"><a href="" ng-click="reset()">Crunchinator</a></h1>
+                <h1 ng-show="initiated && chevroned"><a href="" ng-click="reset()">Crunchinator</a></h1>
             </div>
 
-            <div class='status'>
-                <h2 class="loading" ng-show="loading">Crunching...</h2>
-                <h2 class="loading initiate" ng-show="!initiated">Loading LOTS of data (10-20 seconds)...</h2>
-
-                <ul class="amount-counter" ng-show="initiated && !loading">
-                    <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
-                    <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
-                </ul>
+            <div ng-show='!chevroned'>
+                <a href='' ng-click="chevron()" ng-show="initiated">
+                    <div>
+                        <i class="bounce fa fa-angle-double-down"></i>
+                        <span class='movealong'>Continue to the Crunchinator</span>
+                        <i class="bounce fa fa-angle-double-down"></i>
+                    </div>
+                </a>
+                <div ng-show="!initiated" class="loading" >Hang tight, we're crunching your bytes...</div>
             </div>
 
+            <div ng-show='chevroned'>
 
-            <div title='Share your results' ng-show="initiated" class="share">
-                <p>Share Results: </p>
-                <ul>
-                    <li class="facebook"><button fb-share><i class="fa fa-thumbs-up"></i>Share</button></li>
-                    <li class="twitter"><button twitter-share><i class="fa fa-twitter"></i>Tweet</button></li>
-                    <li class="email"><button email-share><i class="fa fa-envelope-o"></i>E-mail</button></li>
-                </ul>
-            </div>
-        </nav>
+                <div class='status'>
+                    <h2 class="loading" ng-show="loading">Crunching...</h2>
+
+                    <ul class="amount-counter" ng-show="initiated && !loading">
+                        <li><span class="amount-count">{{companyCount || 0}}</span> Companies</li>
+                        <li><span class="amount-count">{{investorCount || 0}}</span> Investors</li>
+                    </ul>
+                </div>
+
+
+                <div title='Share your results' class="share">
+                    <p>Share Results: </p>
+                    <ul>
+                        <li class="facebook"><button fb-share><i class="fa fa-thumbs-up"></i>Share</button></li>
+                        <li class="twitter"><button twitter-share><i class="fa fa-twitter"></i>Tweet</button></li>
+                        <li class="email"><button email-share><i class="fa fa-envelope-o"></i>E-mail</button></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
         <div id="filters">
             <ul>
