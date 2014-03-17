@@ -804,35 +804,19 @@ footer {
 */
 
 #splash {
-  // background: url('/images/burner.jpg');
-  // background-size: cover;
-  // background-position: 50% 50%;
-  text-align: center;
+  background: url('/images/burner.jpg');
+  background-size: cover;
+  background-position: 50% 50%;
   height: 100%;
   overflow: hidden;
-  background: #27292D;
+  margin-bottom: -64px;
 
   video {
-      width: 100%;
-  }
-
-  button.tryit {
-    font-size: 24pt;
     position: absolute;
-    right: 15px;
-    bottom: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 3px #ccc solid;
-    border-radius: 7px;
-    color: #ccc;
-    padding: 10px 50px;
-    outline: none;
-  }
-
-  button.tryit:hover {
-    background: rgba(0, 0, 0, 0.5);
-    border: 3px #fff solid;
-    color: #fff;
+    top: 50%;
+    margin-top: -260px;
+    left: 50%;
+    margin-left: -350px;
   }
 
   .forkme {
@@ -933,6 +917,14 @@ footer {
     text-align: center;
     padding: 11px 0;
     position: relative;
+  }
+
+  i.fa-chevron-down {
+    font-size: 44px;
+  }
+
+  a {
+      text-decoration: none;
   }
 
   .logo {
@@ -1141,12 +1133,11 @@ footer {
   }
 }
 
-h2.loading {
+.loading {
   font-size: 30px;
   font-weight: 600;
   margin: 0;
   text-align: center;
-  line-height: 42px;
   color: @bright-blue;
 
   text-shadow: 0 0 20px rgba(200, 200, 200, .5);
@@ -1165,11 +1156,6 @@ h2.loading {
     0% {opacity: 0.5;}
     50%   {opacity: 1;}
     100% {opacity: 0.5;}
-}
-
-h2.initiate {
-  margin-left: 150px;
-  white-space: nowrap;
 }
 
 .special {

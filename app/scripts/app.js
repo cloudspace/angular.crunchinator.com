@@ -47,9 +47,4 @@ angular.module('crunchinatorApp', [
             $scope.pageTitle = toState.data.pageTitle;
         }
     });
-
-    $scope.navigate = function(page) {
-        var section = angular.element(page);
-        angular.element('body').animate({scrollTop: section.offset().top}, 'slow');
-    };
 });

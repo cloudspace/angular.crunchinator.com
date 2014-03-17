@@ -45,11 +45,11 @@
         <!-- Add your site or application content here -->
 
         <div id="splash" role="splash">
-            <video autoplay="" preload="">
+            <video autoplay="" preload="" width="720" height="450">
                 <source src="data/VideoTest.mp4" type="video/mp4">
             </video>
-            <button ng-click="navigate('#main')" ng-show="initiated" class='tryit'>Try it out!</button>
         </div>
+
         <div id="main" role="main" ui-view="main">
         </div>
         <div id="about" role="about" ui-view="about">

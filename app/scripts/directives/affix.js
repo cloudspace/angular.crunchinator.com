@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'affix', ['$rootScope',
-    function ($rootScope) {
+angular.module( 'crunchinatorApp.directives').directive( 'affix', [
+    function () {
         return {
             restrict: 'A',
             scope: {
