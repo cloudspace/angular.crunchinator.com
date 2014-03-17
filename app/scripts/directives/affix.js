@@ -25,7 +25,7 @@ angular.module( 'crunchinatorApp.directives').directive( 'affix', [
                 scope.$watch(function(){ return angular.element(window).height(); }, setAffixPoints);
 
                 var config = {
-                    offset: { top: function() { console.log(top); return top; } }
+                    offset: { top: function() { return top; } }
                 };
                 if(scope.bottom) {
                     config.offset.bottom = function(){

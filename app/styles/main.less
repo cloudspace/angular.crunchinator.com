@@ -140,9 +140,27 @@
   }
 }
 
+.Animation(@animation) {
+  -webkit-animation: @animation;
+  -moz-animation: @animation;
+  -ms-animation: @animation;
+  animation: @animation;
+}
+
 /*
   Global Components
 */
+@-webkit-keyframes bounce {
+    0%, 20%, 50%, 80%, 100%{ top: 0; }
+	40% { top: -20; }
+    60% { top: -10px; }
+}
+
+.bounce {
+    position: relative;
+    .Animation(bounce 2s infinite);
+}
+
 .brush .resize .limit {
   fill: @bright-blue;
 }
