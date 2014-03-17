@@ -7,7 +7,13 @@
             </div>
 
             <div ng-show='!chevroned'>
-                <a href='' ng-click="chevron()" ng-show="initiated"><div><i class="fa fa-angle-double-down"></i></div></a>
+                <a href='' ng-click="chevron()" ng-show="initiated">
+                    <div>
+                        <i class="fa fa-angle-double-down"></i>
+                        <span class='movealong'>Continue to the Crunchinator</span>
+                        <i class="fa fa-angle-double-down"></i>
+                    </div>
+                </a>
                 <div ng-show="!initiated" class="loading" >Hang tight, we're crunching your bytes...</div>
             </div>
 

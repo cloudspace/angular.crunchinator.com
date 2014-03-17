@@ -23,8 +23,8 @@ function labelfy(num) {
     return '$' + abbreviateNumber(num);
 }
 
-angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', 'Company', 'Investor', 'Category', '$window',
-    function($rootScope, Company, Investor, Category, $window) {
+angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', 'Company', 'Investor', 'Category',
+    function($rootScope, Company, Investor, Category) {
         return {
             restrict: 'EA',
             scope: {
@@ -49,16 +49,16 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                     });
                 }, true);
 
-
                 scope.chevron = function() {
-                    var section = angular.element('#main');
-                    angular.element('body').animate({scrollTop: section.offset().top}, 'slow');
+                    var $section = angular.element('#splash');
+                    $section.slideUp('slow', function(){
+                        scope.chevroned = true;
+                        angular.element('html, body').css({
+                            'overflow': 'visible',
+                        });
+                        scope.$digest();
+                    });
                 };
-
-                angular.element($window).bind('scroll', function(){
-                    var offset = angular.element('#nav').offset().top - this.pageYOffset;
-                    scope.chevroned =  offset <= 100;
-                });
 
                 scope.$parent.$watch('loading', function(newval) {
                     scope.loading = newval;
