@@ -39,50 +39,54 @@ angular.module('crunchinatorApp.controllers')
         $scope.categories = Category;
         $scope.fundingRounds = FundingRound;
 
-        //Fetch the data for each model, then set up its dimensions and run its filters.
-        var modelCount = 0;
-        var models = [Company, Category, Investor, FundingRound];
-        _.each(models, function(Model) {
-            Model.fetch().then(function() {
-                modelCount++;
-                if(modelCount === models.length) {
-                    var companiesById = _.indexBy(Company.all, 'id');
-                    var categoriesById = _.indexBy(Category.all, 'id');
-                    var investorsById = _.indexBy(Investor.all, 'id');
+        _.delay(function(){
+            //Fetch the data for each model, then set up its dimensions and run its filters.
+            var modelCount = 0;
+            var models = [Company, Category, Investor, FundingRound];
+            _.each(models, function(Model) {
+                Model.fetch().then(function() {
+                    modelCount++;
+                    if(modelCount === models.length) {
+                        var companiesById = _.indexBy(Company.all, 'id');
+                        var categoriesById = _.indexBy(Category.all, 'id');
+                        var investorsById = _.indexBy(Investor.all, 'id');
 
-                    Investor.linkModels(companiesById, categoriesById);
-                    Category.linkModels(companiesById, investorsById);
-                    FundingRound.linkModels(companiesById, investorsById, categoriesById);
+                        Investor.linkModels(companiesById, categoriesById);
+                        Category.linkModels(companiesById, investorsById);
+                        FundingRound.linkModels(companiesById, investorsById, categoriesById);
 
-                    if($location.search().filters) {
-                        $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
-                        var toDate = function(dateString){
-                            return new Date(dateString);
-                        };
-                        $scope.filterData.fundingActivity = _.map($scope.filterData.fundingActivity, toDate);
-                        $scope.filterData.ipoDateRange = _.map($scope.filterData.ipoDateRange, toDate);
-                        $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
-                        $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
-                    }
+                        if($location.search().filters) {
+                            $scope.filterData = JSON.parse(decodeURIComponent($location.search().filters));
+                            var toDate = function(dateString){
+                                return new Date(dateString);
+                            };
+                            $scope.filterData.fundingActivity = _.map($scope.filterData.fundingActivity, toDate);
+                            $scope.filterData.ipoDateRange = _.map($scope.filterData.ipoDateRange, toDate);
+                            $scope.filterData.foundedDate = _.map($scope.filterData.foundedDate, toDate);
+                            $scope.filterData.acquiredDate = _.map($scope.filterData.acquiredDate, toDate);
+                        }
 
-                    _.each(models, function(Model) {
-                        Model.setupDimensions();
-                        Model.runFilters($scope.filterData);
-                    });
-                    ComponentData.updateDataSets();
-
-                    $scope.initiated = true;
-                    $rootScope.initiated = true;
-
-                    //Smoother initial loading hide
-                    _.defer(function(){
-                        $scope.$apply(function(){
-                            $scope.shouldScroll = true;
+                        _.each(models, function(Model) {
+                            Model.setupDimensions();
+                            Model.runFilters($scope.filterData);
                         });
-                    });
-                }
+                        ComponentData.updateDataSets();
+
+                        $scope.initiated = true;
+                        $rootScope.initiated = true;
+
+                        //Smoother initial loading hide
+                        _.defer(function(){
+                            $scope.$apply(function(){
+                                $scope.shouldScroll = true;
+                            });
+                        });
+                    }
+                });
             });
-        });
+        }, 1000);
+
+
 
         //Bind component data services to the scope, so we can use them in the views
         $scope.ComponentData = ComponentData;
