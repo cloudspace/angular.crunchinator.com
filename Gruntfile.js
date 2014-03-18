@@ -405,7 +405,8 @@ module.exports = function (grunt) {
                     '.eot',
                     '.woff',
                     '.ttf',
-                    '.mp4'
+                    '.mp4',
+                    '.webm'
                 ]
             },
             staging: {
