@@ -10,7 +10,7 @@ angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [
                         method: 'feed',
                         name: 'Slice, Filter & Explore Crunchbase Data',
                         link: scope.$parent.shortUrl,
-                        picture: 'http://staging.crunchinator.com/images/burner.jpg',
+                        picture: 'http://crunchinator.com/images/logo.png',
                         caption: '',
                         description: 'With Cloudspace\'s free Crunchinator tool, you can quickly identify all ' +
                             'companies and investors based upon a variety of criteria, including geography, ' +
