@@ -182,10 +182,10 @@ var randomDate = function(start, end) {
         setupStubbedBackend();
         break;
     case 'staging':
-        base_url = 'https://s3.amazonaws.com/staging.crunchinator.com/api/' + api_version;
+        base_url = 'http://staging.crunchinator.com/api/' + api_version;
         break;
     case 'production':
-        base_url = 'https://s3.amazonaws.com/crunchinator.com/api/' + api_version;
+        base_url = 'http://crunchinator.com/api/' + api_version;
         break;
     }
 
