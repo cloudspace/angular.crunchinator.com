@@ -404,7 +404,8 @@ module.exports = function (grunt) {
                     '.svg',
                     '.eot',
                     '.woff',
-                    '.ttf'
+                    '.ttf',
+                    '.mp4'
                 ]
             },
             staging: {
