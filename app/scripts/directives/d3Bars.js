@@ -38,6 +38,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
             link: function(scope, element) {
                 scope.selectedItems = [];
                 scope.oldFilterData = {};
+                var last_range;
                 var parent = angular.element(element[0]).parent();
                 element = angular.element(element[0]).find('.chart');
 
@@ -49,7 +50,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                 var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
                 var y = d3.scale.linear().range([height, 0]);
                 var id = Math.floor(Math.random()*1e10);
-                
+
                 var gBrush;
                 var svg = d3.select(element[0]).append('svg')
                     .style('width', width + margin.left + margin.right + 'px')
@@ -79,12 +80,17 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         }
                     });
 
+                    if (range[0] === Infinity || range[1] === -Infinity) {
+                        range = last_range;
+                    }
+
                     scope.min = labelfy(range[0]);
                     scope.max = labelfy(range[1]);
 
                     svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
                     svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
 
+                    last_range = range;
                     if (typeof full_extent === 'undefined') {
                         full_extent = [range[0], range[1]];
                     }
@@ -121,7 +127,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                                 }
                             });
                         }
-                        
+
                         lastExtent = brush.extent();
                     });
                 var lastExtent = brush.extent();
@@ -226,7 +232,7 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         .attr('height', 20).attr('width', 40)
                         .attr('transform', 'translate(-20,30)')
                         .attr('rx', 5).attr('ry', 5);
-                        
+
                     gBrush.selectAll('.resize').append('text')
                         .attr('class', 'range_text')
                         .attr('transform', 'translate(0,45)');
