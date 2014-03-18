@@ -44,7 +44,7 @@
         </script>
         <!-- Add your site or application content here -->
 
-        <div id="splash" role="splash">
+        <div id="splash" role="splash" ng-if="!isIE()">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
@@ -59,7 +59,10 @@
             </div>
         </div>
 
-        <div id="main" role="main" ui-view="main">
+        <div id="main" role="main" ui-view="main" ng-if="!isIE()">
+        </div>
+        <div class='no-ie' ng-if="isIE()">
+            We're sorry, we don't support your browser. Please try <a href='https://www.google.com/intl/en/chrome/browser/'>Google Chrome</a>.
         </div>
         <div id="about" role="about" ui-view="about">
         </div>

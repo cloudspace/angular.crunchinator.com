@@ -42,9 +42,20 @@ angular.module('crunchinatorApp', [
 })
 
 .controller('AppCtrl', function AppCtrl($scope) {
+    $scope.isIE = function() {
+        var myNav = navigator.userAgent.toLowerCase();
+        return (myNav.indexOf('msie') !== -1) ? parseInt(myNav.split('msie')[1]) : false;
+    };
+
     $scope.$on('$stateChangeSuccess', function(event, toState){
         if (angular.isDefined(toState.data.pageTitle)) {
             $scope.pageTitle = toState.data.pageTitle;
         }
     });
+
+    if($scope.isIE()){
+        angular.element('html, body').css({
+            'overflow': 'visible'
+        });
+    }
 });
