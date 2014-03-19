@@ -41,13 +41,10 @@ angular.module('crunchinatorApp', [
 .run(function run() {
 })
 
-.controller('AppCtrl', function AppCtrl($scope, $location, IsMobile) {
-    $scope.isIE = (function() {
-        var myNav = navigator.userAgent.toLowerCase();
-        return (myNav.indexOf('msie') !== -1) ? parseInt(myNav.split('msie')[1]) : false;
-    })();
+.controller('AppCtrl', function AppCtrl($scope, $location, Browser) {
+    $scope.isIE = Browser.isIE();
 
-    $scope.isMobile = IsMobile.any();
+    $scope.isMobile = Browser.isMobile.any();
 
     $scope.shared_results = !!$location.search().filters;
 
