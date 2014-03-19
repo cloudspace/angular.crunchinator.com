@@ -1,17 +1,15 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'emailShare', [ '$location', 'Bitly',
-    function ($location, Bitly) {
+angular.module( 'crunchinatorApp.directives').directive( 'emailShare', [
+    function () {
         return {
             restrict: 'A',
             link: function (scope, element) {
                 element.bind('click', function(){
-
-                    Bitly.shorten(encodeURIComponent($location.absUrl())).then(function(response){
-                        var shortened = encodeURIComponent(response.data);
-                        var link = 'mailto:?body='+shortened;
-                        window.location.href = link;
-                    });
+                    ga('send', 'event', 'Social', 'Share', 'Email');
+                    var shortened = encodeURIComponent(scope.$parent.shortUrl);
+                    var link = 'mailto:?body='+shortened;
+                    window.location.href = link;
                 });
             }
         };

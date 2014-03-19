@@ -27,6 +27,6 @@
     "L": false,
     "topojson": false,
     "FB": false,
-    "_gaq": false
+    "ga": false
   }
 }
