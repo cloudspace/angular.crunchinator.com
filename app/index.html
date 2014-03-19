@@ -64,6 +64,7 @@
 
         <div id="main" role="main" ui-view="main" ng-if="!isIE && !isMobile">
         </div>
+
         <div class='no-ie' ng-if="isIE">
             The Crunchinator does not currently support Internet Explorer due to poor Javascript performance. <br />
             Please check us out with
@@ -71,14 +72,19 @@
             <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a>,
             or <a href='https://www.apple.com/safari/'>Safari</a>.
         </div>
+
         <div class='no-ie' ng-if="isMobile">
-            The Crunchinator is a desktop-only experience due to the processing required. <br />
-            Please visit us on your desktop.
+            <div class='logo'>
+                <img src="images/logo.png"/>
+                <h1>Crunchinator</h1>
+            </div>
+            <p>Because of screen and UI constraints, the Crunchinator needs to be viewed on a traditional Mac or PC</p>
         </div>
+
         <div id="about" role="about" ui-view="about" ng-if="!isMobile">
         </div>
 
-        <footer id="footer">
+        <footer id="footer" ng-if="!isMobile">
             <p>
                 We build new businesses for successful companies.
                 What can we build for you?
