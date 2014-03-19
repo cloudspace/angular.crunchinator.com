@@ -23,8 +23,8 @@ function labelfy(num) {
     return '$' + abbreviateNumber(num);
 }
 
-angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', 'Company', 'Investor', 'Category',
-    function($rootScope, Company, Investor, Category) {
+angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category',
+    function($rootScope, $location, Company, Investor, Category) {
         return {
             restrict: 'EA',
             scope: {
@@ -66,6 +66,11 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
 
                 scope.$parent.$watch('initiated', function(newval) {
                     scope.initiated = newval;
+                    if(scope.$parent.initiated === true && $location.search().filters) {
+                        _.defer(function(){
+                            scope.chevron();
+                        });
+                    }
                 });
 
                 scope.removeFilter = function(item) {
