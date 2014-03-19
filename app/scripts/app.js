@@ -41,11 +41,13 @@ angular.module('crunchinatorApp', [
 .run(function run() {
 })
 
-.controller('AppCtrl', function AppCtrl($scope) {
+.controller('AppCtrl', function AppCtrl($scope, $location) {
     $scope.isIE = function() {
         var myNav = navigator.userAgent.toLowerCase();
         return (myNav.indexOf('msie') !== -1) ? parseInt(myNav.split('msie')[1]) : false;
     };
+
+    $scope.shared_results = !!$location.search().filters;
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
         if (angular.isDefined(toState.data.pageTitle)) {
