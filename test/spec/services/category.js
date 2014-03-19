@@ -16,7 +16,7 @@ describe('Service: Category', function() {
         ];
     });
 
-    it('has a list of filterGroups', function() {
+    it('has a list of dataSets', function() {
         expect(Category.dataSets).toBeTruthy();
     });
 
@@ -41,4 +41,3 @@ describe('Service: Category', function() {
         // });
     });
 });
-

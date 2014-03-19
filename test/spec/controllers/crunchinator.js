@@ -32,6 +32,7 @@ describe('Controller: CrunchinatorCtrl', function () {
         expect(scope.companies).toBeTruthy();
         expect(scope.categories).toBeTruthy();
         expect(scope.investors).toBeTruthy();
+        expect(scope.fundingRounds).toBeTruthy();
     });
 
     it('attaches the component data to the scope', function () {
@@ -41,6 +42,10 @@ describe('Controller: CrunchinatorCtrl', function () {
     it('calls each models fetch function', function(){
         expect(_company.fetch).toHaveBeenCalled();
         expect(_category.fetch).toHaveBeenCalled();
+    });
+
+    it('attaches filterdata to the scope', function(){
+        expect(scope.filterData).toBeTruthy();
     });
 
     // TODO: Fix test for deferred filters.
