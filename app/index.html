@@ -65,26 +65,10 @@
         <div id="main" role="main" ui-view="main" ng-if="!isIE && !isMobile">
         </div>
 
-        <div class='no-ie' ng-if="isIE">
-            The Crunchinator does not currently support Internet Explorer due to poor Javascript performance. <br />
-            Please check us out with
-            <a href='https://www.google.com/intl/en/chrome/browser/'>Chrome</a>,
-            <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a>,
-            or <a href='https://www.apple.com/safari/'>Safari</a>.
+        <div id="about" role="about" ui-view="about" ng-if="!isIE && !isMobile">
         </div>
 
-        <div class='no-ie' ng-if="isMobile">
-            <div class='logo'>
-                <img src="images/logo.png"/>
-                <h1>Crunchinator</h1>
-            </div>
-            <p>Because of screen and UI constraints, the Crunchinator needs to be viewed on a traditional Mac or PC</p>
-        </div>
-
-        <div id="about" role="about" ui-view="about" ng-if="!isMobile">
-        </div>
-
-        <footer id="footer" ng-if="!isMobile">
+        <footer id="footer" ng-if="!isIE && !isMobile">
             <p>
                 We build new businesses for successful companies.
                 What can we build for you?
@@ -96,6 +80,31 @@
                 <li>877.823.8808</li>
             </ul>
         </footer>
+
+
+        <div class='hero' ng-if="isIE">
+            <div class='banner'>
+                <div class='logo'>
+                    <img src="images/logo.png"/>
+                    <h1>Crunchinator</h1>
+                </div>
+                <div class='message'>
+                    The Crunchinator does not currently support Internet Explorer due to poor Javascript performance. <br />
+                    Please check us out with
+                    <a href='https://www.google.com/intl/en/chrome/browser/'>Chrome</a>,
+                    <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a>,
+                    or <a href='https://www.apple.com/safari/'>Safari</a>.
+                </div>
+            </div>
+        </div>
+
+        <div class='unsupported' ng-if="isMobile">
+            <div class='logo'>
+                <img src="images/logo.png"/>
+                <h1>Crunchinator</h1>
+            </div>
+            <p>Because of screen and UI constraints, the Crunchinator needs to be viewed on a traditional Mac or PC</p>
+        </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <!-- build:js({.tmp,app}) scripts/libraries.js -->

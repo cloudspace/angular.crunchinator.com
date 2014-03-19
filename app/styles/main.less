@@ -6,7 +6,7 @@
   display: block !important;
 }
 
-.no-ie {
+.unsupported {
   font-size: 20px;
   color: #eee;
   text-align: center;
@@ -15,6 +15,39 @@
   .logo {
       margin-bottom: 50px;
   }
+}
+
+.hero {
+    background: url('/images/burner.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 22px;
+    .banner {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        margin-top: -150px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 50px 0;
+    }
+    .logo {
+        h1 {
+            display: inline-block;
+            padding-bottom: 15px;
+            margin: 0;
+            margin-left: 10px;
+        }
+        img {
+            vertical-align: bottom;
+        }
+    }
+    .message {
+        margin-top: 50px;
+    }
 }
 
 
