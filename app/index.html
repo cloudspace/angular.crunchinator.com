@@ -47,7 +47,7 @@
         </script>
         <!-- Add your site or application content here -->
 
-        <div id="splash" role="splash" ng-if="!isIE()">
+        <div id="splash" role="splash" ng-if="!isIE && !isMobile">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
@@ -62,14 +62,18 @@
             </div>
         </div>
 
-        <div id="main" role="main" ui-view="main" ng-if="!isIE()">
+        <div id="main" role="main" ui-view="main" ng-if="!isIE && !isMobile">
         </div>
-        <div class='no-ie' ng-if="isIE()">
+        <div class='no-ie' ng-if="isIE">
             The Crunchinator does not currently support Internet Explorer due to poor Javascript performance. <br />
             Please check us out with
             <a href='https://www.google.com/intl/en/chrome/browser/'>Chrome</a>,
             <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a>,
             or <a href='https://www.apple.com/safari/'>Safari</a>.
+        </div>
+        <div class='no-ie' ng-if="isMobile">
+            The Crunchinator is a desktop-only experience due to the processing required. <br />
+            Please visit us on your desktop.
         </div>
         <div id="about" role="about" ui-view="about">
         </div>
@@ -119,6 +123,7 @@
         <script src="scripts/services/fundingRound.js"></script>
         <script src="scripts/services/componentData.js"></script>
         <script src="scripts/services/bitly.js"></script>
+        <script src="scripts/services/isMobile.js"></script>
 
         <script src="scripts/controllers/crunchinator.js"></script>
         <script src="scripts/controllers/about.js"></script>

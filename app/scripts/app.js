@@ -41,11 +41,13 @@ angular.module('crunchinatorApp', [
 .run(function run() {
 })
 
-.controller('AppCtrl', function AppCtrl($scope, $location) {
-    $scope.isIE = function() {
+.controller('AppCtrl', function AppCtrl($scope, $location, IsMobile) {
+    $scope.isIE = (function() {
         var myNav = navigator.userAgent.toLowerCase();
         return (myNav.indexOf('msie') !== -1) ? parseInt(myNav.split('msie')[1]) : false;
-    };
+    })();
+
+    $scope.isMobile = IsMobile.any();
 
     $scope.shared_results = !!$location.search().filters;
 
@@ -55,7 +57,7 @@ angular.module('crunchinatorApp', [
         }
     });
 
-    if($scope.isIE()){
+    if($scope.isIE || $scope.isMobile){
         angular.element('html, body').css({
             'overflow': 'visible'
         });
