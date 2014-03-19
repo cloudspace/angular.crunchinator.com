@@ -113,11 +113,12 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
     };
 
     /**
-     * Checks to see if a FundingRound passes filtering.
+     * Checks to see if a FundingRound passes filtering. Calls super-class method,
+     * 'roundPassesFilters' to check general filters.
      *
+     * @override
      * @param {object} a FundingRound to check filters against.
      * @param {object} current filter parameters.
-     *
      * @returns {boolean} whether a FundingRound passes the current filter state.
      */
     Investor.prototype.roundPassesFilters = function(round, fd){
@@ -140,11 +141,12 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
     };
 
     /**
-     * Checks to see if a Company passes filtering.
+     * Checks to see if a Company passes Investor specific filtering. Calls super-class method,
+     * 'companyPassesFilters' to check general filters.
      *
+     * @override
      * @param {object} a Company to check filters against.
      * @param {object} current filter parameters.
-     *
      * @returns {boolean} whether a Company passes the current filter state.
      */
     Investor.prototype.companyPassesFilters = function(company, fd){

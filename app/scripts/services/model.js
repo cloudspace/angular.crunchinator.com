@@ -79,7 +79,7 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
     };
 
     /**
-     * Apply all the filters attached to the Model except those specified in exlusions 
+     * Apply all the filters attached to the Model except those specified in exlusions
      *
      * @param {array} exclusions An array of filters we do not want to be applied to a data set
      */
@@ -102,6 +102,14 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return this.all.length;
     };
 
+    /**
+     * Checks to see if a Company passes filtering.
+     *
+     * @param {object} a Company to check filters against.
+     * @param {object} current filter parameters.
+     *
+     * @returns {boolean} whether a Company passes the current filter state.
+     */
     Model.prototype.companyPassesFilters = function(company, filterData){
         var self = this;
         var parse = this.format.parse;
@@ -160,6 +168,13 @@ angular.module('crunchinatorApp.models').service('Model', function($rootScope, $
         return true;
     };
 
+    /**
+     * Checks to see if a FundingRound passes filtering.
+     *
+     * @param {object} a FundingRound to check filters against.
+     * @param {object} current filter parameters.
+     * @returns {boolean} whether a FundingRound passes the current filter state.
+     */
     Model.prototype.roundPassesFilters = function(round, filterData) {
         var self = this;
         var parse = this.format.parse;

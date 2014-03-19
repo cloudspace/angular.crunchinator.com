@@ -13,7 +13,14 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
 
     FundingRound.prototype = Object.create(Model);
 
-
+    /**
+     * A function called on the response object that returns the raw model data
+     * This is overridden for each subclass of model for different paths to the data
+     *
+     * @override
+     * @param {object} response The response returned from the API
+     * @return {array} A list of FundingRounds extracted from the response
+     */
     FundingRound.prototype.parse = function(response) {
         return response.funding_rounds;
     };
@@ -145,6 +152,15 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
         },
     };
 
+    /**
+     * Checks to see if a Company passes FundingRound specific filtering. Calls super-class method,
+     * 'companyPassesFilters' to check general filters.
+     *
+     * @override
+     * @param {object} a Company to check filters against.
+     * @param {object} current filter parameters.
+     * @returns {boolean} whether a Company passes the current filter state.
+     */
     FundingRound.prototype.companyPassesFilters = function(company, fd){
         //Company's category is included in filters
         if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, company.category_id)) {
