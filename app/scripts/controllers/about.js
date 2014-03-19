@@ -2,13 +2,13 @@
 
 angular.module('crunchinatorApp.controllers')
 .controller('AboutCtrl',  [
-    '$scope', 'IsMobile',
-    function AboutCtrl($scope, IsMobile) {
+    '$scope', 'Browser',
+    function AboutCtrl($scope, Browser) {
         var section = angular.element('#about');
         var body = angular.element('body');
 
         $scope.showPage = 'about';
-        $scope.isMobile = IsMobile.any();
+        $scope.isMobile = Browser.isMobile.any();
 
         $scope.navigate = function(page) {
             if (body.scrollTop() === section.offset().top) {
