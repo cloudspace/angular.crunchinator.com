@@ -1,5 +1,13 @@
 'use strict';
 
+/**
+ * Generate a random number based on a simple probability density function
+ * between a range.
+ *
+ * @param {number} lower bound of the exponential distribution.
+ * @param {number} upper bound of the exponential distribution.
+ * @return {number} generated number
+ */
 var exp_dist = function(min, max) {
     var increment = (max - min) / 6;
     var num;
@@ -12,10 +20,25 @@ var exp_dist = function(min, max) {
     return num;
 };
 
+/**
+ * Wraps function 'exp_dist' to round down the generated number to its nearest
+ * integer.
+ *
+ * @param {number} lower bound of the exponential distribution.
+ * @param {number} upper bound of the exponential distribution.
+ * @return {number} generated, floored number
+ */
 var exponential_distribution = function(min, max) {
     return Math.floor(exp_dist(min, max));
 };
 
+/**
+ * Create a random date between a given date range
+ *
+ * @param {date} lower bound of date range
+ * @param {date} upper bound of date range
+ * @return {date} a random date
+ */
 var randomDate = function(start, end) {
     return new Date(start.getTime() + (1 - exp_dist(0, 1)) * (end.getTime() - start.getTime()));
 };
@@ -95,6 +118,12 @@ var randomDate = function(start, end) {
         };
     };
 
+    /**
+     * Generates a FundingRound with random attributes.
+     *
+     * @param {number} an ID for the generated FundingRound.
+     * @return {object} FundingRound with randomly generated property values.
+     */
     var randomFundingRound = function(id) {
         id = id || 0;
         return {
