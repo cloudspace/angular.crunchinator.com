@@ -48,7 +48,9 @@
         <!-- Add your site or application content here -->
 
         <div id="splash" role="splash" ng-cloak ng-if="!isIE && !isMobile">
-            <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
+            <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'
+                onClick="_gaq.push(['_trackEvent', 'Navigation', 'Click', 'Fork me Splash']);"
+            >
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
             <div class='initializing'>
