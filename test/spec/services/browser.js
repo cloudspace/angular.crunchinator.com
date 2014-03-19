@@ -2,7 +2,7 @@
 
 describe('Service: Browser', function() {
 
-    // load the directive's module
+    // load the services module
     beforeEach(module('crunchinatorApp.services'));
 
     var Browser, uastring;

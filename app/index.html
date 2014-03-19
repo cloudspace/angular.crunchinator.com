@@ -47,7 +47,7 @@
         </script>
         <!-- Add your site or application content here -->
 
-        <div id="splash" role="splash" ng-if="!isIE && !isMobile">
+        <div id="splash" role="splash" ng-cloak ng-if="!isIE && !isMobile">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'>
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
@@ -62,13 +62,13 @@
             </div>
         </div>
 
-        <div id="main" role="main" ui-view="main" ng-if="!isIE && !isMobile">
+        <div id="main" role="main" ui-view="main" ng-cloak ng-if="!isIE && !isMobile">
         </div>
 
-        <div id="about" role="about" ui-view="about" ng-if="!isIE && !isMobile">
+        <div id="about" role="about" ui-view="about" ng-cloak ng-if="!isIE && !isMobile">
         </div>
 
-        <footer id="footer" ng-if="!isIE && !isMobile">
+        <footer id="footer" ng-cloak ng-if="!isIE && !isMobile">
             <p>
                 We build new businesses for successful companies.
                 What can we build for you?
@@ -82,7 +82,7 @@
         </footer>
 
 
-        <div class='hero' ng-if="isIE">
+        <div class='hero' ng-cloak ng-if="isIE">
             <div class='banner'>
                 <div class='logo'>
                     <img src="images/logo.png"/>
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <div class='unsupported' ng-if="isMobile">
+        <div class='unsupported' ng-cloak ng-if="isMobile">
             <div class='logo'>
                 <img src="images/logo.png"/>
                 <h1>Crunchinator</h1>
