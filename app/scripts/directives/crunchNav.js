@@ -50,6 +50,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                 }, true);
 
                 scope.chevron = function() {
+                    ga('send', 'event', 'Navigation', 'Click', 'Continue to the Crunchinator');
                     var $section = angular.element('#splash');
                     $section.slideUp('slow', function(){
                         scope.chevroned = true;

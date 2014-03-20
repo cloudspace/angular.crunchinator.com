@@ -6,6 +6,7 @@ angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [
             restrict: 'A',
             link: function (scope, element) {
                 element.bind('click', function(){
+                    ga('send', 'event', 'Social', 'Share', 'Facebook');
                     FB.ui({
                         method: 'feed',
                         name: 'Slice, Filter & Explore Crunchbase Data',

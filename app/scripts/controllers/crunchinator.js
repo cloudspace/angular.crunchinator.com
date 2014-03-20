@@ -87,7 +87,7 @@ angular.module('crunchinatorApp.controllers')
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays
         $scope.$on('filterAction', function() {
-
+            ga('send', 'event', 'Graphs', 'Interaction', 'Filter Action');
             var deferred = $q.defer();
             function applyFilters() {
                 _.delay(function(){
