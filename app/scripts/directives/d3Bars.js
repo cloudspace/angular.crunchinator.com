@@ -1,30 +1,7 @@
 'use strict';
 
-// We need to discuss moving these 'utility' functions to a depedency we can inject
-// since they are needed across services and directives.
-function abbreviateNumber(value) {
-    var newValue = value;
-    if (value >= 1000) {
-        var suffixes = ['', 'K', 'M', 'B','T'];
-        var suffixNum = Math.floor( ((''+value).length -1)/3 );
-        var shortValue = '';
-        for (var precision = 2; precision >= 1; precision--) {
-            shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-            if (dotLessShortValue.length <= 3) { break; }
-        }
-
-        newValue = shortValue+suffixes[suffixNum];
-    }
-    return newValue;
-}
-
-function labelfy(num) {
-    return '$' + abbreviateNumber(num);
-}
-
-angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
-    function($rootScope) {
+angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope', 'ToolBox',
+    function($rootScope, ToolBox) {
         return {
             restrict: 'EA',
             scope: {
@@ -84,8 +61,8 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
                         range = last_range;
                     }
 
-                    scope.min = labelfy(range[0]);
-                    scope.max = labelfy(range[1]);
+                    scope.min = ToolBox.labelfy(range[0]);
+                    scope.max = ToolBox.labelfy(range[1]);
 
                     svg.selectAll('.resize.e').selectAll('.range_text').text(scope.max);
                     svg.selectAll('.resize.w').selectAll('.range_text').text(scope.min);
@@ -173,9 +150,9 @@ angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope',
 
                     var sel = scope.$parent.filterData[scope.selected];
                     if(sel.length > 0 && !set_initial) {
-                        var begin_ext = x(labelfy(sel[0]));
+                        var begin_ext = x(ToolBox.labelfy(sel[0]));
                         begin_ext = begin_ext ? begin_ext : 0;
-                        var end_ext = x(labelfy(sel[1]));
+                        var end_ext = x(ToolBox.labelfy(sel[1]));
                         end_ext = end_ext ? end_ext : width;
                         initial_extent = [begin_ext, end_ext];
                         brush.extent(initial_extent);

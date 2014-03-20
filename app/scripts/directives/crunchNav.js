@@ -1,30 +1,7 @@
 'use strict';
 
-// We need to discuss moving these 'utility' functions to a depedency we can inject
-// since they are needed across services and directives.
-function abbreviateNumber(value) {
-    var newValue = value;
-    if (value >= 1000) {
-        var suffixes = ['', 'K', 'M', 'B','T'];
-        var suffixNum = Math.floor( ((''+value).length -1)/3 );
-        var shortValue = '';
-        for (var precision = 2; precision >= 1; precision--) {
-            shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-            if (dotLessShortValue.length <= 3) { break; }
-        }
-
-        newValue = shortValue+suffixes[suffixNum];
-    }
-    return newValue;
-}
-
-function labelfy(num) {
-    return '$' + abbreviateNumber(num);
-}
-
-angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category',
-    function($rootScope, $location, Company, Investor, Category) {
+angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category', 'ToolBox',
+    function($rootScope, $location, Company, Investor, Category, ToolBox) {
         return {
             restrict: 'EA',
             scope: {
@@ -128,7 +105,7 @@ angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope
                         return dateFormat(range[0]) + ' - ' + dateFormat(range[1]);
                     }
 
-                    return labelfy(range[0]) + ' - ' + labelfy(range[1]);
+                    return ToolBox.labelfy(range[0]) + ' - ' + ToolBox.labelfy(range[1]);
                 };
 
                 FilterItem.prototype.typeLookup = {

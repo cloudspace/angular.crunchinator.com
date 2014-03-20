@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.services').service('ComponentData', function(Company, Investor, Category, FundingRound) {
+angular.module('crunchinatorApp.services').service('ComponentData', function(Company, Investor, Category, FundingRound, ToolBox) {
     /**
      * Collection of data used as datasources for dashboard widgets (list-select, bar-charts, area-charts, etc).
      */
@@ -249,39 +249,6 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
     }, idListMemoFunction);
 
     /**
-     * Abbreviates a number into a shortened string
-     *
-     * @param {number} [value] A large number to abbreviate
-     * @return {string} A shortened string for a large number (1,000,000 => 1M)
-     */
-    function abbreviateNumber(value) {
-        var newValue = value;
-        if (value >= 1000) {
-            var suffixes = ['', 'K', 'M', 'B','T'];
-            var suffixNum = Math.floor( ((''+value).length -1)/3 );
-            var shortValue = '';
-            for (var precision = 2; precision >= 1; precision--) {
-                shortValue = parseFloat( (suffixNum !== 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-                var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-                if (dotLessShortValue.length <= 3) { break; }
-            }
-
-            newValue = shortValue+suffixes[suffixNum];
-        }
-        return newValue;
-    }
-
-    /**
-     * Converts a large number into a labelfied short string
-     *
-     * @param {number} [num] A large number to abbreviate and make label-ready
-     * @return {string} A shortened, labeled string for a large number (1,000,000 => $1M)
-     */
-    function labelfy(num) {
-        return '$' + abbreviateNumber(num);
-    }
-
-    /**
      * Log(n)b
      *
      * @param {number} [n]
@@ -321,11 +288,11 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         start = start || 1;
 
         var propertyList = _.pluck(collection, property);
-        var ranges = [{start: start, end: min, label: labelfy(min), count: 0}];
+        var ranges = [{start: start, end: min, label: ToolBox.labelfy(min), count: 0}];
 
         for(var i = min; i < max; i *= base) {
             ranges.push(
-                {start: i, end: i * base, label: labelfy(i * base), count: 0}
+                {start: i, end: i * base, label: ToolBox.labelfy(i * base), count: 0}
             );
         }
 
