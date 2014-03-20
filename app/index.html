@@ -66,7 +66,7 @@
 
         <div id="splash" role="splash" ng-cloak ng-if="!isIE && !isMobile">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'
-                onClick="ga('send', 'event', 'Navigation', 'Click', 'Fork me Splash');"
+                ng-click="Analytics.event('Navigation', 'Click', 'Fork me Splash');"
             >
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
@@ -159,6 +159,7 @@
         <script src="scripts/services/componentData.js"></script>
         <script src="scripts/services/bitly.js"></script>
         <script src="scripts/services/browser.js"></script>
+        <script src="scripts/services/analytics.js"></script>
 
         <script src="scripts/controllers/crunchinator.js"></script>
         <script src="scripts/controllers/about.js"></script>
