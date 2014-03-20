@@ -13,6 +13,8 @@ angular.module('crunchinatorApp.models').service('FundingRound', function(Model,
 
     FundingRound.prototype = Object.create(Model);
 
+    FundingRound.prototype.constructor = FundingRound;
+
     /**
      * A function called on the response object that returns the raw model data
      * This is overridden for each subclass of model for different paths to the data

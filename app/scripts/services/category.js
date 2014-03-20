@@ -9,10 +9,11 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
      */
     var Category = function() {
         this.url = API_BASE_URL + '/categories.json';
-
     };
 
     Category.prototype = Object.create(Model);
+
+    Category.prototype.constructor = Category;
 
     /**
      * A function called on the response object that returns the raw model data
@@ -41,7 +42,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
 
             _.each(category.company_ids, function(companyId){
                 var company = companiesById[companyId];
-                
+
                 //Add company to category
                 if(company) {
                     category.companies.push(company);
@@ -122,7 +123,7 @@ angular.module('crunchinatorApp.models').service('Category', function(Model, API
             return false;
         }
 
-        //Round's company is included in filtered company ids 
+        //Round's company is included in filtered company ids
         if(fd.companyIds.length > 0 && !_.include(fd.companyIds, round.company.id)) {
             return false;
         }
