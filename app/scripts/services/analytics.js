@@ -14,6 +14,5 @@ angular.module('crunchinatorApp.services').service('Analytics', [ function() {
         properties = properties || {};
         gaEvent(category, action, name);
         kissmetricsEvent(category, action, name, properties);
-        console.log('name: '+name);
     };
 }]);
