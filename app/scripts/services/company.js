@@ -13,6 +13,8 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
 
     Company.prototype = Object.create(Model);
 
+    Company.prototype.constructor = Company;
+
     /**
      * A function called on the response object that returns the raw model data
      * This is overridden for each subclass of model for different paths to the data
@@ -62,7 +64,7 @@ angular.module('crunchinatorApp.models').service('Company', function(Model, API_
         this.byName = crossCompanies.dimension(function(company) { return company.name; });
 
         var allCompanies = this.all;
-        
+
         var fundingValues = _.pluck(allCompanies, 'total_funding');
         var ipoValues = _.pluck(allCompanies, 'ipo_valuation');
         var acquiredValues = _.pluck(allCompanies, 'acquired_value');

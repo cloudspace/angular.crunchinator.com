@@ -13,6 +13,8 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
 
     Investor.prototype = Object.create(Model);
 
+    Investor.prototype.constructor = Investor;
+
     /**
      * A function called on the response object that returns the raw model data
      * This is overridden for each subclass of model for different paths to the data
@@ -167,7 +169,6 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
 
         return true;
     };
-
 
     return new Investor();
 });
