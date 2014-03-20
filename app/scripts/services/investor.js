@@ -38,7 +38,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
             investor.invested_categories = [];
             _.each(investor.invested_company_ids, function(companyId){
                 var company = companiesById[companyId];
-                
+
                 if(company) {
                     //Add company to investor
                     investor.invested_companies.push(company);
@@ -100,7 +100,7 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         byFundingRounds: function() {
             var self = this;
             this.dimensions.byFundingRounds.filter(function(funding_rounds){
-                //A company fails if none of its rounds passes filters.
+                //An investor fails if none of its rounds passes filters.
                 for(var i = 0; i < funding_rounds.length; i++) {
                     var round = funding_rounds[i];
                     if(self.roundPassesFilters(round, self.filterData)){
@@ -112,6 +112,15 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         }
     };
 
+    /**
+     * Checks to see if a FundingRound passes filtering. Calls super-class method,
+     * 'roundPassesFilters' to check general filters.
+     *
+     * @override
+     * @param {object} a FundingRound to check filters against.
+     * @param {object} current filter parameters.
+     * @returns {boolean} whether a FundingRound passes the current filter state.
+     */
     Investor.prototype.roundPassesFilters = function(round, fd){
         //Round's category is included in filters
         if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, round.company.category_id)) {
@@ -131,6 +140,15 @@ angular.module('crunchinatorApp.models').service('Investor', function(Model, API
         return true;
     };
 
+    /**
+     * Checks to see if a Company passes Investor specific filtering. Calls super-class method,
+     * 'companyPassesFilters' to check general filters.
+     *
+     * @override
+     * @param {object} a Company to check filters against.
+     * @param {object} current filter parameters.
+     * @returns {boolean} whether a Company passes the current filter state.
+     */
     Investor.prototype.companyPassesFilters = function(company, fd){
         //Company's category is included in filters
         if(fd.categoryIds.length > 0 && !_.include(fd.categoryIds, company.category_id)) {

@@ -1,7 +1,14 @@
 'use strict';
 
 angular.module('crunchinatorApp.services').service('ComponentData', function(Company, Investor, Category, FundingRound) {
+    /**
+     * Collection of data used as datasources for dashboard widgets (list-select, bar-charts, area-charts, etc).
+     */
     this.dataSets ={};
+
+    /**
+     * Updates the state of all data sets exposed to other facets of the system
+     */
     this.updateDataSets = function() {
         var data = this.dataSets;
         //Run each data function
@@ -21,6 +28,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         data.ipoDateData = this.ipoDateData(Company.dataForIPODate, '1992');
     };
 
+    /**
+     * Creates checksum based on object ids. Used primarily for memoization state checking.
+     *
+     * @param {object} items to create checksum from.
+     * @return {string} a string of joined object ids delimited by '|'.
+     */
     var idListMemoFunction = function(items) {
         var current_hash = _.pluck(items, 'id').join('|');
         return current_hash;
@@ -201,6 +214,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         return results;
     }, idListMemoFunction);
 
+    /**
+     * Group companies by their states
+     *
+     * @param {array} list of filtered companies to group.
+     * @return {array} a collection of states and their associated company counts.
+     */
     this.companyStateData = _.memoize(function(companies) {
         var state_grouping = _.countBy(companies, function(company) { return company.state_code; });
 
@@ -219,6 +238,12 @@ angular.module('crunchinatorApp.services').service('ComponentData', function(Com
         return setupRanges(companies, 'ipo_valuation', maxNum);
     }, idListMemoFunction);
 
+    /**
+     * Constructs data necessary for the IPO Date area chart
+     *
+     * @param {array} a filtered list of companies to include in the IPO date chart.
+     * @return {array} a collection of dates with their associated company counts.
+     */
     this.ipoDateData = _.memoize(function(companies, extent) {
         return clusterByDate(companies, 'ipo_on', '%Y', extent);
     }, idListMemoFunction);
