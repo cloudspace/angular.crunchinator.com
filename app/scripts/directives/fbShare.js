@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [
-    function () {
+angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [ 'Analytics',
+    function (Analytics) {
         return {
             restrict: 'A',
             link: function (scope, element) {
                 element.bind('click', function(){
-                    ga('send', 'event', 'Social', 'Share', 'Facebook');
+                    Analytics.event('Social', 'Share', 'Facebook');
                     FB.ui({
                         method: 'feed',
                         name: 'Slice, Filter & Explore Crunchbase Data',
