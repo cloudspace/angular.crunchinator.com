@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('crunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category', 'ToolBox',
+angular.module('crunchinatorApp.directives').directive('crCrunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category', 'ToolBox',
     function($rootScope, $location, Company, Investor, Category, ToolBox) {
         return {
             restrict: 'EA',

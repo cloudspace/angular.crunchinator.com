@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('d3Area', ['$rootScope',
+angular.module('crunchinatorApp.directives').directive('crD3Area', ['$rootScope',
     function($rootScope) {
         return {
             restrict: 'EA',

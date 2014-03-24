@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'popOpen', [ '$window',
+angular.module( 'crunchinatorApp.directives').directive( 'crPopOpen', [ '$window',
     function ($window) {
         return {
             restrict: 'A',

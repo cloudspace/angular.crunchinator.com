@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('dragArrange', [function() {
+angular.module('crunchinatorApp.directives').directive('crDragArrange', [function() {
     return {
         restrict: 'A',
         link: function(scope, element) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'fbShare', [
+angular.module( 'crunchinatorApp.directives').directive( 'crFBShare', [
     function () {
         return {
             restrict: 'A',

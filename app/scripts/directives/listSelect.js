@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('listSelect', ['$rootScope', function($rootScope) {
+angular.module('crunchinatorApp.directives').directive('crListSelect', ['$rootScope', function($rootScope) {
     return {
         restrict: 'EA',
         scope: {

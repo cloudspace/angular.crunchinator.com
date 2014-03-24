@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'affix', [
+angular.module( 'crunchinatorApp.directives').directive( 'crAffix', [
     function () {
         return {
             restrict: 'A',

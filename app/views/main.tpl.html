@@ -1,5 +1,5 @@
 <div>
-    <div crunch-nav
+    <div cr-crunch-nav
         id="nav"
         company-count="{{companies.dataForCompaniesList.length}}"
         investor-count="{{investors.dataForInvestorsList.length}}"
@@ -9,9 +9,9 @@
     <div class="container">
         <!-- <a href="javascript:;" ng-click="getState()"><span class="glyphicon glyphicon-share"></span></a>
         <input type="text" ng-model="savedUrl" /> -->
-        <div class='drag-contain' drag-arrange>
+        <div class='drag-contain' cr-drag-arrange>
             <div>
-                <div list-select
+                <div cr-list-select
                     class="special"
                     chart-title="Companies"
                     items="companies.dataForCompaniesList"
@@ -24,7 +24,7 @@
             </div>
 
             <div>
-                <div d3-map
+                <div cr-d3-map
                     chart-title="Company HQ"
                     data="ComponentData.dataSets.companyStateData"
                     selected="states"
@@ -33,7 +33,7 @@
             </div>
 
             <div>
-                <div list-select
+                <div cr-list-select
                     class="special"
                     chart-title="Investors"
                     items="ComponentData.dataSets.investorListData"
@@ -47,7 +47,7 @@
             </div>
 
             <div>
-                <div d3-pie
+                <div cr-d3-pie
                     chart-title="Company Status"
                     data="ComponentData.dataSets.companyStatusData"
                     selected="statuses"
@@ -56,7 +56,7 @@
             </div>
 
             <div>
-                <div list-select
+                <div cr-list-select
                     chart-title="Funding: Round Name"
                     items="ComponentData.dataSets.roundCodeListData"
                     selected="roundCodes"
@@ -66,7 +66,7 @@
             </div>
 
             <div>
-                 <div d3-area
+                 <div cr-d3-area
                     chart-title="Investments"
                     data="ComponentData.dataSets.fundingRoundCount"
                     selected="fundingActivity"
@@ -77,7 +77,7 @@
             </div>
 
             <div>
-                <div d3-bars
+                <div cr-d3-bars
                     chart-title="Funding: Total Funding"
                     data="ComponentData.dataSets.totalFunding"
                     selected="ranges"
@@ -87,7 +87,7 @@
             </div>
 
             <div>
-                <div d3-bars
+                <div cr-d3-bars
                     chart-title="Funding: Any Round"
                     data="ComponentData.dataSets.fundingPerRound"
                     selected="roundRanges"
@@ -97,7 +97,7 @@
             </div>
 
             <div>
-                <div d3-bars
+                <div cr-d3-bars
                     chart-title="Funding: Latest Round"
                     data="ComponentData.dataSets.mostRecentFundingRound"
                     selected="mostRecentRoundRanges"
@@ -107,7 +107,7 @@
             </div>
 
             <div>
-                <div list-select
+                <div cr-list-select
                     chart-title="Categories"
                     items="ComponentData.dataSets.categoryListData"
                     selected="categoryIds"
@@ -118,7 +118,7 @@
             </div>
 
             <div>
-                 <div d3-area
+                 <div cr-d3-area
                     chart-title="Acquisition Date"
                     data="ComponentData.dataSets.acquiredOnCount"
                     selected="acquiredDate"
@@ -129,7 +129,7 @@
             </div>
 
             <div>
-                <div d3-bars
+                <div cr-d3-bars
                     chart-title="Acquisition Price"
                     data="ComponentData.dataSets.acquiredValueCount"
                     selected="acquiredValueRange"
@@ -139,7 +139,7 @@
             </div>
 
             <div>
-                 <div d3-area
+                 <div cr-d3-area
                     chart-title="Founding Date"
                     data="ComponentData.dataSets.foundedOnCount"
                     selected="foundedDate"
@@ -151,7 +151,7 @@
             </div>
 
             <div>
-                <div d3-area
+                <div cr-d3-area
                     chart-title="IPO Date"
                     data="ComponentData.dataSets.ipoDateData"
                     selected="ipoDateRange"
@@ -163,7 +163,7 @@
             </div>
 
             <div>
-                <div d3-bars
+                <div cr-d3-bars
                     chart-title="IPO Raise"
                     data="ComponentData.dataSets.ipoValueData"
                     selected="ipoValueRange"
