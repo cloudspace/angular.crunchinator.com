@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'twitterShare', ['$window', 'Analytics',
+angular.module( 'crunchinatorApp.directives').directive( 'crTwitterShare', ['$window', 'Analytics',
     function ($window, Analytics) {
         return {
             restrict: 'A',

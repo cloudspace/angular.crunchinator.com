@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'crunchinatorApp.directives').directive( 'emailShare', [ 'Analytics',
+angular.module( 'crunchinatorApp.directives').directive( 'crEmailShare', [ 'Analytics',
     function (Analytics) {
         return {
             restrict: 'A',

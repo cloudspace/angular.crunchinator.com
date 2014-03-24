@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('waitThenScroll', function ($window, $rootScope) {
+angular.module('crunchinatorApp.directives').directive('crWaitThenScroll', function ($window, $rootScope) {
     return {
         restrict: 'A',
         scope: {

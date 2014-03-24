@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('placeholder',
+angular.module('crunchinatorApp.directives').directive('crPlaceholder',
     function() {
         return {
             restrict: 'EA',

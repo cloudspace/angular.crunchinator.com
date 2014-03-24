@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('d3Bars', ['$rootScope', 'ToolBox',
+angular.module('crunchinatorApp.directives').directive('crD3Bars', ['$rootScope', 'ToolBox',
     function($rootScope, ToolBox) {
         return {
             restrict: 'EA',
