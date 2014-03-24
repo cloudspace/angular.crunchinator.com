@@ -28,6 +28,23 @@
         <script src="vendor/es5-shim/es5-shim.js"></script>
         <script src="vendor/json3/lib/json3.min.js"></script>
         <![endif]-->
+
+
+        <!-- Kissmetrics -->
+        <script type="text/javascript">var _kmq = _kmq || [];
+        var _kmk = _kmk || '5eac8273eff17ad825d1774c0da1f5a849cf0dda';
+        function _kms(u){
+          setTimeout(function(){
+            var d = document, f = d.getElementsByTagName('script')[0],
+            s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true; s.src = u;
+            f.parentNode.insertBefore(s, f);
+          }, 1);
+        }
+        _kms('//i.kissmetrics.com/i.js');
+        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+
     </head>
     <body>
         <div id="fb-root"></div>
@@ -49,7 +66,7 @@
 
         <div id="splash" role="splash" ng-cloak ng-if="!isIE && !isMobile">
             <a class='forkme' target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'
-                onClick="ga('send', 'event', 'Navigation', 'Click', 'Fork me Splash');"
+                ng-click="Analytics.event('Navigation', 'Click', 'Fork me Splash');"
             >
                 <img src='images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
@@ -142,6 +159,7 @@
         <script src="scripts/services/componentData.js"></script>
         <script src="scripts/services/bitly.js"></script>
         <script src="scripts/services/browser.js"></script>
+        <script src="scripts/services/analytics.js"></script>
 
         <script src="scripts/controllers/crunchinator.js"></script>
         <script src="scripts/controllers/about.js"></script>

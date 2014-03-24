@@ -2,8 +2,11 @@
 
 angular.module('crunchinatorApp.controllers')
 .controller('CrunchinatorCtrl', [
-    '$scope', '$rootScope', '$location', '$q', 'Company', 'Category', 'Investor', 'FundingRound', 'ComponentData', 'Bitly',
-    function CrunchinatorCtrl($scope, $rootScope, $location, $q, Company, Category, Investor, FundingRound, ComponentData, Bitly) {
+    '$scope', '$rootScope', '$location', '$q', 'Company', 'Category',
+    'Investor', 'FundingRound', 'ComponentData', 'Bitly', 'Analytics',
+    function CrunchinatorCtrl(
+        $scope, $rootScope, $location, $q, Company, Category, Investor, FundingRound, ComponentData, Bitly, Analytics
+    ) {
         $scope.shouldScroll = false;
 
         ComponentData.updateDataSets();
@@ -38,6 +41,8 @@ angular.module('crunchinatorApp.controllers')
         $scope.investors = Investor;
         $scope.categories = Category;
         $scope.fundingRounds = FundingRound;
+
+        $scope.Analytics = Analytics;
 
         //Fetch the data for each model, then set up its dimensions and run its filters.
         var modelCount = 0;
@@ -87,7 +92,7 @@ angular.module('crunchinatorApp.controllers')
         //When a filter receives input we set up filterData and run each model's filters
         //This should automatically update all the graph displays
         $scope.$on('filterAction', function() {
-            ga('send', 'event', 'Graphs', 'Interaction', 'Filter Action');
+            Analytics.event('Graphs', 'Interaction', 'Filter Action');
             var deferred = $q.defer();
             function applyFilters() {
                 _.delay(function(){

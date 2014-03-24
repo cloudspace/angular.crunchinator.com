@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('crunchinatorApp.directives').directive('crCrunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category', 'ToolBox',
-    function($rootScope, $location, Company, Investor, Category, ToolBox) {
+angular.module('crunchinatorApp.directives').directive('crCrunchNav', ['$rootScope', '$location', 'Company', 'Investor', 'Category', 'ToolBox', 'Analytics',
+    function($rootScope, $location, Company, Investor, Category, ToolBox, Analytics) {
         return {
             restrict: 'EA',
             scope: {
@@ -11,6 +11,7 @@ angular.module('crunchinatorApp.directives').directive('crCrunchNav', ['$rootSco
             },
             templateUrl: 'views/crunch-nav.tpl.html',
             link: function(scope) {
+                scope.Analytics = Analytics;
                 var specialFilters = ['companyIds', 'investorIds', 'categoryIds'];
                 scope.$watch('filters', function() {
                     scope.filterList = [];
@@ -27,7 +28,7 @@ angular.module('crunchinatorApp.directives').directive('crCrunchNav', ['$rootSco
                 }, true);
 
                 scope.chevron = function() {
-                    ga('send', 'event', 'Navigation', 'Click', 'Continue to the Crunchinator');
+                    Analytics.event('Navigation', 'Click', 'Continue to the Crunchinator');
                     var $section = angular.element('#splash');
                     $section.slideUp('slow', function(){
                         scope.chevroned = true;

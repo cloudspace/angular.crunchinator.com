@@ -2,8 +2,7 @@
     <div id="about-header" cr-affix parent='#about'>
         <div class='forkme'>
             <a target='_blank' href='https://github.com/cloudspace/angular.crunchinator.com'
-                onClick="ga('send', 'event', 'Navigation', 'Click', 'Fork me About');"
-
+                ng-click="Analytics.event('Navigation', 'Click', 'Fork me About');"
             >
                 <img src='/images/forkme_right_ribbon.png' alt='Fork me on GitHub' />
             </a>
