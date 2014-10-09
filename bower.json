@@ -17,7 +17,7 @@
     "crossfilter": "~1.3.7",
     "ngInfiniteScroll": "*",
     "d3-cloud": "*",
-    "Faker": "*",
+    "Faker": "0.7.0",
     "jquery.shapeshift": "2.0.0",
     "topojson": "1.4.3"
   },
